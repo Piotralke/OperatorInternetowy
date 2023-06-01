@@ -21,6 +21,18 @@ export default function Layout() {
             >
               Oferty
             </Link>
+            <Link
+              className="w-full text-xl text-white hover:font-bold hover:text-blue-500"
+              to="/invoices"
+            >
+              Faktury
+            </Link>
+            <Link
+              className="w-full text-xl text-white hover:font-bold hover:text-blue-500"
+              to="/profile"
+            >
+              Profil
+            </Link>
           </div>
         </div>
         <Outlet></Outlet>

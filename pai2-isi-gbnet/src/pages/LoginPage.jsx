@@ -209,12 +209,12 @@ export default function LoginPage() {
                 >
                   Rejestracja
                 </button>
-                <button
+                <Link
                   className=" border border-blue-500 p-6 w-full text-white bg-blue-500 rounded-xl text-center"
-                  onClick={handleLogin}
+                  to="/home"
                 >
                   Zaloguj
-                </button>
+                </Link>
               </div>
               <div className="text-white text-xs">TU BEDZIE GOOGLE</div>
             </div>
