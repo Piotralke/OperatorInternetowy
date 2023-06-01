@@ -1,0 +1,24 @@
+package pl.psk.upc.web;
+
+public class UpcRestPaths {
+
+    public static final String UPC_PREFIX = "upc";
+    public static final String UPC_SECURED_PREFIX = UPC_PREFIX + "/v1";
+    public static final String UPC_UNSECURED_PREFIX = UPC_PREFIX + "/unsecured/v1";
+//    public static final String GET_USER_DATA = UPC_SECURED_PREFIX + "/user";
+    public static final String LOGIN = UPC_UNSECURED_PREFIX + "/login";
+    public static final String CLIENT_REGISTER = UPC_UNSECURED_PREFIX + "/client-register";
+    public static final String EMPLOYEE_REGISTER = UPC_UNSECURED_PREFIX + "/employee-register";
+    public static final String GET_OFFER_TYPES = UPC_UNSECURED_PREFIX + "/get-offer-types";
+    public static final String GET_OFFERS_BY_TYPE = UPC_UNSECURED_PREFIX + "/get-offers-by-type";
+    public static final String GET_ALL_OFFERS = UPC_UNSECURED_PREFIX + "/get-all-offers";
+    public static final String GET_OFFER_BY_UUID = UPC_UNSECURED_PREFIX + "/get-offer-by-uuid/{uuid}";
+    public static final String GET_ALL_PRODUCTS = UPC_UNSECURED_PREFIX + "/get-all-products";
+    public static final String GET_PRODUCT_TYPES = UPC_UNSECURED_PREFIX + "/get-product-types";
+    public static final String GET_PRODUCTS_BY_TYPE = UPC_UNSECURED_PREFIX + "/get-products-by-type";
+    public static final String GET_PRODUCT = UPC_UNSECURED_PREFIX + "/get-product/{uuid}";
+    public static final String GET_ALL_FROM_WAREHOUSE = UPC_UNSECURED_PREFIX + "/get-all-from-warehouse";
+    public static final String GET_FROM_WAREHOUSE_BY_UUID = UPC_UNSECURED_PREFIX + "/get-from-warehouse-by-uuid/{uuid}";
+
+
+}
