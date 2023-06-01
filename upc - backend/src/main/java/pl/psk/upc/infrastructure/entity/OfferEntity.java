@@ -25,9 +25,6 @@ public class OfferEntity {
     @Column(name = "description", nullable = false, length = 1000000000)
     String description;
 
-    @Column(name = "opis", nullable = false, length = 1000000000)
-    String opis;
-
     @Column(name = "price")
     double price;
 
@@ -42,7 +39,7 @@ public class OfferEntity {
     OfferType offerType;
 
     @Builder
-    public OfferEntity(Long id, UUID uuid, String name, String description, double price, ProductEntity productEntity, boolean withDevice, OfferType offerType, String opis) {
+    public OfferEntity(Long id, UUID uuid, String name, String description, double price, ProductEntity productEntity, boolean withDevice, OfferType offerType) {
         this.id = id;
         this.uuid = uuid;
         this.name = name;
@@ -51,6 +48,5 @@ public class OfferEntity {
         this.productEntity = productEntity;
         this.withDevice = withDevice;
         this.offerType = offerType;
-        this.opis = opis;
     }
 }
