@@ -1,5 +1,5 @@
 import { useState } from "react"
-
+import { Link } from "react-router-dom";
 export default function LoginPage() {
 
     const [registering, setRegistering] = useState(false);
@@ -8,9 +8,7 @@ export default function LoginPage() {
     return (
         <>
             {registering ? (<div className='flex flex-col w-full min-h-screen bg-gray-300 items-center'>
-                <div className='flex items-center bg-gray-800 w-full p-3'>
-                    <text className="text-white font-bold text-xl">Gb net</text>
-                </div>
+                
                 <div className='flex flex-col items-center justify-center mt-40 border border-black w-1/2 rounded-xl min-h-[50vh] bg-gray-800'>
                     <text className='font-bold mb-3 text-xl text-blue-500'>
                         Rejestracja
@@ -52,12 +50,9 @@ export default function LoginPage() {
                         <button className=" border border-blue-500 p-6 w-full rounded-xl text-blue-500" onClick={()=>{setRegistering(false)}}>Logowanie</button>
                         <button className=" border border-blue-500 p-6 w-full text-white bg-blue-500 rounded-xl">Zarejestruj</button>
                     </div>
-                    <div className="text-white text-xs">TU BEDZIE GOOGLE</div>
                 </div>
             </div>) : (<div className='flex flex-col w-full min-h-screen bg-gray-300 items-center'>
-                <div className='flex items-center bg-gray-800 w-full p-3'>
-                    <text className="text-white font-bold text-xl">Gb net</text>
-                </div>
+                
                 <div className='flex flex-col items-center justify-center mt-40 border border-black w-1/2 rounded-xl min-h-[50vh] bg-gray-800'>
                     <text className='font-bold mb-3 text-xl text-blue-500'>
                         Logowanie
@@ -66,7 +61,7 @@ export default function LoginPage() {
                     <input className='p-3 m-3 w-1/2 border border-black rounded-xl' type="password" id="password" name="password" placeholder="haslo" />
                     <div className="flex flex-row w-1/2 space-x-3 my-3">
                         <button className=" border border-blue-500 p-6 w-full rounded-xl text-blue-500" onClick={() => { setRegistering(true) }}>Rejestracja</button>
-                        <button className=" border border-blue-500 p-6 w-full text-white bg-blue-500 rounded-xl">Zaloguj</button>
+                        <Link className=" border border-blue-500 p-6 w-full text-white bg-blue-500 rounded-xl text-center" to="/home">Zaloguj</Link>
                     </div>
                     <div className="text-white text-xs">TU BEDZIE GOOGLE</div>
                 </div>
