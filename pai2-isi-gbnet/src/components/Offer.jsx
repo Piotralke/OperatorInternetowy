@@ -12,7 +12,7 @@ export default function Offer(props) {
     loadImage();
   }, []);
   return (
-    <div className="flex flex-col w-1/4 pb-4 m-4 space-y-3 border rounded-md h-1/2 ">
+    <div className="flex flex-col w-1/4 pb-4 m-4 space-y-3 border rounded-md bg-white ">
       {img ? (
         <img src={img} className="w-full rounded-t-md h-72 "></img>
       ) : (
