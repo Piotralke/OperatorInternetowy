@@ -35,19 +35,16 @@ export default function LoginPage() {
         };
         
         const apiUrl = 'http://localhost:8080/upc/unsecured/v1/login';
-
+        console.log(data)
         const response = await axios.post(apiUrl, data);
-        if(signIn(
+        console.log(response);
+
+        signIn(
           {
               token: response.data,
               expiresIn:3600,
               tokenType: "Bearer",
-              authState: data.email,
-          }
-      ))
-      {
-
-      }
+          })
         // Otrzymujemy odpowiedź z serwera
         console.log(response.data); // Token JWT
         //localStorage.setItem('token',response.data);

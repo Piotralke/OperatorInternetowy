@@ -3,10 +3,10 @@ import { TiTick } from 'react-icons/ti';
 import axios from "axios";
 import {useAuthHeader} from 'react-auth-kit'
 import { useAuthUser } from "react-auth-kit"
+import jwt from "jwt-decode"
 export default function Invoices(){
     const [invoicesPaid, setInvoicesPaid] = useState(true)
     const a = useAuthHeader();
-    const user = useAuthUser();
     const data = {
         balance: "0.00",
         invoices: [
@@ -16,11 +16,12 @@ export default function Invoices(){
         ]
     }
     async function functiona(){
-        console.log(user());
         console.log(a());
+        const data = jwt(a());
+        console.log(data);
         axios.defaults.headers.common['Authorization'] = a();
         const protectedEndpointResponse = await axios.get('http://localhost:8080/upc/v1/user',{params: {
-      email: user()
+      email: data.sub
     }});
     console.log(protectedEndpointResponse.data); // Odpowiedź z chronionego endpointu
     }
