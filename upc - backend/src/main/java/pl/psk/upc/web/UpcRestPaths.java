@@ -5,7 +5,10 @@ public class UpcRestPaths {
     public static final String UPC_PREFIX = "upc";
     public static final String UPC_SECURED_PREFIX = UPC_PREFIX + "/v1";
     public static final String UPC_UNSECURED_PREFIX = UPC_PREFIX + "/unsecured/v1";
-//    public static final String GET_USER_DATA = UPC_SECURED_PREFIX + "/user";
+    public static final String GET_USER_DATA = UPC_SECURED_PREFIX + "/user";
+    public static final String GET_ALL_USERS = UPC_SECURED_PREFIX + "/user/all";
+    public static final String GET_EMPLOYEE_DATA = UPC_SECURED_PREFIX + "/employee";
+    public static final String GET_ALL_EMPLOYEES = UPC_SECURED_PREFIX + "/employee/all";
     public static final String LOGIN = UPC_UNSECURED_PREFIX + "/login";
     public static final String CLIENT_REGISTER = UPC_UNSECURED_PREFIX + "/client-register";
     public static final String EMPLOYEE_REGISTER = UPC_UNSECURED_PREFIX + "/employee-register";
@@ -19,6 +22,10 @@ public class UpcRestPaths {
     public static final String GET_PRODUCT = UPC_UNSECURED_PREFIX + "/get-product/{uuid}";
     public static final String GET_ALL_FROM_WAREHOUSE = UPC_UNSECURED_PREFIX + "/get-all-from-warehouse";
     public static final String GET_FROM_WAREHOUSE_BY_UUID = UPC_UNSECURED_PREFIX + "/get-from-warehouse-by-uuid/{uuid}";
+    public static final String SAVE_USER_USER_PROBLEM = UPC_UNSECURED_PREFIX + "/save-user-problem";
+    public static final String GET_USER_PROBLEM = UPC_UNSECURED_PREFIX + "/get-user-problem/{uuid}";
+    public static final String GET_USER_PROBLEMS = UPC_UNSECURED_PREFIX + "/get-user-problems";
+    public static final String SET_USER_PROBLEM_STATUS = UPC_UNSECURED_PREFIX + "/set-user-problem-status";
 
 
 }

@@ -4,10 +4,15 @@ import jakarta.persistence.*;
 import lombok.*;
 import pl.psk.upc.infrastructure.dto.Account;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "clients") @Builder @Setter @NoArgsConstructor @AllArgsConstructor
+@Table(name = "clients")
+@Builder
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ClientAccountEntity {
 
     @Id
@@ -53,6 +58,12 @@ public class ClientAccountEntity {
     @Column(name = "is_business_client")
     private boolean isBusinessClient;
 
+    @OneToMany(mappedBy = "order_id", cascade = CascadeType.ALL)
+    List<OrderEntity> orderEntities;
+
+    @OneToMany(mappedBy = "user_problem_id", cascade = CascadeType.ALL)
+    List<UserProblemEntity> userProblems;
+
     public UUID getUuid() {
         return uuid;
     }
@@ -94,8 +105,7 @@ public class ClientAccountEntity {
     }
 
 }
-//    @OneToMany(mappedBy = "order_id", cascade = CascadeType.ALL)
-//    List<OrderEntity> orderEntities;
+
 
 
 

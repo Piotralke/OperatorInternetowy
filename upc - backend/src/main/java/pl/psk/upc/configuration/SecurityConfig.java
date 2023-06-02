@@ -41,8 +41,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .cors().disable()
+        http.csrf().and().cors().disable()
                 .authorizeHttpRequests()
                 .requestMatchers(UpcRestPaths.UPC_UNSECURED_PREFIX + "/**").permitAll()
                 .anyRequest().authenticated();
