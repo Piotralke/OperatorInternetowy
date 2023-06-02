@@ -1,8 +1,12 @@
 import { useState } from "react"
 import { TiTick } from 'react-icons/ti';
+import axios from "axios";
+import {useAuthHeader} from 'react-auth-kit'
+import { useAuthUser } from "react-auth-kit"
 export default function Invoices(){
     const [invoicesPaid, setInvoicesPaid] = useState(true)
-
+    const a = useAuthHeader();
+    const user = useAuthUser();
     const data = {
         balance: "0.00",
         invoices: [
@@ -11,7 +15,15 @@ export default function Invoices(){
             }
         ]
     }
-
+    async function functiona(){
+        console.log(user());
+        console.log(a());
+        axios.defaults.headers.common['Authorization'] = a();
+        const protectedEndpointResponse = await axios.get('http://localhost:8080/upc/v1/user',{params: {
+      email: user()
+    }});
+    console.log(protectedEndpointResponse.data); // Odpowiedź z chronionego endpointu
+    }
     return(
     <div className="flex flex-col basis-4/5">
         <div className="flex flex-row justify-between bg-gray-900 items-center">
@@ -41,7 +53,7 @@ export default function Invoices(){
                     <input type="date" id="to" name="to"></input>
                 </div>
                 <div className="flex flex-row mt-8 space-x-4">
-                    <input className="border-2 rounded-md border-white font-bold text-white p-4" type="button" value="WYCZYŚĆ"></input>
+                    <input className="border-2 rounded-md border-white font-bold text-white p-4" type="button" value="WYCZYŚĆ" onClick={functiona}></input>
                     <input className="bg-blue-500 rounded-md text-white p-4 font-bold" type="button" value="SZUKAJ"></input>
                 </div>
             </div>

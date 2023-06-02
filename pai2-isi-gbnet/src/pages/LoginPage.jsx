@@ -1,19 +1,23 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useSignIn } from "react-auth-kit";
+import { useNavigate } from "react-router-dom";
 export default function LoginPage() {
   const [registering, setRegistering] = useState(false);
   const [isBusiness, setIsBusiness] = useState(false);
   const loginRef = useRef();
   const passwordRef = useRef();
+  const signIn = useSignIn();
+  const navigate = useNavigate();
   async function handleLogin(event) {
     event.preventDefault();
     try {
-        const data = {
-            email: loginRef.current.value,
-            password: passwordRef.current.value,
-        }
-      
+      const data={
+        email :  loginRef.current.value,
+        password : passwordRef.current.value
+      }
+     
         // const response = await fetch("http://localhost:8080/upc/unsecured/v1/login",{method:"POST",headers: {
         //     "Content-Type": "application/json",
         //     // 'Content-Type': 'application/x-www-form-urlencoded',
@@ -22,20 +26,41 @@ export default function LoginPage() {
         //   ,});
         // console.log(response);
         const customConfig = {
-            headers: {
-            'Content-Type': 'application/json'
-            }
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': 'http://localhost:5173',
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE' 
+          },
         };
-      await axios
-        .get(
-          "http://localhost:8080/upc/unsecured/v1/get-all-offers",
-            
-        )
-        .then((respone) => {
-            console.log(respone.data)
-          localStorage.setItem("token", respone);
-        });
-    } catch (error) {
+        
+        const apiUrl = 'http://localhost:8080/upc/unsecured/v1/login';
+
+        const response = await axios.post(apiUrl, data);
+        if(signIn(
+          {
+              token: response.data,
+              expiresIn:3600,
+              tokenType: "Bearer",
+              authState: data.email,
+          }
+      ))
+      {
+
+      }
+        // Otrzymujemy odpowiedź z serwera
+        console.log(response.data); // Token JWT
+        //localStorage.setItem('token',response.data);
+        
+        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data}`;
+
+    // Wykonaj żądanie do chronionego endpointu
+    const protectedEndpointResponse = await axios.get('http://localhost:8080/upc/v1/user',{params: {
+      email: data.email
+    }});
+    console.log(protectedEndpointResponse.data); // Odpowiedź z chronionego endpointu
+    navigate("/home")
+  } catch (error) {
       console.error(error);
     }
   }
@@ -209,12 +234,12 @@ export default function LoginPage() {
                 >
                   Rejestracja
                 </button>
-                <Link
+                <button
                   className=" border border-blue-500 p-6 w-full text-white bg-blue-500 rounded-xl text-center"
-                  to="/home"
+                  onClick={handleLogin}
                 >
                   Zaloguj
-                </Link>
+                </button>
               </div>
               <div className="text-white text-xs">TU BEDZIE GOOGLE</div>
             </div>

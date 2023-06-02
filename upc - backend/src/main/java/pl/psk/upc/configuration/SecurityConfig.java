@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 import pl.psk.upc.web.UpcRestPaths;
 
 @Configuration
@@ -41,12 +42,20 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().and().cors().disable()
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedOrigin("http://localhost:5173"); // Dodaj dozwolone źródło
+        corsConfiguration.addAllowedMethod("*"); // Dodaj dozwolone metody żądań
+        corsConfiguration.addAllowedHeader("*"); // Dodaj dozwolone nagłówki
+
+        http.cors().configurationSource(request -> corsConfiguration);
+
+        http.csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers(UpcRestPaths.UPC_UNSECURED_PREFIX + "/**").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
+
 }
 
