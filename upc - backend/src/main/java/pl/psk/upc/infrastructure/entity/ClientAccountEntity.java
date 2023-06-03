@@ -10,7 +10,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "clients")
 @Builder
-@Setter
+@Setter @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClientAccountEntity {
@@ -63,6 +63,9 @@ public class ClientAccountEntity {
 
     @OneToMany(mappedBy = "user_problem_id", cascade = CascadeType.ALL)
     List<UserProblemEntity> userProblems;
+
+    @OneToMany(mappedBy = "service_id", cascade = CascadeType.ALL)
+    List<ServiceEntity> services;
 
     public UUID getUuid() {
         return uuid;

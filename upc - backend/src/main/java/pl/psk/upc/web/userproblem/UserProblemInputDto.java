@@ -1,4 +1,4 @@
-package pl.psk.upc.web;
+package pl.psk.upc.web.userproblem;
 
 import lombok.Value;
 

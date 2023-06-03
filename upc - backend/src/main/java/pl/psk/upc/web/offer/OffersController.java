@@ -1,9 +1,10 @@
-package pl.psk.upc.web;
+package pl.psk.upc.web.offer;
 
 import org.springframework.web.bind.annotation.*;
 import pl.psk.upc.infrastructure.entity.OfferEntity;
 import pl.psk.upc.infrastructure.entity.OfferType;
 import pl.psk.upc.infrastructure.repository.OfferRepository;
+import pl.psk.upc.web.UpcRestPaths;
 
 import java.util.Arrays;
 import java.util.List;

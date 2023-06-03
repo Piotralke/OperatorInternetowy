@@ -118,6 +118,14 @@ public class EmployeeEntity implements Account {
     public String getContractForm() {
         return contractForm;
     }
+
+    public String getNip() {
+        return nip;
+    }
+
+    public String getPesel() {
+        return pesel;
+    }
 }
 
 //    @OneToMany(mappedBy = "order_id", cascade = CascadeType.ALL)

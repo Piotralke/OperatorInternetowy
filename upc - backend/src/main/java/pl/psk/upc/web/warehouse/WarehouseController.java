@@ -1,10 +1,11 @@
-package pl.psk.upc.web;
+package pl.psk.upc.web.warehouse;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import pl.psk.upc.infrastructure.entity.WarehouseEntity;
 import pl.psk.upc.infrastructure.repository.WarehouseRepository;
+import pl.psk.upc.web.UpcRestPaths;
 
 import java.util.List;
 import java.util.UUID;

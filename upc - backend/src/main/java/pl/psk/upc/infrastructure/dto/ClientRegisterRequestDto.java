@@ -6,6 +6,7 @@ import lombok.Value;
 @Value
 public class ClientRegisterRequestDto {
 
+    private final static String UUID = "uuid";
     private final static String FIRST_NAME = "firstName";
     private final static String LAST_NAME = "last_name";
     private final static String EMAIL = "email";
@@ -17,6 +18,9 @@ public class ClientRegisterRequestDto {
     private final static String NIP = "nip";
     private final static String PESEL = "pesel";
     private final static String IS_BUSINESS_CLIENT = "isBusinessClient";
+
+    @JsonProperty(UUID)
+    private String uuid;
 
     @JsonProperty(FIRST_NAME)
     private String firstName;
@@ -51,9 +55,10 @@ public class ClientRegisterRequestDto {
     @JsonProperty(IS_BUSINESS_CLIENT)
     private boolean isBusinessClient;
 
-    public ClientRegisterRequestDto(@JsonProperty(FIRST_NAME) String firstName, @JsonProperty(LAST_NAME) String lastName, @JsonProperty(EMAIL) String email, @JsonProperty(PASSWORD) String password, @JsonProperty(ADDRESS) String address,
-                                    @JsonProperty(BALANCE) String balance, @JsonProperty(ACCOUNT_STATUS) String accountStatus, @JsonProperty(PHONE_NUMBER) String phoneNumber, @JsonProperty(NIP) String nip, @JsonProperty(PESEL) String pesel,
-                                    @JsonProperty(IS_BUSINESS_CLIENT) boolean isBusinessClient) {
+    public ClientRegisterRequestDto(@JsonProperty(UUID) String uuid, @JsonProperty(FIRST_NAME) String firstName, @JsonProperty(LAST_NAME) String lastName, @JsonProperty(EMAIL) String email, @JsonProperty(PASSWORD) String password,
+                                    @JsonProperty(ADDRESS) String address, @JsonProperty(BALANCE) String balance, @JsonProperty(ACCOUNT_STATUS) String accountStatus, @JsonProperty(PHONE_NUMBER) String phoneNumber,
+                                    @JsonProperty(NIP) String nip, @JsonProperty(PESEL) String pesel, @JsonProperty(IS_BUSINESS_CLIENT) boolean isBusinessClient) {
+        this.uuid = uuid;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

@@ -1,4 +1,4 @@
-package pl.psk.upc.infrastructure.dto;
+package pl.psk.upc.infrastructure.enums;
 
 public enum RoleEnum {
     ADMIN,
