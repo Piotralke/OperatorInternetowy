@@ -1,4 +1,4 @@
-package pl.psk.upc.web;
+package pl.psk.upc.web.userproblem;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
@@ -6,6 +6,8 @@ import pl.psk.upc.infrastructure.entity.ClientAccountEntity;
 import pl.psk.upc.infrastructure.entity.UserProblemEntity;
 import pl.psk.upc.infrastructure.repository.ClientRepository;
 import pl.psk.upc.infrastructure.repository.UserProblemRepository;
+import pl.psk.upc.web.UpcRestPaths;
+import pl.psk.upc.infrastructure.enums.UserProblemStatusEnum;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -51,7 +53,7 @@ public class UserProblemController {
         return userProblemRepository.findByUuid(uuid);
     }
 
-    @GetMapping(UpcRestPaths.SET_USER_PROBLEM_STATUS)
+    @PutMapping(UpcRestPaths.SET_USER_PROBLEM_STATUS)
     public UserProblemEntity getUserProblem(@RequestBody UserProblemSetStatusInputDto inputDto) {
         UserProblemEntity byUuid = userProblemRepository.findByUuid(inputDto.getUuid());
         byUuid.setUserProblemStatus(inputDto.getStatus());

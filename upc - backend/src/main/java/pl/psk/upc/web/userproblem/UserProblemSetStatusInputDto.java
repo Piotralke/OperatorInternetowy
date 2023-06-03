@@ -1,7 +1,8 @@
-package pl.psk.upc.web;
+package pl.psk.upc.web.userproblem;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Value;
+import pl.psk.upc.infrastructure.enums.UserProblemStatusEnum;
 
 import java.util.UUID;
 

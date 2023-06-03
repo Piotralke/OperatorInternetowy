@@ -1,4 +1,4 @@
-package pl.psk.upc.infrastructure.dto;
+package pl.psk.upc.web.login;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Value;
