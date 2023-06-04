@@ -1,5 +1,6 @@
 package pl.psk.upc.application.offer;
 
+import org.springframework.stereotype.Service;
 import pl.psk.upc.infrastructure.entity.OfferEntity;
 import pl.psk.upc.infrastructure.entity.OfferType;
 import pl.psk.upc.infrastructure.repository.OfferRepository;
@@ -8,6 +9,7 @@ import pl.psk.upc.web.offer.OfferDtoWrapper;
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class OfferServiceImpl implements OfferService {
 
     private final OfferRepository offerRepository;

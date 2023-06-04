@@ -1,6 +1,7 @@
 package pl.psk.upc.application.userproblem;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 import pl.psk.upc.infrastructure.entity.ClientAccountEntity;
 import pl.psk.upc.infrastructure.entity.UserProblemEntity;
 import pl.psk.upc.infrastructure.enums.UserProblemStatusEnum;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class UserProblemServiceImpl implements UserProblemService {
 
     private final ClientRepository clientRepository;
