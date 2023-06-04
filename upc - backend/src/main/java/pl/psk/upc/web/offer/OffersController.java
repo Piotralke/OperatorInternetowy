@@ -1,9 +1,11 @@
 package pl.psk.upc.web.offer;
 
-import org.springframework.web.bind.annotation.*;
-import pl.psk.upc.infrastructure.entity.OfferEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import pl.psk.upc.application.offer.OfferService;
 import pl.psk.upc.infrastructure.entity.OfferType;
-import pl.psk.upc.infrastructure.repository.OfferRepository;
 import pl.psk.upc.web.UpcRestPaths;
 
 import java.util.Arrays;
@@ -14,10 +16,10 @@ import java.util.stream.Collectors;
 @RestController
 public class OffersController {
 
-    private final OfferRepository offerRepository;
+    private final OfferService offerService;
 
-    public OffersController(OfferRepository offerRepository) {
-        this.offerRepository = offerRepository;
+    public OffersController(OfferService offerService) {
+        this.offerService = offerService;
     }
 
     @GetMapping(UpcRestPaths.GET_OFFER_TYPES)
@@ -28,18 +30,18 @@ public class OffersController {
     }
 
     @GetMapping(UpcRestPaths.GET_OFFERS_BY_TYPE)
-    public List<OfferEntity> getOffersByType(@RequestParam OfferType offerType) {
-        return offerRepository.findByOfferType(offerType);
+    public OfferDtoWrapper getOffersByType(@RequestParam OfferType offerType) {
+        return offerService.getOffersByType(offerType);
     }
 
     @GetMapping(UpcRestPaths.GET_ALL_OFFERS)
-    public List<OfferEntity> getAllOffers() {
-        return offerRepository.findAll();
+    public OfferDtoWrapper getAllOffers() {
+        return offerService.getAllOffers();
     }
 
     @GetMapping(UpcRestPaths.GET_OFFER_BY_UUID)
-    public OfferEntity getOfferByUuid(@PathVariable(value = "uuid") UUID uuid) {
-        return offerRepository.findByUuid(uuid);
+    public OfferDtoWrapper getOfferByUuid(@PathVariable(value = "uuid") UUID uuid) {
+        return offerService.getOfferByUuid(uuid);
     }
 
 }
