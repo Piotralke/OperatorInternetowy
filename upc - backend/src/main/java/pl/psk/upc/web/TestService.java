@@ -55,6 +55,18 @@ public class TestService {
         }
     }
 
+    private void initServices() {
+        for (Products p : Products.values()) {
+            productRepository.save(ProductEntity.builder()
+                    .uuid(UUID.randomUUID())
+                    .name(p.getProductName())
+                    .price(p.getPrice())
+                    .productType(p.getProductType())
+                    .description(p.getDescription())
+                    .build());
+        }
+    }
+
     private void initWarehouse() {
         List<ProductEntity> allProducts = productRepository.findAll();
         for (ProductEntity p : allProducts) {

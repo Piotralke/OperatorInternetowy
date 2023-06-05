@@ -26,4 +26,11 @@ public class ServiceEntity {
     @Column(name = "price")
     double price;
 
+    @Column(name = "product_type")
+    ProductType productType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id")
+    ClientAccountEntity clientAccountEntity;
+
 }

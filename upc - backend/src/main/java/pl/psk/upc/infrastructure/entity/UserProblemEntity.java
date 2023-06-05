@@ -2,7 +2,7 @@ package pl.psk.upc.infrastructure.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import pl.psk.upc.web.UserProblemStatusEnum;
+import pl.psk.upc.infrastructure.enums.UserProblemStatusEnum;
 
 import java.time.LocalDate;
 import java.util.UUID;

@@ -4,14 +4,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pl.psk.upc.infrastructure.dto.RoleEnum;
 import pl.psk.upc.infrastructure.entity.ClientAccountEntity;
 import pl.psk.upc.infrastructure.entity.EmployeeEntity;
 import pl.psk.upc.infrastructure.repository.ClientRepository;
 import pl.psk.upc.infrastructure.repository.EmployeeRepository;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class UserInfoUserDetailsService implements UserDetailsService {

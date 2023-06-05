@@ -1,29 +1,31 @@
-package pl.psk.upc.web;
+package pl.psk.upc.application.userproblem;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Service;
 import pl.psk.upc.infrastructure.entity.ClientAccountEntity;
 import pl.psk.upc.infrastructure.entity.UserProblemEntity;
+import pl.psk.upc.infrastructure.enums.UserProblemStatusEnum;
 import pl.psk.upc.infrastructure.repository.ClientRepository;
 import pl.psk.upc.infrastructure.repository.UserProblemRepository;
+import pl.psk.upc.web.userproblem.*;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-@RestController
-public class UserProblemController {
+@Service
+public class UserProblemServiceImpl implements UserProblemService {
 
     private final ClientRepository clientRepository;
     private final UserProblemRepository userProblemRepository;
 
-    public UserProblemController(ClientRepository clientRepository, UserProblemRepository userProblemRepository) {
+    public UserProblemServiceImpl(ClientRepository clientRepository, UserProblemRepository userProblemRepository) {
         this.clientRepository = clientRepository;
         this.userProblemRepository = userProblemRepository;
     }
 
-    @PostMapping(UpcRestPaths.SAVE_USER_USER_PROBLEM)
-    public UUID saveUserProblem(@RequestBody UserProblemInputDto userProblemInputDto) {
+    @Override
+    public UUID saveUserProblem(UserProblemInputDto userProblemInputDto) {
         ClientAccountEntity clientAccountEntity = clientRepository.findByEmail(userProblemInputDto.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
         UserProblemEntity userProblem = UserProblemEntity.builder()
@@ -38,24 +40,26 @@ public class UserProblemController {
         return userProblemRepository.save(userProblem).getUuid();
     }
 
-    @GetMapping(UpcRestPaths.GET_USER_PROBLEMS)
-    public List<UserProblemEntity> getUserProblems(@RequestParam String email) {
+    @Override
+    public UserProblemDtoWrapper getUserProblems(String email) {
         ClientAccountEntity clientAccountEntity = clientRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
 
-        return userProblemRepository.findByClientAccountEntity(clientAccountEntity);
+        List<UserProblemEntity> userProblems = userProblemRepository.findByClientAccountEntity(clientAccountEntity);
+        return UserProblemConverter.convertFrom(userProblems);
     }
 
-    @GetMapping(UpcRestPaths.GET_USER_PROBLEM)
-    public UserProblemEntity getUserProblem(@PathVariable(value = "uuid") UUID uuid) {
-        return userProblemRepository.findByUuid(uuid);
+    @Override
+    public UserProblemDto getUserProblem(UUID uuid) {
+        UserProblemEntity userProblem = userProblemRepository.findByUuid(uuid);
+        return UserProblemConverter.convertFrom(userProblem);
     }
 
-    @GetMapping(UpcRestPaths.SET_USER_PROBLEM_STATUS)
-    public UserProblemEntity getUserProblem(@RequestBody UserProblemSetStatusInputDto inputDto) {
-        UserProblemEntity byUuid = userProblemRepository.findByUuid(inputDto.getUuid());
-        byUuid.setUserProblemStatus(inputDto.getStatus());
-        return userProblemRepository.save(byUuid);
+    @Override
+    public UserProblemDto getUserProblem(UserProblemSetStatusInputDto inputDto) {
+        UserProblemEntity userProblem = userProblemRepository.findByUuid(inputDto.getUuid());
+        userProblem.setUserProblemStatus(inputDto.getStatus());
+        UserProblemEntity saved = userProblemRepository.save(userProblem);
+        return UserProblemConverter.convertFrom(saved);
     }
-
 }
