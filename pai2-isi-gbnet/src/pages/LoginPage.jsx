@@ -17,23 +17,7 @@ export default function LoginPage() {
         email :  loginRef.current.value,
         password : passwordRef.current.value
       }
-     
-        // const response = await fetch("http://localhost:8080/upc/unsecured/v1/login",{method:"POST",headers: {
-        //     "Content-Type": "application/json",
-        //     // 'Content-Type': 'application/x-www-form-urlencoded',
-        //   },
-        //   body:data
-        //   ,});
-        // console.log(response);
-        const customConfig = {
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'http://localhost:5173',
-            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE' 
-          },
-        };
-        
+
         const apiUrl = 'http://localhost:8080/upc/unsecured/v1/login';
         console.log(data)
         const response = await axios.post(apiUrl, data);
@@ -44,6 +28,7 @@ export default function LoginPage() {
               token: response.data,
               expiresIn:3600,
               tokenType: "Bearer",
+              authState: response.status
           })
         // Otrzymujemy odpowiedź z serwera
         console.log(response.data); // Token JWT

@@ -26,8 +26,12 @@ export default function Messages() {
   return (
     <div className="w-1/4 h-1/3 ">
       <div className="h-full">
-        <div className="text-xl text-blue-500">Wiadomości</div>
-        <div className="flex flex-col bg-gray-700 h-full justify-center">
+        <div className="flex flex-row">
+        <div className="text-xl text-blue-500 flex-grow mr-4">Wiadomości</div>
+        {messages && (<button className=" hover:font-bold  self-center  text-blue-500 truncate">Wszystkie wiadomości</button>)}
+        </div>
+        
+        <div className="flex flex-col bg-gray-700 h-full justify-center overflow-y-auto">
           {messages ? (
             <div className="flex flex-col divide-y">
               {messages.map((message, index) => {
@@ -42,7 +46,7 @@ export default function Messages() {
                   );
                 }
               })}
-              <button className="hover:bg-gray-500 text-blue-500">Wszystkie wiadomości</button>
+              
             </div>
           ) : (
             <div className="flex flex-row justify-center items-center">
@@ -50,6 +54,7 @@ export default function Messages() {
               <div className="text-blue-300 text-md ml-2">Brak Wiadomości</div>
             </div>
           )}
+          
         </div>
       </div>
     </div>
