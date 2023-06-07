@@ -14,8 +14,8 @@ export default function Products() {
       await axios
         .get("http://localhost:8080/upc/unsecured/v1/get-all-products")
         .then((data) => {
-          console.log(data.data);
-          setProducts(data.data);
+          console.log(data);
+          setProducts(data.data.content);
         })
         .catch((err) => console.log(err));
     }

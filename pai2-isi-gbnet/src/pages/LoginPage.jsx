@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useSignIn } from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
+import jwt from "jwt-decode"
 export default function LoginPage() {
   const [registering, setRegistering] = useState(false);
   const [isBusiness, setIsBusiness] = useState(false);
@@ -37,11 +38,13 @@ export default function LoginPage() {
         axios.defaults.headers.common['Authorization'] = `Bearer ${response.data}`;
 
     // Wykonaj żądanie do chronionego endpointu
-    const protectedEndpointResponse = await axios.get('http://localhost:8080/upc/v1/user',{params: {
-      email: data.email
-    }});
-    console.log(protectedEndpointResponse.data); // Odpowiedź z chronionego endpointu
-    navigate("/home")
+          const userData = jwt(response.data)
+          if(userData.roles.includes("USER"))
+          {
+            navigate("/home")
+          }
+          else
+            navigate("/admin")
   } catch (error) {
       console.error(error);
     }

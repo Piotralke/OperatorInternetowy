@@ -8,6 +8,8 @@ import Profile from "./pages/Profile"
 import { AuthProvider, RequireAuth } from "react-auth-kit"
 import OfferDetail from "./components/OfferDetail"
 import Products from "./pages/Products"
+import AdminPage from "./pages/AdminPage"
+import RequireRole from "./RequireRole"
 export default function App() {
   return (
     <AuthProvider
@@ -19,15 +21,16 @@ export default function App() {
       <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage></LoginPage>}></Route>
-        <Route path="/" element={<RequireAuth loginPath={'/login'}><Layout></Layout></RequireAuth> }>
+        <Route path="/" element={<RequireRole allowedRoles={["USER"]}><Layout></Layout></RequireRole> }>
          <Route path="/home" element={<HomePage></HomePage>}></Route>
-         <Route path="/offers" element={<Offers></Offers>}></Route>
+         <Route path="/offers" element={<Offers></Offers> }></Route>
          <Route path="/offers/:offerId" element={<OfferDetail></OfferDetail>}></Route>
          <Route path="/products/" element={<Products></Products>}></Route>
          {/* <Route path="/products/:productId" element={<ProductDetail></ProductDetail>}></Route> */}
          <Route path="/invoices" element={<Invoices></Invoices>}></Route>
          <Route path="/profile" element={<Profile></Profile>}></Route>
         </Route>
+        <Route path="/admin" element={<RequireRole allowedRoles={["ADMIN","WORKER"]}><AdminPage></AdminPage></RequireRole>}></Route>
       </Routes>
     </BrowserRouter>
     </AuthProvider>
