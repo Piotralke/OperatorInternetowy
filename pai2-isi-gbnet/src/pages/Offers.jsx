@@ -29,9 +29,9 @@ export default function Offers() {
   };
 
   return (
-    <div className="flex flex-col w-full min-h-full bg-gray-300 basis-4/5">
+    <div className="flex flex-col w-full min-h-full bg-blue-gray-300 basis-4/5">
       <div className="w-full" ref={telewizjaRef} >
-        <div className="flex flex-row fixed space-x-5 bg-gray-600 w-full bg-opacity-70">
+        <div className="flex flex-row fixed space-x-5 bg-blue-gray-600 w-full bg-opacity-70">
             <button className="rounded-xl text-2xl hover:font-bold italic "onClick={() => scrollToRef(telewizjaRef)}>Telewizja</button>
             <button className="rounded-xl text-2xl hover:font-bold italic"onClick={() => scrollToRef(internetRef)}>Internet</button>
             <button className="rounded-xl text-2xl hover:font-bold italic"onClick={() => scrollToRef(internetTelewizjaRef)}>Internet + Telewizja</button>

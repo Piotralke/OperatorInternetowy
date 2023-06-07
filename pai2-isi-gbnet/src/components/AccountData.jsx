@@ -13,13 +13,13 @@ export default function AccountData() {
   return (
     <div className="w-1/4 h-1/3">
       <div className="text-xl text-blue-500">Moje konto</div>
-      <div className="flex flex-col bg-gray-700 h-full overflow-y-auto">
-        <div className="flex flex-row p-4 border-b border-gray-600">
+      <div className="flex flex-col bg-blue-gray-700 h-full overflow-y-auto">
+        <div className="flex flex-row p-4 border-b border-blue-gray-600">
           <text className="flex-grow text-white">Numer klienta</text>
           <text className="text-blue-300 font-bold">{user.accountId}</text>
         </div>
         <div className="flex flex-col items-center justify-center p-4 h-full">
-          <div className="flex flex-row w-full p-5 m-4 bg-gray-800 items-center space-x-2">
+          <div className="flex flex-row w-full p-5 m-4 bg-blue-gray-800 items-center space-x-2">
             <div className="basis-1/5 justify-center align-middle items-center">
               <img className="self-center rounded-full" src={user.pic}></img>
             </div>
@@ -37,7 +37,7 @@ export default function AccountData() {
               Przejdz do zakładki MOJE KONTO, aby wyświetlić lub edytować dane
             </div>
           </div>
-          <div className="flex flex-row w-full m-4 h-1/3 bg-gray-800 justify-center align-middle">
+          <div className="flex flex-row w-full m-4 h-1/3 bg-blue-gray-800 justify-center align-middle">
             <Link className="flex flex-col justify-center" to="/profile">
               <div className="text-lg text-blue-300 align-middle">
                 Moje konto

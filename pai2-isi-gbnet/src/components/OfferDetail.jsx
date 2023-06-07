@@ -34,15 +34,15 @@ export default function OfferDetail() {
 
   return (
     <div className="flex flex-col basis-4/5">
-      <div className="flex flex-col bg-gray-900 p-4">
+      <div className="flex flex-col bg-blue-gray-900 p-4">
         <a className="text-white text-2xl font-medium ml-4">Szczegóły oferty</a>
       </div>
-      <div className="flex flex-col bg-gray-800 space-y-4 h-full">
+      <div className="flex flex-col bg-blue-gray-800 space-y-4 h-full">
         {img && (
           <img src={img} className="h-[500px] w-full object-none object-center"></img>
         )}
         {offer && (
-          <div className="flex flex-row mx-8 mt-8 bg-gray-900 p-4 items-center justify-between">
+          <div className="flex flex-row mx-8 mt-8 bg-blue-gray-900 p-4 items-center justify-between">
             <div className="flex flex-col w-4/5">
               <a className="text-white ml-4 font-medium text-xl">
                 {offer.name}
@@ -64,7 +64,7 @@ export default function OfferDetail() {
           </div>
         )}
         {offer && offer.withDevice && (
-          <div className="flex flex-row mx-8 mt-8 bg-gray-900 p-4 items-center justify-between">
+          <div className="flex flex-row mx-8 mt-8 bg-blue-gray-900 p-4 items-center justify-between">
             <div className="flex flex-col w-4/5">
               <a className="text-white ml-4 font-medium text-xl">
                 {offer.productEntity.name}

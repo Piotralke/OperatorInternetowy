@@ -31,13 +31,13 @@ export default function Messages() {
         {messages && (<button className=" hover:font-bold  self-center  text-blue-500 truncate">Wszystkie wiadomości</button>)}
         </div>
         
-        <div className="flex flex-col bg-gray-700 h-full justify-center overflow-y-auto">
+        <div className="flex flex-col bg-blue-gray-700 h-full justify-center overflow-y-auto">
           {messages ? (
             <div className="flex flex-col divide-y">
               {messages.map((message, index) => {
                 if(index<12){
                   return (
-                    <button className="flex flex-row hover:bg-gray-500 h-min">
+                    <button className="flex flex-row hover:bg-blue-gray-500 h-min">
                       <div className="text-lg text-white font-bold basis-2/5 truncate">{message.title}</div>
                       <div className="text-md text-white truncate basis-3/5">
                         {message.description}

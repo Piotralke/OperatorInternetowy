@@ -41,7 +41,7 @@ export default function Offer(props) {
         <div className="text-lg text-blue-500">
           {props.product ? "W zestawie z: " + props.product.name : <div className="h-[28px]"></div>}
         </div>
-        <div className="flex flex-row border border-gray-200">
+        <div className="flex flex-row border border-blue-gray-200">
           <div className="flex flex-col w-2/3">
             <text className="text-2xl font-bold text-center">
               {props.price ? props.price.toFixed(2) : "0.00"} zł

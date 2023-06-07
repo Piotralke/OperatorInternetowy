@@ -44,7 +44,7 @@ export default function Product(props) {
                 {props.activation? (<div className="text-lg text-blue-500">Aktywacja za: {props.activation} zł</div>):null} */}
         <div className="text-lg text-blue-500">
         </div>
-        <div className="flex flex-row border border-gray-200">
+        <div className="flex flex-row border border-blue-gray-200">
           <div className="flex flex-col w-2/3">
             <text className="text-2xl font-bold text-center">
               {props.price ? props.price.toFixed(2) : "0.00"} zł

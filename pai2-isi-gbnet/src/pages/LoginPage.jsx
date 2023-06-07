@@ -53,7 +53,7 @@ export default function LoginPage() {
     <>
       {registering ? (
         <div className="flex flex-col w-full min-h-screen bg-gray-300 items-center">
-          <div className="flex flex-col items-center justify-center mt-40 border border-black w-1/2 rounded-xl min-h-[50vh] bg-gray-800">
+          <div className="flex flex-col items-center justify-center mt-40 border border-black w-1/2 rounded-xl min-h-[50vh] bg-blue-gray-800">
             <text className="font-bold mb-3 text-xl text-blue-500">
               Rejestracja
             </text>

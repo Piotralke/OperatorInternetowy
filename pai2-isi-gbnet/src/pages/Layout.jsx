@@ -3,18 +3,21 @@ import { ImHome } from 'react-icons/im'
 import { CgProfile } from 'react-icons/cg'
 import { FaFileInvoiceDollar } from 'react-icons/fa'
 import { MdLocalOffer, MdOutlineLocalOffer } from 'react-icons/md'
+import { useSignOut } from "react-auth-kit";
 export default function Layout() {
   const navigate = useNavigate();
+  const signOut = useSignOut();
   return (
     <div className="flex flex-col min-h-screen min-w-full justify-stretch">
-      <div className="flex items-center w-full p-3 bg-gray-800 sticky top-0">
-        <text className="text-xl font-bold text-white">Gb net</text>
+      <div className="flex flex-row items-center w-full p-3 bg-blue-gray-800 sticky top-0">
+        <text className="text-xl flex-grow font-bold text-white">Gb Net</text>
+        <button className="text-xl bg-red-600 p-1 rounded-lg font-bold  text-white hover:bg-red-500" onClick={()=>signOut()}>Wyloguj</button>
       </div>
       <div className="flex-grow flex flex-row w-full m-0 p-0">
-        <div className="flex flex-col basis-1/5 min-h-full bg-gray-700 justify-between " >
+        <div className="flex flex-col basis-1/5 min-h-full bg-blue-gray-700 justify-between " >
           <div className="flex flex-col p-7 space-y-8 items-center h-full fixed ">
             <button
-              className="group w-full  text-white font-bold  flex flex-row items-center justify-center space-x-4"
+              className="group w-full  text-white font-bold  flex flex-row items-center justify-center space-x-4 hover:animate-pulse"
               onClick={()=>navigate('/home')}
             >
               <ImHome className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-blue-500"/>
@@ -22,7 +25,7 @@ export default function Layout() {
             </button>
 
             <button
-              className="group w-full text-xl text-white font-bold flex flex-row items-center  space-x-4"
+              className="group w-full text-xl text-white font-bold flex flex-row items-center  space-x-4 hover:animate-pulse"
               onClick={()=>navigate('/offers')}
             >
               <MdLocalOffer className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-blue-500"/>
@@ -30,7 +33,7 @@ export default function Layout() {
             </button>
             
             <button
-              className="group w-full text-xl text-white font-bold flex flex-row items-center  space-x-4"
+              className="group w-full text-xl text-white font-bold flex flex-row items-center  space-x-4 hover:animate-pulse"
               onClick={()=>navigate('/products')}
             >
               <MdOutlineLocalOffer className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-blue-500"/>
@@ -38,7 +41,7 @@ export default function Layout() {
             </button>
 
             <button
-              className="group w-full text-xl text-white font-bold flex flex-row items-center  space-x-4"
+              className="group w-full text-xl text-white font-bold flex flex-row items-center  space-x-4 hover:animate-pulse"
               onClick={()=>navigate('/invoices')}
             >
               <FaFileInvoiceDollar className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-blue-500"/>
@@ -46,7 +49,7 @@ export default function Layout() {
             </button>
 
             <button
-              className="group w-full text-xl text-white font-bold flex flex-row items-center space-x-4"
+              className="group w-full text-xl text-white font-bold flex flex-row items-center space-x-4 hover:animate-pulse"
               onClick={()=>navigate('/profile')}
             >
               <CgProfile className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-blue-500"/>
@@ -57,7 +60,7 @@ export default function Layout() {
         <Outlet></Outlet>
       </div>
 
-      <div className="bg-gray-700 h-10 basis-1/12">Stopka</div>
+      <div className="bg-blue-gray-700 h-10 basis-1/12">Stopka</div>
     </div>
   );
 }

@@ -11,14 +11,14 @@ export default function UserData(props) {
 
 
   return (
-    <div className="flex flex-col bg-gray-700 my-7 basis-3/5">
-      <div className="flex flex-row p-4 border-b border-gray-600">
+    <div className="flex flex-col bg-blue-gray-700 my-7 basis-3/5">
+      <div className="flex flex-row p-4 border-b border-blue-gray-600">
         <a className=" text-xl font-bold underline underline-offset-1 text-white">
           Moje dane
         </a>
       </div>
       <div className="flex flex-col p-4">
-        <div className="flex flex-row drop-shadow-lg bg-gray-800 p-4">
+        <div className="flex flex-row drop-shadow-lg bg-blue-gray-800 p-4">
           <img className="w-10 h-10 rounded-full" src={userPic} alt="User" />
           <div className="flex flex-col">
             <div className="text-lg text-blue-300 ml-3">
@@ -39,7 +39,7 @@ export default function UserData(props) {
             <a className="text-lg text-white">Telefon komórkowy</a>
             <input
               disabled={isDisabled}
-              className="px-2 py-2 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-sm text-blue-400 text-lg"
+              className="px-2 py-2 border drop-shadow-lg border-blue-gray-500 bg-blue-gray-700 w-1/2 rounded-sm text-blue-400 text-lg"
               value={loading ? props.phoneNumber : phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
@@ -48,7 +48,7 @@ export default function UserData(props) {
             <text className="text-lg text-white">Adres e-mail</text>
             <input
               disabled={isDisabled}
-              className="px-2 py-2 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-sm text-blue-400 text-lg"
+              className="px-2 py-2 border drop-shadow-lg border-blue-gray-500 bg-blue-gray-700 w-1/2 rounded-sm text-blue-400 text-lg"
               value={loading ? props.email : email }
               onChange={(e) => setEmail(e.target.value)}
               
@@ -58,7 +58,7 @@ export default function UserData(props) {
           <div className="flex flex-row mb-4 justify-between">
             <a className="text-lg text-white">Adres Korespondencyjny</a>
             <input
-              className="px-2 py-2 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-sm text-blue-400  text-lg"
+              className="px-2 py-2 border drop-shadow-lg border-blue-gray-500 bg-blue-gray-700 w-1/2 rounded-sm text-blue-400  text-lg"
               value={props.address}
               readOnly
             />
@@ -90,7 +90,7 @@ export default function UserData(props) {
               Anuluj
             </button>
           )}
-          <button className="bg-gray-800 drop-shadow-md rounded-md text-white font-bold text-md h-12 mt-4">
+          <button className="bg-blue-gray-800 drop-shadow-md rounded-md text-white font-bold text-md h-12 mt-4">
             Zapisz
           </button>
         </div>
