@@ -13,8 +13,8 @@ export default function Offers() {
       await axios
         .get("http://localhost:8080/upc/unsecured/v1/get-all-offers")
         .then((data) => {
-          console.log(data.data);
-          setOffers(data.data);
+          console.log(data.data.content);
+          setOffers(data.data.content);
         })
         .catch((err) => console.log(err));
     }
@@ -43,9 +43,8 @@ export default function Offers() {
           Telewizja
         </div>
         <div className="grid grid-cols-3 gap-4" >
-          {offers
-            ?.filter((offer) => offer.offerType === "TV")
-            .map((offer) => (
+          {offers?.filter(offer => offer.offerType === "TV")
+            .map(offer => (
               <Offer
                 id={offer.uuid}
                 title={offer.name}
@@ -65,9 +64,8 @@ export default function Offers() {
           Internet
         </div>
         <div className="grid grid-cols-3 gap-4" >
-          {offers
-            ?.filter((offer) => offer.offerType === "INTERNET")
-            .map((offer) => (
+          {offers?.filter(offer => offer.offerType === "INTERNET")
+            .map(offer => (
               <Offer
                 id={offer.uuid}
                 title={offer.name}
@@ -87,9 +85,8 @@ export default function Offers() {
           Internet + telewizja
         </div>
         <div className="grid grid-cols-3 gap-4">
-          {offers
-            ?.filter((offer) => offer.offerType === "INTERNET_PLUS_TV")
-            .map((offer) => (
+          {offers?.filter(offer => offer.offerType === "INTERNET_PLUS_TV")
+            .map(offer => (
               <Offer
                 id={offer.uuid}
                 title={offer.name}
