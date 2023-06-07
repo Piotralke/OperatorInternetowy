@@ -10,7 +10,11 @@ public class ProductConverter {
 
     public static ProductDto convertFrom(ProductEntity product) {
         return ProductDto.builder()
-
+                .uuid(product.getUuid())
+                .name(product.getName())
+                .price(product.getPrice())
+                .description(product.getDescription())
+                .productType(product.getProductType())
                 .build();
     }
 
