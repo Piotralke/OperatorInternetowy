@@ -34,7 +34,7 @@ export default function Invoices(){
                 <a className="text-white font-bold text-3xl">{data.balance} zł</a>
             </div>
         </div>
-        <div className="flex flex-col bg-gray-800">
+        <div className="flex flex-col bg-gray-800 p-4">
             <a className="text-white text-xl font-medium ml-8 mt-4 mb-3">Pozycje nieopłacone</a>
             {invoicesPaid ? (
                 <div className="flex flex-row mx-8 bg-gray-900 p-4 items-center">
@@ -46,16 +46,16 @@ export default function Invoices(){
             ) : null}  {/*Tu lista niezapłaconych faktur*/}
             <a className="text-white text-xl font-medium ml-8 mt-4 mb-3">Operacje finansowe</a>
             <div className="flex flex-col mx-8 bg-gray-900 p-4">
-                <a className="text-white">W okresie</a>
-                <div className="flex flex-row mt-4 space-x-4">
-                    <a className="text-white">Od</a>
-                    <input type="date" id="from" name="from"></input>
-                    <a className="text-white">Do</a>
-                    <input type="date" id="to" name="to"></input>
+                <a className="text-white text-lg font-bold">W okresie</a>
+                <div className="flex flex-row mt-4 space-x-4 items-center">
+                    <a className="text-white font-bold">Od</a>
+                    <input className="cursor-pointer  bg-gray-700 text-white hover:bg-gray-800 p-1" type="date" id="from" name="from"></input>
+                    <a className="text-white font-bold">Do</a>
+                    <input className="cursor-pointer  bg-gray-700 text-white hover:bg-gray-800 p-1" type="date" id="to" name="to"></input>
                 </div>
-                <div className="flex flex-row mt-8 space-x-4">
-                    <input className="border-2 rounded-md border-white font-bold text-white p-4" type="button" value="WYCZYŚĆ" onClick={functiona}></input>
-                    <input className="bg-blue-500 rounded-md text-white p-4 font-bold" type="button" value="SZUKAJ"></input>
+                <div className="flex flex-row mt-8 space-x-4 items-center">
+                    <input className="cursor-pointer bg-gray-700 rounded-md font-bold text-white p-4 hover:bg-gray-800" type="button" value="WYCZYŚĆ" onClick={functiona}></input>
+                    <input className=" cursor-pointer bg-blue-500 rounded-md text-white p-4 font-bold hover:bg-blue-700" type="button" value="SZUKAJ"></input>
                 </div>
             </div>
             <div className="flex flex-row"> {/*Lista faktur*/}
