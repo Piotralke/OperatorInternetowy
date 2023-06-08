@@ -3,18 +3,17 @@ import { Card, Typography } from "@material-tailwind/react";
 import { BiShowAlt } from "react-icons/bi"
 import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai"
 import { LuEdit } from "react-icons/lu"
+import {useNavigate } from 'react-router-dom';
 
 export default function Table(props) {
   const headers = props.headers;
   const rows = props.rows;
   const rowsPerPage = 5; // liczba wierszy na stronę
-
   const [currentPage, setCurrentPage] = useState(1);
-
   // Oblicz indeksy początkowy i końcowy dla wierszy na aktualną stronę
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
-
+  const navigate = useNavigate();
   // Funkcja do zmiany aktualnej strony
   const changePage = (page) => {
     setCurrentPage(page);
@@ -84,7 +83,7 @@ useEffect(() => {
 
 
   return (
-    <Card className="h-full w-full">
+    <Card className=" w-full">
       <div className="flex items-center p-2">
         <input
           type="text"
@@ -163,24 +162,10 @@ useEffect(() => {
                     );
                 })}
                 <td className="p-1">
-                  <Typography
-                    as="a"
-                    href={`edit/${row["Email"]}`}
-                    variant="small"
-                    className="font-medium flex flex-col items-center "
-                  >
-                    <BiShowAlt className="w-8 h-8 " />
-                  </Typography>
-                </td>
-                <td className="p-1">
-                  <Typography
-                    as="a"
-                    href={`edit/${row["Email"]}`}
-                    variant="small"
-                    className="font-medium flex flex-col items-center "
-                  >
-                    <LuEdit className="w-7 h-7 " />
-                  </Typography>
+                  <button className="flex flex-col w-full items-center" onClick={()=>{navigate(`${row["uuid"]}`)}}>
+                     <BiShowAlt  className="w-8 h-8 " />
+                  </button>
+
                 </td>
               </tr>
             );

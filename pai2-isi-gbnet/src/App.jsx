@@ -12,6 +12,10 @@ import AdminPage from "./pages/AdminPage";
 import RequireRole from "./RequireRole";
 import Clients from "./pages/Clients";
 import ClientDetail from "./components/ClientDetail"
+import Workers from "./pages/Workers";
+import AdminProducts from "./pages/AdminProducts";
+import AdminProductDetail from "./components/AdminProductDetail"
+import AdminOffers from "./pages/AdminOffers"
 export default function App() {
   return (
     <AuthProvider
@@ -53,22 +57,26 @@ export default function App() {
           >
             <Route path="clients" element={<Clients></Clients>}>
               <Route path=":clientId" element={<ClientDetail/>}></Route>
-              <Route path="edit/:clientId"></Route>
             </Route>
             <Route path="clientAdd"></Route>
 
-            <Route path="employees "></Route>
-            <Route path="employeeAdd "></Route>
-            <Route path="employees/:employeeId"></Route>
-            <Route path="employees/edit/:employeeId"></Route>
-            <Route path="products "></Route>
+            <Route path="employees" element={<Workers/>}>
+              <Route path=":employeeId" ></Route> 
+            </Route>
+            <Route path="employeeAdd"></Route>
+            
+            
+            <Route path="products" element={<AdminProducts/>}>
+              <Route path=":productId" element={<AdminProductDetail/>}></Route>
+            </Route>
             <Route path="productAdd"></Route>
-            <Route path="products/:productId"></Route>
-            <Route path="products/edit/:productId"></Route>
-            <Route path="services "></Route>
+            
+            
+            <Route path="services" element={<AdminOffers/>}>
+              <Route path=":serviceId"></Route>
+            </Route>
             <Route path="serviceAdd"></Route>
-            <Route path="services/:serviceId"></Route>
-            <Route path="services/edit/:serviceId"></Route>
+            
             <Route path="reports">
               <Route path=":reportId"></Route>
             </Route>

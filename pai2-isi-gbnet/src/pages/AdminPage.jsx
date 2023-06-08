@@ -22,11 +22,11 @@ function TreeNode({ node, level, handleNodeClick }) {
 
   return (
     <div style={{ paddingLeft: 15 * (level - 1) }}>
-      <div className="flex flex-row items-center space-x-4">
+      <div className="flex flex-row items-center space-x-4 ">
         <div className="text-[1.25vw] text-orange-500 ">
           {node?.icon}
         </div>
-        <span className=" text-[1vw] cursor-pointer hover:font-bold hover:text-orange-400 hover:animate-pulse"onClick={handleItemClick}>{node.name}</span>
+        <span className="  text-[1vw] cursor-pointer hover:font-bold hover:text-orange-400 hover:animate-pulse" onClick={handleItemClick}>{node.name}</span>
       </div>
       {isExpanded &&
         node.children &&
@@ -50,9 +50,14 @@ export default function AdminPage() {
     if (nodeName === "Wyświetl klientów") {
       console.log("Kliknięto Użytkownicy");
      navigate('clients');
-    } else if (nodeName === "Rejestracja") {
-      console.log("Kliknięto Rejestracja");
-      // Wykonaj akcję dla "Rejestracja"
+    } else if (nodeName === "Wyświetl pracowników") {
+      navigate('employees');
+    }
+    else if (nodeName === "Wyświetl produkty") {
+      navigate('products');
+    }
+    else if (nodeName === "Wyświetl usługi") {
+      navigate('services');
     }
   };
 
@@ -152,7 +157,7 @@ export default function AdminPage() {
       </div>
       <div className="flex-grow flex flex-row w-full m-0 p-0">
         <div className="flex flex-col basis-1/5 min-h-full bg-gray-700 justify-between p-8">
-          <div className="flex text-white pt-5  h-full fixed ">
+          <div className="flex text-white pt-5  h-full fixed">
               <TreeNode
                 
                 node={folder}
@@ -161,7 +166,7 @@ export default function AdminPage() {
               />
           </div>
         </div>
-        <div className="basis-4/5">
+        <div className="basis-4/5 min-h-full ">
           <Outlet></Outlet>
         </div>
       </div>
