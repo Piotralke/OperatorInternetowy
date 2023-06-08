@@ -1,15 +1,19 @@
 package pl.psk.upc.infrastructure.entity;//package pl.psk.upc.infrastructure.entity;
 
 import jakarta.persistence.*;
-import lombok.Value;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
-@Value
 @Entity
 @Table(name = "contracts")
+@Builder
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ContractEntity {
 
     @Id
@@ -20,16 +24,13 @@ public class ContractEntity {
     UUID uuid;
 
     @Column(name = "start_date")
-    LocalDate startDate;
+    ZonedDateTime startDate;
 
     @Column(name = "end_date")
-    LocalDate endDate;
+    ZonedDateTime endDate;
 
     @Column(name = "amount")
-    BigDecimal amount;
-
-    @Column(name = "description", nullable = false)
-    String description;
+    Double amount;
 
     @OneToOne
     OfferEntity offerEntity;

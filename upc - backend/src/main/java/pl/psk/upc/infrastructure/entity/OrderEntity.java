@@ -1,15 +1,21 @@
 package pl.psk.upc.infrastructure.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Value;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
-@Value
+
 @Entity
 @Table(name = "orders")
+@Builder
+@Setter @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderEntity {
 
     @Id
@@ -20,23 +26,27 @@ public class OrderEntity {
     UUID uuid;
 
     @Column(name = "order_date")
-    LocalDate orderDate;
+    ZonedDateTime orderDate;
 
     @Column(name = "order_status")
     OrderStatus orderStatus;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id")
-    ClientAccountEntity clientAccountEntity;
+    @Column(name = "payment_status")
+    PaymentStatus paymentStatus;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+//    @JsonManagedReference
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "client_id")
+//    ClientAccountEntity clientAccountEntity;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     EmployeeEntity employeeEntity;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     List<ProductEntity> productEntities;
 
-    @OneToMany
+    @OneToOne(fetch = FetchType.EAGER) @JsonManagedReference
     @JoinColumn(name = "service_id")
-    List<ServiceEntity> serviceEntities;
+    ServiceEntity service;
 
 }

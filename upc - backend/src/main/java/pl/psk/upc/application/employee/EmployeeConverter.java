@@ -13,6 +13,9 @@ import java.util.List;
 public class EmployeeConverter {
 
     public static EmployeeDto convertFrom(EmployeeEntity user) {
+        if (user == null || user.getUuid() == null) {
+            return EmployeeDto.builder().build();
+        }
         return EmployeeDto.builder()
                 .uuid(user.getUuid())
                 .firstName(user.getFirstName())

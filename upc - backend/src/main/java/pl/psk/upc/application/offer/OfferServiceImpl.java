@@ -26,7 +26,8 @@ public class OfferServiceImpl implements OfferService {
 
     @Override
     public OfferDtoWrapper getAllOffers() {
-        return OfferConverter.convertFrom(offerRepository.findAll());
+        List<OfferEntity> all = offerRepository.findAll();
+        return OfferConverter.convertFrom(all);
     }
 
     @Override

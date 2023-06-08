@@ -12,9 +12,8 @@ public class ServiceConverter {
         return ServiceDto.builder()
                 .uuid(service.getUuid())
                 .name(service.getName())
-                .description(service.getDescription())
-                .price(service.getPrice())
-                .productType(service.getProductType())
+                .offerType(service.getOfferType())
+                .contract(service.getContractEntity())
                 .build();
     }
 
