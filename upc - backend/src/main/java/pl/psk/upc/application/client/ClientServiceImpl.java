@@ -31,6 +31,12 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public ClientAccountEntity findByUuid(UUID uuid) {
+        return clientRepository.findByUuid(uuid)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    @Override
     public List<ClientAccountEntity> findAll() {
         return clientRepository.findAll();
     }

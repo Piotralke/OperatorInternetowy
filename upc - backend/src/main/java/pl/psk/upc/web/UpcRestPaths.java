@@ -6,8 +6,10 @@ public class UpcRestPaths {
     public static final String UPC_SECURED_PREFIX = UPC_PREFIX + "/v1";
     public static final String UPC_UNSECURED_PREFIX = UPC_PREFIX + "/unsecured/v1";
     public static final String GET_USER_DATA = UPC_SECURED_PREFIX + "/user";
+    public static final String GET_USER_DATA_BY_UUID = UPC_SECURED_PREFIX + "/user/{uuid}";
     public static final String GET_ALL_USERS = UPC_SECURED_PREFIX + "/user/all";
     public static final String GET_EMPLOYEE_DATA = UPC_SECURED_PREFIX + "/employee";
+    public static final String GET_EMPLOYEE_DATA_BY_UUID = UPC_SECURED_PREFIX + "/employee/{uuid}";
     public static final String GET_ALL_EMPLOYEES = UPC_SECURED_PREFIX + "/employee/all";
     public static final String LOGIN = UPC_UNSECURED_PREFIX + "/login";
     public static final String CLIENT_REGISTER = UPC_UNSECURED_PREFIX + "/client-register";
