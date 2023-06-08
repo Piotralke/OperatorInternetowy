@@ -28,7 +28,6 @@ public class OfferEntity {
     @Column(name = "price")
     double price;
 
-//    @Column(name = "device")
     @OneToOne
     ProductEntity productEntity;
 

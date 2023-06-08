@@ -27,7 +27,5 @@ public class PaymentEntity {
     @Column(name = "is_payment_completed")
     boolean isPaymentCompleted;
 
-    @ManyToOne
-    @JoinColumn(name = "contract_id")
-    ContractEntity contractEntity;
+
 }

@@ -1,13 +1,17 @@
 package pl.psk.upc.infrastructure.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Value;
+import lombok.*;
 
 import java.util.UUID;
 
-@Value
 @Entity
 @Table(name = "services")
+@Builder
+@Setter @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ServiceEntity {
 
     @Id
@@ -20,17 +24,20 @@ public class ServiceEntity {
     @Column(name = "name")
     String name;
 
-    @Column(name = "description", nullable = false)
-    String description;
+    @Column(name = "offer_type")
+    OfferType offerType;
 
-    @Column(name = "price")
-    double price;
-
-    @Column(name = "product_type")
-    ProductType productType;
-
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
     ClientAccountEntity clientAccountEntity;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "contract_id")
+    ContractEntity contractEntity;
+
+    @JsonBackReference
+    @OneToOne(mappedBy = "service")
+    OrderEntity orderEntity;
 
 }

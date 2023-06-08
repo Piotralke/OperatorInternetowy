@@ -9,6 +9,9 @@ import java.util.List;
 public class ProductConverter {
 
     public static ProductDto convertFrom(ProductEntity product) {
+        if (product == null) {
+            return ProductDto.builder().build();
+        }
         return ProductDto.builder()
                 .uuid(product.getUuid())
                 .name(product.getName())

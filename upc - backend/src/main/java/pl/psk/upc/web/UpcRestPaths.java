@@ -3,7 +3,7 @@ package pl.psk.upc.web;
 public class UpcRestPaths {
 
     public static final String UPC_PREFIX = "upc";
-    public static final String UPC_SECURED_PREFIX = UPC_PREFIX + "/v1";
+    public static final String UPC_SECURED_PREFIX = UPC_PREFIX + "/unsecured/v1";
     public static final String UPC_UNSECURED_PREFIX = UPC_PREFIX + "/unsecured/v1";
     public static final String GET_USER_DATA = UPC_SECURED_PREFIX + "/user";
     public static final String GET_USER_DATA_BY_UUID = UPC_SECURED_PREFIX + "/user/{uuid}";
@@ -31,7 +31,12 @@ public class UpcRestPaths {
     public static final String GET_ALL_SERVICES = UPC_UNSECURED_PREFIX + "/get-all-services";
     public static final String GET_USER_SERVICES = UPC_UNSECURED_PREFIX + "/get-user-services/{email}";
     public static final String GET_SERVICE = UPC_UNSECURED_PREFIX + "/get-service/{uuid}";
-
-
+    public static final String GET_ORDERS_BY_CLIENT_EMAIL = UPC_UNSECURED_PREFIX + "/get-orders/client";
+    public static final String GET_ORDERS_BY_CLIENT_UUID = UPC_UNSECURED_PREFIX + "/get-orders/client/{uuid}";
+    public static final String GET_ORDERS_BY_EMPLOYEE_EMAIL = UPC_UNSECURED_PREFIX + "/get-orders/employee";
+    public static final String GET_ORDERS_BY_EMPLOYEE_UUID = UPC_UNSECURED_PREFIX + "/get-orders/employee/{uuid}";
+    public static final String GET_ORDER_BY_UUID = UPC_UNSECURED_PREFIX + "/get-order/{uuid}";
+    public static final String SAVE_ORDER = UPC_UNSECURED_PREFIX + "/save-order";
+    public static final String GET_ALL_ORDERS = UPC_UNSECURED_PREFIX + "/get-all-order";
 
 }

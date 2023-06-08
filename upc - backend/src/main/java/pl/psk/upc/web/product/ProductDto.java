@@ -14,7 +14,6 @@ public class ProductDto {
     private final static String DESCRIPTION = "description";
     private final static String PRODUCT_TYPE = "productType";
 
-
     @JsonProperty(UUID)
     java.util.UUID uuid;
 
