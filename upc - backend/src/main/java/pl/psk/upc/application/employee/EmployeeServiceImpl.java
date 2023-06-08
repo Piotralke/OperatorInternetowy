@@ -31,6 +31,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public EmployeeEntity findByUuid(UUID uuid) {
+        return employeeRepository.findByUuid(uuid)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    @Override
     public List<EmployeeEntity> findAll() {
         return employeeRepository.findAll();
     }

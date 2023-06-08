@@ -33,6 +33,13 @@ public class UserController {
 
     }
 
+    @GetMapping(UpcRestPaths.GET_USER_DATA_BY_UUID)
+    public ClientDto getUserByEmail(@PathVariable(value = "uuid") UUID uuid) {
+        ClientAccountEntity user = clientService.findByUuid(uuid);
+        return ClientConverter.convertFrom(user);
+
+    }
+
     @GetMapping(UpcRestPaths.GET_ALL_USERS)
     public ClientDtoWrapper getAllUsers() {
         return ClientConverter.convertFrom(clientService.findAll());
@@ -41,6 +48,12 @@ public class UserController {
     @GetMapping(UpcRestPaths.GET_EMPLOYEE_DATA)
     public EmployeeDto getEmployeeByEmail(@RequestParam String email) {
         EmployeeEntity user = employeeService.findByEmail(email);
+        return EmployeeConverter.convertFrom(user);
+    }
+
+    @GetMapping(UpcRestPaths.GET_EMPLOYEE_DATA_BY_UUID)
+    public EmployeeDto getEmployeeByEmail(@PathVariable(value = "uuid") UUID uuid) {
+        EmployeeEntity user = employeeService.findByUuid(uuid);
         return EmployeeConverter.convertFrom(user);
     }
 
