@@ -6,10 +6,12 @@ import pl.psk.upc.infrastructure.dto.Account;
 import pl.psk.upc.infrastructure.entity.ClientAccountEntity;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface ClientRepository extends JpaRepository<ClientAccountEntity, Long> {
 
     Optional<ClientAccountEntity> findByEmail(String email);
+    Optional<ClientAccountEntity> findByUuid(UUID uuid);
 
 }
