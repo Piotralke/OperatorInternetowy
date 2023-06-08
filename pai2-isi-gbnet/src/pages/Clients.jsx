@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import Table from "../components/Table"
 import axios from "axios";
 import { useAuthHeader } from "react-auth-kit";
-const TABLE_HEAD = ["Imię", "Nazwisko", "Email","Nr telefonu", "Adres","NIP","Szczegóły","Edycja" ];
+import { Outlet } from "react-router-dom";
+const TABLE_HEAD = [{name: "Imię",key: "FirstName"}, {name:"Nazwisko",key:"LastName"}, {name:"Email",key:"Email"},{name:"Nr telefonu",key:"phone"}, {name:"Adres",key:"address"},{name:"NIP",key:"nip"},{name:"Szczegóły",key:null},{name:"Edycja",key:null} ];
  
 export default function Clients(){
     const token = useAuthHeader();
@@ -34,6 +35,10 @@ export default function Clients(){
         )
     }
     return (
-        <Table headers={TABLE_HEAD} rows={users}></Table>
+        <div>
+            <Table headers={TABLE_HEAD} rows={users}></Table>
+            <Outlet></Outlet>
+        </div>
+        
       );
 }

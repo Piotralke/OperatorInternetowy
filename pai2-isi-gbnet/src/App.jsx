@@ -11,7 +11,7 @@ import Products from "./pages/Products";
 import AdminPage from "./pages/AdminPage";
 import RequireRole from "./RequireRole";
 import Clients from "./pages/Clients";
-
+import ClientDetail from "./components/ClientDetail"
 export default function App() {
   return (
     <AuthProvider
@@ -20,7 +20,7 @@ export default function App() {
       cookieDomain={window.location.hostname}
       cookieSecure={false}
     >
-      
+
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginPage></LoginPage>}></Route>
@@ -51,10 +51,12 @@ export default function App() {
               </RequireRole>
             }
           >
-            <Route path="clients" element={<Clients></Clients>}></Route>
+            <Route path="clients" element={<Clients></Clients>}>
+              <Route path=":clientId" element={<ClientDetail/>}></Route>
+              <Route path="edit/:clientId"></Route>
+            </Route>
             <Route path="clientAdd"></Route>
-            <Route path="clients/:clientId"></Route>
-            <Route path="clients/edit/:clientId"></Route>
+
             <Route path="employees "></Route>
             <Route path="employeeAdd "></Route>
             <Route path="employees/:employeeId"></Route>

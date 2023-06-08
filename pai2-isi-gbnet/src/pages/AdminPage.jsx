@@ -21,7 +21,7 @@ function TreeNode({ node, level, handleNodeClick }) {
   
 
   return (
-    <div style={{ paddingLeft: 20 * (level - 1) }}>
+    <div style={{ paddingLeft: 15 * (level - 1) }}>
       <div className="flex flex-row items-center space-x-4">
         <div className="text-[1.25vw] text-orange-500 ">
           {node?.icon}
@@ -142,7 +142,7 @@ export default function AdminPage() {
   return (
     <div className="flex flex-col min-h-screen min-w-full justify-stretch">
       <div className="flex flex-row items-center w-full p-3 bg-gray-800 sticky top-0">
-        <text className="text-xl flex-grow font-bold text-white">Gb net</text>
+        <span className="text-xl flex-grow font-bold text-white">Gb net</span>
         <button
           className="text-xl bg-red-600 p-1 rounded-lg font-bold  text-white hover:bg-red-500"
           onClick={() => signOut()}
