@@ -28,57 +28,50 @@ public class UserController {
 
     @GetMapping(UpcRestPaths.GET_USER_DATA)
     public ClientDto getUserByEmail(@RequestParam String email) {
-        ClientAccountEntity user = clientService.findByEmail(email);
-        return ClientConverter.convertFrom(user);
+        return clientService.findByEmail(email);
 
     }
 
     @GetMapping(UpcRestPaths.GET_USER_DATA_BY_UUID)
     public ClientDto getUserByEmail(@PathVariable(value = "uuid") UUID uuid) {
-        ClientAccountEntity user = clientService.findByUuid(uuid);
-        return ClientConverter.convertFrom(user);
+        return clientService.findByUuid(uuid);
 
     }
 
     @GetMapping(UpcRestPaths.GET_ALL_USERS)
     public ClientDtoWrapper getAllUsers() {
-        return ClientConverter.convertFrom(clientService.findAll());
+        return clientService.findAll();
     }
 
     @GetMapping(UpcRestPaths.GET_EMPLOYEE_DATA)
     public EmployeeDto getEmployeeByEmail(@RequestParam String email) {
-        EmployeeEntity user = employeeService.findByEmail(email);
-        return EmployeeConverter.convertFrom(user);
+        return employeeService.findByEmail(email);
     }
 
     @GetMapping(UpcRestPaths.GET_EMPLOYEE_DATA_BY_UUID)
     public EmployeeDto getEmployeeByEmail(@PathVariable(value = "uuid") UUID uuid) {
-        EmployeeEntity user = employeeService.findByUuid(uuid);
-        return EmployeeConverter.convertFrom(user);
+        return employeeService.findByUuid(uuid);
     }
 
     @GetMapping(UpcRestPaths.GET_ALL_EMPLOYEES)
     public EmployeeWrapper getAllEmployees() {
-        return EmployeeConverter.convertFrom(employeeService.findAll());
+        return employeeService.findAll();
     }
 
     @GetMapping(UpcRestPaths.GET_USER_SERVICES)
     public List<ServiceEntity> getUserServices(@PathVariable(value = "email") String email) {
-        ClientAccountEntity user = clientService.findByEmail(email);
-        return ClientConverter.convertFrom(user)
+        return clientService.findByEmail(email)
                 .getServices();
     }
 
     @PostMapping(UpcRestPaths.CLIENT_REGISTER)
     public UUID saveClient(@RequestBody ClientRegisterRequestDto registerRequestDto) {
-        return clientService.save(registerRequestDto)
-                .getUuid();
+        return clientService.save(registerRequestDto);
     }
 
     @PostMapping(UpcRestPaths.EMPLOYEE_REGISTER)
     public UUID saveEmployee(@RequestBody EmployeeRegisterRequestDto registerRequestDto) {
-        return employeeService.save(registerRequestDto)
-                .getUuid();
+        return employeeService.save(registerRequestDto);
     }
 
 }

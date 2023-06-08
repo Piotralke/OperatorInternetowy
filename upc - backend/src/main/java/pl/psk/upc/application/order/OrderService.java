@@ -15,5 +15,4 @@ public interface OrderService {
     OrderDtoWrapper getOrdersByEmployee(UUID employeeUuid);
     OrderDtoWrapper getOrdersByEmployee(String email);
     UUID saveOrder(OrderInputDto order);
-    OrderDtoWrapper getAll();
 }

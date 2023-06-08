@@ -1,10 +1,7 @@
 package pl.psk.upc.infrastructure.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
-import pl.psk.upc.infrastructure.dto.Account;
 
 import java.util.List;
 import java.util.UUID;
@@ -60,14 +57,12 @@ public class ClientAccountEntity {
     @Column(name = "is_business_client")
     private boolean isBusinessClient;
 
-    @JsonBackReference
     @OneToMany(mappedBy = "order_id", cascade = CascadeType.ALL)
     List<OrderEntity> orderEntities;
 
     @OneToMany(mappedBy = "user_problem_id", cascade = CascadeType.ALL)
     List<UserProblemEntity> userProblems;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "service_id", cascade = CascadeType.ALL)
     List<ServiceEntity> services;
 

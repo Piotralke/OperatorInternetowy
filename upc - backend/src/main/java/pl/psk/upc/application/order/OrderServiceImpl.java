@@ -117,7 +117,6 @@ public class OrderServiceImpl implements OrderService {
                 .orderDate(ZonedDateTime.now(ZoneId.systemDefault()))
                 .orderStatus(OrderStatus.PRZYJETE)
                 .paymentStatus(PaymentStatus.NIEOPLACONE)
-//                .clientAccountEntity(clientAccountEntity)
                 .employeeEntity(employeeEntity)
                 .productEntities(products)
                 .service(savedService)
@@ -125,12 +124,6 @@ public class OrderServiceImpl implements OrderService {
 
         return orderRepository.save(orderToSave)
                 .getUuid();
-    }
-
-    @Override
-    public OrderDtoWrapper getAll() {
-        List<OrderEntity> all = orderRepository.findAll();
-        return OrderConverter.convertFrom(all);
     }
 
     private Double calculateOrderAmount(OfferEntity offer, List<ProductEntity> products) {

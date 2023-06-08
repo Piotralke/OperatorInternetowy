@@ -1,14 +1,14 @@
 package pl.psk.upc.application.employee;
 
 import pl.psk.upc.infrastructure.dto.EmployeeRegisterRequestDto;
-import pl.psk.upc.infrastructure.entity.EmployeeEntity;
+import pl.psk.upc.web.user.EmployeeDto;
+import pl.psk.upc.web.user.EmployeeWrapper;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface EmployeeService {
-    EmployeeEntity findByEmail(String email);
-    List<EmployeeEntity> findAll();
-    EmployeeEntity save(EmployeeRegisterRequestDto registerRequestDto);
-    EmployeeEntity findByUuid(UUID uuid);
+    EmployeeDto findByEmail(String email);
+    EmployeeWrapper findAll();
+    UUID save(EmployeeRegisterRequestDto registerRequestDto);
+    EmployeeDto findByUuid(UUID uuid);
 }

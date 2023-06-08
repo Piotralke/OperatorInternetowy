@@ -1,10 +1,11 @@
-package pl.psk.upc.infrastructure.entity;//package pl.psk.upc.infrastructure.entity;
+package pl.psk.upc.infrastructure.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 

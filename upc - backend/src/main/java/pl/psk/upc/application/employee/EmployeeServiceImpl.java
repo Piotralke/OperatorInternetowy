@@ -7,8 +7,9 @@ import pl.psk.upc.infrastructure.dto.EmployeeRegisterRequestDto;
 import pl.psk.upc.infrastructure.entity.EmployeeEntity;
 import pl.psk.upc.infrastructure.enums.RoleEnum;
 import pl.psk.upc.infrastructure.repository.EmployeeRepository;
+import pl.psk.upc.web.user.EmployeeDto;
+import pl.psk.upc.web.user.EmployeeWrapper;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -25,24 +26,26 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeEntity findByEmail(String email) {
-        return employeeRepository.findByEmail(email)
+    public EmployeeDto findByEmail(String email) {
+        EmployeeEntity employee = employeeRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return EmployeeConverter.convertFrom(employee);
     }
 
     @Override
-    public EmployeeEntity findByUuid(UUID uuid) {
-        return employeeRepository.findByUuid(uuid)
+    public EmployeeDto findByUuid(UUID uuid) {
+        EmployeeEntity employee = employeeRepository.findByUuid(uuid)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return EmployeeConverter.convertFrom(employee);
     }
 
     @Override
-    public List<EmployeeEntity> findAll() {
-        return employeeRepository.findAll();
+    public EmployeeWrapper findAll() {
+        return EmployeeConverter.convertFrom(employeeRepository.findAll());
     }
 
     @Override
-    public EmployeeEntity save(EmployeeRegisterRequestDto registerRequestDto) {
+    public UUID save(EmployeeRegisterRequestDto registerRequestDto) {
         Optional<EmployeeEntity> optionalEmployee = employeeRepository.findByEmail(registerRequestDto.getEmail());
 
         UUID uuid = null;
@@ -67,6 +70,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .contractForm(registerRequestDto.getContractForm())
                 .build();
 
-        return employeeRepository.save(accountEntity);
+        return employeeRepository.save(accountEntity)
+                .getUuid();
     }
 }

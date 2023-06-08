@@ -7,6 +7,8 @@ import pl.psk.upc.infrastructure.dto.ClientRegisterRequestDto;
 import pl.psk.upc.infrastructure.entity.ClientAccountEntity;
 import pl.psk.upc.infrastructure.enums.RoleEnum;
 import pl.psk.upc.infrastructure.repository.ClientRepository;
+import pl.psk.upc.web.user.ClientDto;
+import pl.psk.upc.web.user.ClientDtoWrapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,24 +27,27 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientAccountEntity findByEmail(String email) {
-        return clientRepository.findByEmail(email)
+    public ClientDto findByEmail(String email) {
+        ClientAccountEntity client = clientRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return ClientConverter.convertFrom(client);
     }
 
     @Override
-    public ClientAccountEntity findByUuid(UUID uuid) {
-        return clientRepository.findByUuid(uuid)
+    public ClientDto findByUuid(UUID uuid) {
+        ClientAccountEntity client = clientRepository.findByUuid(uuid)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return ClientConverter.convertFrom(client);
     }
 
     @Override
-    public List<ClientAccountEntity> findAll() {
-        return clientRepository.findAll();
+    public ClientDtoWrapper findAll() {
+        List<ClientAccountEntity> clients = clientRepository.findAll();
+        return ClientConverter.convertFrom(clients);
     }
 
     @Override
-    public ClientAccountEntity save(ClientRegisterRequestDto registerRequestDto) {
+    public UUID save(ClientRegisterRequestDto registerRequestDto) {
         Optional<ClientAccountEntity> optionalClientAccount = clientRepository.findByEmail(registerRequestDto.getEmail());
         UUID uuid = null;
 
@@ -68,6 +73,7 @@ public class ClientServiceImpl implements ClientService {
                 .isBusinessClient(registerRequestDto.isBusinessClient())
                 .build();
 
-        return clientRepository.save(accountEntity);
+        return clientRepository.save(accountEntity)
+                .getUuid();
     }
 }

@@ -13,11 +13,9 @@ import java.util.UUID;
 public class OrderController {
 
     private final OrderService orderService;
-    private final OrderRepository orderRepository;
 
-    public OrderController(OrderService orderService, OrderRepository orderRepository) {
+    public OrderController(OrderService orderService) {
         this.orderService = orderService;
-        this.orderRepository = orderRepository;
     }
 
     @GetMapping(UpcRestPaths.GET_ORDERS_BY_CLIENT_EMAIL)
@@ -42,8 +40,7 @@ public class OrderController {
 
     @GetMapping(UpcRestPaths.GET_ORDER_BY_UUID)
     public OrderDto getOrder(@PathVariable(value = "uuid") UUID uuid) {
-        OrderDto orderByUuid = orderService.getOrderByUuid(uuid);
-        return orderByUuid;
+        return orderService.getOrderByUuid(uuid);
     }
 
     @PostMapping(UpcRestPaths.SAVE_ORDER)
@@ -51,16 +48,4 @@ public class OrderController {
         return orderService.saveOrder(order);
     }
 
-//    @GetMapping(UpcRestPaths.GET_ALL_ORDERS)
-//    public OrderDtoWrapper getAllOrder() {
-//        OrderDtoWrapper all = orderService.getAll();
-//        return all;
-//    }
-
-    @GetMapping(UpcRestPaths.GET_ALL_ORDERS)
-    public List<OrderEntity> getAllOrder() {
-//        OrderDtoWrapper all = orderService.getAll();
-        List<OrderEntity> all = orderRepository.findAll();
-        return orderRepository.findAll();
-    }
 }
