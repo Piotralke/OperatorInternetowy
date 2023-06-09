@@ -1,5 +1,6 @@
 package pl.psk.upc.application.service;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pl.psk.upc.infrastructure.entity.ServiceEntity;
 import pl.psk.upc.infrastructure.repository.ServiceRepository;
@@ -24,7 +25,8 @@ public class ServiceServiceImpl implements ServiceService {
 
     @Override
     public ServiceDto getService(UUID uuid) {
-        ServiceEntity service = serviceRepository.findByUuid(uuid);
+        ServiceEntity service = serviceRepository.findByUuid(uuid)
+                .orElseThrow(() -> new UsernameNotFoundException("Service not found"));
         return ServiceConverter.convertFrom(service);
     }
 }

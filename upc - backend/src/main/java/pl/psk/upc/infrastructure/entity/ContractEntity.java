@@ -1,17 +1,16 @@
-package pl.psk.upc.infrastructure.entity;//package pl.psk.upc.infrastructure.entity;
+package pl.psk.upc.infrastructure.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(name = "contracts")
 @Builder
-@Setter
+@Setter @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ContractEntity {
@@ -35,8 +34,7 @@ public class ContractEntity {
     @OneToOne
     OfferEntity offerEntity;
 
-    @ManyToOne
-    @JoinColumn(name = "client_id")
-    ClientAccountEntity clientAccountEntity;
+    @OneToMany(mappedBy = "payment_id", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    List<PaymentEntity> paymentEntities;
 
 }

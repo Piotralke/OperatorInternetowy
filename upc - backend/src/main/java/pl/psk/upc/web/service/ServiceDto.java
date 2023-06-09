@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Value;
 import pl.psk.upc.infrastructure.entity.ContractEntity;
 import pl.psk.upc.infrastructure.entity.OfferType;
+import pl.psk.upc.web.contract.ContractDto;
 
 @Value
 public class ServiceDto {
@@ -25,10 +26,10 @@ public class ServiceDto {
     OfferType offerType;
 
     @JsonProperty(CONTRACT_DTO)
-    ContractEntity contract;
+    ContractDto contract;
 
     @Builder
-    public ServiceDto(@JsonProperty(UUID) java.util.UUID uuid, @JsonProperty(NAME) String name, @JsonProperty(SERVICE_TYPE) OfferType offerType, @JsonProperty(CONTRACT_DTO) ContractEntity contract) {
+    public ServiceDto(@JsonProperty(UUID) java.util.UUID uuid, @JsonProperty(NAME) String name, @JsonProperty(SERVICE_TYPE) OfferType offerType, @JsonProperty(CONTRACT_DTO) ContractDto contract) {
         this.uuid = uuid;
         this.name = name;
         this.offerType = offerType;

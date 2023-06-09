@@ -1,10 +1,8 @@
 package pl.psk.upc.infrastructure.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -31,13 +29,11 @@ public class OrderEntity {
     @Column(name = "order_status")
     OrderStatus orderStatus;
 
+    @Column(name = "amount")
+    Double amount;
+
     @Column(name = "payment_status")
     PaymentStatus paymentStatus;
-
-//    @JsonManagedReference
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "client_id")
-//    ClientAccountEntity clientAccountEntity;
 
     @ManyToOne(fetch = FetchType.EAGER)
     EmployeeEntity employeeEntity;
@@ -45,7 +41,7 @@ public class OrderEntity {
     @OneToMany(fetch = FetchType.EAGER)
     List<ProductEntity> productEntities;
 
-    @OneToOne(fetch = FetchType.EAGER) @JsonManagedReference
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "service_id")
     ServiceEntity service;
 

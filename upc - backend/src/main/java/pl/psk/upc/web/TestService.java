@@ -33,15 +33,15 @@ public class TestService {
         this.faker = Faker.instance();
     }
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void initDb() {
-        initProducts();
-        initWarehouse();
-        initOffers();
-        initAdminAccount();
-        initWorkerAccount();
-        initClientAccounts();
-    }
+//    @EventListener(ApplicationReadyEvent.class)
+//    public void initDb() {
+//        initProducts();
+//        initWarehouse();
+//        initOffers();
+//        initAdminAccount();
+//        initWorkerAccount();
+//        initClientAccounts();
+//    }
 
     private void initProducts() {
         for (Products p : Products.values()) {

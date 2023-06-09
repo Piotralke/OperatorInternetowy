@@ -1,14 +1,14 @@
 package pl.psk.upc.application.client;
 
 import pl.psk.upc.infrastructure.dto.ClientRegisterRequestDto;
-import pl.psk.upc.infrastructure.entity.ClientAccountEntity;
+import pl.psk.upc.web.user.ClientDto;
+import pl.psk.upc.web.user.ClientDtoWrapper;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface ClientService {
-    ClientAccountEntity findByEmail(String email);
-    List<ClientAccountEntity> findAll();
-    ClientAccountEntity save(ClientRegisterRequestDto registerRequestDto);
-    ClientAccountEntity findByUuid(UUID uuid);
+    ClientDto findByEmail(String email);
+    ClientDtoWrapper findAll();
+    UUID save(ClientRegisterRequestDto registerRequestDto);
+    ClientDto findByUuid(UUID uuid);
 }

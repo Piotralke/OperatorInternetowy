@@ -1,5 +1,6 @@
 package pl.psk.upc.application.service;
 
+import pl.psk.upc.application.contract.ContractConverter;
 import pl.psk.upc.infrastructure.entity.ServiceEntity;
 import pl.psk.upc.web.service.ServiceDto;
 import pl.psk.upc.web.service.ServiceDtoWrapper;
@@ -13,7 +14,7 @@ public class ServiceConverter {
                 .uuid(service.getUuid())
                 .name(service.getName())
                 .offerType(service.getOfferType())
-                .contract(service.getContractEntity())
+                .contract(ContractConverter.convertFrom(service.getContractEntity()))
                 .build();
     }
 
