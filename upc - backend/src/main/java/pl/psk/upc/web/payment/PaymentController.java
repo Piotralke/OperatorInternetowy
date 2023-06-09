@@ -1,14 +1,11 @@
 package pl.psk.upc.web.payment;
 
-import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.*;
 import pl.psk.upc.application.payment.PaymentService;
 import pl.psk.upc.web.UpcRestPaths;
 import pl.psk.upc.web.order.OrderDto;
 
-import java.io.IOException;
 import java.util.UUID;
 
 @RestController

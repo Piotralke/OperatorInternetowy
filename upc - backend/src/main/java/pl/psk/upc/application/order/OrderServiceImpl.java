@@ -97,7 +97,6 @@ public class OrderServiceImpl implements OrderService {
                 .endDate(getDateOfContractEnd(contractStartDate, order.getContractLength()))
                 .amount(offer.getPrice())
                 .offerEntity(offer)
-//                .clientAccountEntity(clientAccountEntity)
                 .build();
 
         ContractEntity savedServiceContract = contractRepository.save(serviceContract);
@@ -106,7 +105,6 @@ public class OrderServiceImpl implements OrderService {
                 .uuid(UUID.randomUUID())
                 .name(offer.getName())
                 .offerType(offer.getOfferType())
-//                .clientAccountEntity(clientAccountEntity)
                 .contractEntity(savedServiceContract)
                 .build();
 

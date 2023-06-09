@@ -1,6 +1,5 @@
 package pl.psk.upc.application.payment;
 
-import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import pl.psk.upc.web.order.OrderDto;
 import pl.psk.upc.web.payment.PaymentInputDto;
