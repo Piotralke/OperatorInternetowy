@@ -16,6 +16,10 @@ import Workers from "./pages/Workers";
 import AdminProducts from "./pages/AdminProducts";
 import AdminProductDetail from "./components/AdminProductDetail"
 import AdminOffers from "./pages/AdminOffers"
+import AdminOfferDetail from "./components/AdminOfferDetail";
+import Reports from "./pages/Reports";
+import AddReport from "./components/AddReport";
+import ReportDetail from "./components/ReportDetail";
 export default function App() {
   return (
     <AuthProvider
@@ -46,6 +50,10 @@ export default function App() {
             {/* <Route path="/products/:productId" element={<ProductDetail></ProductDetail>}></Route> */}
             <Route path="/invoices" element={<Invoices></Invoices>}></Route>
             <Route path="/profile" element={<Profile></Profile>}></Route>
+            <Route path="/reports" element={<Reports></Reports>}>
+              <Route path=":reportId" element={<ReportDetail></ReportDetail>}></Route>
+              <Route path="add" element={<AddReport/>}></Route>
+            </Route>
           </Route>
           <Route
             path="/admin"
@@ -72,10 +80,10 @@ export default function App() {
             <Route path="productAdd"></Route>
             
             
-            <Route path="services" element={<AdminOffers/>}>
-              <Route path=":serviceId"></Route>
+            <Route path="offers" element={<AdminOffers/>}>
+              <Route path=":offerId" element={<AdminOfferDetail/>}></Route>
             </Route>
-            <Route path="serviceAdd"></Route>
+            <Route path="offerAdd"></Route>
             
             <Route path="reports">
               <Route path=":reportId"></Route>

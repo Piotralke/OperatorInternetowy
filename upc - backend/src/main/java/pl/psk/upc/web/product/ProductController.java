@@ -25,7 +25,7 @@ public class ProductController {
 
     @GetMapping(UpcRestPaths.GET_PRODUCT_TYPES)
     public List<String> getProductsTypes() {
-        return Arrays.stream(OfferType.values())
+        return Arrays.stream(ProductType.values())
                 .map(Enum::name)
                 .collect(Collectors.toList());
     }

@@ -13,8 +13,9 @@ export default function Profile(){
             const data = jwt(token());
             axios.defaults.headers.common['Authorization'] = token();
             const protectedEndpointResponse = await axios.get('http://localhost:8080/upc/v1/user',{params: {
-          email: data.sub
-        }});
+                email: data.sub
+            }});
+        console.log(protectedEndpointResponse.data)
         setUserData(protectedEndpointResponse.data);
         }
         getUserData();

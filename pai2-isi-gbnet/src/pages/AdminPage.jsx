@@ -32,7 +32,6 @@ function TreeNode({ node, level, handleNodeClick }) {
         node.children &&
         node.children.map((child) => (
           <TreeNode
-            
             key={child.name}
             node={child}
             level={level + 1}
@@ -56,8 +55,8 @@ export default function AdminPage() {
     else if (nodeName === "Wyświetl produkty") {
       navigate('products');
     }
-    else if (nodeName === "Wyświetl usługi") {
-      navigate('services');
+    else if (nodeName === "Wyświetl oferty") {
+      navigate('offers');
     }
   };
 
@@ -100,7 +99,7 @@ export default function AdminPage() {
         ],
       },
       {
-        name: "Produkty i usługi",
+        name: "Produkty i oferty",
         icon: <LuWarehouse/>,
         children: [
           {
@@ -118,15 +117,15 @@ export default function AdminPage() {
             ],
           },
           {
-            name: "Usługi",
+            name: "Oferty",
             icon: <MdOutlineMiscellaneousServices/>,
             children: [
               {
-                name: "Wyświetl usługi",
+                name: "Wyświetl oferty",
                 icon: <FaNetworkWired/>
               },
               {
-                name: "Dodaj usługę",
+                name: "Dodaj ofertę",
                 icon: <HiCloudUpload/>
               },
             ],
@@ -171,7 +170,9 @@ export default function AdminPage() {
         </div>
       </div>
 
-      <div className="bg-gray-700 h-10 basis-1/12">Stopka</div>
+      <div className="flex flex-col bg-blue-gray-700 h-10 basis-1/12 items-center">
+        <a className="flex flex-row text-blue-gray-100 items-center"> <span><RiCopyleftLine/></span> Copyleft by Barański, Dziewięcki, Rudnicki and Spychalski. 2023</a>
+      </div>
     </div>
   );
 }

@@ -65,14 +65,26 @@ export default function Table(props) {
 // Przykładowy kod obsługujący zmianę sortField i sortOrder
 const handleSortChange = (field, order) => {
   const sortedRows = [...filteredRows]?.sort((a, b) => {
-    const fieldA = a[field]?.toString().toLowerCase();
-    const fieldB = b[field]?.toString().toLowerCase();
-    if (fieldA < fieldB) return order === 'asc' ? -1 : 1;
-    if (fieldA > fieldB) return order === 'asc' ? 1 : -1;
-    return 0;
+    const fieldA = a[field];
+    const fieldB = b[field];
+    
+    if (typeof fieldA === 'number' && typeof fieldB === 'number') {
+      if (fieldA < fieldB) return order === 'asc' ? -1 : 1;
+      if (fieldA > fieldB) return order === 'asc' ? 1 : -1;
+      return 0;
+    } else {
+      const fieldAStr = fieldA?.toString().toLowerCase();
+      const fieldBStr = fieldB?.toString().toLowerCase();
+      
+      if (fieldAStr < fieldBStr) return order === 'asc' ? -1 : 1;
+      if (fieldAStr > fieldBStr) return order === 'asc' ? 1 : -1;
+      return 0;
+    }
   });
+  
   setFilteredRows(sortedRows);
 };
+
 
 // Wykorzystanie useEffect do inicjalnego sortowania i reagowania na zmiany sortField i sortOrder
 useEffect(() => {

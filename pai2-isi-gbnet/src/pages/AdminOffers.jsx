@@ -4,7 +4,7 @@ import Table from "../components/Table"
 import axios from "axios";
 import { useAuthHeader } from "react-auth-kit";
 import { Outlet } from "react-router-dom";
-const TABLE_HEAD = [{name: "Nazwa",key: "name"},{name:"Typ urządzenia",key:"productType"}, {name:"Cena",key:"price"},{name:"Z urządzeniem?",key:"withDevice"} ,{name:"Szczegóły",key:null} ];
+const TABLE_HEAD = [{name: "Nazwa",key: "name"},{name:"Typ oferty",key:"productType"}, {name:"Cena",key:"price"},{name:"Urządzenie w zestawie",key:"productDto.name"} ,{name:"Szczegóły",key:null} ];
  
 export default function AdminOffers(){
     const [offers,setOffers] = useState([])
@@ -18,7 +18,7 @@ export default function AdminOffers(){
                 name: u.name,
                 productType: u.offerType,
                 price: u.price,
-                withDevice: u.withDevice            
+                "productDto.name": u.productDto.name? u.productDto.name:"Brak"         
             }))
             setOffers(tab)
             setLoading(false)

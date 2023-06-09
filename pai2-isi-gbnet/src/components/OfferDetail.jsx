@@ -53,7 +53,7 @@ export default function OfferDetail() {
               <div className="flex flex-col space-y-1 items-center justify-between">
                 <a className="text-white ">OPŁATA</a>
                 <a className="text-white font-medium">
-                  {offer.price.toFixed(2)} zł
+                  {offer.price?.toFixed(2)} zł
                 </a>
                 <a className="text-white ">MIESIĘCZNIE</a>
               </div>

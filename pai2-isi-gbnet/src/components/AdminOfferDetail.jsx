@@ -5,40 +5,40 @@ import { useState, useEffect } from "react";
 import { useAuthHeader } from "react-auth-kit";
 import { Textarea } from "@material-tailwind/react";
 
-export default function AdminProductDetail() {
-  const [productOriginalData, setProductOriginalData] = useState();
-  const [productData, setProductData] = useState();
-  const [productType, setProductType] = useState();
-  const { productId } = useParams();
-  const [isDisabled, setIsDisabled] = useState(true);
-  const token = useAuthHeader();
+export default function AdminOfferDetail() {
+    const [offerOriginalData, setOfferOriginalData] = useState();
+    const [offerData, setOfferData] = useState();
+    const [devicesToChoose, setDevicesToChoose] = useState();
+    const { offerId } = useParams();
+    const [isDisabled, setIsDisabled] = useState(true);
+    const token = useAuthHeader();
   useEffect(() => {
     async function fetchProduct() {
       // axios.defaults.headers.common['Authorization'] = token();
       const protectedEndpointResponse = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-product/${productId}`
+        `http://localhost:8080/upc/unsecured/v1/get-offer/${offerId}`
       );
-      setProductData(protectedEndpointResponse.data);
-      setProductOriginalData(protectedEndpointResponse.data);
+      setOfferData(protectedEndpointResponse.data);
+      setOfferOriginalData(protectedEndpointResponse.data);
     }
     fetchProduct();
-  }, [productId]);
+  }, [offerId]);
 
   useEffect(() => {
-    async function fetchProduct() {
-      const productTypes = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-product-types`
+    async function fetchOffer() {
+      const allProducts = await axios.get(
+        `http://localhost:8080/upc/unsecured/v1/get-all-products`
       );
       console.log(productTypes.data)
-      setProductType(productTypes.data)
+      setDevicesToChoose(allProducts.data)
     }
     fetchProduct()
   }, []);
   return (
-    <div className="flex flex-direction flex-col bg-gray-100 w-full h-full">
+    <div className="flex flex-col bg-gray-100 w-full h-full">
       <div className="flex flex-col w-full items-center bg-gray-400 p-2">
         <span className="text-xl text-gray-800 font-semibold">
-          {productOriginalData?.name}
+          {offerOriginalData?.name}
         </span>
       </div>
       <div className="flex flex-col w-full space-y-8 items-center h-full">
@@ -46,7 +46,7 @@ export default function AdminProductDetail() {
           <div className="flex flex-row justify-between items-center">
             <a className="text-lg text-gray-700">Nazwa</a>
             <input
-              value={productData?.name}
+              value={offerData?.name}
               disabled={isDisabled}
               onChange={(e) => {
                 setProductData((prevState) => ({
@@ -60,7 +60,7 @@ export default function AdminProductDetail() {
           <div className="flex flex-row  justify-between items-center">
             <a className="text-lg text-gray-700">Cena</a>
             <input
-              value={productData?.price}
+            //   value={productData?.price}
               disabled={isDisabled}
               onChange={(e) => {
                 setProductData((prevState) => ({
@@ -84,7 +84,7 @@ export default function AdminProductDetail() {
               }}
               className="px-2 py-2 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
             >
-                {productType?.map((item) => productData?.productType == item ? <option value={item} selected>{item}</option> : <option value={item}>{item}</option>)}
+                {/* {productType?.map((item) => productData?.productType == item ? <option value={item} selected>{item}</option> : <option value={item}>{item}</option>)} */}
               
             </select>
           </div>
@@ -92,7 +92,7 @@ export default function AdminProductDetail() {
             <a className="text-lg text-gray-700">Opis</a>
             <div className="flex-grow ">
               <Textarea
-                value={productData?.description}
+                // value={productData?.description}
                 disabled={isDisabled}
                 rows={10}
                 color="orange"
@@ -139,5 +139,5 @@ export default function AdminProductDetail() {
         </div>
       </div>
     </div>
-  );
+  )
 }

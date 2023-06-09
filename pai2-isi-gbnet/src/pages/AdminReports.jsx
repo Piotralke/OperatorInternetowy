@@ -6,16 +6,16 @@ import { useAuthHeader } from "react-auth-kit";
 import { Outlet } from "react-router-dom";
 const TABLE_HEAD = [{name: "Nazwa",key: "name"},{name:"Typ urządzenia",key:"productType"}, {name:"Cena",key:"price"} ,{name:"Szczegóły",key:null} ];
  
-export default function AdminProducts(){
+export default function AdminReports(){
     const [products,setProducts] = useState([])
     const [loading,setLoading] = useState(true)
     useEffect(()=>{    
         
-        axios.get("http://localhost:8080/upc/unsecured/v1/get-all-products").then(res=>{
+        axios.get("http://localhost:8080/upc/unsecured/v1/get-user-problems").then(res=>{
             console.log(res.data.content)
             const tab = res.data.content.map(u=>({
                 uuid: u.uuid,
-                name: u.name,
+                name: u.description,
                 productType: u.productType,
                 price: u.price              
             }))

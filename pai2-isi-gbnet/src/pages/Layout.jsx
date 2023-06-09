@@ -2,7 +2,8 @@ import { Outlet, Link, useNavigate} from "react-router-dom";
 import { ImHome } from 'react-icons/im'
 import { CgProfile } from 'react-icons/cg'
 import { FaFileInvoiceDollar } from 'react-icons/fa'
-import { MdLocalOffer, MdOutlineLocalOffer } from 'react-icons/md'
+import { RiCopyleftLine } from 'react-icons/ri'
+import { MdLocalOffer, MdOutlineLocalOffer,MdReportGmailerrorred } from 'react-icons/md'
 import { useSignOut } from "react-auth-kit";
 export default function Layout() {
   const navigate = useNavigate();
@@ -55,12 +56,23 @@ export default function Layout() {
               <CgProfile className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-blue-500"/>
               <a className="group-hover:text-blue-500">PROFIL</a>
             </button>
+            <button
+              className="group w-full text-xl text-white font-bold flex flex-row items-center space-x-4 hover:animate-pulse"
+              onClick={()=>navigate('/reports')}
+            >
+              <MdReportGmailerrorred className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-blue-500"/>
+              <a className="group-hover:text-blue-500">ZGŁOSZENIA</a>
+            </button>
           </div>
         </div>
-        <Outlet></Outlet>
+        <div className="basis-4/5 min-h-full ">
+          <Outlet></Outlet>
+        </div>
       </div>
 
-      <div className="bg-blue-gray-700 h-10 basis-1/12">Stopka</div>
+      <div className="flex flex-col bg-blue-gray-700 h-10 basis-1/12 items-center">
+        <a className="flex flex-row text-blue-gray-100 items-center"> <span><RiCopyleftLine/></span> Copyleft by Barański, Dziewięcki, Rudnicki and Spychalski. 2023</a>
+      </div>
     </div>
   );
 }
