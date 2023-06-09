@@ -32,7 +32,6 @@ public class PayPalServiceImpl implements PayPalService {
     private final ServiceService serviceService;
     private final PaymentService paymentService;
 
-
     public PayPalServiceImpl(APIContext apiContext, OrderService orderService, ClientService clientService, ContractService contractService, ServiceService service, PaymentService paymentService) {
         this.apiContext = apiContext;
         this.orderService = orderService;
@@ -43,6 +42,7 @@ public class PayPalServiceImpl implements PayPalService {
     }
 
     public String createPayment(PaymentInputDto inputDto) throws PayPalRESTException {
+        ContractDto byUuid = contractService.findByUuid(UUID.fromString("dca7c588-5397-4caa-a35f-7fa1e7cd3916"));
         double paymentAmount = 0.0;
         ContractDto contract = null;
 
@@ -91,8 +91,7 @@ public class PayPalServiceImpl implements PayPalService {
             }
         }
 
-        contractService.addNewPaymentToContract(contract.getUuid(), paymentAmount);
-
+        ContractDto contractDto = contractService.addNewPaymentToContract(contract.getUuid(), paymentAmount);
         return approvalLink;
     }
 

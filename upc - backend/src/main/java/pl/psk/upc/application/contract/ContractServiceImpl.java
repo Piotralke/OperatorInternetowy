@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.psk.upc.infrastructure.entity.ContractEntity;
 import pl.psk.upc.infrastructure.entity.PaymentEntity;
 import pl.psk.upc.infrastructure.entity.PaymentStatus;
+import pl.psk.upc.infrastructure.repository.ClientRepository;
 import pl.psk.upc.infrastructure.repository.ContractRepository;
 import pl.psk.upc.infrastructure.repository.PaymentRepository;
 import pl.psk.upc.web.contract.ContractDto;
@@ -20,10 +21,12 @@ public class ContractServiceImpl implements ContractService {
 
     private final ContractRepository contractRepository;
     private final PaymentRepository paymentRepository;
+    private final ClientRepository clientRepository;
 
-    public ContractServiceImpl(ContractRepository contractRepository, PaymentRepository paymentRepository) {
+    public ContractServiceImpl(ContractRepository contractRepository, PaymentRepository paymentRepository, ClientRepository clientRepository) {
         this.contractRepository = contractRepository;
         this.paymentRepository = paymentRepository;
+        this.clientRepository = clientRepository;
     }
 
 
@@ -42,11 +45,16 @@ public class ContractServiceImpl implements ContractService {
                 .amount(paymentAmount)
                 .date(ZonedDateTime.now(ZoneId.systemDefault()))
                 .build();
-        PaymentEntity savedPayment = paymentRepository.save(newPayment);
-        payments.add(savedPayment);
+
+        payments.add(newPayment);
 
         contract.setPaymentEntities(payments);
-        ContractEntity updatedEntity = contractRepository.save(contract);
-        return ContractConverter.convertFrom(updatedEntity);
+        return ContractConverter.convertFrom(contractRepository.save(contract));
+    }
+
+    @Override
+    public ContractDto findByUuid(UUID uuid) {
+        return ContractConverter.convertFrom(contractRepository.findByUuid(uuid)
+                .orElseThrow(() -> new UsernameNotFoundException("Not found")));
     }
 }

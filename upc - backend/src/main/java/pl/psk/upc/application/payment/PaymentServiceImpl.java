@@ -6,6 +6,7 @@ import pl.psk.upc.infrastructure.entity.PaymentEntity;
 import pl.psk.upc.infrastructure.entity.PaymentStatus;
 import pl.psk.upc.infrastructure.repository.PaymentRepository;
 import pl.psk.upc.web.payment.PaymentDto;
+import pl.psk.upc.web.payment.PaymentDtoWrapper;
 
 import java.util.UUID;
 
@@ -24,5 +25,10 @@ public class PaymentServiceImpl implements PaymentService {
                 .orElseThrow(() -> new UsernameNotFoundException("Payment not found"));
         payment.setPaymentStatus(PaymentStatus.OPLACONE);
         return PaymentConverter.convertFrom(paymentRepository.save(payment));
+    }
+
+    @Override
+    public PaymentDtoWrapper findAll() {
+        return PaymentConverter.convertFrom(paymentRepository.findAll());
     }
 }
