@@ -28,8 +28,7 @@ public class PaymentEntity {
     @Column(name = "amount")
     double amount;
 
-    @Column(name = "is_payment_completed")
-    boolean isPaymentCompleted;
-
+    @Column(name = "payment_status")
+    PaymentStatus paymentStatus;
 
 }

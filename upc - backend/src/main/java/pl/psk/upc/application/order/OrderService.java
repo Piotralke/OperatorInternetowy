@@ -17,5 +17,5 @@ public interface OrderService {
     OrderDtoWrapper getOrdersByEmployee(UUID employeeUuid);
     OrderDtoWrapper getOrdersByEmployee(String email);
     UUID saveOrder(OrderInputDto order);
-    OrderDto updateOrderStatus(PaymentStatus paymentStatus, UUID orderUuid);
+    OrderDto updateOrderStatus(UUID orderUuid);
 }

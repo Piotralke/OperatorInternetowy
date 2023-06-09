@@ -34,11 +34,7 @@ public class ContractEntity {
     @OneToOne
     OfferEntity offerEntity;
 
-    @OneToMany(mappedBy = "payment_id", cascade = CascadeType.ALL)
-    List<PaymentEntity> paymentEntity;
-
-//    @ManyToOne
-//    @JoinColumn(name = "client_id")
-//    ClientAccountEntity clientAccountEntity;
+    @OneToMany(mappedBy = "payment_id", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    List<PaymentEntity> paymentEntities;
 
 }

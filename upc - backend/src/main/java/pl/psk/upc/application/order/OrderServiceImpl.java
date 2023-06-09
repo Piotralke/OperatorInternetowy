@@ -126,14 +126,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDto updateOrderStatus(PaymentStatus paymentStatus, UUID orderUuid) {
+    public OrderDto updateOrderStatus(UUID orderUuid) {
         OrderEntity order = orderRepository.getByUuid(orderUuid)
                 .orElseThrow(() -> new UsernameNotFoundException("Order not found"));
-        order.setPaymentStatus(paymentStatus);
+        order.setPaymentStatus(PaymentStatus.OPLACONE);
 
         ContractEntity contractEntity = order.getService()
                 .getContractEntity();
-        List<PaymentEntity> paymentEntity = contractEntity.getPaymentEntity();
+        List<PaymentEntity> paymentEntity = contractEntity.getPaymentEntities();
         List<ZonedDateTime> sortedDates = paymentEntity.stream()
                 .map(PaymentEntity::getDate)
                 .sorted()
@@ -141,10 +141,10 @@ public class OrderServiceImpl implements OrderService {
         ZonedDateTime lastPaymentDate = sortedDates.get(sortedDates.size()-1);
         for (PaymentEntity p : paymentEntity) {
             if (p.getDate().equals(lastPaymentDate)) {
-                p.setPaymentCompleted(true);
+                p.setPaymentStatus(PaymentStatus.OPLACONE);
             }
         }
-        contractEntity.setPaymentEntity(paymentEntity);
+        contractEntity.setPaymentEntities(paymentEntity);
         contractRepository.save(contractEntity);
         return OrderConverter.convertFrom(orderRepository.save(order));
     }

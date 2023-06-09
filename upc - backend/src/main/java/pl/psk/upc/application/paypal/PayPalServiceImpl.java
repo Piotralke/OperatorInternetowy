@@ -1,28 +1,25 @@
-package pl.psk.upc.application.payment;
+package pl.psk.upc.application.paypal;
 
 import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
 import org.springframework.stereotype.Service;
 import pl.psk.upc.application.client.ClientService;
+import pl.psk.upc.application.contract.ContractService;
 import pl.psk.upc.application.order.OrderService;
-import pl.psk.upc.infrastructure.entity.ContractEntity;
-import pl.psk.upc.infrastructure.entity.PaymentEntity;
-import pl.psk.upc.infrastructure.entity.PaymentStatus;
-import pl.psk.upc.infrastructure.repository.ContractRepository;
+import pl.psk.upc.application.payment.PaymentService;
+import pl.psk.upc.application.service.ServiceService;
+import pl.psk.upc.web.contract.ContractDto;
 import pl.psk.upc.web.order.OrderDto;
 import pl.psk.upc.web.payment.PaymentInputDto;
+import pl.psk.upc.web.service.ServiceDto;
 import pl.psk.upc.web.user.ClientDto;
 
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 
 @Service
-public class PayPalServiceImpl implements PaymentService {
+public class PayPalServiceImpl implements PayPalService {
 
     private final static String CURRENCY = "PLN";
     private final static String INTENT = "authorize";
@@ -31,22 +28,38 @@ public class PayPalServiceImpl implements PaymentService {
     private final APIContext apiContext;
     private final OrderService orderService;
     private final ClientService clientService;
-    private final ContractRepository contractRepository;
+    private final ContractService contractService;
+    private final ServiceService serviceService;
+    private final PaymentService paymentService;
 
 
-    public PayPalServiceImpl(APIContext apiContext, OrderService orderService, ClientService clientService, ContractRepository contractRepository) {
+    public PayPalServiceImpl(APIContext apiContext, OrderService orderService, ClientService clientService, ContractService contractService, ServiceService service, PaymentService paymentService) {
         this.apiContext = apiContext;
         this.orderService = orderService;
         this.clientService = clientService;
-        this.contractRepository = contractRepository;
+        this.contractService = contractService;
+        this.serviceService = service;
+        this.paymentService = paymentService;
     }
 
     public String createPayment(PaymentInputDto inputDto) throws PayPalRESTException {
-        OrderDto order = orderService.getOrderByUuid(inputDto.getOrderUuid());
+        double paymentAmount = 0.0;
+        ContractDto contract = null;
+
+        if (inputDto.getOrderUuid() != null) {
+            OrderDto order = orderService.getOrderByUuid(inputDto.getOrderUuid());
+            contract = order.getService()
+                    .getContract();
+            paymentAmount = order.getAmount();
+        } else {
+            ServiceDto service = serviceService.getService(inputDto.getServiceUuid());
+            contract = service.getContract();
+            paymentAmount = contract.getAmount();
+        }
 
         Amount amount = new Amount();
         amount.setCurrency(CURRENCY);
-        amount.setTotal(order.getAmount().toString());
+        amount.setTotal(String.valueOf(paymentAmount));
 
         Transaction transaction = new Transaction();
         transaction.setAmount(amount);
@@ -78,25 +91,12 @@ public class PayPalServiceImpl implements PaymentService {
             }
         }
 
-        ContractEntity contract = order.getService().getContract();
-        PaymentEntity userPayment = PaymentEntity.builder()
-                .isPaymentCompleted(false)
-                .uuid(UUID.randomUUID())
-                .amount(order.getAmount())
-                .date(ZonedDateTime.now(ZoneId.systemDefault()))
-                .build();
-        List<PaymentEntity> payments = contract.getPaymentEntity();
-        if (payments == null) {
-            payments = new ArrayList<>();
-        }
-        payments.add(userPayment);
-        contract.setPaymentEntity(payments);
-        contractRepository.save(contract);
+        contractService.addNewPaymentToContract(contract.getUuid(), paymentAmount);
 
         return approvalLink;
     }
 
-    public OrderDto executePayment(String paymentId, String payerId, UUID orderUuid) throws PayPalRESTException {
+    public OrderDto executePayment(String paymentId, String payerId, UUID orderUuid, UUID paymentUuid) throws PayPalRESTException {
 //        PaymentExecution paymentExecution = new PaymentExecution();
 //        paymentExecution.setPayerId(payerId);
 //
@@ -108,8 +108,12 @@ public class PayPalServiceImpl implements PaymentService {
 //        if (!executedPayment.getState().equals("approved")) {
 //            throw new PayPalRESTException("Payment not approved");
 //        }
-
-        return orderService.updateOrderStatus(PaymentStatus.OPLACONE, orderUuid);
+        if (orderUuid == null) {
+            paymentService.updateStatus(paymentUuid);
+            return orderService.getOrderByUuid(orderUuid);
+        } else {
+            return orderService.updateOrderStatus(orderUuid);
+        }
     }
 
 }
