@@ -4,6 +4,7 @@ import Table from "../components/Table"
 import axios from "axios";
 import { useAuthHeader } from "react-auth-kit";
 import { Outlet } from "react-router-dom";
+import { Spinner } from "@material-tailwind/react";
 const TABLE_HEAD = [{name: "Nazwa",key: "name"},{name:"Typ urządzenia",key:"productType"}, {name:"Cena",key:"price"} ,{name:"Szczegóły",key:null} ];
  
 export default function AdminProducts(){
@@ -25,7 +26,10 @@ export default function AdminProducts(){
     },[])
     if(loading){
         return(
-            <div>Loading...</div>
+            <div className="flex flex-col w-full h-full items-center justify-center">
+                <Spinner classname="h-1/2 w-1/2"></Spinner>
+            </div>
+            
         )
     }
     return (

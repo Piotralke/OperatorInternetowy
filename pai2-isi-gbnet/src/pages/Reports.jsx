@@ -4,7 +4,8 @@ import axios from "axios";
 import { Outlet, useNavigate } from "react-router-dom";
 import jwt from "jwt-decode";
 import { useAuthHeader } from "react-auth-kit";
-import { Button } from "@material-tailwind/react";
+import { Button,Spinner } from "@material-tailwind/react";
+
 const TABLE_HEAD = [{name: "Nr zgłoszenia",key: "userProblemId"},{name:"Data wysłania",key:"userProblemStartDate"}, {name:"Status zgłoszenia",key:"userProblemStatus"} ,{name:"Szczegóły",key:null} ];
 // const TABLE_HEAD = [{name: "Nazwa",key: "name"},{name:"Typ urządzenia",key:"productType"}, {name:"Cena",key:"price"} ,{name:"Szczegóły",key:null} ];
 export default function Reports(){
@@ -33,7 +34,10 @@ export default function Reports(){
     },[])
     if(loading){
         return(
-            <div>Loading...</div>
+            <div className="flex flex-col w-full h-full items-center justify-center">
+                <Spinner className="h-1/2 w-1/2"></Spinner>
+            </div>
+            
         )
     }
     

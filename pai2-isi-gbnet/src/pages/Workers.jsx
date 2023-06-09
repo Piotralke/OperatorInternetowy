@@ -4,6 +4,7 @@ import Table from "../components/Table"
 import axios from "axios";
 import { useAuthHeader } from "react-auth-kit";
 import { Outlet } from "react-router-dom";
+import { Spinner } from "@material-tailwind/react";
 const TABLE_HEAD = [{name: "Imię",key: "FirstName"}, {name:"Nazwisko",key:"LastName"}, {name:"Email",key:"Email"},{name:"Nr telefonu",key:"phone"},{name:"Miejsce pracy",key:"workplace"},{name:"Rodzaj umowy",key:"contractForm"},{name:"Pensja",key:"Salary"} ,{name:"NIP",key:"nip"},{name:"Szczegóły",key:null} ];
  
 export default function Workers(){
@@ -35,7 +36,9 @@ export default function Workers(){
     },[])
     if(loading){
         return(
-            <div>Loading...</div>
+            <div className="flex flex-col w-full h-full items-center justify-center">
+                <Spinner className="h-1/2 w-1/2"></Spinner>
+            </div>
         )
     }
     return (

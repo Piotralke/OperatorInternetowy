@@ -2,7 +2,8 @@ import { useState } from "react";
 import {FiUsers,FiUserPlus, FiBox} from "react-icons/fi"
 import { FaPeopleCarry,FaNetworkWired, } from "react-icons/fa"
 import { LuWarehouse } from "react-icons/lu"
-import {RiUser2Fill, RiUserSearchLine, RiUser3Fill,} from "react-icons/ri"
+import { Spinner } from "@material-tailwind/react";
+import {RiUser2Fill, RiUserSearchLine,RiCopyleftLine, RiUser3Fill,} from "react-icons/ri"
 import { MdOutlineMiscellaneousServices} from "react-icons/md"
 import { AiOutlineNotification, AiFillDatabase, AiOutlineDropbox } from "react-icons/ai"
 import {TiWarningOutline} from "react-icons/ti"
@@ -170,7 +171,7 @@ export default function AdminPage() {
         </div>
       </div>
 
-      <div className="flex flex-col bg-blue-gray-700 h-10 basis-1/12 items-center">
+      <div className="flex flex-col bg-gray-800 h-10 basis-1/12 items-center">
         <a className="flex flex-row text-blue-gray-100 items-center"> <span><RiCopyleftLine/></span> Copyleft by Barański, Dziewięcki, Rudnicki and Spychalski. 2023</a>
       </div>
     </div>
