@@ -26,15 +26,15 @@ public class ServiceEntity {
     @Column(name = "offer_type")
     OfferType offerType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id")
-    ClientAccountEntity clientAccountEntity;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "client_id")
+//    ClientAccountEntity clientAccountEntity;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "contract_id")
     ContractEntity contractEntity;
 
-    @OneToOne(mappedBy = "service")
-    OrderEntity orderEntity;
+//    @OneToOne(mappedBy = "service")
+//    OrderEntity orderEntity;
 
 }

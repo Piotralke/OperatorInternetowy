@@ -95,9 +95,9 @@ public class OrderServiceImpl implements OrderService {
                 .uuid(UUID.randomUUID())
                 .startDate(contractStartDate)
                 .endDate(getDateOfContractEnd(contractStartDate, order.getContractLength()))
-                .amount(calculateOrderAmount(offer, products))
+                .amount(offer.getPrice())
                 .offerEntity(offer)
-                .clientAccountEntity(clientAccountEntity)
+//                .clientAccountEntity(clientAccountEntity)
                 .build();
 
         ContractEntity savedServiceContract = contractRepository.save(serviceContract);
@@ -106,7 +106,7 @@ public class OrderServiceImpl implements OrderService {
                 .uuid(UUID.randomUUID())
                 .name(offer.getName())
                 .offerType(offer.getOfferType())
-                .clientAccountEntity(clientAccountEntity)
+//                .clientAccountEntity(clientAccountEntity)
                 .contractEntity(savedServiceContract)
                 .build();
 
@@ -117,6 +117,7 @@ public class OrderServiceImpl implements OrderService {
                 .orderDate(ZonedDateTime.now(ZoneId.systemDefault()))
                 .orderStatus(OrderStatus.PRZYJETE)
                 .paymentStatus(PaymentStatus.NIEOPLACONE)
+                .amount(calculateOrderAmount(offer, products))
                 .employeeEntity(employeeEntity)
                 .productEntities(products)
                 .service(savedService)
@@ -124,6 +125,30 @@ public class OrderServiceImpl implements OrderService {
 
         return orderRepository.save(orderToSave)
                 .getUuid();
+    }
+
+    @Override
+    public OrderDto updateOrderStatus(PaymentStatus paymentStatus, UUID orderUuid) {
+        OrderEntity order = orderRepository.getByUuid(orderUuid)
+                .orElseThrow(() -> new UsernameNotFoundException("Order not found"));
+        order.setPaymentStatus(paymentStatus);
+
+        ContractEntity contractEntity = order.getService()
+                .getContractEntity();
+        List<PaymentEntity> paymentEntity = contractEntity.getPaymentEntity();
+        List<ZonedDateTime> sortedDates = paymentEntity.stream()
+                .map(PaymentEntity::getDate)
+                .sorted()
+                .toList();
+        ZonedDateTime lastPaymentDate = sortedDates.get(sortedDates.size()-1);
+        for (PaymentEntity p : paymentEntity) {
+            if (p.getDate().equals(lastPaymentDate)) {
+                p.setPaymentCompleted(true);
+            }
+        }
+        contractEntity.setPaymentEntity(paymentEntity);
+        contractRepository.save(contractEntity);
+        return OrderConverter.convertFrom(orderRepository.save(order));
     }
 
     private Double calculateOrderAmount(OfferEntity offer, List<ProductEntity> products) {

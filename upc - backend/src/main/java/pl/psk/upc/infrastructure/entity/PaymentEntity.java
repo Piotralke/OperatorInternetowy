@@ -1,14 +1,18 @@
 package pl.psk.upc.infrastructure.entity;
 
 import jakarta.persistence.*;
-import lombok.Value;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
-@Value
 @Entity
 @Table(name = "Payments")
+@Builder
+@Setter @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class PaymentEntity {
 
     @Id
@@ -19,7 +23,7 @@ public class PaymentEntity {
     UUID uuid;
 
     @Column(name = "data")
-    LocalDate date;
+    ZonedDateTime date;
 
     @Column(name = "amount")
     double amount;

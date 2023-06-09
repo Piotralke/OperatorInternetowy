@@ -29,6 +29,9 @@ public class OrderEntity {
     @Column(name = "order_status")
     OrderStatus orderStatus;
 
+    @Column(name = "amount")
+    Double amount;
+
     @Column(name = "payment_status")
     PaymentStatus paymentStatus;
 

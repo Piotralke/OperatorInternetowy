@@ -1,5 +1,7 @@
 package pl.psk.upc.application.order;
 
+import pl.psk.upc.infrastructure.entity.OrderStatus;
+import pl.psk.upc.infrastructure.entity.PaymentStatus;
 import pl.psk.upc.web.order.OrderDto;
 import pl.psk.upc.web.order.OrderDtoWrapper;
 import pl.psk.upc.web.order.OrderInputDto;
@@ -15,4 +17,5 @@ public interface OrderService {
     OrderDtoWrapper getOrdersByEmployee(UUID employeeUuid);
     OrderDtoWrapper getOrdersByEmployee(String email);
     UUID saveOrder(OrderInputDto order);
+    OrderDto updateOrderStatus(PaymentStatus paymentStatus, UUID orderUuid);
 }

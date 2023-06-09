@@ -13,12 +13,13 @@ import java.util.List;
 public class OrderConverter {
 
     public static OrderDto convertFrom(OrderEntity order) {
+
         return OrderDto.builder()
                 .uuid(order.getUuid())
                 .orderDate(order.getOrderDate())
                 .orderStatus(order.getOrderStatus())
                 .paymentStatus(order.getPaymentStatus())
-//                .clientDto(ClientConverter.convertFrom(order.getClientAccountEntity()))
+                .amount(order.getAmount())
                 .employeeDto(EmployeeConverter.convertFrom(order.getEmployeeEntity()))
                 .productDtos(ProductConverter.convertFrom(order.getProductEntities())
                         .getContent())
