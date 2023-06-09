@@ -57,17 +57,30 @@ public class PayPalServiceImpl implements PayPalService {
             paymentAmount = contract.getAmount();
         }
 
-        Amount amount = new Amount();
-        amount.setCurrency(CURRENCY);
-        amount.setTotal(String.valueOf(paymentAmount));
+        Payment payment = preparePayment(paymentAmount, inputDto);
 
-        Transaction transaction = new Transaction();
-        transaction.setAmount(amount);
+        Payment approvedPayment = payment.create(apiContext);
 
+        ContractDto contractDto = contractService.addNewPaymentToContract(contract.getUuid(), paymentAmount);
+
+        return getApprovalLink(approvedPayment);
+    }
+
+    private RedirectUrls prepareRedirectUrls(PaymentInputDto inputDto) {
         RedirectUrls redirectUrls = new RedirectUrls();
         redirectUrls.setCancelUrl(inputDto.getCancelUrl());
         redirectUrls.setReturnUrl(inputDto.getSuccessUrl());
+        return redirectUrls;
+    }
 
+    private Transaction prepareTransaction(double paymentAmount) {
+        Amount amount = prepareAmount(paymentAmount);
+        Transaction transaction = new Transaction();
+        transaction.setAmount(amount);
+        return transaction;
+    }
+
+    private Payer preparePayer(PaymentInputDto inputDto) {
         Payer payer = new Payer();
         PayerInfo payerInfo = new PayerInfo();
         ClientDto client = clientService.findByUuid(inputDto.getClientUuid());
@@ -76,22 +89,35 @@ public class PayPalServiceImpl implements PayPalService {
         payerInfo.setEmail(client.getEmail());
         payer.setPayerInfo(payerInfo);
         payer.setPaymentMethod(PAYMENT_METHOD);
+        return payer;
+    }
 
+    private Payment preparePayment(double paymentAmount, PaymentInputDto inputDto) {
+        Transaction transaction = prepareTransaction(paymentAmount);
+        Payer payer = preparePayer(inputDto);
+        RedirectUrls redirectUrls = prepareRedirectUrls(inputDto);
         Payment payment = new Payment();
         payment.setIntent(INTENT);
         payment.setPayer(payer);
         payment.setTransactions(Collections.singletonList(transaction));
         payment.setRedirectUrls(redirectUrls);
-        Payment approvedPayment = payment.create(apiContext);
+        return payment;
+    }
 
+    private Amount prepareAmount(double paymentAmount) {
+        Amount amount = new Amount();
+        amount.setCurrency(CURRENCY);
+        amount.setTotal(String.valueOf(paymentAmount));
+        return amount;
+    }
+
+    private String getApprovalLink(Payment payment) {
         String approvalLink = "";
-        for (Links l : approvedPayment.getLinks()) {
+        for (Links l : payment.getLinks()) {
             if (l.getRel().equalsIgnoreCase("approval_url")) {
                 approvalLink = l.getHref();
             }
         }
-
-        ContractDto contractDto = contractService.addNewPaymentToContract(contract.getUuid(), paymentAmount);
         return approvalLink;
     }
 
