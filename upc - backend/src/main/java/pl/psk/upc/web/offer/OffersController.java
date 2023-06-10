@@ -41,7 +41,7 @@ public class OffersController {
         return offerService.getOfferByUuid(uuid);
     }
 
-    @GetMapping(UpcRestPaths.SAVE_OFFER)
+    @PostMapping(UpcRestPaths.SAVE_OFFER)
     public OfferDto saveOffer(@RequestBody SaveOfferRequestDto saveOfferRequestDto) {
         return offerService.saveOffer(saveOfferRequestDto);
     }

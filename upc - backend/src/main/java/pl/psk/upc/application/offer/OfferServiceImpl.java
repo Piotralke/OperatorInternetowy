@@ -96,7 +96,7 @@ public class OfferServiceImpl implements OfferService {
                 .description(saveOfferRequestDto.getDescription())
                 .price(saveOfferRequestDto.getPrice())
                 .productEntity(null)
-                .withDevice(true)
+                .withDevice(false)
                 .offerType(saveOfferRequestDto.getOfferType())
                 .build();
         return OfferConverter.convertFrom(offerRepository.save(newOffer));
