@@ -44,9 +44,10 @@ public class ContractServiceImpl implements ContractService {
                 .uuid(UUID.randomUUID())
                 .amount(paymentAmount)
                 .date(ZonedDateTime.now(ZoneId.systemDefault()))
+                .contractEntity(contract)
                 .build();
-
-        payments.add(newPayment);
+        PaymentEntity savedPayment = paymentRepository.save(newPayment);
+        payments.add(savedPayment);
 
         contract.setPaymentEntities(payments);
         return ContractConverter.convertFrom(contractRepository.save(contract));

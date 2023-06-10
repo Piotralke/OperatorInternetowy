@@ -42,7 +42,6 @@ public class PayPalServiceImpl implements PayPalService {
     }
 
     public String createPayment(PaymentInputDto inputDto) throws PayPalRESTException {
-        ContractDto byUuid = contractService.findByUuid(UUID.fromString("dca7c588-5397-4caa-a35f-7fa1e7cd3916"));
         double paymentAmount = 0.0;
         ContractDto contract = null;
 

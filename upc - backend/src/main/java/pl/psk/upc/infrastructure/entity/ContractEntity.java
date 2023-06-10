@@ -1,6 +1,7 @@
 package pl.psk.upc.infrastructure.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -35,7 +36,8 @@ public class ContractEntity {
     @OneToOne
     OfferEntity offerEntity;
 
-    @OneToMany(mappedBy = "payment_id", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "contractEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<PaymentEntity> paymentEntities;
 
     @JsonBackReference

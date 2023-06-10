@@ -1,5 +1,6 @@
 package pl.psk.upc.infrastructure.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,5 +31,10 @@ public class PaymentEntity {
 
     @Column(name = "payment_status")
     PaymentStatus paymentStatus;
+
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "contract_id")
+    ContractEntity contractEntity;
 
 }
