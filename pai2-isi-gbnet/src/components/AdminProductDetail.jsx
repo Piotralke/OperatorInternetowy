@@ -106,36 +106,7 @@ export default function AdminProductDetail() {
               ></Textarea>
             </div>
           </div>
-          <div className="flex flex-row ml-auto items-center p-1 ">
-            {isDisabled ? (
-              <button
-                className="bg-gray-700 drop-shadow-md rounded-md text-white font-bold text-md p-2 hover:bg-gray-800"
-                onClick={() => {
-                  setIsDisabled(false);
-                }}
-              >
-                Edytuj
-              </button>
-            ) : (
-              <div>
-                <button
-                  className="bg-gray-700 drop-shadow-md rounded-md mr-1 text-white font-bold text-md p-2 hover:bg-gray-800"
-                  onClick={() => {
-                    setIsDisabled(true);
-                    setProductData(productOriginalData);
-                  }}
-                >
-                  Anuluj
-                </button>
-                <button
-                  className=" bg-green-400 drop-shadow-md rounded-md text-white font-bold text-md p-2 hover:bg-green-500"
-                  onClick={() => {}}
-                >
-                  Zapisz
-                </button>
-              </div>
-            )}
-          </div>
+          
         </div>
       </div>
     </div>

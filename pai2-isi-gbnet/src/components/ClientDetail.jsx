@@ -13,7 +13,7 @@ export default function ClientDetail() {
         async function fetchUser() {
 
             axios.defaults.headers.common['Authorization'] = token();
-            const protectedEndpointResponse = await axios.get(`http://localhost:8080/upc/v1/user/${clientId}`);
+            const protectedEndpointResponse = await axios.get(`http://localhost:8080/upc/unsecured/v1/user/${clientId}`);
             setUserOriginalData(protectedEndpointResponse.data);
             setUserData(protectedEndpointResponse.data);
             

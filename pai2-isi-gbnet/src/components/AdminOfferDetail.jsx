@@ -16,24 +16,15 @@ export default function AdminOfferDetail() {
     async function fetchProduct() {
       // axios.defaults.headers.common['Authorization'] = token();
       const protectedEndpointResponse = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-offer/${offerId}`
+        `http://localhost:8080/upc/unsecured/v1/get-offer-by-uuid/${offerId}`
       );
+      console.log(protectedEndpointResponse.data)
       setOfferData(protectedEndpointResponse.data);
       setOfferOriginalData(protectedEndpointResponse.data);
     }
     fetchProduct();
   }, [offerId]);
 
-  useEffect(() => {
-    async function fetchOffer() {
-      const allProducts = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-all-products`
-      );
-      console.log(productTypes.data)
-      setDevicesToChoose(allProducts.data)
-    }
-    fetchProduct()
-  }, []);
   return (
     <div className="flex flex-col bg-gray-100 w-full h-full">
       <div className="flex flex-col w-full items-center bg-gray-400 p-2">
@@ -106,36 +97,7 @@ export default function AdminOfferDetail() {
               ></Textarea>
             </div>
           </div>
-          <div className="flex flex-row ml-auto items-center p-1 ">
-            {isDisabled ? (
-              <button
-                className="bg-gray-700 drop-shadow-md rounded-md text-white font-bold text-md p-2 hover:bg-gray-800"
-                onClick={() => {
-                  setIsDisabled(false);
-                }}
-              >
-                Edytuj
-              </button>
-            ) : (
-              <div>
-                <button
-                  className="bg-gray-700 drop-shadow-md rounded-md mr-1 text-white font-bold text-md p-2 hover:bg-gray-800"
-                  onClick={() => {
-                    setIsDisabled(true);
-                    setProductData(productOriginalData);
-                  }}
-                >
-                  Anuluj
-                </button>
-                <button
-                  className=" bg-green-400 drop-shadow-md rounded-md text-white font-bold text-md p-2 hover:bg-green-500"
-                  onClick={() => {}}
-                >
-                  Zapisz
-                </button>
-              </div>
-            )}
-          </div>
+         
         </div>
       </div>
     </div>
