@@ -1,6 +1,7 @@
 package pl.psk.upc.infrastructure.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,7 +33,8 @@ public class ServiceEntity {
     @JoinColumn(name = "id")
     ClientAccountEntity clientAccountEntity;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "contract_id")
     ContractEntity contractEntity;
 
