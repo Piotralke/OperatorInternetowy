@@ -15,7 +15,7 @@ export default function Workers(){
 
         axios.defaults.headers.common['Authorization'] = token();
         
-        axios.get("http://localhost:8080/upc/v1/employee/all").then(res=>{
+        axios.get("http://localhost:8080/upc/unsecured/v1/employee/all").then(res=>{
             console.log(res.data.content)
             const users = res.data.content.map(u=>({
                 uuid: u.uuid,
@@ -27,7 +27,6 @@ export default function Workers(){
                 ContractForm: u.contractForm,
                 salary: u.salary,
                 nip: u.nip
-                
             }))
             console.log(users)
             setUsers(users)
