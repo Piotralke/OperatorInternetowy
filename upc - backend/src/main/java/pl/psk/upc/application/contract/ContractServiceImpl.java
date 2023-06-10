@@ -2,13 +2,13 @@ package pl.psk.upc.application.contract;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pl.psk.upc.infrastructure.entity.ContractEntity;
-import pl.psk.upc.infrastructure.entity.PaymentEntity;
-import pl.psk.upc.infrastructure.entity.PaymentStatus;
+import pl.psk.upc.application.service.ServiceService;
+import pl.psk.upc.infrastructure.entity.*;
 import pl.psk.upc.infrastructure.repository.ClientRepository;
 import pl.psk.upc.infrastructure.repository.ContractRepository;
 import pl.psk.upc.infrastructure.repository.PaymentRepository;
 import pl.psk.upc.web.contract.ContractDto;
+import pl.psk.upc.web.contract.ContractDtoWrapper;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -22,11 +22,13 @@ public class ContractServiceImpl implements ContractService {
     private final ContractRepository contractRepository;
     private final PaymentRepository paymentRepository;
     private final ClientRepository clientRepository;
+    private final ServiceService serviceService;
 
-    public ContractServiceImpl(ContractRepository contractRepository, PaymentRepository paymentRepository, ClientRepository clientRepository) {
+    public ContractServiceImpl(ContractRepository contractRepository, PaymentRepository paymentRepository, ClientRepository clientRepository, ServiceService serviceService) {
         this.contractRepository = contractRepository;
         this.paymentRepository = paymentRepository;
         this.clientRepository = clientRepository;
+        this.serviceService = serviceService;
     }
 
 
@@ -57,5 +59,21 @@ public class ContractServiceImpl implements ContractService {
     public ContractDto findByUuid(UUID uuid) {
         return ContractConverter.convertFrom(contractRepository.findByUuid(uuid)
                 .orElseThrow(() -> new UsernameNotFoundException("Not found")));
+    }
+
+    @Override
+    public ContractDtoWrapper findByUserUuid(UUID uuid) {
+        ClientAccountEntity client = clientRepository.findByUuid(uuid)
+                .orElseThrow(() -> new UsernameNotFoundException("Not found"));
+        List<ContractEntity> contractEntities = client.getServices().stream()
+                .map(ServiceEntity::getContractEntity)
+                .toList();
+        return ContractConverter.convertFrom(contractEntities);
+    }
+
+    @Override
+    public ContractDto findByServiceUuid(UUID uuid) {
+        return serviceService.getService(uuid)
+                .getContract();
     }
 }

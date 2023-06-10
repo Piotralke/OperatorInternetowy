@@ -26,4 +26,9 @@ public class ServiceController {
     public ServiceDto getService(@PathVariable(value = "uuid") UUID uuid) {
         return service.getService(uuid);
     }
+
+    @GetMapping(UpcRestPaths.GET_ALL_SERVICES)
+    public ServiceDtoWrapper getServices() {
+        return service.getServices();
+    }
 }
