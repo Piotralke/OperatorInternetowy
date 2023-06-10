@@ -12,6 +12,7 @@ import pl.psk.upc.web.order.OrderInputDto;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -106,6 +107,7 @@ public class OrderServiceImpl implements OrderService {
                 .name(offer.getName())
                 .offerType(offer.getOfferType())
                 .contractEntity(savedServiceContract)
+                .clientAccountEntity(clientAccountEntity)
                 .build();
 
         ServiceEntity savedService = serviceRepository.save(service);
@@ -121,6 +123,14 @@ public class OrderServiceImpl implements OrderService {
                 .service(savedService)
                 .clientAccountEntity(clientAccountEntity)
                 .build();
+
+        List<ServiceEntity> services = clientAccountEntity.getServices();
+        if(services == null) {
+            services = new ArrayList<>();
+        }
+        services.add(savedService);
+        clientAccountEntity.setServices(services);
+        clientRepository.save(clientAccountEntity);
 
         return orderRepository.save(orderToSave)
                 .getUuid();
