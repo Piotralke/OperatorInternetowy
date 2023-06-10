@@ -10,6 +10,8 @@ import pl.psk.upc.infrastructure.repository.UserProblemRepository;
 import pl.psk.upc.web.userproblem.*;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,8 +33,7 @@ public class UserProblemServiceImpl implements UserProblemService {
         UserProblemEntity userProblem = UserProblemEntity.builder()
                 .uuid(UUID.randomUUID())
                 .description(userProblemInputDto.getDescription())
-                .userProblemStartDate(LocalDate.now())
-                .userProblemEndDate(LocalDate.now().plusDays(2L))
+                .userProblemStartDate(ZonedDateTime.now(ZoneId.systemDefault()))
                 .userProblemStatus(UserProblemStatusEnum.NOT_STARTED)
                 .clientAccountEntity(clientAccountEntity)
                 .build();
@@ -50,15 +51,23 @@ public class UserProblemServiceImpl implements UserProblemService {
     }
 
     @Override
+    public UserProblemDtoWrapper getAll() {
+        return UserProblemConverter.convertFrom(userProblemRepository.findAll());
+    }
+
+    @Override
     public UserProblemDto getUserProblem(UUID uuid) {
         UserProblemEntity userProblem = userProblemRepository.findByUuid(uuid);
         return UserProblemConverter.convertFrom(userProblem);
     }
 
     @Override
-    public UserProblemDto getUserProblem(UserProblemSetStatusInputDto inputDto) {
+    public UserProblemDto setUserProblemStatus(UserProblemSetStatusInputDto inputDto) {
         UserProblemEntity userProblem = userProblemRepository.findByUuid(inputDto.getUuid());
         userProblem.setUserProblemStatus(inputDto.getStatus());
+        if (inputDto.getStatus().equals(UserProblemStatusEnum.END)) {
+            userProblem.setUserProblemEndDate(ZonedDateTime.now(ZoneId.systemDefault()));
+        }
         UserProblemEntity saved = userProblemRepository.save(userProblem);
         return UserProblemConverter.convertFrom(saved);
     }

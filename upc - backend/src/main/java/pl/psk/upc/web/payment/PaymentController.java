@@ -3,9 +3,13 @@ package pl.psk.upc.web.payment;
 import com.paypal.base.rest.PayPalRESTException;
 import org.springframework.web.bind.annotation.*;
 import pl.psk.upc.application.paypal.PayPalService;
+import pl.psk.upc.infrastructure.entity.ContractLengthEnum;
+import pl.psk.upc.infrastructure.entity.PaymentStatus;
 import pl.psk.upc.web.UpcRestPaths;
 import pl.psk.upc.web.order.OrderDto;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -15,6 +19,12 @@ public class PaymentController {
 
     public PaymentController(PayPalService payPalService) {
         this.payPalService = payPalService;
+    }
+
+    @GetMapping(UpcRestPaths.PAYMENT_STATUSES)
+    public List<PaymentStatus> getPaymentStatuses() {
+        return Arrays.stream(PaymentStatus.values())
+                .toList();
     }
 
     @GetMapping(UpcRestPaths.CREATE_PAYMENT)

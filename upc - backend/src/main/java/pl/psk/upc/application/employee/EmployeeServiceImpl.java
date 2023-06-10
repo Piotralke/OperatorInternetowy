@@ -3,6 +3,7 @@ package pl.psk.upc.application.employee;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.psk.upc.infrastructure.dto.EmployeeEditRequestDto;
 import pl.psk.upc.infrastructure.dto.EmployeeRegisterRequestDto;
 import pl.psk.upc.infrastructure.entity.EmployeeEntity;
 import pl.psk.upc.infrastructure.enums.RoleEnum;
@@ -71,6 +72,26 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .build();
 
         return employeeRepository.save(accountEntity)
+                .getUuid();
+    }
+
+    @Override
+    public UUID edit(EmployeeEditRequestDto employeeEditRequestDto) {
+        EmployeeEntity employee = employeeRepository.findByUuid(employeeEditRequestDto.getUuid())
+                .orElseThrow(() -> new UsernameNotFoundException("Not found"));
+
+        employee.setFirstName(employeeEditRequestDto.getFirstName());
+        employee.setLastName(employeeEditRequestDto.getLastName());
+        employee.setPassword(passwordEncoder.encode(employeeEditRequestDto.getPassword()));
+        employee.setAccountStatus(employeeEditRequestDto.getAccountStatus());
+        employee.setAddress(employeeEditRequestDto.getAddress());
+        employee.setPhoneNumber(employeeEditRequestDto.getPhoneNumber());
+        employee.setWorkplace(employeeEditRequestDto.getWorkplace());
+        employee.setSalary(employeeEditRequestDto.getSalary());
+        employee.setContractForm(employeeEditRequestDto.getContractForm());
+        employee.setNip(employeeEditRequestDto.getNip());
+
+        return employeeRepository.save(employee)
                 .getUuid();
     }
 }
