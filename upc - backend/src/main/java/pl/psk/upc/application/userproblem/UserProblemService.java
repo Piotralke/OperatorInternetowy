@@ -10,6 +10,7 @@ import java.util.UUID;
 public interface UserProblemService {
     UUID saveUserProblem(UserProblemInputDto userProblemInputDto);
     UserProblemDtoWrapper getUserProblems(String email);
+    UserProblemDtoWrapper getAll();
     UserProblemDto getUserProblem(UUID uuid);
-    UserProblemDto getUserProblem(UserProblemSetStatusInputDto inputDto);
+    UserProblemDto setUserProblemStatus(UserProblemSetStatusInputDto inputDto);
 }

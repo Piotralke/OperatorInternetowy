@@ -25,6 +25,7 @@ public class ClientConverter {
                 .orders(user.getOrderEntities())
                 .userProblems(user.getUserProblems())
                 .services(user.getServices())
+                .isBusinessClient(user.isBusinessClient())
                 .build();
     }
 

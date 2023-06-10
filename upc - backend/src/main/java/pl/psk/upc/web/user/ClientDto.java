@@ -27,6 +27,7 @@ public class ClientDto {
     private final static String ORDERS = "orders";
     private final static String USER_PROBLEMS = "userProblems";
     private final static String SERVICES = "services";
+    private final static String IS_BUSINESS_CLIENT = "isBusinessClient";
 
     @JsonProperty(UUID)
     UUID uuid;
@@ -58,6 +59,9 @@ public class ClientDto {
     @JsonProperty(PESEL)
     String pesel;
 
+    @JsonProperty(IS_BUSINESS_CLIENT)
+    boolean isBusinessClient;
+
     @JsonProperty(ORDERS)
     List<OrderEntity> orders;
 
@@ -70,7 +74,7 @@ public class ClientDto {
     @Builder
     public ClientDto(@JsonProperty(UUID) java.util.UUID uuid, @JsonProperty(FIRST_NAME) String firstName, @JsonProperty(LAST_NAME)String lastName, @JsonProperty(EMAIL) String email, @JsonProperty(ADDRESS) String address,
                      @JsonProperty(BALANCE) double balance, @JsonProperty(ACCOUNT_STATUS) String accountStatus, @JsonProperty(PHONE_NUMBER) String phoneNumber, @JsonProperty(NIP) String nip, @JsonProperty(PESEL) String pesel,
-                     @JsonProperty(ORDERS) List<OrderEntity> orders, @JsonProperty(USER_PROBLEMS) List<UserProblemEntity> userProblems, @JsonProperty(SERVICES) List<ServiceEntity> services) {
+                     @JsonProperty(ORDERS) List<OrderEntity> orders, @JsonProperty(USER_PROBLEMS) List<UserProblemEntity> userProblems, @JsonProperty(SERVICES) List<ServiceEntity> services, @JsonProperty(IS_BUSINESS_CLIENT) boolean isBusinessClient) {
         this.uuid = uuid;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -84,6 +88,7 @@ public class ClientDto {
         this.orders = orders;
         this.userProblems = userProblems;
         this.services = services;
+        this.isBusinessClient = isBusinessClient;
     }
 
     public List<OrderEntity> getOrders() {

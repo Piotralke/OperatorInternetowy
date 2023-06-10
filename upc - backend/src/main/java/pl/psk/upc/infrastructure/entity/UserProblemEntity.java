@@ -5,6 +5,7 @@ import lombok.*;
 import pl.psk.upc.infrastructure.enums.UserProblemStatusEnum;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -25,10 +26,10 @@ public class UserProblemEntity {
     String description;
 
     @Column(name = "user_problem_start_date")
-    LocalDate userProblemStartDate;
+    ZonedDateTime userProblemStartDate;
 
     @Column(name = "user_problem_end_date")
-    LocalDate userProblemEndDate;
+    ZonedDateTime userProblemEndDate;
 
     @Column(name = "user_problem_status")
     UserProblemStatusEnum userProblemStatus;
@@ -38,7 +39,7 @@ public class UserProblemEntity {
     ClientAccountEntity clientAccountEntity;
 
     @Builder
-    public UserProblemEntity(Long user_problem_id, UUID uuid, String description, LocalDate userProblemStartDate, LocalDate userProblemEndDate, UserProblemStatusEnum userProblemStatus, ClientAccountEntity clientAccountEntity) {
+    public UserProblemEntity(Long user_problem_id, UUID uuid, String description, ZonedDateTime userProblemStartDate, ZonedDateTime userProblemEndDate, UserProblemStatusEnum userProblemStatus, ClientAccountEntity clientAccountEntity) {
         this.user_problem_id = user_problem_id;
         this.uuid = uuid;
         this.description = description;

@@ -1,9 +1,6 @@
 package pl.psk.upc.web.offer;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.psk.upc.application.offer.OfferService;
 import pl.psk.upc.infrastructure.entity.OfferType;
 import pl.psk.upc.web.UpcRestPaths;
@@ -40,8 +37,13 @@ public class OffersController {
     }
 
     @GetMapping(UpcRestPaths.GET_OFFER_BY_UUID)
-    public OfferDtoWrapper getOfferByUuid(@PathVariable(value = "uuid") UUID uuid) {
+    public OfferDto getOfferByUuid(@PathVariable(value = "uuid") UUID uuid) {
         return offerService.getOfferByUuid(uuid);
+    }
+
+    @GetMapping(UpcRestPaths.SAVE_OFFER)
+    public OfferDto saveOffer(@RequestBody SaveOfferRequestDto saveOfferRequestDto) {
+        return offerService.saveOffer(saveOfferRequestDto);
     }
 
 }

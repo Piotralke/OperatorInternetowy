@@ -6,6 +6,7 @@ import lombok.Value;
 import pl.psk.upc.infrastructure.enums.UserProblemStatusEnum;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Value
@@ -24,17 +25,17 @@ public class UserProblemDto {
     String description;
 
     @JsonProperty(PROBLEM_START_DATE)
-    LocalDate userProblemStartDate;
+    ZonedDateTime userProblemStartDate;
 
     @JsonProperty(PROBLEM_END_DATE)
-    LocalDate userProblemEndDate;
+    ZonedDateTime userProblemEndDate;
 
     @JsonProperty(PROBLEM_STATUS)
     UserProblemStatusEnum userProblemStatus;
 
     @Builder
-    public UserProblemDto(@JsonProperty(UUID) java.util.UUID uuid, @JsonProperty(DESCRIPTION) String description, @JsonProperty(PROBLEM_START_DATE) LocalDate userProblemStartDate,
-                          @JsonProperty(PROBLEM_END_DATE) LocalDate userProblemEndDate, @JsonProperty(PROBLEM_STATUS) UserProblemStatusEnum userProblemStatus) {
+    public UserProblemDto(@JsonProperty(UUID) java.util.UUID uuid, @JsonProperty(DESCRIPTION) String description, @JsonProperty(PROBLEM_START_DATE) ZonedDateTime userProblemStartDate,
+                          @JsonProperty(PROBLEM_END_DATE) ZonedDateTime userProblemEndDate, @JsonProperty(PROBLEM_STATUS) UserProblemStatusEnum userProblemStatus) {
         this.uuid = uuid;
         this.description = description;
         this.userProblemStartDate = userProblemStartDate;

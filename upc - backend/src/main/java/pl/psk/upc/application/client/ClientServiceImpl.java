@@ -9,6 +9,7 @@ import pl.psk.upc.infrastructure.enums.RoleEnum;
 import pl.psk.upc.infrastructure.repository.ClientRepository;
 import pl.psk.upc.web.user.ClientDto;
 import pl.psk.upc.web.user.ClientDtoWrapper;
+import pl.psk.upc.web.user.ClientEditRequestDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -74,6 +75,24 @@ public class ClientServiceImpl implements ClientService {
                 .build();
 
         return clientRepository.save(accountEntity)
+                .getUuid();
+    }
+
+    @Override
+    public UUID edit(ClientEditRequestDto clientEditRequestDto) {
+        ClientAccountEntity client = clientRepository.findByUuid(clientEditRequestDto.getUuid())
+                .orElseThrow(() -> new UsernameNotFoundException("Not found"));
+
+        client.setFirstName(clientEditRequestDto.getFirstName());
+        client.setLastName(clientEditRequestDto.getLastName());
+        client.setAddress(clientEditRequestDto.getAddress());
+        client.setBalance(clientEditRequestDto.getBalance());
+        client.setAccountStatus(clientEditRequestDto.getAccountStatus());
+        client.setPhoneNumber(clientEditRequestDto.getPhoneNumber());
+        client.setNip(clientEditRequestDto.getNip());
+        client.setBusinessClient(clientEditRequestDto.isBusinessClient());
+
+        return clientRepository.save(client)
                 .getUuid();
     }
 }

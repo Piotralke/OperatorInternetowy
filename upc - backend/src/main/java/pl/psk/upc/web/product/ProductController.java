@@ -1,11 +1,7 @@
 package pl.psk.upc.web.product;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.psk.upc.application.product.ProductService;
-import pl.psk.upc.infrastructure.entity.OfferType;
 import pl.psk.upc.infrastructure.entity.ProductType;
 import pl.psk.upc.web.UpcRestPaths;
 
@@ -43,6 +39,16 @@ public class ProductController {
     @GetMapping(UpcRestPaths.GET_PRODUCT)
     public ProductDto getProduct(@PathVariable(value = "uuid") UUID uuid) {
         return productService.getProduct(uuid);
+    }
+
+    @PutMapping(UpcRestPaths.EDIT_PRODUCT)
+    public ProductDto editProduct(@RequestBody ProductEditRequestDto productEditRequestDto) {
+        return productService.editProduct(productEditRequestDto);
+    }
+
+    @PostMapping(UpcRestPaths.SAVE_PRODUCT)
+    public ProductDto saveProduct(@RequestBody SaveProductRequestDto saveProductRequestDto) {
+        return productService.saveProduct(saveProductRequestDto);
     }
 
 }

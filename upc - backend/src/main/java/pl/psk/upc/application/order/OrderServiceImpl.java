@@ -84,10 +84,12 @@ public class OrderServiceImpl implements OrderService {
             employeeEntity = employeeRepository.findByEmail(order.getEmployeeEmail())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         }
-        OfferEntity offer = offerRepository.findByUuid(order.getOfferUuid());
+        OfferEntity offer = offerRepository.findByUuid(order.getOfferUuid())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         List<ProductEntity> products = order.getProductUuids().stream()
                 .map(productRepository::findByUuid)
+                .map(productEntity -> productEntity.orElseThrow(() -> new UsernameNotFoundException("Not found")))
                 .toList();
 
         ZonedDateTime contractStartDate = ZonedDateTime.now(ZoneId.systemDefault());
