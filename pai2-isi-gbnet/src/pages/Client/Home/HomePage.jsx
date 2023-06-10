@@ -1,7 +1,7 @@
-import Offer from "../components/Offer"
-import AccountData from "../components/AccountData"
-import Balance from "../components/Balance"
-import Messages from "../components/Messages"
+import Offer from "../Offers/OfferComponent"
+import AccountData from "./AccountData"
+import Balance from "../Invoices/Balance"
+import Messages from "./Messages"
 import { useAuthUser } from "react-auth-kit"
 export default function HomePage(){
 

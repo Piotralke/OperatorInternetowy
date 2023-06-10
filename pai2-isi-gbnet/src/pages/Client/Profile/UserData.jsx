@@ -1,4 +1,4 @@
-import userPic from "../assets/userPic.jpg";
+import userPic from "../../../assets/userPic.jpg";
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
 
 export default function UserData(props) {

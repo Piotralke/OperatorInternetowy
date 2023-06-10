@@ -5,7 +5,7 @@ import { FaFileInvoiceDollar } from 'react-icons/fa'
 import { RiCopyleftLine } from 'react-icons/ri'
 import { MdLocalOffer, MdOutlineLocalOffer,MdReportGmailerrorred } from 'react-icons/md'
 import { useSignOut } from "react-auth-kit";
-export default function Layout() {
+export default function ClientLayout() {
   const navigate = useNavigate();
   const signOut = useSignOut();
   return (

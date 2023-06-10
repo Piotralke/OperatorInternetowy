@@ -1,4 +1,4 @@
-import UserData from "../components/UserData"
+import UserData from "./UserData"
 import axios from "axios"
 import {useAuthHeader} from 'react-auth-kit'
 import { useState,useEffect } from "react";

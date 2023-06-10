@@ -43,21 +43,33 @@ function TreeNode({ node, level, handleNodeClick }) {
   );
 }
 
-export default function AdminPage() {
+export default function AdminLayout() {
   const navigate = useNavigate()
   const signOut = useSignOut()
   const handleNodeClick = (nodeName) => {
     if (nodeName === "Wyświetl klientów") {
-      console.log("Kliknięto Użytkownicy");
      navigate('clients');
-    } else if (nodeName === "Wyświetl pracowników") {
+    } 
+    else if (nodeName === "Dodaj klienta") {
+      navigate('clientAdd');
+    }
+    else if (nodeName === "Wyświetl pracowników") {
       navigate('employees');
+    } 
+    else if (nodeName === "Dodaj pracownika") {
+      navigate('employeeAdd');
     }
     else if (nodeName === "Wyświetl produkty") {
       navigate('products');
     }
+    else if (nodeName === "Dodaj produkt") {
+      navigate('productAdd');
+    }
     else if (nodeName === "Wyświetl oferty") {
       navigate('offers');
+    }
+    else if (nodeName === "Dodaj ofertę") {
+      navigate('offerAdd');
     }
   };
 

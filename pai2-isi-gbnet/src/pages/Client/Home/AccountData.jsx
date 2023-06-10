@@ -1,4 +1,4 @@
-import userPic from "../assets/userPic.jpg";
+import userPic from "../../../assets/userPic.jpg";
 import { Link } from "react-router-dom";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 export default function AccountData() {

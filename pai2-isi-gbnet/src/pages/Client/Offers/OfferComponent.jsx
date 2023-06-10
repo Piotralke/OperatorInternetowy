@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { CircleLoader } from "react-spinners";
-import Internet_TVoffer from "../assets/Internet_TVoffer.png"
-import Internetoffer from "../assets/Internetoffer.png"
-import TVoffer from "../assets/TVoffer.png"
+import Internet_TVoffer from "../../../assets/Internet_TVoffer.png"
+import Internetoffer from "../../../assets/Internetoffer.png"
+import TVoffer from "../../../assets/TVoffer.png"
 import { useNavigate } from "react-router-dom";
 export default function Offer(props) {
   const navigate = useNavigate();

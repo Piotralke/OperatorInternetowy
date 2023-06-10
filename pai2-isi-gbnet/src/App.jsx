@@ -1,25 +1,30 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
-import HomePage from "./pages/HomePage";
-import Layout from "./pages/Layout";
-import Offers from "./pages/Offers";
-import Invoices from "./pages/Invoices";
-import Profile from "./pages/Profile";
+import HomePage from "./pages/Client/Home/HomePage";
+import ClientLayout from "./pages/Client/ClientLayout";
+import Offers from "./pages/Client/Offers/Offers";
+import Invoices from "./pages/Client/Invoices/Invoices";
+import Profile from "./pages/Client/Profile/Profile";
 import { AuthProvider, RequireAuth } from "react-auth-kit";
-import OfferDetail from "./components/OfferDetail";
-import Products from "./pages/Products";
-import AdminPage from "./pages/AdminPage";
+import OfferDetail from "./pages/Client/Offers/OfferDetail";
+import Products from "./pages/Client/Products/Products";
+import AdminLayout from "./pages/Admin/AdminLayout";
 import RequireRole from "./RequireRole";
-import Clients from "./pages/Clients";
-import ClientDetail from "./components/ClientDetail"
-import Workers from "./pages/Workers";
-import AdminProducts from "./pages/AdminProducts";
-import AdminProductDetail from "./components/AdminProductDetail"
-import AdminOffers from "./pages/AdminOffers"
-import AdminOfferDetail from "./components/AdminOfferDetail";
-import Reports from "./pages/Reports";
-import AddReport from "./components/AddReport";
-import ReportDetail from "./components/ReportDetail";
+import Clients from "./pages/Admin/Clients/Clients";
+import ClientDetail from "./pages/Admin/Clients/ClientDetail"
+import Workers from "./pages/Admin/Workers/Workers";
+import AdminProducts from "./pages/Admin/Products/AdminProducts";
+import AdminProductDetail from "./pages/Admin/Products/AdminProductDetail"
+import AdminOffers from "./pages/Admin/Offers/AdminOffers"
+import AdminOfferDetail from "./pages/Admin/Offers/AdminOfferDetail";
+import Reports from "./pages/Admin/Reports/AdminReports";
+import AddReport from "./pages/Client/Reports/AddReport";
+import ReportDetail from "./pages/Client/Reports/ReportDetail";
+import AdminWorkerDetail from "./pages/Admin/Workers/AdminWorkerDetail";
+import WorkerAdd from "./pages/Admin/Workers/WorkerAdd";
+import ClientAdd from "./pages/Admin/Clients/ClientAdd";
+import AdminProductAdd from "./pages/Admin/Products/AdminProductAdd";
+import AdminOfferAdd from "./pages/Admin/Offers/AdminOfferAdd";
 export default function App() {
   return (
     <AuthProvider
@@ -36,7 +41,7 @@ export default function App() {
             path="/"
             element={
               <RequireRole allowedRoles={["USER"]}>
-                <Layout></Layout>
+                <ClientLayout></ClientLayout>
               </RequireRole>
             }
           >
@@ -59,31 +64,31 @@ export default function App() {
             path="/admin"
             element={
               <RequireRole allowedRoles={["ADMIN", "WORKER"]}>
-                <AdminPage></AdminPage>
+                <AdminLayout></AdminLayout>
               </RequireRole>
             }
           >
             <Route path="clients" element={<Clients></Clients>}>
               <Route path=":clientId" element={<ClientDetail/>}></Route>
             </Route>
-            <Route path="clientAdd"></Route>
+            <Route path="clientAdd" element={<ClientAdd/>}></Route>
 
             <Route path="employees" element={<Workers/>}>
-              <Route path=":employeeId" ></Route> 
+              <Route path=":employeeId" element={<AdminWorkerDetail/>} ></Route> 
             </Route>
-            <Route path="employeeAdd"></Route>
+            <Route path="employeeAdd" element={<WorkerAdd/>}></Route>
             
             
             <Route path="products" element={<AdminProducts/>}>
               <Route path=":productId" element={<AdminProductDetail/>}></Route>
             </Route>
-            <Route path="productAdd"></Route>
+            <Route path="productAdd" element={<AdminProductAdd/>}></Route>
             
             
             <Route path="offers" element={<AdminOffers/>}>
               <Route path=":offerId" element={<AdminOfferDetail/>}></Route>
             </Route>
-            <Route path="offerAdd"></Route>
+            <Route path="offerAdd" element={<AdminOfferAdd/>}></Route>
             
             <Route path="reports">
               <Route path=":reportId"></Route>

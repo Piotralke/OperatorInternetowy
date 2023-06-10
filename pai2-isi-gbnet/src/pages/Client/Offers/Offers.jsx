@@ -1,4 +1,4 @@
-import Offer from "../components/Offer";
+import Offer from "./OfferComponent";
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 

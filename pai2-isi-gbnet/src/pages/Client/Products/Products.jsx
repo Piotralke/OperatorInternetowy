@@ -1,4 +1,4 @@
-import Product from "../components/Product";
+import Product from "./Product";
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 

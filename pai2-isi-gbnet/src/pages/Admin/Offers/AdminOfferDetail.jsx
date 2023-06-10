@@ -1,9 +1,10 @@
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import axios from "axios";
 import jwt from "jwt-decode";
 import { useState, useEffect } from "react";
 import { useAuthHeader } from "react-auth-kit";
 import { Textarea } from "@material-tailwind/react";
+import { BiShowAlt } from "react-icons/bi"
 
 export default function AdminOfferDetail() {
     const [offerOriginalData, setOfferOriginalData] = useState();
@@ -12,6 +13,7 @@ export default function AdminOfferDetail() {
     const { offerId } = useParams();
     const [isDisabled, setIsDisabled] = useState(true);
     const token = useAuthHeader();
+    const navigate = useNavigate();
   useEffect(() => {
     async function fetchProduct() {
       // axios.defaults.headers.common['Authorization'] = token();
@@ -39,61 +41,53 @@ export default function AdminOfferDetail() {
             <input
               value={offerData?.name}
               disabled={isDisabled}
-              onChange={(e) => {
-                setProductData((prevState) => ({
-                  ...prevState,
-                  name: e.target.value,
-                }));
-              }}
-              className="px-2 py-2 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
+            
+              className="px-4 py-1 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
             />
           </div>
           <div className="flex flex-row  justify-between items-center">
             <a className="text-lg text-gray-700">Cena</a>
             <input
-            //   value={productData?.price}
+               value={offerData?.price}
               disabled={isDisabled}
-              onChange={(e) => {
-                setProductData((prevState) => ({
-                  ...prevState,
-                  price: e.target.value,
-                }));
-              }}
-              className="px-2 py-2 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
+             
+              className="px-4 py-1 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
             />
           </div>
 
           <div className="flex flex-row justify-between items-center">
             <a className="text-lg text-gray-700">Typ</a>
-            <select
-              disabled={isDisabled}
-              onChange={(e) => {
-                setProductData((prevState) => ({
-                  ...prevState,
-                  productType: e.target.value,
-                }));
-              }}
-              className="px-2 py-2 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
-            >
-                {/* {productType?.map((item) => productData?.productType == item ? <option value={item} selected>{item}</option> : <option value={item}>{item}</option>)} */}
-              
-            </select>
+            <input 
+              value={offerData?.offerType}
+              disabled={isDisabled} 
+              className="px-4 py-1 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
+            />
+
           </div>
+          {
+            offerData?.withDevice && (<div className="flex flex-row justify-between items-center">
+            <a className="text-lg text-gray-700">Produkt w zestawie</a>
+            <input 
+              value={offerData?.productDto.name}
+              disabled={isDisabled} 
+              className="px-4 py-1 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
+            />
+            <button onClick={()=>{navigate(`/admin/products/${offerData?.productDto.uuid}`)}}>
+              <BiShowAlt  className="w-8 h-8 "/>
+            
+            </button>
+          </div>)
+          }
+          
           <div className="flex flex-row flex-grow justify-between items-center space-x-8">
             <a className="text-lg text-gray-700">Opis</a>
             <div className="flex-grow ">
               <Textarea
-                // value={productData?.description}
+                value={offerData?.description}
                 disabled={isDisabled}
                 rows={10}
                 color="orange"
                 label="Opis"
-                onChange={(e) => {
-                  setProductData((prevState) => ({
-                    ...prevState,
-                    description: e.target.value,
-                  }));
-                }}
               ></Textarea>
             </div>
           </div>

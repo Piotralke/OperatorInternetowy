@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-import Internet_TVoffer from "../assets/Internet_TVoffer.png";
-import Internetoffer from "../assets/Internetoffer.png";
-import TVoffer from "../assets/TVoffer.png";
+import Internet_TVoffer from "../../../assets/Internet_TVoffer.png";
+import Internetoffer from "../../../assets/Internetoffer.png";
+import TVoffer from "../../../assets/TVoffer.png";
 
 export default function OfferDetail() {
   const { offerId } = useParams();

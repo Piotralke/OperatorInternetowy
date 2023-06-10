@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { CircleLoader } from "react-spinners";
-import MobileProduct from "../assets/MobileProduct.png"
-import InternetProduct from "../assets/InternetProduct.png"
-import TVproduct from "../assets/TVproduct.png"
-import DeviceProduct from "../assets/DeviceProduct.png"
+import MobileProduct from "../../../assets/MobileProduct.png"
+import InternetProduct from "../../../assets/InternetProduct.png"
+import TVproduct from "../../../assets/TVproduct.png"
+import DeviceProduct from "../../../assets/DeviceProduct.png"
 import { useNavigate } from "react-router-dom";
 export default function Product(props) {
   const navigate = useNavigate();
