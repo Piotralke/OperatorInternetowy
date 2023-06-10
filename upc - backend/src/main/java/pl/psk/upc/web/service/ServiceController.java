@@ -27,8 +27,4 @@ public class ServiceController {
         return service.getService(uuid);
     }
 
-    @GetMapping(UpcRestPaths.GET_ALL_SERVICES)
-    public ServiceDtoWrapper getServices() {
-        return service.getServices();
-    }
 }
