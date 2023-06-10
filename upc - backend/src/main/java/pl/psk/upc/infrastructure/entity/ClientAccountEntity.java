@@ -1,5 +1,6 @@
 package pl.psk.upc.infrastructure.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -57,7 +58,8 @@ public class ClientAccountEntity {
     @Column(name = "is_business_client")
     private boolean isBusinessClient;
 
-    @OneToMany(mappedBy = "order_id", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "clientAccountEntity", cascade = CascadeType.ALL)
     List<OrderEntity> orderEntities;
 
     @OneToMany(mappedBy = "user_problem_id", cascade = CascadeType.ALL)

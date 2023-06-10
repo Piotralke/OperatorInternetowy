@@ -1,5 +1,6 @@
 package pl.psk.upc.infrastructure.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -38,11 +39,16 @@ public class OrderEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     EmployeeEntity employeeEntity;
 
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id")
+    ClientAccountEntity clientAccountEntity;
+
     @OneToMany(fetch = FetchType.EAGER)
     List<ProductEntity> productEntities;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "service_id")
+    @OneToOne
+//    @JoinColumn(name = "service_id")
     ServiceEntity service;
 
 }

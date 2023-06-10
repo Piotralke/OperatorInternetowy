@@ -119,6 +119,7 @@ public class OrderServiceImpl implements OrderService {
                 .employeeEntity(employeeEntity)
                 .productEntities(products)
                 .service(savedService)
+                .clientAccountEntity(clientAccountEntity)
                 .build();
 
         return orderRepository.save(orderToSave)
