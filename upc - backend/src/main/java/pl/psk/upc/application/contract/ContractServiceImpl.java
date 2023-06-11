@@ -1,23 +1,27 @@
 package pl.psk.upc.application.contract;
 
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pl.psk.upc.application.service.ServiceService;
+import pl.psk.upc.exception.GenericNotFoundException;
 import pl.psk.upc.infrastructure.entity.*;
 import pl.psk.upc.infrastructure.repository.ClientRepository;
 import pl.psk.upc.infrastructure.repository.ContractRepository;
 import pl.psk.upc.infrastructure.repository.PaymentRepository;
+import pl.psk.upc.tech.MethodArgumentValidator;
 import pl.psk.upc.web.contract.ContractDto;
 import pl.psk.upc.web.contract.ContractDtoWrapper;
+import pl.psk.upc.web.product.ProductDto;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
-public class ContractServiceImpl implements ContractService {
+class ContractServiceImpl implements ContractService {
+    private final static String NOT_FOUND_MESSAGE = "Contract not found";
 
     private final ContractRepository contractRepository;
     private final PaymentRepository paymentRepository;
@@ -33,13 +37,19 @@ public class ContractServiceImpl implements ContractService {
 
 
     @Override
-    public ContractDto addNewPaymentToContract(UUID contractUuid, double paymentAmount) {
+    public ContractDto addNewPaymentToContract(UUID contractUuid, double paymentAmount, String serviceName, List<ProductDto> products, String serviceUuid) {
+        MethodArgumentValidator.requiredNotNull(contractUuid, "contractUuid");
         ContractEntity contract = contractRepository.findByUuid(contractUuid)
-                .orElseThrow(() -> new UsernameNotFoundException("Contract not fount"));
+                .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE));
         List<PaymentEntity> payments = contract.getPaymentEntities();
         if (payments == null) {
             payments = new ArrayList<>();
         }
+        ServiceEntity serviceEntity = contract.getServiceEntity();
+        String productsUuidList = products.stream()
+                .map(ProductDto::getUuid)
+                .map(UUID::toString)
+                .collect(Collectors.joining(","));
 
         PaymentEntity newPayment = PaymentEntity.builder()
                 .paymentStatus(PaymentStatus.NIEOPLACONE)
@@ -47,6 +57,9 @@ public class ContractServiceImpl implements ContractService {
                 .amount(paymentAmount)
                 .date(ZonedDateTime.now(ZoneId.systemDefault()))
                 .contractEntity(contract)
+                .name(serviceName)
+                .productsUuid(productsUuidList)
+//                .serviceUuid()
                 .build();
         PaymentEntity savedPayment = paymentRepository.save(newPayment);
         payments.add(savedPayment);
@@ -57,14 +70,16 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public ContractDto findByUuid(UUID uuid) {
+        MethodArgumentValidator.requiredNotNull(uuid, "uuid");
         return ContractConverter.convertFrom(contractRepository.findByUuid(uuid)
-                .orElseThrow(() -> new UsernameNotFoundException("Not found")));
+                .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE)));
     }
 
     @Override
     public ContractDtoWrapper findByUserUuid(UUID uuid) {
+        MethodArgumentValidator.requiredNotNull(uuid, "uuid");
         ClientAccountEntity client = clientRepository.findByUuid(uuid)
-                .orElseThrow(() -> new UsernameNotFoundException("Not found"));
+                .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE));
         List<ContractEntity> contractEntities = client.getServices().stream()
                 .map(ServiceEntity::getContractEntity)
                 .toList();
@@ -73,6 +88,7 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public ContractDto findByServiceUuid(UUID uuid) {
+        MethodArgumentValidator.requiredNotNull(uuid, "uuid");
         return serviceService.getService(uuid)
                 .getContract();
     }

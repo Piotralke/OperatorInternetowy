@@ -8,6 +8,7 @@ import pl.psk.upc.infrastructure.dto.EmployeeRegisterRequestDto;
 import pl.psk.upc.infrastructure.entity.EmployeeEntity;
 import pl.psk.upc.infrastructure.enums.RoleEnum;
 import pl.psk.upc.infrastructure.repository.EmployeeRepository;
+import pl.psk.upc.tech.MethodArgumentValidator;
 import pl.psk.upc.web.user.EmployeeDto;
 import pl.psk.upc.web.user.EmployeeWrapper;
 
@@ -15,7 +16,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class EmployeeServiceImpl implements EmployeeService {
+class EmployeeServiceImpl implements EmployeeService {
+    private final static String NOT_FOUND_MESSAGE = "User not found";
 
     private final EmployeeRepository employeeRepository;
     private final PasswordEncoder passwordEncoder;
@@ -28,15 +30,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeDto findByEmail(String email) {
+        MethodArgumentValidator.requiredNotNullOrBlankString(email, "email");
         EmployeeEntity employee = employeeRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException(NOT_FOUND_MESSAGE));
         return EmployeeConverter.convertFrom(employee);
     }
 
     @Override
     public EmployeeDto findByUuid(UUID uuid) {
+        MethodArgumentValidator.requiredNotNull(uuid, "uuid)");
         EmployeeEntity employee = employeeRepository.findByUuid(uuid)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException(NOT_FOUND_MESSAGE));
         return EmployeeConverter.convertFrom(employee);
     }
 
@@ -47,6 +51,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public UUID save(EmployeeRegisterRequestDto registerRequestDto) {
+        MethodArgumentValidator.requiredNotNull(registerRequestDto, "registerRequestDto)");
         Optional<EmployeeEntity> optionalEmployee = employeeRepository.findByEmail(registerRequestDto.getEmail());
 
         UUID uuid = null;
@@ -77,8 +82,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public UUID edit(EmployeeEditRequestDto employeeEditRequestDto) {
+        MethodArgumentValidator.requiredNotNull(employeeEditRequestDto, "employeeEditRequestDto)");
+
         EmployeeEntity employee = employeeRepository.findByUuid(employeeEditRequestDto.getUuid())
-                .orElseThrow(() -> new UsernameNotFoundException("Not found"));
+                .orElseThrow(() -> new UsernameNotFoundException(NOT_FOUND_MESSAGE));
 
         employee.setFirstName(employeeEditRequestDto.getFirstName());
         employee.setLastName(employeeEditRequestDto.getLastName());

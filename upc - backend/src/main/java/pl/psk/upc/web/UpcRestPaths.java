@@ -19,6 +19,7 @@ public class UpcRestPaths {
     public static final String GET_OFFER_TYPES = UPC_UNSECURED_PREFIX + "/get-offer-types";
     public static final String GET_OFFERS_BY_TYPE = UPC_UNSECURED_PREFIX + "/get-offers-by-type";
     public static final String GET_ALL_OFFERS = UPC_UNSECURED_PREFIX + "/get-all-offers";
+    public static final String EDIT_OFFER_STATUS = UPC_UNSECURED_PREFIX + "/edit-offer-status/{uuid}";
     public static final String GET_OFFER_BY_UUID = UPC_UNSECURED_PREFIX + "/get-offer-by-uuid/{uuid}";
     public static final String SAVE_OFFER = UPC_UNSECURED_PREFIX + "/save-offer";
     public static final String GET_ALL_PRODUCTS = UPC_UNSECURED_PREFIX + "/get-all-products";
@@ -50,4 +51,8 @@ public class UpcRestPaths {
     public static final String GET_CONTRACT_LENGTHS = UPC_UNSECURED_PREFIX + "/get-contract-lengths";
     public static final String GET_CONTRACTS_BY_USER = UPC_UNSECURED_PREFIX + "/get-contract-by-user/{uuid}";
     public static final String GET_CONTRACTS_BY_SERVICE = UPC_UNSECURED_PREFIX + "/get-contract-by-service/{uuid}";
+    public static final String GET_INVOICES_BY_CLIENT_UUID = UPC_UNSECURED_PREFIX + "/get-invoices/{uuid}";
+    public static final String GET_INVOICE_AS_PDF = UPC_UNSECURED_PREFIX + "/get-invoice";
+
+
 }

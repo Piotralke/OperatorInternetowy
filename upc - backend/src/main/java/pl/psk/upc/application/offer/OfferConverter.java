@@ -18,6 +18,7 @@ public class OfferConverter {
                 .productDto(ProductConverter.convertFrom(offer.getProductEntity()))
                 .withDevice(offer.isWithDevice())
                 .offerType(offer.getOfferType())
+                .isArchival(offer.isArchival())
                 .build();
     }
 

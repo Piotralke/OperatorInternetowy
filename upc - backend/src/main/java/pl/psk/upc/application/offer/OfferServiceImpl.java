@@ -1,24 +1,24 @@
 package pl.psk.upc.application.offer;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import pl.psk.upc.exception.GenericNotFoundException;
 import pl.psk.upc.infrastructure.dto.SaveProductWithOfferRequestDto;
 import pl.psk.upc.infrastructure.entity.OfferEntity;
 import pl.psk.upc.infrastructure.entity.OfferType;
 import pl.psk.upc.infrastructure.entity.ProductEntity;
 import pl.psk.upc.infrastructure.repository.OfferRepository;
 import pl.psk.upc.infrastructure.repository.ProductRepository;
+import pl.psk.upc.tech.MethodArgumentValidator;
 import pl.psk.upc.web.offer.OfferDto;
 import pl.psk.upc.web.offer.OfferDtoWrapper;
 import pl.psk.upc.web.offer.SaveOfferRequestDto;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class OfferServiceImpl implements OfferService {
+class OfferServiceImpl implements OfferService {
+    private final static String NOT_FOUND_MESSAGE = "Offer not found";
 
     private final OfferRepository offerRepository;
     private final ProductRepository productRepository;
@@ -30,25 +30,30 @@ public class OfferServiceImpl implements OfferService {
 
     @Override
     public OfferDtoWrapper getOffersByType(OfferType offerType) {
+        MethodArgumentValidator.requiredNotNullEnum(offerType, "offerType");
         List<OfferEntity> offers = offerRepository.findByOfferType(offerType);
         return OfferConverter.convertFrom(offers);
     }
 
     @Override
     public OfferDtoWrapper getAllOffers() {
-        List<OfferEntity> all = offerRepository.findAll();
+        List<OfferEntity> all = offerRepository.findAll().stream()
+                .filter(offer -> !offer.isArchival())
+                .toList();
         return OfferConverter.convertFrom(all);
     }
 
     @Override
     public OfferDto getOfferByUuid(UUID uuid) {
+        MethodArgumentValidator.requiredNotNull(uuid, "uuid");
         OfferEntity offer = offerRepository.findByUuid(uuid)
-                .orElseThrow(() -> new UsernameNotFoundException("Not found"));
+                .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE));
         return OfferConverter.convertFrom(offer);
     }
 
     @Override
     public OfferDto saveOffer(SaveOfferRequestDto saveOfferRequestDto) {
+        MethodArgumentValidator.requiredNotNull(saveOfferRequestDto, "saveOfferRequestDto");
         SaveProductWithOfferRequestDto saveProductWithOfferRequestDto = saveOfferRequestDto.getSaveProductWithOfferRequestDto();
 
         if (saveProductWithOfferRequestDto != null && saveProductWithOfferRequestDto.getUuid() == null) {
@@ -75,7 +80,7 @@ public class OfferServiceImpl implements OfferService {
 
         if (saveProductWithOfferRequestDto != null && saveProductWithOfferRequestDto.getUuid() != null) {
             ProductEntity product = productRepository.findByUuid(saveProductWithOfferRequestDto.getUuid())
-                    .orElseThrow(() -> new UsernameNotFoundException("Not found"));
+                    .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE));
 
             OfferEntity newOffer = OfferEntity.builder()
                     .uuid(UUID.randomUUID())
@@ -100,5 +105,15 @@ public class OfferServiceImpl implements OfferService {
                 .offerType(saveOfferRequestDto.getOfferType())
                 .build();
         return OfferConverter.convertFrom(offerRepository.save(newOffer));
+    }
+
+    @Override
+    public UUID setOfferStatus(UUID offerUuid, boolean isArchival) {
+        MethodArgumentValidator.requiredNotNull(offerUuid, "offerUuid");
+        OfferEntity offer = offerRepository.findByUuid(offerUuid)
+                .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE));
+        offer.setArchival(isArchival);
+        return offerRepository.save(offer)
+                .getUuid();
     }
 }

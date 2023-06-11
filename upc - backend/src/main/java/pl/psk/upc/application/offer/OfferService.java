@@ -12,4 +12,5 @@ public interface OfferService {
     OfferDtoWrapper getAllOffers();
     OfferDto getOfferByUuid(UUID uuid);
     OfferDto saveOffer(SaveOfferRequestDto saveOfferRequestDto);
+    UUID setOfferStatus(UUID offerUuid, boolean isArchival);
 }

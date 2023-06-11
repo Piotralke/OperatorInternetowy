@@ -1,12 +1,14 @@
 package pl.psk.upc.application.client;
 
+import pl.psk.upc.application.order.OrderConverter;
+import pl.psk.upc.application.service.ServiceConverter;
+import pl.psk.upc.application.userproblem.UserProblemConverter;
 import pl.psk.upc.infrastructure.entity.ClientAccountEntity;
+import pl.psk.upc.tech.MethodArgumentValidator;
 import pl.psk.upc.web.user.ClientDto;
 import pl.psk.upc.web.user.ClientDtoWrapper;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ClientConverter {
 
@@ -22,14 +24,15 @@ public class ClientConverter {
                 .phoneNumber(user.getPhoneNumber())
                 .nip(user.getNip())
                 .pesel(user.getPesel())
-                .orders(user.getOrderEntities())
-                .userProblems(user.getUserProblems())
-                .services(user.getServices())
+                .orders(OrderConverter.convertFrom(user.getOrderEntities()).getContent())
+                .userProblems(UserProblemConverter.convertFrom(user.getUserProblems()).getContent())
+                .services(ServiceConverter.convertFrom(user.getServices()).getContent())
                 .isBusinessClient(user.isBusinessClient())
                 .build();
     }
 
     public static ClientDtoWrapper convertFrom(List<ClientAccountEntity> users) {
+        MethodArgumentValidator.requiredNotNullOrEmptyCollection(users, "users");
         List<ClientDto> convertedClients = users.stream()
                 .map(ClientConverter::convertFrom)
                 .toList();

@@ -8,6 +8,7 @@ import pl.psk.upc.infrastructure.dto.EmployeeEditRequestDto;
 import pl.psk.upc.infrastructure.dto.EmployeeRegisterRequestDto;
 import pl.psk.upc.infrastructure.entity.ServiceEntity;
 import pl.psk.upc.web.UpcRestPaths;
+import pl.psk.upc.web.service.ServiceDto;
 
 import java.util.List;
 import java.util.UUID;
@@ -54,7 +55,7 @@ public class UserController {
     }
 
     @GetMapping(UpcRestPaths.GET_USER_SERVICES)
-    public List<ServiceEntity> getUserServices(@PathVariable(value = "email") String email) {
+    public List<ServiceDto> getUserServices(@PathVariable(value = "email") String email) {
         return clientService.findByEmail(email)
                 .getServices();
     }

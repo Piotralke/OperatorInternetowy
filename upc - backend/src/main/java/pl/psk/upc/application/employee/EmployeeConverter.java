@@ -1,10 +1,6 @@
 package pl.psk.upc.application.employee;
 
-import pl.psk.upc.application.client.ClientConverter;
-import pl.psk.upc.infrastructure.entity.ClientAccountEntity;
 import pl.psk.upc.infrastructure.entity.EmployeeEntity;
-import pl.psk.upc.web.user.ClientDto;
-import pl.psk.upc.web.user.ClientDtoWrapper;
 import pl.psk.upc.web.user.EmployeeDto;
 import pl.psk.upc.web.user.EmployeeWrapper;
 

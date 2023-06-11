@@ -16,6 +16,7 @@ public class OfferDto {
     private final static String PRODUCT_DTO = "productDto";
     private final static String WITH_DEVICE = "withDevice";
     private final static String OFFER_TYPE = "offerType";
+    private final static String IS_ARCHIVAL = "isArchival";
 
     @JsonProperty(UUID)
     java.util.UUID uuid;
@@ -38,9 +39,12 @@ public class OfferDto {
     @JsonProperty(OFFER_TYPE)
     OfferType offerType;
 
+    @JsonProperty(IS_ARCHIVAL)
+    boolean isArchival;
+
     @Builder
     public OfferDto(@JsonProperty(UUID) java.util.UUID uuid, @JsonProperty(NAME) String name, @JsonProperty(DESCRIPTION) String description, @JsonProperty(PRICE) double price, @JsonProperty(PRODUCT_DTO) ProductDto productDto,
-                    @JsonProperty(WITH_DEVICE) boolean withDevice, @JsonProperty(OFFER_TYPE) OfferType offerType) {
+                    @JsonProperty(WITH_DEVICE) boolean withDevice, @JsonProperty(OFFER_TYPE) OfferType offerType, @JsonProperty(IS_ARCHIVAL) boolean isArchival) {
         this.uuid = uuid;
         this.name = name;
         this.description = description;
@@ -48,5 +52,6 @@ public class OfferDto {
         this.productDto = productDto;
         this.withDevice = withDevice;
         this.offerType = offerType;
+        this.isArchival = isArchival;
     }
 }

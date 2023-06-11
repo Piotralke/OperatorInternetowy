@@ -9,17 +9,21 @@ import pl.psk.upc.application.contract.ContractService;
 import pl.psk.upc.application.order.OrderService;
 import pl.psk.upc.application.payment.PaymentService;
 import pl.psk.upc.application.service.ServiceService;
+import pl.psk.upc.tech.MethodArgumentValidator;
 import pl.psk.upc.web.contract.ContractDto;
 import pl.psk.upc.web.order.OrderDto;
 import pl.psk.upc.web.payment.PaymentInputDto;
+import pl.psk.upc.web.product.ProductDto;
 import pl.psk.upc.web.service.ServiceDto;
 import pl.psk.upc.web.user.ClientDto;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 @Service
-public class PayPalServiceImpl implements PayPalService {
+class PayPalServiceImpl implements PayPalService {
 
     private final static String CURRENCY = "PLN";
     private final static String INTENT = "authorize";
@@ -42,25 +46,36 @@ public class PayPalServiceImpl implements PayPalService {
     }
 
     public String createPayment(PaymentInputDto inputDto) throws PayPalRESTException {
+        MethodArgumentValidator.requiredNotNull(inputDto, "inputDto");
         double paymentAmount = 0.0;
         ContractDto contract = null;
+        String serviceName = "";
+        String serviceUuid = "";
+        List<ProductDto> products = new ArrayList<>();
 
         if (inputDto.getOrderUuid() != null) {
             OrderDto order = orderService.getOrderByUuid(inputDto.getOrderUuid());
             contract = order.getService()
                     .getContract();
             paymentAmount = order.getAmount();
+            serviceName = order.getService().getName();
+            serviceUuid = order.getService().getUuid().toString();
+            if(order.getProductDtos() != null) {
+                products = order.getProductDtos();
+            }
         } else {
             ServiceDto service = serviceService.getService(inputDto.getServiceUuid());
             contract = service.getContract();
             paymentAmount = contract.getAmount();
+            serviceName = service.getName();
+            serviceUuid = service.getUuid().toString();
         }
 
         Payment payment = preparePayment(paymentAmount, inputDto);
 
         Payment approvedPayment = payment.create(apiContext);
 
-        ContractDto contractDto = contractService.addNewPaymentToContract(contract.getUuid(), paymentAmount);
+        contractService.addNewPaymentToContract(contract.getUuid(), paymentAmount, serviceName, products, serviceUuid);
 
         return getApprovalLink(approvedPayment);
     }

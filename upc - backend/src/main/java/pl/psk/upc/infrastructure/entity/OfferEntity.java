@@ -37,8 +37,11 @@ public class OfferEntity {
     @Column(name = "offer_type")
     OfferType offerType;
 
+    @Column(name = "is_archival")
+    boolean isArchival;
+
     @Builder
-    public OfferEntity(Long id, UUID uuid, String name, String description, double price, ProductEntity productEntity, boolean withDevice, OfferType offerType) {
+    public OfferEntity(Long id, UUID uuid, String name, String description, double price, ProductEntity productEntity, boolean withDevice, OfferType offerType, boolean isArchival) {
         this.id = id;
         this.uuid = uuid;
         this.name = name;
@@ -47,5 +50,6 @@ public class OfferEntity {
         this.productEntity = productEntity;
         this.withDevice = withDevice;
         this.offerType = offerType;
+        this.isArchival = isArchival;
     }
 }

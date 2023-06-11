@@ -4,8 +4,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.psk.upc.exception.GenericNotFoundException;
 import pl.psk.upc.infrastructure.entity.*;
 import pl.psk.upc.infrastructure.repository.*;
+import pl.psk.upc.tech.MethodArgumentValidator;
 import pl.psk.upc.web.order.OrderDto;
 import pl.psk.upc.web.order.OrderDtoWrapper;
 import pl.psk.upc.web.order.OrderInputDto;
@@ -17,7 +19,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class OrderServiceImpl implements OrderService {
+class OrderServiceImpl implements OrderService {
+    private final static String NOT_FOUND_MESSAGE = "Order not found";
+    private final static String USER_NOT_FOUND_MESSAGE = "User not found";
 
     private final ClientRepository clientRepository;
     private final EmployeeRepository employeeRepository;
@@ -39,37 +43,42 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDtoWrapper getOrdersByClient(UUID clientUuid) {
+        MethodArgumentValidator.requiredNotNull(clientUuid, "clientUuid");
         ClientAccountEntity clientAccountEntity = clientRepository.findByUuid(clientUuid)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
         return OrderConverter.convertFrom(clientAccountEntity.getOrderEntities());
     }
 
     @Override
     public OrderDtoWrapper getOrdersByClient(String email) {
+        MethodArgumentValidator.requiredNotNullOrBlankString(email, "email");
         ClientAccountEntity clientAccountEntity = clientRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
 
         return OrderConverter.convertFrom(clientAccountEntity.getOrderEntities());
     }
 
     @Override
     public OrderDto getOrderByUuid(UUID uuid) {
+        MethodArgumentValidator.requiredNotNull(uuid, "uuid");
         return OrderConverter.convertFrom(orderRepository.getByUuid(uuid)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found")));
+                .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE)));
     }
 
     @Override
     public OrderDtoWrapper getOrdersByEmployee(UUID employeeUuid) {
+        MethodArgumentValidator.requiredNotNull(employeeUuid, "employeeUuid");
         EmployeeEntity employee = employeeRepository.findByUuid(employeeUuid)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
         List<OrderEntity> orders = orderRepository.getOrdersByEmployeeEntity(employee);
         return OrderConverter.convertFrom(orders);
     }
 
     @Override
     public OrderDtoWrapper getOrdersByEmployee(String email) {
+        MethodArgumentValidator.requiredNotNullOrBlankString(email, "email");
         EmployeeEntity employee = employeeRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
         List<OrderEntity> orders = orderRepository.getOrdersByEmployeeEntity(employee);
         return OrderConverter.convertFrom(orders);
     }
@@ -77,19 +86,20 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public UUID saveOrder(OrderInputDto order) {
+        MethodArgumentValidator.requiredNotNull(order, "order");
         ClientAccountEntity clientAccountEntity = clientRepository.findByEmail(order.getClientEmail())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
         EmployeeEntity employeeEntity = null;
         if(StringUtils.isNotBlank(order.getEmployeeEmail())) {
             employeeEntity = employeeRepository.findByEmail(order.getEmployeeEmail())
-                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                    .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
         }
         OfferEntity offer = offerRepository.findByUuid(order.getOfferUuid())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE));
 
         List<ProductEntity> products = order.getProductUuids().stream()
                 .map(productRepository::findByUuid)
-                .map(productEntity -> productEntity.orElseThrow(() -> new UsernameNotFoundException("Not found")))
+                .map(productEntity -> productEntity.orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE)))
                 .toList();
 
         ZonedDateTime contractStartDate = ZonedDateTime.now(ZoneId.systemDefault());
@@ -140,8 +150,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto updateOrderStatus(UUID orderUuid) {
+        MethodArgumentValidator.requiredNotNull(orderUuid, "orderUuid");
         OrderEntity order = orderRepository.getByUuid(orderUuid)
-                .orElseThrow(() -> new UsernameNotFoundException("Order not found"));
+                .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE));
         order.setPaymentStatus(PaymentStatus.OPLACONE);
 
         ContractEntity contractEntity = order.getService()
