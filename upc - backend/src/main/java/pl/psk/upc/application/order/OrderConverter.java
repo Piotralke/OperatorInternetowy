@@ -1,6 +1,5 @@
 package pl.psk.upc.application.order;
 
-import pl.psk.upc.application.client.ClientConverter;
 import pl.psk.upc.application.employee.EmployeeConverter;
 import pl.psk.upc.application.product.ProductConverter;
 import pl.psk.upc.application.service.ServiceConverter;
@@ -13,7 +12,6 @@ import java.util.List;
 public class OrderConverter {
 
     public static OrderDto convertFrom(OrderEntity order) {
-
         return OrderDto.builder()
                 .uuid(order.getUuid())
                 .orderDate(order.getOrderDate())

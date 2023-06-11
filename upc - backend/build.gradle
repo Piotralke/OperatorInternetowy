@@ -37,6 +37,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'com.paypal.sdk:rest-api-sdk:1.14.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation group: 'com.itextpdf', name: 'kernel', version: '7.0.0'
+    implementation group: 'com.itextpdf', name: 'itextpdf', version: '5.5.1'
+    implementation group: 'com.lowagie', name: 'itext', version: '2.1.7'
+
 }
 
 

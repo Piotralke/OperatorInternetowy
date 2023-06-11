@@ -6,6 +6,9 @@ import lombok.Value;
 import pl.psk.upc.infrastructure.entity.OrderEntity;
 import pl.psk.upc.infrastructure.entity.ServiceEntity;
 import pl.psk.upc.infrastructure.entity.UserProblemEntity;
+import pl.psk.upc.web.order.OrderDto;
+import pl.psk.upc.web.service.ServiceDto;
+import pl.psk.upc.web.userproblem.UserProblemDto;
 
 import java.util.Collections;
 import java.util.List;
@@ -63,18 +66,18 @@ public class ClientDto {
     boolean isBusinessClient;
 
     @JsonProperty(ORDERS)
-    List<OrderEntity> orders;
+    List<OrderDto> orders;
 
     @JsonProperty(USER_PROBLEMS)
-    List<UserProblemEntity> userProblems;
+    List<UserProblemDto> userProblems;
 
     @JsonProperty(SERVICES)
-    List<ServiceEntity> services;
+    List<ServiceDto> services;
 
     @Builder
     public ClientDto(@JsonProperty(UUID) java.util.UUID uuid, @JsonProperty(FIRST_NAME) String firstName, @JsonProperty(LAST_NAME)String lastName, @JsonProperty(EMAIL) String email, @JsonProperty(ADDRESS) String address,
                      @JsonProperty(BALANCE) double balance, @JsonProperty(ACCOUNT_STATUS) String accountStatus, @JsonProperty(PHONE_NUMBER) String phoneNumber, @JsonProperty(NIP) String nip, @JsonProperty(PESEL) String pesel,
-                     @JsonProperty(ORDERS) List<OrderEntity> orders, @JsonProperty(USER_PROBLEMS) List<UserProblemEntity> userProblems, @JsonProperty(SERVICES) List<ServiceEntity> services, @JsonProperty(IS_BUSINESS_CLIENT) boolean isBusinessClient) {
+                     @JsonProperty(ORDERS) List<OrderDto> orders, @JsonProperty(USER_PROBLEMS) List<UserProblemDto> userProblems, @JsonProperty(SERVICES) List<ServiceDto> services, @JsonProperty(IS_BUSINESS_CLIENT) boolean isBusinessClient) {
         this.uuid = uuid;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -91,15 +94,15 @@ public class ClientDto {
         this.isBusinessClient = isBusinessClient;
     }
 
-    public List<OrderEntity> getOrders() {
+    public List<OrderDto> getOrders() {
         return this.orders == null ? Collections.emptyList() : this.orders;
     }
 
-    public List<UserProblemEntity> getUserProblems() {
+    public List<UserProblemDto> getUserProblems() {
         return this.userProblems == null ? Collections.emptyList() : this.userProblems;
     }
 
-    public List<ServiceEntity> getServices() {
+    public List<ServiceDto> getServices() {
         return this.services == null ? Collections.emptyList() : this.services;
     }
 }

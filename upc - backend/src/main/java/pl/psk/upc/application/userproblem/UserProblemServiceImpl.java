@@ -7,16 +7,17 @@ import pl.psk.upc.infrastructure.entity.UserProblemEntity;
 import pl.psk.upc.infrastructure.enums.UserProblemStatusEnum;
 import pl.psk.upc.infrastructure.repository.ClientRepository;
 import pl.psk.upc.infrastructure.repository.UserProblemRepository;
+import pl.psk.upc.tech.MethodArgumentValidator;
 import pl.psk.upc.web.userproblem.*;
 
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Service
-public class UserProblemServiceImpl implements UserProblemService {
+class UserProblemServiceImpl implements UserProblemService {
+    private final static String USER_NOT_FOUND_MESSAGE = "User not found";
 
     private final ClientRepository clientRepository;
     private final UserProblemRepository userProblemRepository;
@@ -28,8 +29,9 @@ public class UserProblemServiceImpl implements UserProblemService {
 
     @Override
     public UUID saveUserProblem(UserProblemInputDto userProblemInputDto) {
+        MethodArgumentValidator.requiredNotNull(userProblemInputDto, "userProblemInputDto");
         ClientAccountEntity clientAccountEntity = clientRepository.findByEmail(userProblemInputDto.getEmail())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
         UserProblemEntity userProblem = UserProblemEntity.builder()
                 .uuid(UUID.randomUUID())
                 .description(userProblemInputDto.getDescription())
@@ -43,8 +45,9 @@ public class UserProblemServiceImpl implements UserProblemService {
 
     @Override
     public UserProblemDtoWrapper getUserProblems(String email) {
+        MethodArgumentValidator.requiredNotNullOrBlankString(email, "email");
         ClientAccountEntity clientAccountEntity = clientRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
 
         List<UserProblemEntity> userProblems = userProblemRepository.findByClientAccountEntity(clientAccountEntity);
         return UserProblemConverter.convertFrom(userProblems);
@@ -57,12 +60,14 @@ public class UserProblemServiceImpl implements UserProblemService {
 
     @Override
     public UserProblemDto getUserProblem(UUID uuid) {
+        MethodArgumentValidator.requiredNotNull(uuid, "uuid");
         UserProblemEntity userProblem = userProblemRepository.findByUuid(uuid);
         return UserProblemConverter.convertFrom(userProblem);
     }
 
     @Override
     public UserProblemDto setUserProblemStatus(UserProblemSetStatusInputDto inputDto) {
+        MethodArgumentValidator.requiredNotNull(inputDto, "inputDto");
         UserProblemEntity userProblem = userProblemRepository.findByUuid(inputDto.getUuid());
         userProblem.setUserProblemStatus(inputDto.getStatus());
         if (inputDto.getStatus().equals(UserProblemStatusEnum.END)) {

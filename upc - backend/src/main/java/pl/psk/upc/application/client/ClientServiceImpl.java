@@ -7,6 +7,7 @@ import pl.psk.upc.infrastructure.dto.ClientRegisterRequestDto;
 import pl.psk.upc.infrastructure.entity.ClientAccountEntity;
 import pl.psk.upc.infrastructure.enums.RoleEnum;
 import pl.psk.upc.infrastructure.repository.ClientRepository;
+import pl.psk.upc.tech.MethodArgumentValidator;
 import pl.psk.upc.web.user.ClientDto;
 import pl.psk.upc.web.user.ClientDtoWrapper;
 import pl.psk.upc.web.user.ClientEditRequestDto;
@@ -16,7 +17,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class ClientServiceImpl implements ClientService {
+class ClientServiceImpl implements ClientService {
+    private final static String NOT_FOUND_MESSAGE = "User not found";
 
     private final ClientRepository clientRepository;
     private final PasswordEncoder passwordEncoder;
@@ -29,15 +31,17 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientDto findByEmail(String email) {
+        MethodArgumentValidator.requiredNotNullOrBlankString(email, "email");
         ClientAccountEntity client = clientRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException(NOT_FOUND_MESSAGE));
         return ClientConverter.convertFrom(client);
     }
 
     @Override
     public ClientDto findByUuid(UUID uuid) {
+        MethodArgumentValidator.requiredNotNull(uuid, "uuid");
         ClientAccountEntity client = clientRepository.findByUuid(uuid)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException(NOT_FOUND_MESSAGE));
         return ClientConverter.convertFrom(client);
     }
 
@@ -49,6 +53,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public UUID save(ClientRegisterRequestDto registerRequestDto) {
+        MethodArgumentValidator.requiredNotNull(registerRequestDto, "registerRequestDto");
         Optional<ClientAccountEntity> optionalClientAccount = clientRepository.findByEmail(registerRequestDto.getEmail());
         UUID uuid = null;
 
@@ -80,8 +85,9 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public UUID edit(ClientEditRequestDto clientEditRequestDto) {
+        MethodArgumentValidator.requiredNotNull(clientEditRequestDto, "clientEditRequestDto");
         ClientAccountEntity client = clientRepository.findByUuid(clientEditRequestDto.getUuid())
-                .orElseThrow(() -> new UsernameNotFoundException("Not found"));
+                .orElseThrow(() -> new UsernameNotFoundException(NOT_FOUND_MESSAGE));
 
         client.setFirstName(clientEditRequestDto.getFirstName());
         client.setLastName(clientEditRequestDto.getLastName());

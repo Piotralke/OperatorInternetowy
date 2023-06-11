@@ -1,16 +1,18 @@
 package pl.psk.upc.application.service;
 
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import pl.psk.upc.exception.GenericNotFoundException;
 import pl.psk.upc.infrastructure.entity.ServiceEntity;
 import pl.psk.upc.infrastructure.repository.ServiceRepository;
+import pl.psk.upc.tech.MethodArgumentValidator;
 import pl.psk.upc.web.service.ServiceDto;
 import pl.psk.upc.web.service.ServiceDtoWrapper;
 
 import java.util.UUID;
 
 @Service
-public class ServiceServiceImpl implements ServiceService {
+class ServiceServiceImpl implements ServiceService {
+    private final static String NOT_FOUND_MESSAGE = "Service not found";
 
     private final ServiceRepository serviceRepository;
 
@@ -25,8 +27,9 @@ public class ServiceServiceImpl implements ServiceService {
 
     @Override
     public ServiceDto getService(UUID uuid) {
+        MethodArgumentValidator.requiredNotNull(uuid, "uuid");
         ServiceEntity service = serviceRepository.findByUuid(uuid)
-                .orElseThrow(() -> new UsernameNotFoundException("Service not found"));
+                .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE));
         return ServiceConverter.convertFrom(service);
     }
 }

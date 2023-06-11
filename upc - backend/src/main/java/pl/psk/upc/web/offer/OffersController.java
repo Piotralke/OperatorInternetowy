@@ -46,4 +46,9 @@ public class OffersController {
         return offerService.saveOffer(saveOfferRequestDto);
     }
 
+    @PutMapping(UpcRestPaths.EDIT_OFFER_STATUS)
+    public UUID editOfferStatus(@PathVariable(value = "uuid") UUID uuid, @RequestParam boolean isArchival) {
+        return offerService.setOfferStatus(uuid, isArchival);
+    }
+
 }

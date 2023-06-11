@@ -1,11 +1,14 @@
 package pl.psk.upc.infrastructure.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import pl.psk.upc.web.product.ProductDto;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -23,6 +26,9 @@ public class PaymentEntity {
     @Column(name = "uuid")
     UUID uuid;
 
+    @Column(name = "name")
+    String name;
+
     @Column(name = "data")
     ZonedDateTime date;
 
@@ -36,5 +42,11 @@ public class PaymentEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "contract_id")
     ContractEntity contractEntity;
+
+    @Column(name = "productsUuid")
+    String productsUuid;
+
+    @Column(name = "serviceUuid")
+    String serviceUuid;
 
 }

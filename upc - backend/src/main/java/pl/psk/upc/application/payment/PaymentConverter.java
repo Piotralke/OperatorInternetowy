@@ -16,11 +16,15 @@ public class PaymentConverter {
         if (payment == null) {
             return PaymentDto.builder().build();
         }
+
         return PaymentDto.builder()
                 .uuid(payment.getUuid())
                 .date(payment.getDate())
                 .amount(payment.getAmount())
                 .paymentStatus(payment.getPaymentStatus())
+                .name(payment.getName())
+                .productDtosUuids(payment.getProductsUuid())
+                .serviceUuid(payment.getServiceUuid())
                 .build();
     }
 

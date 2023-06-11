@@ -33,15 +33,15 @@ public class TestService {
         this.faker = Faker.instance();
     }
 
-   @EventListener(ApplicationReadyEvent.class)
-   public void initDb() {
-       initProducts();
-       initWarehouse();
-       initOffers();
-       initAdminAccount();
-       initWorkerAccount();
-       initClientAccounts();
-   }
+//   @EventListener(ApplicationReadyEvent.class)
+//   public void initDb() {
+//       initProducts();
+//       initWarehouse();
+//       initOffers();
+//       initAdminAccount();
+//       initWorkerAccount();
+//       initClientAccounts();
+//   }
 
     private void initProducts() {
         for (Products p : Products.values()) {
@@ -77,6 +77,7 @@ public class TestService {
                     .price(o.getPrice())
                     .withDevice(o.isWithDevice())
                     .productEntity(getProductEntity(o.isWithDevice(), o.getProductType()))
+                    .isArchival(o.isArchival())
                     .build());
         }
     }
@@ -129,17 +130,17 @@ public class TestService {
     private void initClientAccounts() {
         for (int i = 0; i < 10; i++) {
             clientRepository.save(ClientAccountEntity.builder()
-                            .uuid(UUID.randomUUID())
-                            .firstName(faker.name().firstName())
-                            .lastName(faker.name().lastName())
-                            .email(faker.internet().emailAddress())
-                            .password("client" + i)
-                            .address(faker.address().fullAddress())
-                            .balance(0)
-                            .accountStatus("client")
-                            .roles("USER")
-                            .phoneNumber(faker.phoneNumber().phoneNumber())
-                            .isBusinessClient(false)
+                    .uuid(UUID.randomUUID())
+                    .firstName(faker.name().firstName())
+                    .lastName(faker.name().lastName())
+                    .email(faker.internet().emailAddress())
+                    .password("client" + i)
+                    .address(faker.address().fullAddress())
+                    .balance(0)
+                    .accountStatus("client")
+                    .roles("USER")
+                    .phoneNumber(faker.phoneNumber().phoneNumber())
+                    .isBusinessClient(false)
                     .build());
         }
     }

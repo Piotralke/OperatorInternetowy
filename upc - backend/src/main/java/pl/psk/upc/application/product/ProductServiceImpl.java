@@ -1,10 +1,11 @@
 package pl.psk.upc.application.product;
 
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import pl.psk.upc.exception.GenericNotFoundException;
 import pl.psk.upc.infrastructure.entity.ProductEntity;
 import pl.psk.upc.infrastructure.entity.ProductType;
 import pl.psk.upc.infrastructure.repository.ProductRepository;
+import pl.psk.upc.tech.MethodArgumentValidator;
 import pl.psk.upc.web.product.ProductDto;
 import pl.psk.upc.web.product.ProductDtoWrapper;
 import pl.psk.upc.web.product.ProductEditRequestDto;
@@ -14,7 +15,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class ProductServiceImpl implements ProductService {
+class ProductServiceImpl implements ProductService {
+    private final static String NOT_FOUND_MESSAGE = "Product not found";
 
     private final ProductRepository productRepository;
 
@@ -24,6 +26,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDtoWrapper getProductsByType(ProductType productType) {
+        MethodArgumentValidator.requiredNotNullEnum(productType, "productType");
         List<ProductEntity> productsByType = productRepository.findByProductType(productType);
         return ProductConverter.convertFrom(productsByType);
     }
@@ -35,15 +38,17 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto getProduct(UUID uuid) {
+        MethodArgumentValidator.requiredNotNull(uuid, "uuid");
         ProductEntity product = productRepository.findByUuid(uuid)
-                .orElseThrow(() -> new UsernameNotFoundException("Not found"));
+                .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE));
         return ProductConverter.convertFrom(product);
     }
 
     @Override
     public ProductDto editProduct(ProductEditRequestDto productEditRequestDto) {
+        MethodArgumentValidator.requiredNotNull(productEditRequestDto, "productEditRequestDto");
         ProductEntity product = productRepository.findByUuid(productEditRequestDto.getUuid())
-                .orElseThrow(() -> new UsernameNotFoundException("Not found"));
+                .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE));
         product.setPrice(productEditRequestDto.getPrice());
         product.setDescription(productEditRequestDto.getDescription());
         return ProductConverter.convertFrom(productRepository.save(product));
@@ -51,6 +56,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto saveProduct(SaveProductRequestDto saveProductRequestDto) {
+        MethodArgumentValidator.requiredNotNull(saveProductRequestDto, "saveProductRequestDto");
         ProductEntity newProduct = ProductEntity.builder()
                 .uuid(UUID.randomUUID())
                 .name(saveProductRequestDto.getName())

@@ -1,13 +1,23 @@
 package pl.psk.upc.web.payment;
 
 import com.paypal.base.rest.PayPalRESTException;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.core.io.FileUrlResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.ResourceRegion;
+import org.springframework.http.MediaType;
+import org.springframework.http.MediaTypeFactory;
 import org.springframework.web.bind.annotation.*;
+import pl.psk.upc.application.payment.InvoiceService;
+import pl.psk.upc.application.payment.PaymentService;
 import pl.psk.upc.application.paypal.PayPalService;
-import pl.psk.upc.infrastructure.entity.ContractLengthEnum;
 import pl.psk.upc.infrastructure.entity.PaymentStatus;
 import pl.psk.upc.web.UpcRestPaths;
 import pl.psk.upc.web.order.OrderDto;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -16,9 +26,13 @@ import java.util.UUID;
 public class PaymentController {
 
     private final PayPalService payPalService;
+    private final PaymentService paymentService;
+    private final InvoiceService invoiceService;
 
-    public PaymentController(PayPalService payPalService) {
+    public PaymentController(PayPalService payPalService, PaymentService paymentService, InvoiceService invoiceService) {
         this.payPalService = payPalService;
+        this.paymentService = paymentService;
+        this.invoiceService = invoiceService;
     }
 
     @GetMapping(UpcRestPaths.PAYMENT_STATUSES)
@@ -30,6 +44,25 @@ public class PaymentController {
     @GetMapping(UpcRestPaths.CREATE_PAYMENT)
     public String createPayment(@RequestBody PaymentInputDto inputDto) throws PayPalRESTException {
         return payPalService.createPayment(inputDto);
+    }
+
+    @GetMapping(UpcRestPaths.GET_INVOICES_BY_CLIENT_UUID)
+    public InvoiceDtoWrapper getInvoicesByUser(@PathVariable UUID uuid) {
+        return paymentService.findAllByUser(uuid);
+    }
+
+    @GetMapping(UpcRestPaths.GET_INVOICE_AS_PDF)
+    public void generateInvoiceAsPdf(@RequestParam UUID clientUuid, @RequestParam UUID paymentUuid, HttpServletResponse response) throws IOException {
+        ResourceRegion resourceRegion = invoiceService.generateInvoice(clientUuid, paymentUuid);
+        Resource resource = resourceRegion.getResource();
+        String contentType = MediaTypeFactory.getMediaType(resource)
+                .orElse(MediaType.APPLICATION_OCTET_STREAM).toString();
+        response.setContentType(contentType);
+        response.setContentLengthLong(resource.contentLength());
+
+        try (InputStream i = resource.getInputStream()) {
+            i.transferTo(response.getOutputStream());
+        }
     }
 
     @PostMapping(UpcRestPaths.EXECUTE_PAYMENT)
