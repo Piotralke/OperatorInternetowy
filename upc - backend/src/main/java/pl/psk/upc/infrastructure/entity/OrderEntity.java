@@ -44,11 +44,10 @@ public class OrderEntity {
     @JoinColumn(name = "id")
     ClientAccountEntity clientAccountEntity;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "orderEntity", cascade = CascadeType.ALL)
     List<ProductEntity> productEntities;
 
     @OneToOne
-//    @JoinColumn(name = "service_id")
     ServiceEntity service;
 
 }

@@ -24,7 +24,6 @@ public class PaymentConverter {
                 .paymentStatus(payment.getPaymentStatus())
                 .name(payment.getName())
                 .productDtosUuids(payment.getProductsUuid())
-                .serviceUuid(payment.getServiceUuid())
                 .build();
     }
 

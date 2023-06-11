@@ -1,5 +1,7 @@
 package pl.psk.upc.infrastructure.entity;
 
 public enum OrderStatus {
-    PRZYJETE;
+    PRZYJETE,
+    W_TRAKCIE_PRZYGOTOWANIA,
+    ZAKONCZONE;
 }

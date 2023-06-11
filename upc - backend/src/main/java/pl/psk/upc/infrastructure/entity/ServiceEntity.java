@@ -34,11 +34,8 @@ public class ServiceEntity {
     ClientAccountEntity clientAccountEntity;
 
     @JsonManagedReference
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "contract_id")
     ContractEntity contractEntity;
-
-//    @OneToOne(mappedBy = "service")
-//    OrderEntity orderEntity;
 
 }

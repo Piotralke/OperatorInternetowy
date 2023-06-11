@@ -3,6 +3,7 @@ package pl.psk.upc.web.order;
 import org.springframework.web.bind.annotation.*;
 import pl.psk.upc.application.order.OrderService;
 import pl.psk.upc.infrastructure.entity.OrderEntity;
+import pl.psk.upc.infrastructure.entity.OrderStatus;
 import pl.psk.upc.infrastructure.repository.OrderRepository;
 import pl.psk.upc.web.UpcRestPaths;
 
@@ -46,6 +47,11 @@ public class OrderController {
     @PostMapping(UpcRestPaths.SAVE_ORDER)
     public UUID saveOrder(@RequestBody OrderInputDto order) {
         return orderService.saveOrder(order);
+    }
+
+    @PutMapping()
+    public UUID editOrderStatus(@PathVariable(value = "uuid") UUID uuid, @RequestParam OrderStatus orderStatus) {
+        return orderService.updateOrderStatus(uuid, orderStatus);
     }
 
 }

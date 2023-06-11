@@ -68,6 +68,9 @@ public class ClientAccountEntity {
     @OneToMany(mappedBy = "clientAccountEntity", cascade = CascadeType.ALL)
     List<ServiceEntity> services;
 
+    @OneToMany(mappedBy = "clientAccountEntity", cascade = CascadeType.ALL)
+    List<NoticeEntity> notices;
+
     public UUID getUuid() {
         return uuid;
     }

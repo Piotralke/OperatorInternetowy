@@ -35,9 +35,8 @@ class ContractServiceImpl implements ContractService {
         this.serviceService = serviceService;
     }
 
-
     @Override
-    public ContractDto addNewPaymentToContract(UUID contractUuid, double paymentAmount, String serviceName, List<ProductDto> products, String serviceUuid) {
+    public ContractDto addNewPaymentToContract(UUID contractUuid, double paymentAmount, String serviceName, List<ProductDto> products) {
         MethodArgumentValidator.requiredNotNull(contractUuid, "contractUuid");
         ContractEntity contract = contractRepository.findByUuid(contractUuid)
                 .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE));
@@ -45,7 +44,6 @@ class ContractServiceImpl implements ContractService {
         if (payments == null) {
             payments = new ArrayList<>();
         }
-        ServiceEntity serviceEntity = contract.getServiceEntity();
         String productsUuidList = products.stream()
                 .map(ProductDto::getUuid)
                 .map(UUID::toString)
@@ -59,7 +57,6 @@ class ContractServiceImpl implements ContractService {
                 .contractEntity(contract)
                 .name(serviceName)
                 .productsUuid(productsUuidList)
-//                .serviceUuid()
                 .build();
         PaymentEntity savedPayment = paymentRepository.save(newPayment);
         payments.add(savedPayment);

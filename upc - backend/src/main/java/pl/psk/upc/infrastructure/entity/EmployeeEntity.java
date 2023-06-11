@@ -1,11 +1,12 @@
 package pl.psk.upc.infrastructure.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.psk.upc.infrastructure.dto.Account;
 
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -32,9 +33,6 @@ public class EmployeeEntity implements Account {
 
     @Column(name = "password")
     private String password;
-
-//    @Column(name = "balance")
-//    private double balance;
 
     @Column(name = "account_status")
     private String accountStatus;
@@ -127,9 +125,3 @@ public class EmployeeEntity implements Account {
         return pesel;
     }
 }
-
-//    @OneToMany(mappedBy = "order_id", cascade = CascadeType.ALL)
-//    List<OrderEntity> orderEntities;
-
-
-

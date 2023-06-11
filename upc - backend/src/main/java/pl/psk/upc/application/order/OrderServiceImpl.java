@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.psk.upc.exception.GenericException;
 import pl.psk.upc.exception.GenericNotFoundException;
 import pl.psk.upc.infrastructure.entity.*;
 import pl.psk.upc.infrastructure.repository.*;
@@ -90,7 +91,7 @@ class OrderServiceImpl implements OrderService {
         ClientAccountEntity clientAccountEntity = clientRepository.findByEmail(order.getClientEmail())
                 .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
         EmployeeEntity employeeEntity = null;
-        if(StringUtils.isNotBlank(order.getEmployeeEmail())) {
+        if (StringUtils.isNotBlank(order.getEmployeeEmail())) {
             employeeEntity = employeeRepository.findByEmail(order.getEmployeeEmail())
                     .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
         }
@@ -137,7 +138,7 @@ class OrderServiceImpl implements OrderService {
                 .build();
 
         List<ServiceEntity> services = clientAccountEntity.getServices();
-        if(services == null) {
+        if (services == null) {
             services = new ArrayList<>();
         }
         services.add(savedService);
@@ -149,7 +150,7 @@ class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDto updateOrderStatus(UUID orderUuid) {
+    public OrderDto updatePaymentStatusInOrder(UUID orderUuid) {
         MethodArgumentValidator.requiredNotNull(orderUuid, "orderUuid");
         OrderEntity order = orderRepository.getByUuid(orderUuid)
                 .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE));
@@ -162,7 +163,7 @@ class OrderServiceImpl implements OrderService {
                 .map(PaymentEntity::getDate)
                 .sorted()
                 .toList();
-        ZonedDateTime lastPaymentDate = sortedDates.get(sortedDates.size()-1);
+        ZonedDateTime lastPaymentDate = sortedDates.get(sortedDates.size() - 1);
         for (PaymentEntity p : paymentEntity) {
             if (p.getDate().equals(lastPaymentDate)) {
                 p.setPaymentStatus(PaymentStatus.OPLACONE);
@@ -171,6 +172,20 @@ class OrderServiceImpl implements OrderService {
         contractEntity.setPaymentEntities(paymentEntity);
         contractRepository.save(contractEntity);
         return OrderConverter.convertFrom(orderRepository.save(order));
+    }
+
+    @Override
+    public UUID updateOrderStatus(UUID orderUuid, OrderStatus orderStatus) {
+        MethodArgumentValidator.requiredNotNull(orderUuid, "orderUuid");
+        OrderEntity order = orderRepository.getByUuid(orderUuid)
+                .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE));
+
+        if (order.getPaymentStatus() != PaymentStatus.OPLACONE) {
+            throw new GenericException("The order has not been paid");
+        }
+        order.setOrderStatus(orderStatus);
+        return orderRepository.save(order)
+                .getUuid();
     }
 
     private Double calculateOrderAmount(OfferEntity offer, List<ProductEntity> products) {

@@ -30,9 +30,9 @@ public class ProductEntity {
     @Enumerated(EnumType.STRING)
     ProductType productType;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "order_id")
-//    OrderEntity orderEntity;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "order_id")
+    OrderEntity orderEntity;
 
 
     @Builder

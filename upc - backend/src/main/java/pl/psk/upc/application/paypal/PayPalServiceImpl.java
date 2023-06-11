@@ -50,7 +50,6 @@ class PayPalServiceImpl implements PayPalService {
         double paymentAmount = 0.0;
         ContractDto contract = null;
         String serviceName = "";
-        String serviceUuid = "";
         List<ProductDto> products = new ArrayList<>();
 
         if (inputDto.getOrderUuid() != null) {
@@ -59,7 +58,6 @@ class PayPalServiceImpl implements PayPalService {
                     .getContract();
             paymentAmount = order.getAmount();
             serviceName = order.getService().getName();
-            serviceUuid = order.getService().getUuid().toString();
             if(order.getProductDtos() != null) {
                 products = order.getProductDtos();
             }
@@ -68,14 +66,13 @@ class PayPalServiceImpl implements PayPalService {
             contract = service.getContract();
             paymentAmount = contract.getAmount();
             serviceName = service.getName();
-            serviceUuid = service.getUuid().toString();
         }
 
         Payment payment = preparePayment(paymentAmount, inputDto);
 
         Payment approvedPayment = payment.create(apiContext);
 
-        contractService.addNewPaymentToContract(contract.getUuid(), paymentAmount, serviceName, products, serviceUuid);
+        contractService.addNewPaymentToContract(contract.getUuid(), paymentAmount, serviceName, products);
 
         return getApprovalLink(approvedPayment);
     }
@@ -135,23 +132,24 @@ class PayPalServiceImpl implements PayPalService {
         return approvalLink;
     }
 
-    public OrderDto executePayment(String paymentId, String payerId, UUID orderUuid, UUID paymentUuid) throws PayPalRESTException {
-//        PaymentExecution paymentExecution = new PaymentExecution();
-//        paymentExecution.setPayerId(payerId);
-//
-//        Payment payment = new Payment();
-//        payment.setId(paymentId);
-//
-//        Payment executedPayment = payment.execute(apiContext, paymentExecution);
-//
-//        if (!executedPayment.getState().equals("approved")) {
-//            throw new PayPalRESTException("Payment not approved");
-//        }
-        if (orderUuid == null) {
-            paymentService.updateStatus(paymentUuid);
-            return orderService.getOrderByUuid(orderUuid);
-        } else {
-            return orderService.updateOrderStatus(orderUuid);
+    public void executePayment(String paymentId, String payerId, UUID orderUuid, UUID paymentUuid) throws PayPalRESTException {
+        MethodArgumentValidator.requiredNotNullOrBlankString(paymentId, "paymentId");
+        MethodArgumentValidator.requiredNotNullOrBlankString(payerId, "payerId");
+
+        PaymentExecution paymentExecution = new PaymentExecution();
+        paymentExecution.setPayerId(payerId);
+
+        Payment payment = new Payment();
+        payment.setId(paymentId);
+
+        Payment executedPayment = payment.execute(apiContext, paymentExecution);
+
+        if (!executedPayment.getState().equals("approved")) {
+            throw new PayPalRESTException("Payment not approved");
+        }
+        paymentService.updateStatus(paymentUuid);
+        if (orderUuid != null) {
+            orderService.updatePaymentStatusInOrder(orderUuid);
         }
     }
 

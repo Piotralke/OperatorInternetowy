@@ -46,7 +46,4 @@ public class PaymentEntity {
     @Column(name = "productsUuid")
     String productsUuid;
 
-    @Column(name = "serviceUuid")
-    String serviceUuid;
-
 }

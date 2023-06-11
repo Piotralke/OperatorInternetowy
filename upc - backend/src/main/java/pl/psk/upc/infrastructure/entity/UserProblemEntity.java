@@ -34,8 +34,8 @@ public class UserProblemEntity {
     @Column(name = "user_problem_status")
     UserProblemStatusEnum userProblemStatus;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id")
     ClientAccountEntity clientAccountEntity;
 
     @Builder

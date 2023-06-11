@@ -1,34 +1,40 @@
 package pl.psk.upc.infrastructure.entity;
 
 import jakarta.persistence.*;
-import lombok.Value;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.UUID;
 
-@Value
 @Entity
 @Table(name = "notices")
+@Builder
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class NoticeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    Long notice_id;
 
     @Column(name = "uuid")
     UUID uuid;
 
     @Column(name = "notice_date")
-    LocalDate noticeDate;
+    ZonedDateTime noticeDate;
 
     @Column(name = "description")
     String description;
 
-    @ManyToOne
-    @JoinColumn(name = "client_id")
+    @Column(name = "is_clicked")
+    boolean isClicked;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id")
     ClientAccountEntity clientAccountEntity;
 
-    @ManyToOne
-    @JoinColumn(name = "employee_id")
-    EmployeeEntity employeeEntity;
 }
