@@ -35,9 +35,6 @@ public class EmployeeEntity implements Account {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "account_status")
-    private String accountStatus;
-
     @Column(name = "roles")
     private String roles;
 
@@ -87,10 +84,6 @@ public class EmployeeEntity implements Account {
     @Override
     public String getPassword() {
         return password;
-    }
-
-    public String getAccountStatus() {
-        return accountStatus;
     }
 
     @Override

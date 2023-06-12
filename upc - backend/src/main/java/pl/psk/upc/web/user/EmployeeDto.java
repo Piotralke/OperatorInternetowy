@@ -12,7 +12,6 @@ public class EmployeeDto {
     private final static String FIRST_NAME = "firstName";
     private final static String LAST_NAME = "lastName";
     private final static String EMAIL = "email";
-    private final static String ACCOUNT_STATUS = "accountStatus";
     private final static String ADDRESS = "address";
     private final static String PHONE_NUMBER = "phoneNumber";
     private final static String WORKPLACE = "workplace";
@@ -32,9 +31,6 @@ public class EmployeeDto {
 
     @JsonProperty(EMAIL)
     String email;
-
-    @JsonProperty(ACCOUNT_STATUS)
-    String accountStatus;
 
     @JsonProperty(ADDRESS)
     String address;
@@ -58,14 +54,13 @@ public class EmployeeDto {
     String pesel;
 
     @Builder
-    public EmployeeDto(@JsonProperty(UUID) java.util.UUID uuid, @JsonProperty(FIRST_NAME) String firstName, @JsonProperty(LAST_NAME) String lastName, @JsonProperty(EMAIL) String email, @JsonProperty(ACCOUNT_STATUS) String accountStatus,
+    public EmployeeDto(@JsonProperty(UUID) java.util.UUID uuid, @JsonProperty(FIRST_NAME) String firstName, @JsonProperty(LAST_NAME) String lastName, @JsonProperty(EMAIL) String email,
                        @JsonProperty(ADDRESS) String address, @JsonProperty(PHONE_NUMBER) String phoneNumber, @JsonProperty(WORKPLACE) String workplace, @JsonProperty(SALARY) double salary, @JsonProperty(CONTRACT_FORM) ContractForm contractForm,
                        @JsonProperty(NIP) String nip, @JsonProperty(PESEL) String pesel) {
         this.uuid = uuid;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.accountStatus = accountStatus;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.workplace = workplace;

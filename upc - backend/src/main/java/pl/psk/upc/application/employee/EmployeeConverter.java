@@ -17,7 +17,6 @@ public class EmployeeConverter {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
-                .accountStatus(user.getAccountStatus())
                 .address(user.getAddress())
                 .phoneNumber(user.getPhoneNumber())
                 .workplace(user.getWorkplace())

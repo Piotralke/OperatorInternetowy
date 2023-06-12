@@ -1,13 +1,12 @@
 package pl.psk.upc.web;
 
 import com.github.javafaker.Faker;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import pl.psk.upc.infrastructure.db.init.Offers;
 import pl.psk.upc.infrastructure.db.init.Products;
 import pl.psk.upc.infrastructure.entity.*;
+import pl.psk.upc.infrastructure.enums.ContractForm;
+import pl.psk.upc.infrastructure.enums.ProductType;
 import pl.psk.upc.infrastructure.repository.*;
 
 import java.util.List;
@@ -102,7 +101,6 @@ public class TestService {
                 .lastName(faker.name().lastName())
                 .email(faker.internet().emailAddress())
                 .password("admin")
-                .accountStatus("admin")
                 .roles("ADMIN")
                 .phoneNumber(String.valueOf(661412255))
                 .workplace("Kielce")
@@ -118,7 +116,6 @@ public class TestService {
                 .lastName(faker.name().lastName())
                 .email(faker.internet().emailAddress())
                 .password("worker")
-                .accountStatus("worker")
                 .roles("WORKER")
                 .phoneNumber(String.valueOf(661412254))
                 .workplace("Kielce")
@@ -137,7 +134,6 @@ public class TestService {
                     .password("client" + i)
                     .address(faker.address().fullAddress())
                     .balance(0)
-                    .accountStatus("client")
                     .roles("USER")
                     .phoneNumber(faker.phoneNumber().phoneNumber())
                     .isBusinessClient(false)
