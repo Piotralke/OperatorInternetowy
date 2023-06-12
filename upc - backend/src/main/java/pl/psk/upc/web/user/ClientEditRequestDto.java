@@ -1,6 +1,10 @@
 package pl.psk.upc.web.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
 import lombok.Builder;
 import lombok.Value;
 
@@ -12,32 +16,35 @@ public class ClientEditRequestDto {
     private final static String LAST_NAME = "lastName";
     private final static String ADDRESS = "address";
     private final static String BALANCE = "balance";
-    private final static String ACCOUNT_STATUS = "accountStatus";
     private final static String PHONE_NUMBER = "phoneNumber";
     private final static String NIP = "nip";
     private final static String IS_BUSINESS_CLIENT = "isBusinessClient";
 
+    @NotNull
     @JsonProperty(UUID)
     java.util.UUID uuid;
 
+    @NotBlank
     @JsonProperty(FIRST_NAME)
     String firstName;
 
+    @NotBlank
     @JsonProperty(LAST_NAME)
     String lastName;
 
+    @NotBlank
     @JsonProperty(ADDRESS)
     String address;
 
+    @Positive
     @JsonProperty(BALANCE)
     double balance;
 
-    @JsonProperty(ACCOUNT_STATUS)
-    String accountStatus;
-
+    @Pattern(regexp = "\\d{9}", message = "Numer telefonu musi składać się z 9 cyfr")
     @JsonProperty(PHONE_NUMBER)
     String phoneNumber;
 
+    @Pattern(regexp = "\\d{10}", message = "NIP musi składać się z 10 cyfr")
     @JsonProperty(NIP)
     String nip;
 
@@ -46,14 +53,13 @@ public class ClientEditRequestDto {
 
     @Builder
     public ClientEditRequestDto(@JsonProperty(UUID) java.util.UUID uuid, @JsonProperty(FIRST_NAME) String firstName, @JsonProperty(LAST_NAME)String lastName, @JsonProperty(ADDRESS) String address,
-                     @JsonProperty(BALANCE) double balance, @JsonProperty(ACCOUNT_STATUS) String accountStatus, @JsonProperty(PHONE_NUMBER) String phoneNumber, @JsonProperty(NIP) String nip,
+                     @JsonProperty(BALANCE) double balance, @JsonProperty(PHONE_NUMBER) String phoneNumber, @JsonProperty(NIP) String nip,
                                 @JsonProperty(IS_BUSINESS_CLIENT) boolean isBusinessClient) {
         this.uuid = uuid;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.balance = balance;
-        this.accountStatus = accountStatus;
         this.phoneNumber = phoneNumber;
         this.nip = nip;
         this.isBusinessClient = isBusinessClient;

@@ -71,7 +71,6 @@ class ClientServiceImpl implements ClientService {
                 .password(passwordEncoder.encode(registerRequestDto.getPassword()))
                 .address(registerRequestDto.getAddress())
                 .balance(0L)
-                .accountStatus(registerRequestDto.getAccountStatus())
                 .roles(RoleEnum.USER.name())
                 .phoneNumber(registerRequestDto.getPhoneNumber())
                 .nip(registerRequestDto.getNip())
@@ -93,7 +92,6 @@ class ClientServiceImpl implements ClientService {
         client.setLastName(clientEditRequestDto.getLastName());
         client.setAddress(clientEditRequestDto.getAddress());
         client.setBalance(clientEditRequestDto.getBalance());
-        client.setAccountStatus(clientEditRequestDto.getAccountStatus());
         client.setPhoneNumber(clientEditRequestDto.getPhoneNumber());
         client.setNip(clientEditRequestDto.getNip());
         client.setBusinessClient(clientEditRequestDto.isBusinessClient());

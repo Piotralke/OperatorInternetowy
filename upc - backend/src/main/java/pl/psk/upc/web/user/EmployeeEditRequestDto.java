@@ -1,6 +1,7 @@
 package pl.psk.upc.web.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.*;
 import lombok.Value;
 import pl.psk.upc.infrastructure.enums.ContractForm;
 
@@ -11,7 +12,6 @@ public class EmployeeEditRequestDto {
     private final static String FIRST_NAME = "firstName";
     private final static String LAST_NAME = "last_name";
     private final static String PASSWORD = "password";
-    private final static String ACCOUNT_STATUS = "accountStatus";
     private final static String ADDRESS = "address";
     private final static String WORKPLACE = "workplace";
     private final static String SALARY = "salary";
@@ -19,47 +19,54 @@ public class EmployeeEditRequestDto {
     private final static String PHONE_NUMBER = "phoneNumber";
     private final static String NIP = "nip";
 
+    @NotBlank
     @JsonProperty(UUID)
-    private java.util.UUID uuid;
+    java.util.UUID uuid;
 
+    @NotBlank
     @JsonProperty(FIRST_NAME)
-    private String firstName;
+    String firstName;
 
+    @NotBlank
     @JsonProperty(LAST_NAME)
-    private String lastName;
+    String lastName;
 
+    @NotBlank(message = "Hasło jest wymagane")
+    @Size(min = 8, message = "Hasło musi mieć co najmniej 8 znaków")
     @JsonProperty(PASSWORD)
-    private String password;
+    String password;
 
-    @JsonProperty(ACCOUNT_STATUS)
-    private String accountStatus;
-
+    @NotBlank
     @JsonProperty(ADDRESS)
-    private String address;
+    String address;
 
+    @Pattern(regexp = "\\d{9}", message = "Numer telefonu musi składać się z 9 cyfr")
     @JsonProperty(PHONE_NUMBER)
-    private String phoneNumber;
+    String phoneNumber;
 
+    @NotBlank
     @JsonProperty(WORKPLACE)
-    private String workplace;
+    String workplace;
 
+    @Positive
     @JsonProperty(SALARY)
-    private double salary;
+    double salary;
 
+    @NotNull
     @JsonProperty(CONTRACT_FORM)
-    private ContractForm contractForm;
+    ContractForm contractForm;
 
+    @Pattern(regexp = "\\d{10}", message = "NIP musi składać się z 10 cyfr")
     @JsonProperty(NIP)
-    private String nip;
+    String nip;
 
-    public EmployeeEditRequestDto(@JsonProperty(UUID) java.util.UUID uuid,@JsonProperty(FIRST_NAME) String firstName, @JsonProperty(LAST_NAME) String lastName, @JsonProperty(PASSWORD) String password, @JsonProperty(ACCOUNT_STATUS) String accountStatus,
+    public EmployeeEditRequestDto(@JsonProperty(UUID) java.util.UUID uuid,@JsonProperty(FIRST_NAME) String firstName, @JsonProperty(LAST_NAME) String lastName, @JsonProperty(PASSWORD) String password,
                                   @JsonProperty(ADDRESS) String address, @JsonProperty(PHONE_NUMBER) String phoneNumber, @JsonProperty(WORKPLACE) String workplace, @JsonProperty(SALARY) double salary,
                                   @JsonProperty(CONTRACT_FORM) ContractForm contractForm, @JsonProperty(NIP) String nip) {
         this.uuid = uuid;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
-        this.accountStatus = accountStatus;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.workplace = workplace;

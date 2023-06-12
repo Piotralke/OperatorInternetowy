@@ -40,9 +40,6 @@ public class ClientAccountEntity {
     @Column(name = "balance")
     private double balance;
 
-    @Column(name = "account_status")
-    private String accountStatus;
-
     @Column(name = "roles")
     private String roles;
 
@@ -93,10 +90,6 @@ public class ClientAccountEntity {
 
     public double getBalance() {
         return balance;
-    }
-
-    public String getAccountStatus() {
-        return this.accountStatus;
     }
 
     public String getRoles() {

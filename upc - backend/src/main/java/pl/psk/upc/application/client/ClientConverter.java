@@ -20,7 +20,6 @@ public class ClientConverter {
                 .email(user.getEmail())
                 .address(user.getAddress())
                 .balance(user.getBalance())
-                .accountStatus(user.getAccountStatus())
                 .phoneNumber(user.getPhoneNumber())
                 .nip(user.getNip())
                 .pesel(user.getPesel())

@@ -1,6 +1,10 @@
 package pl.psk.upc.web.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Value;
 
 @Value
@@ -13,50 +17,57 @@ public class ClientRegisterRequestDto {
     private final static String PASSWORD = "password";
     private final static String ADDRESS = "address";
     private final static String BALANCE = "balance";
-    private final static String ACCOUNT_STATUS = "accountStatus";
     private final static String PHONE_NUMBER = "phoneNumber";
     private final static String NIP = "nip";
     private final static String PESEL = "pesel";
     private final static String IS_BUSINESS_CLIENT = "isBusinessClient";
 
+    @NotBlank
     @JsonProperty(UUID)
-    private String uuid;
+    String uuid;
 
+    @NotBlank
     @JsonProperty(FIRST_NAME)
-    private String firstName;
+    String firstName;
 
+    @NotBlank
     @JsonProperty(LAST_NAME)
-    private String lastName;
+    String lastName;
 
+    @NotBlank(message = "Adres e-mail jest wymagany")
+    @Email(message = "Niepoprawny adres e-mail")
     @JsonProperty(EMAIL)
-    private String email;
+    String email;
 
+    @NotBlank(message = "Hasło jest wymagane")
+    @Size(min = 8, message = "Hasło musi mieć co najmniej 8 znaków")
     @JsonProperty(PASSWORD)
-    private String password;
+    String password;
 
+    @NotBlank
     @JsonProperty(ADDRESS)
-    private String address;
+    String address;
 
     @JsonProperty(BALANCE)
-    private String balance;
+    double balance;
 
-    @JsonProperty(ACCOUNT_STATUS)
-    private String accountStatus;
-
+    @Pattern(regexp = "\\d{9}", message = "Numer telefonu musi składać się z 9 cyfr")
     @JsonProperty(PHONE_NUMBER)
-    private String phoneNumber;
+    String phoneNumber;
 
+    @Pattern(regexp = "\\d{10}", message = "NIP musi składać się z 10 cyfr")
     @JsonProperty(NIP)
-    private String nip;
+    String nip;
 
+    @Pattern(regexp = "\\d{11}", message = "PESEL musi składać się z 11 cyfr")
     @JsonProperty(PESEL)
-    private String pesel;
+    String pesel;
 
     @JsonProperty(IS_BUSINESS_CLIENT)
-    private boolean isBusinessClient;
+    boolean isBusinessClient;
 
     public ClientRegisterRequestDto(@JsonProperty(UUID) String uuid, @JsonProperty(FIRST_NAME) String firstName, @JsonProperty(LAST_NAME) String lastName, @JsonProperty(EMAIL) String email, @JsonProperty(PASSWORD) String password,
-                                    @JsonProperty(ADDRESS) String address, @JsonProperty(BALANCE) String balance, @JsonProperty(ACCOUNT_STATUS) String accountStatus, @JsonProperty(PHONE_NUMBER) String phoneNumber,
+                                    @JsonProperty(ADDRESS) String address, @JsonProperty(BALANCE) double balance, @JsonProperty(PHONE_NUMBER) String phoneNumber,
                                     @JsonProperty(NIP) String nip, @JsonProperty(PESEL) String pesel, @JsonProperty(IS_BUSINESS_CLIENT) boolean isBusinessClient) {
         this.uuid = uuid;
         this.firstName = firstName;
@@ -65,7 +76,6 @@ public class ClientRegisterRequestDto {
         this.password = password;
         this.address = address;
         this.balance = balance;
-        this.accountStatus = accountStatus;
         this.phoneNumber = phoneNumber;
         this.nip = nip;
         this.pesel = pesel;

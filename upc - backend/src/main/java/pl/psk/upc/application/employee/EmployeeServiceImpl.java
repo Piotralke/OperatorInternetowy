@@ -68,7 +68,6 @@ class EmployeeServiceImpl implements EmployeeService {
                 .email(registerRequestDto.getEmail())
                 .password(passwordEncoder.encode(registerRequestDto.getPassword()))
                 .address(registerRequestDto.getAddress())
-                .accountStatus(registerRequestDto.getAccountStatus())
                 .roles(RoleEnum.USER.name())
                 .phoneNumber(registerRequestDto.getPhoneNumber())
                 .workplace(registerRequestDto.getWorkplace())
@@ -90,7 +89,6 @@ class EmployeeServiceImpl implements EmployeeService {
         employee.setFirstName(employeeEditRequestDto.getFirstName());
         employee.setLastName(employeeEditRequestDto.getLastName());
         employee.setPassword(passwordEncoder.encode(employeeEditRequestDto.getPassword()));
-        employee.setAccountStatus(employeeEditRequestDto.getAccountStatus());
         employee.setAddress(employeeEditRequestDto.getAddress());
         employee.setPhoneNumber(employeeEditRequestDto.getPhoneNumber());
         employee.setWorkplace(employeeEditRequestDto.getWorkplace());

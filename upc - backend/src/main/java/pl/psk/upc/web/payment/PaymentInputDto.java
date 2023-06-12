@@ -1,6 +1,8 @@
 package pl.psk.upc.web.payment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Value;
 
 import java.util.UUID;
@@ -14,6 +16,7 @@ public class PaymentInputDto {
     private final static String SUCCESS_URL = "successUrl";
     private final static String CANCEL_URL = "cancelUrl";
 
+    @NotNull
     @JsonProperty(CLIENT_UUID)
     UUID clientUuid;
 
@@ -23,9 +26,11 @@ public class PaymentInputDto {
     @JsonProperty(SERVICE_UUID)
     UUID serviceUuid;
 
+    @NotBlank
     @JsonProperty(SUCCESS_URL)
     String successUrl;
 
+    @NotBlank
     @JsonProperty(CANCEL_URL)
     String cancelUrl;
 
