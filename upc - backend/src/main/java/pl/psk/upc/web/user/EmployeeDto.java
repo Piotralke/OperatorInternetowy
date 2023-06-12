@@ -3,6 +3,7 @@ package pl.psk.upc.web.user;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Value;
+import pl.psk.upc.infrastructure.entity.ContractForm;
 
 @Value
 public class EmployeeDto {
@@ -48,7 +49,7 @@ public class EmployeeDto {
     double salary;
 
     @JsonProperty(CONTRACT_FORM)
-    String contractForm;
+    ContractForm contractForm;
 
     @JsonProperty(NIP)
     String nip;
@@ -58,7 +59,7 @@ public class EmployeeDto {
 
     @Builder
     public EmployeeDto(@JsonProperty(UUID) java.util.UUID uuid, @JsonProperty(FIRST_NAME) String firstName, @JsonProperty(LAST_NAME) String lastName, @JsonProperty(EMAIL) String email, @JsonProperty(ACCOUNT_STATUS) String accountStatus,
-                       @JsonProperty(ADDRESS) String address, @JsonProperty(PHONE_NUMBER) String phoneNumber, @JsonProperty(WORKPLACE) String workplace, @JsonProperty(SALARY) double salary, @JsonProperty(CONTRACT_FORM) String contractForm,
+                       @JsonProperty(ADDRESS) String address, @JsonProperty(PHONE_NUMBER) String phoneNumber, @JsonProperty(WORKPLACE) String workplace, @JsonProperty(SALARY) double salary, @JsonProperty(CONTRACT_FORM) ContractForm contractForm,
                        @JsonProperty(NIP) String nip, @JsonProperty(PESEL) String pesel) {
         this.uuid = uuid;
         this.firstName = firstName;

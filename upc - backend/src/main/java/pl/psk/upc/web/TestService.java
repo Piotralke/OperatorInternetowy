@@ -107,7 +107,7 @@ public class TestService {
                 .phoneNumber(String.valueOf(661412255))
                 .workplace("Kielce")
                 .salary(12000.0)
-                .contractForm("b2b")
+                .contractForm(ContractForm.B2B)
                 .build());
     }
 
@@ -123,7 +123,7 @@ public class TestService {
                 .phoneNumber(String.valueOf(661412254))
                 .workplace("Kielce")
                 .salary(7000.0)
-                .contractForm("b2b")
+                .contractForm(ContractForm.B2B)
                 .build());
     }
 

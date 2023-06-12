@@ -1,5 +1,6 @@
 package pl.psk.upc.application.contract;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pl.psk.upc.application.service.ServiceService;
 import pl.psk.upc.exception.GenericNotFoundException;
@@ -36,7 +37,7 @@ class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public ContractDto addNewPaymentToContract(UUID contractUuid, double paymentAmount, String serviceName, List<ProductDto> products) {
+    public ContractDto addNewPaymentToContract(UUID contractUuid, double paymentAmount, String serviceName, List<ProductDto> products, UUID clientUuid) {
         MethodArgumentValidator.requiredNotNull(contractUuid, "contractUuid");
         ContractEntity contract = contractRepository.findByUuid(contractUuid)
                 .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE));
@@ -62,6 +63,13 @@ class ContractServiceImpl implements ContractService {
         payments.add(savedPayment);
 
         contract.setPaymentEntities(payments);
+
+        ClientAccountEntity client = clientRepository.findByUuid(contractUuid)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        client.setBalance(client.getBalance() - paymentAmount);
+        clientRepository.save(client);
+
         return ContractConverter.convertFrom(contractRepository.save(contract));
     }
 

@@ -2,6 +2,7 @@ package pl.psk.upc.infrastructure.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Value;
+import pl.psk.upc.infrastructure.entity.ContractForm;
 
 @Value
 public class EmployeeRegisterRequestDto {
@@ -47,7 +48,7 @@ public class EmployeeRegisterRequestDto {
     private double salary;
 
     @JsonProperty(CONTRACT_FORM)
-    private String contractForm;
+    private ContractForm contractForm;
 
     @JsonProperty(NIP)
     private String nip;
@@ -57,7 +58,7 @@ public class EmployeeRegisterRequestDto {
 
     public EmployeeRegisterRequestDto(@JsonProperty(FIRST_NAME) String firstName, @JsonProperty(LAST_NAME) String lastName, @JsonProperty(EMAIL) String email, @JsonProperty(PASSWORD) String password,
                                       @JsonProperty(ACCOUNT_STATUS) String accountStatus, @JsonProperty(ADDRESS) String address, @JsonProperty(PHONE_NUMBER) String phoneNumber, @JsonProperty(WORKPLACE) String workplace,
-                                      @JsonProperty(SALARY) double salary, @JsonProperty(CONTRACT_FORM) String contractForm, @JsonProperty(NIP) String nip, @JsonProperty(PESEL) String pesel) {
+                                      @JsonProperty(SALARY) double salary, @JsonProperty(CONTRACT_FORM) ContractForm contractForm, @JsonProperty(NIP) String nip, @JsonProperty(PESEL) String pesel) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

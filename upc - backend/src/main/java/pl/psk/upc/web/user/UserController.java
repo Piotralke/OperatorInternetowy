@@ -6,10 +6,12 @@ import pl.psk.upc.application.employee.EmployeeService;
 import pl.psk.upc.infrastructure.dto.ClientRegisterRequestDto;
 import pl.psk.upc.infrastructure.dto.EmployeeEditRequestDto;
 import pl.psk.upc.infrastructure.dto.EmployeeRegisterRequestDto;
+import pl.psk.upc.infrastructure.entity.ContractForm;
 import pl.psk.upc.infrastructure.entity.ServiceEntity;
 import pl.psk.upc.web.UpcRestPaths;
 import pl.psk.upc.web.service.ServiceDto;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -80,4 +82,9 @@ public class UserController {
         return clientService.edit(clientEditRequestDto);
     }
 
+    @GetMapping(UpcRestPaths.GET_CONTRACT_FORMS)
+    public List<ContractForm> getContractForms() {
+        return Arrays.stream(ContractForm.values())
+                .toList();
+    }
 }

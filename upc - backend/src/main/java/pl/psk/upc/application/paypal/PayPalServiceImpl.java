@@ -72,7 +72,7 @@ class PayPalServiceImpl implements PayPalService {
 
         Payment approvedPayment = payment.create(apiContext);
 
-        contractService.addNewPaymentToContract(contract.getUuid(), paymentAmount, serviceName, products);
+        contractService.addNewPaymentToContract(contract.getUuid(), paymentAmount, serviceName, products, inputDto.getClientUuid());
 
         return getApprovalLink(approvedPayment);
     }
@@ -132,7 +132,7 @@ class PayPalServiceImpl implements PayPalService {
         return approvalLink;
     }
 
-    public void executePayment(String paymentId, String payerId, UUID orderUuid, UUID paymentUuid) throws PayPalRESTException {
+    public void executePayment(String paymentId, String payerId, UUID orderUuid, UUID paymentUuid, UUID clientUuid) throws PayPalRESTException {
         MethodArgumentValidator.requiredNotNullOrBlankString(paymentId, "paymentId");
         MethodArgumentValidator.requiredNotNullOrBlankString(payerId, "payerId");
 
@@ -147,7 +147,7 @@ class PayPalServiceImpl implements PayPalService {
         if (!executedPayment.getState().equals("approved")) {
             throw new PayPalRESTException("Payment not approved");
         }
-        paymentService.updateStatus(paymentUuid);
+        paymentService.updateStatus(paymentUuid, clientUuid);
         if (orderUuid != null) {
             orderService.updatePaymentStatusInOrder(orderUuid);
         }

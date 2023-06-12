@@ -53,7 +53,7 @@ public class EmployeeEntity implements Account {
     private double salary;
 
     @Column(name = "contract_form")
-    private String contractForm;
+    private ContractForm contractForm;
 
     @Column(name = "nip")
     private String nip;
@@ -113,7 +113,7 @@ public class EmployeeEntity implements Account {
         return salary;
     }
 
-    public String getContractForm() {
+    public ContractForm getContractForm() {
         return contractForm;
     }
 

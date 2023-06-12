@@ -37,6 +37,7 @@ public class UpcRestPaths {
     public static final String GET_ALL_PROBLEMS = UPC_UNSECURED_PREFIX + "/get-all-user-problems";
     public static final String GET_ALL_SERVICES = UPC_UNSECURED_PREFIX + "/get-all-services";
     public static final String GET_USER_SERVICES = UPC_UNSECURED_PREFIX + "/get-user-services/{email}";
+    public static final String GET_CONTRACT_FORMS = UPC_UNSECURED_PREFIX + "/get-contract-forms";
     public static final String GET_SERVICE = UPC_UNSECURED_PREFIX + "/get-service/{uuid}";
     public static final String GET_ORDERS_BY_CLIENT_EMAIL = UPC_UNSECURED_PREFIX + "/get-orders/client";
     public static final String GET_ORDERS_BY_CLIENT_UUID = UPC_UNSECURED_PREFIX + "/get-orders/client/{uuid}";

@@ -65,9 +65,9 @@ public class PaymentController {
     }
 
     @PostMapping(UpcRestPaths.EXECUTE_PAYMENT)
-    public ResponseEntity<String> executePayment(@PathVariable String paymentId, @RequestParam("payerId") String payerId, @RequestParam(value = "orderUuid", required = false) UUID orderUuid, @RequestParam(value = "paymentUuid", required = false) UUID paymentUuid) throws PayPalRESTException {
+    public ResponseEntity<String> executePayment(@PathVariable String paymentId, @RequestParam("payerId") String payerId, @RequestParam(value = "orderUuid", required = false) UUID orderUuid, @RequestParam(value = "paymentUuid", required = false) UUID paymentUuid, @RequestParam UUID clientUuid) throws PayPalRESTException {
         try {
-            payPalService.executePayment(paymentId, payerId, orderUuid, paymentUuid);
+            payPalService.executePayment(paymentId, payerId, orderUuid, paymentUuid, clientUuid);
             return ResponseEntity.ok("Payment executed successfully!");
         } catch (PayPalRESTException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while executing payment: " + e.getMessage());
