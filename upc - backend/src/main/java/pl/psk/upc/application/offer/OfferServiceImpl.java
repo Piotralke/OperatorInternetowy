@@ -2,9 +2,9 @@ package pl.psk.upc.application.offer;
 
 import org.springframework.stereotype.Service;
 import pl.psk.upc.exception.GenericNotFoundException;
-import pl.psk.upc.infrastructure.dto.SaveProductWithOfferRequestDto;
+import pl.psk.upc.web.offer.SaveProductWithOfferRequestDto;
 import pl.psk.upc.infrastructure.entity.OfferEntity;
-import pl.psk.upc.infrastructure.entity.OfferType;
+import pl.psk.upc.infrastructure.enums.OfferType;
 import pl.psk.upc.infrastructure.entity.ProductEntity;
 import pl.psk.upc.infrastructure.repository.OfferRepository;
 import pl.psk.upc.infrastructure.repository.ProductRepository;

@@ -3,7 +3,7 @@ package pl.psk.upc.web.offer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Value;
-import pl.psk.upc.infrastructure.entity.OfferType;
+import pl.psk.upc.infrastructure.enums.OfferType;
 import pl.psk.upc.web.product.ProductDto;
 
 @Value

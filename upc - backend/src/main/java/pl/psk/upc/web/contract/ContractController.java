@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import pl.psk.upc.application.contract.ContractService;
-import pl.psk.upc.infrastructure.entity.ContractLengthEnum;
+import pl.psk.upc.infrastructure.enums.ContractLengthEnum;
 import pl.psk.upc.web.UpcRestPaths;
 
 import java.util.Arrays;

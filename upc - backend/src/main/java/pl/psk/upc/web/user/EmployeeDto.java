@@ -3,7 +3,7 @@ package pl.psk.upc.web.user;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Value;
-import pl.psk.upc.infrastructure.entity.ContractForm;
+import pl.psk.upc.infrastructure.enums.ContractForm;
 
 @Value
 public class EmployeeDto {

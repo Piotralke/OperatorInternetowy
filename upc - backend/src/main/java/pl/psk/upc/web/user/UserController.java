@@ -3,11 +3,7 @@ package pl.psk.upc.web.user;
 import org.springframework.web.bind.annotation.*;
 import pl.psk.upc.application.client.ClientService;
 import pl.psk.upc.application.employee.EmployeeService;
-import pl.psk.upc.infrastructure.dto.ClientRegisterRequestDto;
-import pl.psk.upc.infrastructure.dto.EmployeeEditRequestDto;
-import pl.psk.upc.infrastructure.dto.EmployeeRegisterRequestDto;
-import pl.psk.upc.infrastructure.entity.ContractForm;
-import pl.psk.upc.infrastructure.entity.ServiceEntity;
+import pl.psk.upc.infrastructure.enums.ContractForm;
 import pl.psk.upc.web.UpcRestPaths;
 import pl.psk.upc.web.service.ServiceDto;
 

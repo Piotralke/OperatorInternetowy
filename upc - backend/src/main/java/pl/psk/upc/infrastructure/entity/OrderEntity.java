@@ -3,6 +3,8 @@ package pl.psk.upc.infrastructure.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
+import pl.psk.upc.infrastructure.enums.OrderStatus;
+import pl.psk.upc.infrastructure.enums.PaymentStatus;
 
 import java.time.ZonedDateTime;
 import java.util.List;

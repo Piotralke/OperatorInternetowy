@@ -5,7 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.psk.upc.infrastructure.dto.Account;
+import pl.psk.upc.application.security.Account;
+import pl.psk.upc.infrastructure.enums.ContractForm;
 
 import java.util.UUID;
 

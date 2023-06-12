@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.psk.upc.application.payment.InvoiceService;
 import pl.psk.upc.application.payment.PaymentService;
 import pl.psk.upc.application.paypal.PayPalService;
-import pl.psk.upc.infrastructure.entity.PaymentStatus;
+import pl.psk.upc.infrastructure.enums.PaymentStatus;
 import pl.psk.upc.web.UpcRestPaths;
 
 import java.io.IOException;

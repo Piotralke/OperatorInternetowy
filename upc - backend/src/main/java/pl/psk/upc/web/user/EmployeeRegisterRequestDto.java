@@ -1,15 +1,15 @@
-package pl.psk.upc.infrastructure.dto;
+package pl.psk.upc.web.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Value;
-import pl.psk.upc.infrastructure.entity.ContractForm;
+import pl.psk.upc.infrastructure.enums.ContractForm;
 
 @Value
-public class EmployeeEditRequestDto {
+public class EmployeeRegisterRequestDto {
 
-    private final static String UUID = "uuid";
     private final static String FIRST_NAME = "firstName";
     private final static String LAST_NAME = "last_name";
+    private final static String EMAIL = "email";
     private final static String PASSWORD = "password";
     private final static String ACCOUNT_STATUS = "accountStatus";
     private final static String ADDRESS = "address";
@@ -18,15 +18,16 @@ public class EmployeeEditRequestDto {
     private final static String CONTRACT_FORM = "contractForm";
     private final static String PHONE_NUMBER = "phoneNumber";
     private final static String NIP = "nip";
-
-    @JsonProperty(UUID)
-    private java.util.UUID uuid;
+    private final static String PESEL = "pesel";
 
     @JsonProperty(FIRST_NAME)
     private String firstName;
 
     @JsonProperty(LAST_NAME)
     private String lastName;
+
+    @JsonProperty(EMAIL)
+    private String email;
 
     @JsonProperty(PASSWORD)
     private String password;
@@ -52,12 +53,15 @@ public class EmployeeEditRequestDto {
     @JsonProperty(NIP)
     private String nip;
 
-    public EmployeeEditRequestDto(@JsonProperty(UUID) java.util.UUID uuid,@JsonProperty(FIRST_NAME) String firstName, @JsonProperty(LAST_NAME) String lastName, @JsonProperty(PASSWORD) String password, @JsonProperty(ACCOUNT_STATUS) String accountStatus,
-                                  @JsonProperty(ADDRESS) String address, @JsonProperty(PHONE_NUMBER) String phoneNumber, @JsonProperty(WORKPLACE) String workplace, @JsonProperty(SALARY) double salary,
-                                  @JsonProperty(CONTRACT_FORM) ContractForm contractForm, @JsonProperty(NIP) String nip) {
-        this.uuid = uuid;
+    @JsonProperty(PESEL)
+    private String pesel;
+
+    public EmployeeRegisterRequestDto(@JsonProperty(FIRST_NAME) String firstName, @JsonProperty(LAST_NAME) String lastName, @JsonProperty(EMAIL) String email, @JsonProperty(PASSWORD) String password,
+                                      @JsonProperty(ACCOUNT_STATUS) String accountStatus, @JsonProperty(ADDRESS) String address, @JsonProperty(PHONE_NUMBER) String phoneNumber, @JsonProperty(WORKPLACE) String workplace,
+                                      @JsonProperty(SALARY) double salary, @JsonProperty(CONTRACT_FORM) ContractForm contractForm, @JsonProperty(NIP) String nip, @JsonProperty(PESEL) String pesel) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
         this.password = password;
         this.accountStatus = accountStatus;
         this.address = address;
@@ -66,5 +70,6 @@ public class EmployeeEditRequestDto {
         this.salary = salary;
         this.contractForm = contractForm;
         this.nip = nip;
+        this.pesel = pesel;
     }
 }

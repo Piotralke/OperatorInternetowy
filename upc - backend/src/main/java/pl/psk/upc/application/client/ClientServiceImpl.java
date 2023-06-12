@@ -3,7 +3,7 @@ package pl.psk.upc.application.client;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.psk.upc.infrastructure.dto.ClientRegisterRequestDto;
+import pl.psk.upc.web.user.ClientRegisterRequestDto;
 import pl.psk.upc.infrastructure.entity.ClientAccountEntity;
 import pl.psk.upc.infrastructure.enums.RoleEnum;
 import pl.psk.upc.infrastructure.repository.ClientRepository;

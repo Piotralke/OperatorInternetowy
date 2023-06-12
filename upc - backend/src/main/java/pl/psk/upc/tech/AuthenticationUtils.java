@@ -1,4 +1,4 @@
-package pl.psk.upc.tech;//package pl.psk.upc.tech;
+package pl.psk.upc.tech;
 //
 //import org.springframework.security.core.context.SecurityContextHolder;
 //

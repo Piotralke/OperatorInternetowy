@@ -1,6 +1,6 @@
 package pl.psk.upc.application.order;
 
-import pl.psk.upc.infrastructure.entity.OrderStatus;
+import pl.psk.upc.infrastructure.enums.OrderStatus;
 import pl.psk.upc.web.order.OrderDto;
 import pl.psk.upc.web.order.OrderDtoWrapper;
 import pl.psk.upc.web.order.OrderInputDto;

@@ -2,12 +2,9 @@ package pl.psk.upc.web.order;
 
 import org.springframework.web.bind.annotation.*;
 import pl.psk.upc.application.order.OrderService;
-import pl.psk.upc.infrastructure.entity.OrderEntity;
-import pl.psk.upc.infrastructure.entity.OrderStatus;
-import pl.psk.upc.infrastructure.repository.OrderRepository;
+import pl.psk.upc.infrastructure.enums.OrderStatus;
 import pl.psk.upc.web.UpcRestPaths;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController

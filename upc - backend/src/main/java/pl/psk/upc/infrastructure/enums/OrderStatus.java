@@ -1,4 +1,4 @@
-package pl.psk.upc.infrastructure.entity;
+package pl.psk.upc.infrastructure.enums;
 
 public enum OrderStatus {
     PRZYJETE,

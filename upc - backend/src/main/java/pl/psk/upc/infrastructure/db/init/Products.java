@@ -2,7 +2,7 @@ package pl.psk.upc.infrastructure.db.init;
 
 
 import lombok.Getter;
-import pl.psk.upc.infrastructure.entity.ProductType;
+import pl.psk.upc.infrastructure.enums.ProductType;
 
 @Getter
 public enum Products {

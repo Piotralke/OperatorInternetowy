@@ -1,6 +1,6 @@
 package pl.psk.upc.application.offer;
 
-import pl.psk.upc.infrastructure.entity.OfferType;
+import pl.psk.upc.infrastructure.enums.OfferType;
 import pl.psk.upc.web.offer.OfferDto;
 import pl.psk.upc.web.offer.OfferDtoWrapper;
 import pl.psk.upc.web.offer.SaveOfferRequestDto;

@@ -2,7 +2,7 @@ package pl.psk.upc.web.order;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Value;
-import pl.psk.upc.infrastructure.entity.ContractLengthEnum;
+import pl.psk.upc.infrastructure.enums.ContractLengthEnum;
 
 import java.util.List;
 import java.util.UUID;

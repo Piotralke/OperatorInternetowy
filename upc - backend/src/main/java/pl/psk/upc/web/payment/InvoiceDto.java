@@ -3,7 +3,7 @@ package pl.psk.upc.web.payment;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Value;
-import pl.psk.upc.infrastructure.entity.PaymentStatus;
+import pl.psk.upc.infrastructure.enums.PaymentStatus;
 import pl.psk.upc.web.product.ProductDto;
 import pl.psk.upc.web.service.ServiceDto;
 

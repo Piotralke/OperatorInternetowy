@@ -2,7 +2,7 @@ package pl.psk.upc.web.product;
 
 import org.springframework.web.bind.annotation.*;
 import pl.psk.upc.application.product.ProductService;
-import pl.psk.upc.infrastructure.entity.ProductType;
+import pl.psk.upc.infrastructure.enums.ProductType;
 import pl.psk.upc.web.UpcRestPaths;
 
 import java.util.Arrays;

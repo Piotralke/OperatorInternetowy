@@ -1,6 +1,6 @@
 package pl.psk.upc.application.client;
 
-import pl.psk.upc.infrastructure.dto.ClientRegisterRequestDto;
+import pl.psk.upc.web.user.ClientRegisterRequestDto;
 import pl.psk.upc.web.user.ClientDto;
 import pl.psk.upc.web.user.ClientDtoWrapper;
 import pl.psk.upc.web.user.ClientEditRequestDto;

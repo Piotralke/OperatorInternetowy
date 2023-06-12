@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.psk.upc.application.service.ServiceService;
 import pl.psk.upc.exception.GenericNotFoundException;
 import pl.psk.upc.infrastructure.entity.*;
+import pl.psk.upc.infrastructure.enums.PaymentStatus;
 import pl.psk.upc.infrastructure.repository.ClientRepository;
 import pl.psk.upc.infrastructure.repository.ContractRepository;
 import pl.psk.upc.infrastructure.repository.PaymentRepository;

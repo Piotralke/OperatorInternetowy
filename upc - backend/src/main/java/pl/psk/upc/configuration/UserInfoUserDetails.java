@@ -4,7 +4,6 @@ import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import pl.psk.upc.infrastructure.dto.Account;
 import pl.psk.upc.infrastructure.entity.ClientAccountEntity;
 import pl.psk.upc.infrastructure.entity.EmployeeEntity;
 

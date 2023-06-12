@@ -2,6 +2,7 @@ package pl.psk.upc.infrastructure.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import pl.psk.upc.infrastructure.enums.ProductType;
 
 import java.util.UUID;
 

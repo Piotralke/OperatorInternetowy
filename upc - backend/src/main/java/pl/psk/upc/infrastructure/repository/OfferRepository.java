@@ -2,7 +2,7 @@ package pl.psk.upc.infrastructure.repository;//package pl.psk.upc.infrastructure
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import pl.psk.upc.infrastructure.entity.OfferEntity;
-import pl.psk.upc.infrastructure.entity.OfferType;
+import pl.psk.upc.infrastructure.enums.OfferType;
 
 import java.util.List;
 import java.util.Optional;

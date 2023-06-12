@@ -1,6 +1,6 @@
 package pl.psk.upc.application.product;
 
-import pl.psk.upc.infrastructure.entity.ProductType;
+import pl.psk.upc.infrastructure.enums.ProductType;
 import pl.psk.upc.web.product.ProductDto;
 import pl.psk.upc.web.product.ProductDtoWrapper;
 import pl.psk.upc.web.product.ProductEditRequestDto;

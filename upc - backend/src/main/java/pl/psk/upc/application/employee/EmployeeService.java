@@ -1,7 +1,7 @@
 package pl.psk.upc.application.employee;
 
-import pl.psk.upc.infrastructure.dto.EmployeeEditRequestDto;
-import pl.psk.upc.infrastructure.dto.EmployeeRegisterRequestDto;
+import pl.psk.upc.web.user.EmployeeEditRequestDto;
+import pl.psk.upc.web.user.EmployeeRegisterRequestDto;
 import pl.psk.upc.web.user.EmployeeDto;
 import pl.psk.upc.web.user.EmployeeWrapper;
 

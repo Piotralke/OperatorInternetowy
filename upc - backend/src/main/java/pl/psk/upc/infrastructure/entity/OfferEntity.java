@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.psk.upc.infrastructure.enums.OfferType;
 
 import java.util.UUID;
 

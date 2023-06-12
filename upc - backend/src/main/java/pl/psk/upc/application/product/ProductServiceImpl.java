@@ -3,7 +3,7 @@ package pl.psk.upc.application.product;
 import org.springframework.stereotype.Service;
 import pl.psk.upc.exception.GenericNotFoundException;
 import pl.psk.upc.infrastructure.entity.ProductEntity;
-import pl.psk.upc.infrastructure.entity.ProductType;
+import pl.psk.upc.infrastructure.enums.ProductType;
 import pl.psk.upc.infrastructure.repository.ProductRepository;
 import pl.psk.upc.tech.MethodArgumentValidator;
 import pl.psk.upc.web.product.ProductDto;

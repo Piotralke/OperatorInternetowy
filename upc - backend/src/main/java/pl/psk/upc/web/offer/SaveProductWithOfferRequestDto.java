@@ -1,9 +1,9 @@
-package pl.psk.upc.infrastructure.dto;
+package pl.psk.upc.web.offer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Value;
-import pl.psk.upc.infrastructure.entity.ProductType;
+import pl.psk.upc.infrastructure.enums.ProductType;
 
 @Value
 public class SaveProductWithOfferRequestDto {

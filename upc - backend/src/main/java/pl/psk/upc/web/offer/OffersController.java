@@ -2,7 +2,7 @@ package pl.psk.upc.web.offer;
 
 import org.springframework.web.bind.annotation.*;
 import pl.psk.upc.application.offer.OfferService;
-import pl.psk.upc.infrastructure.entity.OfferType;
+import pl.psk.upc.infrastructure.enums.OfferType;
 import pl.psk.upc.web.UpcRestPaths;
 
 import java.util.Arrays;
