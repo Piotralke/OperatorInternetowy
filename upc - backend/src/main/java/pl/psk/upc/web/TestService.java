@@ -1,6 +1,8 @@
 package pl.psk.upc.web;
 
 import com.github.javafaker.Faker;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import pl.psk.upc.infrastructure.db.init.Offers;
 import pl.psk.upc.infrastructure.db.init.Products;
@@ -32,15 +34,19 @@ public class TestService {
         this.faker = Faker.instance();
     }
 
-//   @EventListener(ApplicationReadyEvent.class)
-//   public void initDb() {
-//       initProducts();
-//       initWarehouse();
-//       initOffers();
-//       initAdminAccount();
-//       initWorkerAccount();
-//       initClientAccounts();
-//   }
+    @EventListener(ApplicationReadyEvent.class)
+    public void initDb() {
+        init();
+    }
+
+    public void init() {
+        initProducts();
+        initWarehouse();
+        initOffers();
+        initAdminAccount();
+        initWorkerAccount();
+        initClientAccounts();
+    }
 
     private void initProducts() {
         for (Products p : Products.values()) {

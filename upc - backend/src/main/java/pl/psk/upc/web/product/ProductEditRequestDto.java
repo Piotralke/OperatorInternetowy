@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import lombok.Builder;
 import lombok.Value;
 
 @Value
@@ -26,6 +27,7 @@ public class ProductEditRequestDto {
     @JsonProperty(DESCRIPTION)
     String description;
 
+    @Builder
     public ProductEditRequestDto(@JsonProperty(UUID) java.util.UUID uuid, @JsonProperty(PRICE) Double price, @JsonProperty(DESCRIPTION) String description) {
         this.uuid = uuid;
         this.price = price;

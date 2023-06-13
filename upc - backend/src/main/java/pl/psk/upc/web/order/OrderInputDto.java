@@ -3,8 +3,8 @@ package pl.psk.upc.web.order;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Value;
 import pl.psk.upc.infrastructure.enums.ContractLengthEnum;
 
@@ -40,4 +40,14 @@ public class OrderInputDto {
     @NotNull
     @JsonProperty(CONTRACT_LENGTH)
     ContractLengthEnum contractLength;
+
+    @Builder
+    public OrderInputDto(@JsonProperty(CLIENT_EMAIL) String clientEmail, @JsonProperty(EMPLOYEE_EMAIL) String employeeEmail, @JsonProperty(PRODUCT_UUIDS) List<UUID> productUuids,
+                         @JsonProperty(OFFER_UUID)UUID offerUuid, @JsonProperty(CONTRACT_LENGTH) ContractLengthEnum contractLength) {
+        this.clientEmail = clientEmail;
+        this.employeeEmail = employeeEmail;
+        this.productUuids = productUuids;
+        this.offerUuid = offerUuid;
+        this.contractLength = contractLength;
+    }
 }

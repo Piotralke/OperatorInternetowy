@@ -29,7 +29,7 @@ public class ProductDto {
     @JsonProperty(PRODUCT_TYPE)
     ProductType productType;
 
-    @Builder
+    @Builder(toBuilder = true)
     public ProductDto(@JsonProperty(UUID) java.util.UUID uuid, @JsonProperty(NAME) String name, @JsonProperty(PRICE) Double price, @JsonProperty(DESCRIPTION) String description, @JsonProperty(PRODUCT_TYPE) ProductType productType) {
         this.uuid = uuid;
         this.name = name;

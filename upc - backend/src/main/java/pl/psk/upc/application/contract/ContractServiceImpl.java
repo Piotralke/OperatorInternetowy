@@ -65,7 +65,7 @@ class ContractServiceImpl implements ContractService {
 
         contract.setPaymentEntities(payments);
 
-        ClientAccountEntity client = clientRepository.findByUuid(contractUuid)
+        ClientAccountEntity client = clientRepository.findByUuid(clientUuid)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         client.setBalance(client.getBalance() - paymentAmount);
