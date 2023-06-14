@@ -15,23 +15,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 class ProductControllerTest extends UpcTest {
 
-    private final SaveProductRequestDto saveProductRequestDto = SaveProductRequestDto.builder()
-            .name("Testowy produkt")
-            .price(200.0)
-            .description("testowy opis produktu")
-            .productType(ProductType.DEVICE)
-            .build();
-
-    private final ProductEditRequestDto productEditRequestDto = ProductEditRequestDto.builder()
-            .uuid(UUID.fromString("153b4547-494b-4288-a3f0-f500868601e7"))
-            .price(619.0)
-            .description("New description")
-            .build();
-
     @Autowired
     ProductController productController;
 
-    @Test
+    @Test @Transactional
     void shouldReturnAllProductsType() {
         ProductType[] productTypes = ProductType.values();
         ProductType firstProductType = productTypes[0];
@@ -42,7 +29,7 @@ class ProductControllerTest extends UpcTest {
         assertEquals(firstProductType.name(), productsTypesFromApi.get(0));
     }
 
-    @Test
+    @Test @Transactional
     void shouldReturnAllProductsWithTvType() {
         ProductDtoWrapper productsByType = productController.getProductsByType(ProductType.TV);
         for (ProductDto product : productsByType.getContent()) {
@@ -50,25 +37,25 @@ class ProductControllerTest extends UpcTest {
         }
     }
 
-    @Test
-    void shouldReturn39Products() {
+    @Test @Transactional
+    void shouldReturn13Products() {
         ProductDtoWrapper allProducts = productController.getAllProducts();
-        assertEquals(39, allProducts.getContent().size());
+        assertEquals(13, allProducts.getContent().size());
     }
 
-    @Test
+    @Test @Transactional
     void whenPassUuidShouldReturnProductWithGivenUuid() {
-        UUID uuid = UUID.fromString("46b742de-eb35-4c12-873f-8471b0c30cf2");
+        UUID uuid = UUID.fromString("81ac8656-f3a2-47e2-9db5-01b9e3e99b3e");
         ProductDto product = productController.getProduct(uuid);
 
         assertEquals(uuid, product.getUuid());
-        assertEquals("Xiaomi POCO X5 Pro 5G 8/256GB", product.getName());
-        assertEquals(1799.0, product.getPrice());
-        assertEquals(ProductType.MOBILE, product.getProductType());
+        assertEquals("Sony KD-55X85K", product.getName());
+        assertEquals(3999.0, product.getPrice());
+        assertEquals(ProductType.TV, product.getProductType());
         assertFalse(product.getDescription().isBlank());
     }
 
-    @Test
+    @Test @Transactional
     void editProduct() {
         ProductDto productDto = productController.getAllProducts().getContent()
                 .get(0);
@@ -88,7 +75,7 @@ class ProductControllerTest extends UpcTest {
         assertEquals(ProductType.INTERNET, updatedProduct.getProductType());
     }
 
-    @Test
+    @Test @Transactional
     void shouldSaveProduct() {
         ProductDtoWrapper allProductsBeforeSave = productController.getAllProducts();
         ProductDto savedProduct = productController.saveProduct(saveProductRequestDto);
