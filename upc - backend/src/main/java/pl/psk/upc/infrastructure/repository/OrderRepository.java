@@ -13,6 +13,6 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
 
     List<OrderEntity> getOrdersByEmployeeEntity(EmployeeEntity employeeEntity);
     List<OrderEntity> getOrdersByClientAccountEntity(ClientAccountEntity clientAccountEntity);
-    Optional<OrderEntity> getByUuid(UUID uuid);
+    Optional<OrderEntity> findByUuid(UUID uuid);
 
 }

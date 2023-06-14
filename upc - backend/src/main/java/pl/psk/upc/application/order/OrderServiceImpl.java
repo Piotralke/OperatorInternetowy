@@ -66,7 +66,7 @@ class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto getOrderByUuid(UUID uuid) {
         MethodArgumentValidator.requiredNotNull(uuid, "uuid");
-        return OrderConverter.convertFrom(orderRepository.getByUuid(uuid)
+        return OrderConverter.convertFrom(orderRepository.findByUuid(uuid)
                 .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE)));
     }
 
@@ -175,7 +175,7 @@ class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto updatePaymentStatusInOrder(UUID orderUuid) {
         MethodArgumentValidator.requiredNotNull(orderUuid, "orderUuid");
-        OrderEntity order = orderRepository.getByUuid(orderUuid)
+        OrderEntity order = orderRepository.findByUuid(orderUuid)
                 .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE));
         order.setPaymentStatus(PaymentStatus.OPLACONE);
 
@@ -200,7 +200,7 @@ class OrderServiceImpl implements OrderService {
     @Override
     public UUID updateOrderStatus(UUID orderUuid, OrderStatus orderStatus) {
         MethodArgumentValidator.requiredNotNull(orderUuid, "orderUuid");
-        OrderEntity order = orderRepository.getByUuid(orderUuid)
+        OrderEntity order = orderRepository.findByUuid(orderUuid)
                 .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE));
 
         if (orderStatus.equals(OrderStatus.ZAKONCZONE) && order.getPaymentStatus() != PaymentStatus.OPLACONE) {

@@ -77,8 +77,9 @@ class ContractServiceImpl implements ContractService {
     @Override
     public ContractDto findByUuid(UUID uuid) {
         MethodArgumentValidator.requiredNotNull(uuid, "uuid");
-        return ContractConverter.convertFrom(contractRepository.findByUuid(uuid)
-                .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE)));
+        ContractEntity contract = contractRepository.findByUuid(uuid)
+                .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE));
+        return ContractConverter.convertFrom(contract);
     }
 
     @Override

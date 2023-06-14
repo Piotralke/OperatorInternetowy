@@ -169,12 +169,11 @@ class OrderControllerTest extends UpcTest {
 
         OrderDto order = orderController.getOrder(uuid);
         assertEquals(OrderStatus.PRZYJETE, order.getOrderStatus());
-        orderController.editOrderStatus(uuid, OrderStatus.W_TRAKCIE_PRZYGOTOWANIA);
+        orderController.editOrderStatus(uuid, OrderStatus.PRZYJETE);
 
         OrderDto orderAfterUpdate = orderController.getOrder(uuid);
         assertEquals(OrderStatus.W_TRAKCIE_PRZYGOTOWANIA, orderAfterUpdate.getOrderStatus());
     }
-
 
     private void testOrderWithProduct(UUID uuid, boolean withEmployee) {
         OrderDto order = orderController.getOrder(uuid);
