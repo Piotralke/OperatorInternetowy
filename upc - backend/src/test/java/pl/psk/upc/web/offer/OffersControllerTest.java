@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import pl.psk.upc.infrastructure.enums.OfferType;
 import pl.psk.upc.web.UpcTest;
+import pl.psk.upc.web.product.ProductDto;
 
 import java.util.Arrays;
 import java.util.List;
@@ -58,10 +59,57 @@ class OffersControllerTest extends UpcTest {
     }
 
     @Test @Transactional
-    void saveOffer() {
+    void saveOfferWithDevice() {
+        OfferDto offerDto = offersController.saveOffer(saveOfferRequestDtoWithDevice);
+        OfferDto offerByUuid = offersController.getOfferByUuid(offerDto.getUuid());
+
+        assertNotNull(offerByUuid.getUuid());
+        assertNotNull(offerByUuid.getProductDto());
+        assertEquals(saveOfferRequestDtoWithDevice.getName(),offerByUuid.getName());
+        assertEquals(saveOfferRequestDtoWithDevice.getDescription(),offerByUuid.getDescription());
+        assertEquals(saveOfferRequestDtoWithDevice.getPrice(),offerByUuid.getPrice());
+        assertEquals(saveOfferRequestDtoWithDevice.isWithDevice(),offerByUuid.isWithDevice());
+        assertEquals(saveOfferRequestDtoWithDevice.getOfferType(),offerByUuid.getOfferType());
+
+        ProductDto productDto = offerByUuid.getProductDto();
+
+        assertEquals(saveProductWithOfferRequestDto.getName(),productDto.getName());
+        assertEquals(saveProductWithOfferRequestDto.getDescription(),productDto.getDescription());
+        assertEquals(saveProductWithOfferRequestDto.getPrice(),productDto.getPrice());
+        assertEquals(saveProductWithOfferRequestDto.getProductType(),productDto.getProductType());
+    }
+
+    @Test @Transactional
+    void saveOfferWithoutDevice() {
+        OfferDto offerDto = offersController.saveOffer(saveOfferRequestDtoWithoutDevice);
+        OfferDto offerByUuid = offersController.getOfferByUuid(offerDto.getUuid());
+
+        assertNotNull(offerByUuid.getUuid());
+        assertEquals(saveOfferRequestDtoWithDevice.getName(),offerByUuid.getName());
+        assertEquals(saveOfferRequestDtoWithDevice.getDescription(),offerByUuid.getDescription());
+        assertEquals(saveOfferRequestDtoWithDevice.getPrice(),offerByUuid.getPrice());
+        assertFalse(offerByUuid.isWithDevice());
+        assertEquals(saveOfferRequestDtoWithDevice.getOfferType(),offerByUuid.getOfferType());
+
+        ProductDto productDto = offerByUuid.getProductDto();
+
+        assertNull(productDto.getName());
+        assertNull(productDto.getDescription());
+        assertNull(productDto.getPrice());
+        assertNull(productDto.getProductType());
     }
 
     @Test @Transactional
     void editOfferStatus() {
+        UUID uuid = UUID.fromString("4461593f-b666-47eb-912d-65f677194724");
+        OfferDto offerByUuidBeforeEdit = offersController.getOfferByUuid(uuid);
+
+        assertFalse(offerByUuidBeforeEdit.isArchival());
+
+        offersController.editOfferStatus(uuid, true);
+
+        OfferDto offerByUuidAfterEdit = offersController.getOfferByUuid(uuid);
+
+        assertTrue(offerByUuidAfterEdit.isArchival());
     }
 }

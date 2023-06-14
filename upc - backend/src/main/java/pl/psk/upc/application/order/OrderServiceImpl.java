@@ -58,7 +58,6 @@ class OrderServiceImpl implements OrderService {
         MethodArgumentValidator.requiredNotNullOrBlankString(email, "email");
         ClientAccountEntity clientAccountEntity = clientRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
-
         return OrderConverter.convertFrom(clientAccountEntity.getOrderEntities());
     }
 
@@ -101,10 +100,16 @@ class OrderServiceImpl implements OrderService {
         OfferEntity offer = offerRepository.findByUuid(order.getOfferUuid())
                 .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE));
 
-        List<ProductEntity> products = order.getProductUuids().stream()
-                .map(productRepository::findByUuid)
-                .map(productEntity -> productEntity.orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE)))
-                .toList();
+        List<ProductEntity> products = null;
+
+        if (order.getProductUuids() == null) {
+            products = new ArrayList<>();
+        } else {
+            products = order.getProductUuids().stream()
+                    .map(productRepository::findByUuid)
+                    .map(productEntity -> productEntity.orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE)))
+                    .toList();
+        }
 
         ZonedDateTime contractStartDate = ZonedDateTime.now(ZoneId.systemDefault());
 
@@ -140,16 +145,29 @@ class OrderServiceImpl implements OrderService {
                 .clientAccountEntity(clientAccountEntity)
                 .build();
 
-        List<ServiceEntity> services = clientAccountEntity.getServices();
-        if (services == null) {
-            services = new ArrayList<>();
-        }
-        services.add(savedService);
-        clientAccountEntity.setServices(services);
+        OrderEntity savedOrder = orderRepository.save(orderToSave);
+//        ClientAccountEntity clientAccountEntity2 = clientRepository.findByEmail(order.getClientEmail())
+//                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
+//
+//        List<ServiceEntity> services = clientAccountEntity2.getServices();
+//        if (services == null) {
+//            services = new ArrayList<>();
+//        }
+//        services.add(savedService);
+//        clientAccountEntity2.setServices(services);
+//
+//
+//        List<OrderEntity> orders = clientAccountEntity2.getOrderEntities();
+//        if (orders == null) {
+//            orders = new ArrayList<>();
+//        }
+//        orders.add(savedOrder);
+//        clientAccountEntity2.setOrderEntities(orders);
+
+
         clientRepository.save(clientAccountEntity);
 
-        return orderRepository.save(orderToSave)
-                .getUuid();
+        return savedOrder.getUuid();
     }
 
     @Override
@@ -183,12 +201,13 @@ class OrderServiceImpl implements OrderService {
         OrderEntity order = orderRepository.getByUuid(orderUuid)
                 .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE));
 
-        if (order.getPaymentStatus() != PaymentStatus.OPLACONE) {
+        if (orderStatus.equals(OrderStatus.ZAKONCZONE) && order.getPaymentStatus() != PaymentStatus.OPLACONE) {
             throw new GenericException("The order has not been paid");
         }
+
         order.setOrderStatus(orderStatus);
-        return orderRepository.save(order)
-                .getUuid();
+        OrderEntity savedOrder = orderRepository.save(order);
+        return savedOrder.getUuid();
     }
 
     private Double calculateOrderAmount(OfferEntity offer, List<ProductEntity> products) {

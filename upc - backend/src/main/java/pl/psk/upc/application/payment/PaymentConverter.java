@@ -28,6 +28,10 @@ public class PaymentConverter {
     }
 
     public static PaymentDtoWrapper convertFrom(List<PaymentEntity> payments) {
+        if (payments == null || payments.isEmpty()) {
+            return PaymentDtoWrapper.builder().build();
+        }
+
         List<PaymentDto> convertedPayments = payments.stream()
                 .map(PaymentConverter::convertFrom)
                 .toList();

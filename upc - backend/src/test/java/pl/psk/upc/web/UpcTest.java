@@ -6,10 +6,16 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import pl.psk.upc.infrastructure.entity.ClientAccountEntity;
+import pl.psk.upc.infrastructure.enums.ContractLengthEnum;
+import pl.psk.upc.infrastructure.enums.OfferType;
 import pl.psk.upc.infrastructure.enums.ProductType;
 import pl.psk.upc.web.notice.SaveNoticeRequestDto;
+import pl.psk.upc.web.offer.SaveOfferRequestDto;
+import pl.psk.upc.web.offer.SaveProductWithOfferRequestDto;
+import pl.psk.upc.web.order.OrderInputDto;
 import pl.psk.upc.web.product.ProductEditRequestDto;
 import pl.psk.upc.web.product.SaveProductRequestDto;
+import pl.psk.upc.web.userproblem.UserProblemInputDto;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,6 +28,64 @@ import java.util.UUID;
         "spring.datasource.password=dcfc107313a64a2c85aff761e0676313"
 })
 public class UpcTest {
+
+    public final SaveProductWithOfferRequestDto saveProductWithOfferRequestDto = SaveProductWithOfferRequestDto.builder()
+            .name("New test device")
+            .price(70.0)
+            .description("New test device for test offer")
+            .productType(ProductType.DEVICE)
+            .build();
+
+    public final SaveOfferRequestDto saveOfferRequestDtoWithDevice = SaveOfferRequestDto.builder()
+            .name("New test offer with device")
+            .description("New test offer - description")
+            .price(59.0)
+            .withDevice(true)
+            .saveProductWithOfferRequestDto(saveProductWithOfferRequestDto)
+            .offerType(OfferType.TV)
+            .build();
+
+    public final SaveOfferRequestDto saveOfferRequestDtoWithoutDevice = SaveOfferRequestDto.builder()
+            .name("New test offer with device")
+            .description("New test offer - description")
+            .price(59.0)
+            .withDevice(true)
+            .offerType(OfferType.TV)
+            .build();
+
+    public final UserProblemInputDto userProblemInputDto = UserProblemInputDto.builder()
+            .description("Testowy problem")
+            .email("tynisha.bergstrom@gmail.com")
+            .build();
+
+    public final UserProblemInputDto userProblemInputDto2 = UserProblemInputDto.builder()
+            .description("Testowy problem2")
+            .email("tynisha.bergstrom@gmail.com")
+            .build();
+
+    public final OrderInputDto clientOrderInputDtoWithoutProducts = OrderInputDto.builder()
+            .clientEmail("tynisha.bergstrom@gmail.com")
+            .offerUuid(UUID.fromString("f5924b75-347b-44de-9705-702109da3ff2"))
+            .contractLength(ContractLengthEnum.TWELVE)
+            .build();
+
+    public final OrderInputDto clientOrderInputDtoWithProducts = OrderInputDto.builder()
+            .clientEmail("tynisha.bergstrom@gmail.com")
+            .productUuids(List.of(UUID.fromString("116d7422-d34a-41cf-9db2-5838fc2b60c7"),
+                    UUID.fromString("23e0061b-99d4-4540-8432-43f7055fce5f")))
+            .offerUuid(UUID.fromString("f5924b75-347b-44de-9705-702109da3ff2"))
+            .contractLength(ContractLengthEnum.TWELVE)
+            .build();
+
+    public final OrderInputDto employeeOrderInputDto = OrderInputDto.builder()
+            .clientEmail("tynisha.bergstrom@gmail.com")
+            .employeeEmail("jarod.howell@yahoo.com")
+            .productUuids(List.of(UUID.fromString("116d7422-d34a-41cf-9db2-5838fc2b60c7"),
+                    UUID.fromString("23e0061b-99d4-4540-8432-43f7055fce5f")))
+            .offerUuid(UUID.fromString("f5924b75-347b-44de-9705-702109da3ff2"))
+            .contractLength(ContractLengthEnum.TWELVE)
+            .build();
+
 
     public final ClientAccountEntity clientAccount = ClientAccountEntity.builder()
             .id(1L)

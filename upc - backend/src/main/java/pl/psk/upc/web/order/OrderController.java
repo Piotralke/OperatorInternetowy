@@ -46,7 +46,7 @@ public class OrderController {
         return orderService.saveOrder(order);
     }
 
-    @PutMapping()
+    @PutMapping(UpcRestPaths.EDIT_ORDER)
     public UUID editOrderStatus(@PathVariable(value = "uuid") UUID uuid, @RequestParam OrderStatus orderStatus) {
         return orderService.updateOrderStatus(uuid, orderStatus);
     }

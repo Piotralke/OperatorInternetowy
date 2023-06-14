@@ -2,6 +2,7 @@ package pl.psk.upc.web.userproblem;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Value;
 import pl.psk.upc.infrastructure.enums.UserProblemStatusEnum;
 
@@ -21,6 +22,7 @@ public class UserProblemSetStatusInputDto {
     @JsonProperty(STATUS)
     UserProblemStatusEnum status;
 
+    @Builder
     public UserProblemSetStatusInputDto(@JsonProperty(UUID) UUID uuid, @JsonProperty(STATUS) UserProblemStatusEnum status) {
         this.uuid = uuid;
         this.status = status;

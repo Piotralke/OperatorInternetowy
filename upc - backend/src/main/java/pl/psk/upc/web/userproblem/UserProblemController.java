@@ -31,7 +31,7 @@ public class UserProblemController {
     }
 
     @PutMapping(UpcRestPaths.SET_USER_PROBLEM_STATUS)
-    public UserProblemDto getUserProblem(@RequestBody UserProblemSetStatusInputDto inputDto) {
+    public UserProblemDto setUserProblemStatus(@RequestBody UserProblemSetStatusInputDto inputDto) {
         return userProblemService.setUserProblemStatus(inputDto);
     }
 

@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
 
-//    List<OrderEntity> getOrdersByClientAccountEntity(ClientAccountEntity clientAccountEntity);
+    List<OrderEntity> getAllByClientAccountEntity_Uuid(UUID clientAccountEntityId);
     List<OrderEntity> getOrdersByEmployeeEntity(EmployeeEntity employeeEntity);
     Optional<OrderEntity> getByUuid(UUID uuid);
 

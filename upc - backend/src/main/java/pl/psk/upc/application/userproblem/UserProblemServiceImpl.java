@@ -3,6 +3,7 @@ package pl.psk.upc.application.userproblem;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pl.psk.upc.infrastructure.entity.ClientAccountEntity;
+import pl.psk.upc.infrastructure.entity.ServiceEntity;
 import pl.psk.upc.infrastructure.entity.UserProblemEntity;
 import pl.psk.upc.infrastructure.enums.UserProblemStatusEnum;
 import pl.psk.upc.infrastructure.repository.ClientRepository;
@@ -12,6 +13,7 @@ import pl.psk.upc.web.userproblem.*;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,7 +42,17 @@ class UserProblemServiceImpl implements UserProblemService {
                 .clientAccountEntity(clientAccountEntity)
                 .build();
 
-        return userProblemRepository.save(userProblem).getUuid();
+        UserProblemEntity savedProblem = userProblemRepository.save(userProblem);
+
+        List<UserProblemEntity> userProblems = clientAccountEntity.getUserProblems();
+        if (userProblems == null) {
+            userProblems = new ArrayList<>();
+        }
+        userProblems.add(savedProblem);
+        clientAccountEntity.setUserProblems(userProblems);
+        clientRepository.save(clientAccountEntity);
+
+        return savedProblem.getUuid();
     }
 
     @Override
