@@ -1,4 +1,4 @@
-package pl.psk.upc.infrastructure.repository;//package pl.psk.upc.infrastructure.repository;
+package pl.psk.upc.infrastructure.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import pl.psk.upc.infrastructure.entity.ClientAccountEntity;
@@ -11,8 +11,8 @@ import java.util.UUID;
 
 public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
 
-    List<OrderEntity> getAllByClientAccountEntity_Uuid(UUID clientAccountEntityId);
     List<OrderEntity> getOrdersByEmployeeEntity(EmployeeEntity employeeEntity);
+    List<OrderEntity> getOrdersByClientAccountEntity(ClientAccountEntity clientAccountEntity);
     Optional<OrderEntity> getByUuid(UUID uuid);
 
 }

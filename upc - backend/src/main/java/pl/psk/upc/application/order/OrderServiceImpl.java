@@ -50,7 +50,8 @@ class OrderServiceImpl implements OrderService {
         MethodArgumentValidator.requiredNotNull(clientUuid, "clientUuid");
         ClientAccountEntity clientAccountEntity = clientRepository.findByUuid(clientUuid)
                 .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
-        return OrderConverter.convertFrom(clientAccountEntity.getOrderEntities());
+        List<OrderEntity> ordersByClientAccountEntity = orderRepository.getOrdersByClientAccountEntity(clientAccountEntity);
+        return OrderConverter.convertFrom(ordersByClientAccountEntity);
     }
 
     @Override
@@ -58,7 +59,8 @@ class OrderServiceImpl implements OrderService {
         MethodArgumentValidator.requiredNotNullOrBlankString(email, "email");
         ClientAccountEntity clientAccountEntity = clientRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
-        return OrderConverter.convertFrom(clientAccountEntity.getOrderEntities());
+        List<OrderEntity> ordersByClientAccountEntity = orderRepository.getOrdersByClientAccountEntity(clientAccountEntity);
+        return OrderConverter.convertFrom(ordersByClientAccountEntity);
     }
 
     @Override

@@ -95,53 +95,7 @@ class OrderControllerTest extends UpcTest {
     @Transactional
     void getOrder() {
         UUID uuid = orderController.saveOrder(clientOrderInputDtoWithProducts);
-        OrderDto order = orderController.getOrder(uuid);
         testOrderWithProduct(uuid, false);
-    }
-
-
-
-
-
-
-
-    @Test
-    @Transactional
-    void getOrdersByClientEmail() {
-//        OrderDtoWrapper ordersByClientEmailBeforeSave = orderController.getOrdersByClientEmail(clientOrderInputDtoWithProducts.getClientEmail());
-//        assertEquals(0, ordersByClientEmailBeforeSave.getContent().size());
-//
-//        orderController.saveOrder(clientOrderInputDtoWithProducts);
-//        orderController.saveOrder(clientOrderInputDtoWithProducts);
-//
-//        OrderDtoWrapper ordersByClientEmailAfterSave = orderController.getOrdersByClientEmail(clientOrderInputDtoWithProducts.getClientEmail());
-//        assertEquals(2, ordersByClientEmailAfterSave.getContent().size());
-    }
-
-    @Test
-    @Transactional
-    void getOrdersByClientUuid() {
-//        OrderDtoWrapper ordersByClientEmailBeforeSave = orderController.getOrdersByClientUuid(clientAccount.getUuid());
-//        assertEquals(0, ordersByClientEmailBeforeSave.getContent().size());
-//
-//        orderController.saveOrder(clientOrderInputDtoWithProducts);
-//        orderController.saveOrder(clientOrderInputDtoWithProducts);
-//
-//        ClientDto clientByEmail = clientService.findByEmail(clientOrderInputDtoWithProducts.getClientEmail());
-//        List<OrderDto> orders = clientByEmail.getOrders();
-//
-//        OrderDtoWrapper ordersByClientEmailAfterSave = orderController.getOrdersByClientUuid(clientAccount.getUuid());
-//        assertEquals(2, ordersByClientEmailAfterSave.getContent().size());
-    }
-
-    @Test
-    @Transactional
-    void getOrdersByEmployeeEmail() {
-    }
-
-    @Test
-    @Transactional
-    void getOrdersByEmployeeUuid() {
     }
 
     @Test
@@ -151,6 +105,60 @@ class OrderControllerTest extends UpcTest {
         testOrderWithProduct(uuid, false);
 
         assertThrows(GenericException.class, () -> orderController.editOrderStatus(uuid, OrderStatus.ZAKONCZONE));
+    }
+
+    @Test
+    @Transactional
+    void getOrdersByEmployeeEmail() {
+        OrderDtoWrapper ordersByEmployeeEmailBeforeSave = orderController.getOrdersByEmployeeEmail(employeeOrderInputDto.getEmployeeEmail());
+        assertEquals(0, ordersByEmployeeEmailBeforeSave.getContent().size());
+
+        orderController.saveOrder(employeeOrderInputDto);
+
+        OrderDtoWrapper ordersByEmployeeEmailAfterSave = orderController.getOrdersByEmployeeEmail(employeeOrderInputDto.getEmployeeEmail());
+        assertEquals(1, ordersByEmployeeEmailAfterSave.getContent().size());
+    }
+
+    @Test
+    @Transactional
+    void getOrdersByEmployeeUuid() {
+        UUID uuid = UUID.fromString("53bd49ca-9599-4c9a-b179-9c6d597845b5");
+        OrderDtoWrapper ordersByEmployeeEmailBeforeSave = orderController.getOrdersByEmployeeUuid(uuid);
+        assertEquals(0, ordersByEmployeeEmailBeforeSave.getContent().size());
+
+        orderController.saveOrder(employeeOrderInputDto);
+
+        OrderDtoWrapper ordersByEmployeeEmailAfterSave = orderController.getOrdersByEmployeeUuid(uuid);
+        assertEquals(1, ordersByEmployeeEmailAfterSave.getContent().size());
+    }
+
+    @Test
+    @Transactional
+    void getOrdersByClientEmail() {
+        OrderDtoWrapper ordersByClientEmailBeforeSave = orderController.getOrdersByClientEmail(clientOrderInputDtoWithProducts.getClientEmail());
+        assertEquals(0, ordersByClientEmailBeforeSave.getContent().size());
+
+        orderController.saveOrder(clientOrderInputDtoWithProducts);
+        orderController.saveOrder(clientOrderInputDtoWithProducts);
+
+        OrderDtoWrapper ordersByClientEmailAfterSave = orderController.getOrdersByClientEmail(clientOrderInputDtoWithProducts.getClientEmail());
+        assertEquals(2, ordersByClientEmailAfterSave.getContent().size());
+    }
+
+    @Test
+    @Transactional
+    void getOrdersByClientUuid() {
+        OrderDtoWrapper ordersByClientEmailBeforeSave = orderController.getOrdersByClientUuid(clientAccount.getUuid());
+        assertEquals(0, ordersByClientEmailBeforeSave.getContent().size());
+
+        orderController.saveOrder(clientOrderInputDtoWithProducts);
+        orderController.saveOrder(clientOrderInputDtoWithProducts);
+
+        ClientDto clientByEmail = clientService.findByEmail(clientOrderInputDtoWithProducts.getClientEmail());
+        List<OrderDto> orders = clientByEmail.getOrders();
+
+        OrderDtoWrapper ordersByClientEmailAfterSave = orderController.getOrdersByClientUuid(clientAccount.getUuid());
+        assertEquals(2, ordersByClientEmailAfterSave.getContent().size());
     }
 
     @Test
@@ -166,6 +174,7 @@ class OrderControllerTest extends UpcTest {
         OrderDto orderAfterUpdate = orderController.getOrder(uuid);
         assertEquals(OrderStatus.W_TRAKCIE_PRZYGOTOWANIA, orderAfterUpdate.getOrderStatus());
     }
+
 
     private void testOrderWithProduct(UUID uuid, boolean withEmployee) {
         OrderDto order = orderController.getOrder(uuid);
@@ -210,12 +219,12 @@ class OrderControllerTest extends UpcTest {
             assertEquals("Alejandra", employee.getFirstName());
             assertEquals("Langworth", employee.getLastName());
             assertEquals("jarod.howell@yahoo.com", employee.getEmail());
-            assertNull( employee.getAddress());
+            assertNull(employee.getAddress());
             assertEquals("661412255", employee.getPhoneNumber());
             assertEquals("Kielce", employee.getWorkplace());
             assertEquals(ContractForm.B2B, employee.getContractForm());
-            assertNull( employee.getNip());
-            assertNull( employee.getPesel());
+            assertNull(employee.getNip());
+            assertNull(employee.getPesel());
             assertEquals(12000.0, employee.getSalary());
         } else {
             assertNull(employee.getUuid());

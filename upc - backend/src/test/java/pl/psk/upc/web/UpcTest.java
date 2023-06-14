@@ -134,8 +134,6 @@ public class UpcTest {
                 .withDatabaseName("upcTest")
             .withUsername("postgres")
             .withPassword("dcfc107313a64a2c85aff761e0676313");
-//        container
-//                .withInitScript("data.sql");
         container.start();
     }
 
