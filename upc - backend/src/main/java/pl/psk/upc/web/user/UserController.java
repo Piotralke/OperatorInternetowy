@@ -28,7 +28,7 @@ public class UserController {
     }
 
     @GetMapping(UpcRestPaths.GET_USER_DATA_BY_UUID)
-    public ClientDto getUserByEmail(@PathVariable(value = "uuid") UUID uuid) {
+    public ClientDto getUserByUuid(@PathVariable(value = "uuid") UUID uuid) {
         return clientService.findByUuid(uuid);
     }
 
@@ -43,7 +43,7 @@ public class UserController {
     }
 
     @GetMapping(UpcRestPaths.GET_EMPLOYEE_DATA_BY_UUID)
-    public EmployeeDto getEmployeeByEmail(@PathVariable(value = "uuid") UUID uuid) {
+    public EmployeeDto getEmployeeByUuid(@PathVariable(value = "uuid") UUID uuid) {
         return employeeService.findByUuid(uuid);
     }
 
@@ -54,8 +54,7 @@ public class UserController {
 
     @GetMapping(UpcRestPaths.GET_USER_SERVICES)
     public List<ServiceDto> getUserServices(@PathVariable(value = "email") String email) {
-        return clientService.findByEmail(email)
-                .getServices();
+        return clientService.findAllClientServices(email).getContent();
     }
 
     @PostMapping(UpcRestPaths.CLIENT_REGISTER)

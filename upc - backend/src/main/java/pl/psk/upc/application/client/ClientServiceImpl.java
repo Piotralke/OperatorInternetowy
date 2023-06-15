@@ -3,6 +3,8 @@ package pl.psk.upc.application.client;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.psk.upc.application.service.ServiceService;
+import pl.psk.upc.web.service.ServiceDtoWrapper;
 import pl.psk.upc.web.user.ClientRegisterRequestDto;
 import pl.psk.upc.infrastructure.entity.ClientAccountEntity;
 import pl.psk.upc.infrastructure.enums.RoleEnum;
@@ -22,11 +24,13 @@ class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ServiceService serviceService;
 
 
-    public ClientServiceImpl(ClientRepository clientRepository, PasswordEncoder passwordEncoder) {
+    public ClientServiceImpl(ClientRepository clientRepository, PasswordEncoder passwordEncoder, ServiceService serviceService) {
         this.clientRepository = clientRepository;
         this.passwordEncoder = passwordEncoder;
+        this.serviceService = serviceService;
     }
 
     @Override
@@ -49,6 +53,14 @@ class ClientServiceImpl implements ClientService {
     public ClientDtoWrapper findAll() {
         List<ClientAccountEntity> clients = clientRepository.findAll();
         return ClientConverter.convertFrom(clients);
+    }
+
+    @Override
+    public ServiceDtoWrapper findAllClientServices(String email) {
+        ClientAccountEntity client = clientRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(NOT_FOUND_MESSAGE));
+
+        return serviceService.getServicesByClient(client);
     }
 
     @Override

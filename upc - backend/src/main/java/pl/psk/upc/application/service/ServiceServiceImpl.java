@@ -2,12 +2,14 @@ package pl.psk.upc.application.service;
 
 import org.springframework.stereotype.Service;
 import pl.psk.upc.exception.GenericNotFoundException;
+import pl.psk.upc.infrastructure.entity.ClientAccountEntity;
 import pl.psk.upc.infrastructure.entity.ServiceEntity;
 import pl.psk.upc.infrastructure.repository.ServiceRepository;
 import pl.psk.upc.tech.MethodArgumentValidator;
 import pl.psk.upc.web.service.ServiceDto;
 import pl.psk.upc.web.service.ServiceDtoWrapper;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -31,5 +33,11 @@ class ServiceServiceImpl implements ServiceService {
         ServiceEntity service = serviceRepository.findByUuid(uuid)
                 .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE));
         return ServiceConverter.convertFrom(service);
+    }
+
+    @Override
+    public ServiceDtoWrapper getServicesByClient(ClientAccountEntity clientAccountEntity) {
+        List<ServiceEntity> servicesByClientAccountEntity = serviceRepository.findServicesByClientAccountEntity(clientAccountEntity);
+        return ServiceConverter.convertFrom(servicesByClientAccountEntity);
     }
 }
