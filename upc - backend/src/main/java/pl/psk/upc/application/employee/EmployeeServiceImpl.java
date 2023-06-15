@@ -3,6 +3,7 @@ package pl.psk.upc.application.employee;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.psk.upc.exception.GenericException;
 import pl.psk.upc.web.user.EmployeeEditRequestDto;
 import pl.psk.upc.web.user.EmployeeRegisterRequestDto;
 import pl.psk.upc.infrastructure.entity.EmployeeEntity;
@@ -12,6 +13,7 @@ import pl.psk.upc.tech.MethodArgumentValidator;
 import pl.psk.upc.web.user.EmployeeDto;
 import pl.psk.upc.web.user.EmployeeWrapper;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -51,28 +53,27 @@ class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public UUID save(EmployeeRegisterRequestDto registerRequestDto) {
-        MethodArgumentValidator.requiredNotNull(registerRequestDto, "registerRequestDto)");
+        MethodArgumentValidator.requiredNotNull(registerRequestDto, "registerRequestDto");
         Optional<EmployeeEntity> optionalEmployee = employeeRepository.findByEmail(registerRequestDto.getEmail());
 
-        UUID uuid = null;
         if (optionalEmployee.isPresent()) {
-            uuid = optionalEmployee.get().getUuid();
-        } else {
-            uuid = UUID.randomUUID();
+            throw new GenericException("Employee with email: " + registerRequestDto.getEmail() + "exist");
         }
 
         EmployeeEntity accountEntity = EmployeeEntity.builder()
-                .uuid(uuid)
+                .uuid(UUID.randomUUID())
                 .firstName(registerRequestDto.getFirstName())
                 .lastName(registerRequestDto.getLastName())
                 .email(registerRequestDto.getEmail())
                 .password(passwordEncoder.encode(registerRequestDto.getPassword()))
+                .roles(RoleEnum.WORKER.name())
                 .address(registerRequestDto.getAddress())
-                .roles(RoleEnum.USER.name())
                 .phoneNumber(registerRequestDto.getPhoneNumber())
                 .workplace(registerRequestDto.getWorkplace())
                 .salary(registerRequestDto.getSalary())
                 .contractForm(registerRequestDto.getContractForm())
+                .nip(registerRequestDto.getNip())
+                .pesel(registerRequestDto.getPesel())
                 .build();
 
         return employeeRepository.save(accountEntity)

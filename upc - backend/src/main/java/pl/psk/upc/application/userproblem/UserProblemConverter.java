@@ -19,6 +19,10 @@ public class UserProblemConverter {
     }
 
     public static UserProblemDtoWrapper convertFrom(List<UserProblemEntity> userProblems) {
+        if (userProblems == null || userProblems.isEmpty()) {
+            return UserProblemDtoWrapper.builder().build();
+        }
+
         List<UserProblemDto> convertedProblems = userProblems.stream()
                 .map(UserProblemConverter::convertFrom)
                 .toList();

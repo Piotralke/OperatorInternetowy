@@ -19,6 +19,10 @@ public class ServiceConverter {
     }
 
     public static ServiceDtoWrapper convertFrom(List<ServiceEntity> services) {
+        if (services == null || services.isEmpty()) {
+            return ServiceDtoWrapper.builder().build();
+        }
+
         List<ServiceDto> convertedServices = services.stream()
                 .map(ServiceConverter::convertFrom)
                 .toList();
