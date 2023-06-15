@@ -34,10 +34,10 @@ public class TestService {
         this.faker = Faker.instance();
     }
 
-//    @EventListener(ApplicationReadyEvent.class)
-//    public void initDb() {
-//        init();
-//    }
+   @EventListener(ApplicationReadyEvent.class)
+   public void initDb() {
+       init();
+   }
 
     public void init() {
         initProducts();

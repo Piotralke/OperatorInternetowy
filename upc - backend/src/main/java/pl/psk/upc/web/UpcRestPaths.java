@@ -53,6 +53,7 @@ public class UpcRestPaths {
     public static final String GET_CONTRACT_LENGTHS = UPC_UNSECURED_PREFIX + "/get-contract-lengths";
     public static final String GET_CONTRACTS_BY_USER = UPC_UNSECURED_PREFIX + "/get-contract-by-user/{uuid}";
     public static final String GET_CONTRACTS_BY_SERVICE = UPC_UNSECURED_PREFIX + "/get-contract-by-service/{uuid}";
+
     public static final String GET_INVOICES_BY_CLIENT_UUID = UPC_UNSECURED_PREFIX + "/get-invoices/{uuid}";
     public static final String GET_INVOICE_AS_PDF = UPC_UNSECURED_PREFIX + "/get-invoice";
     public static final String SAVE_NOTICE = UPC_UNSECURED_PREFIX + "/save-notice";
