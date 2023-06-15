@@ -1,25 +1,23 @@
 package pl.psk.upc.web.user;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import pl.psk.upc.application.client.ClientService;
 import pl.psk.upc.exception.GenericException;
 import pl.psk.upc.infrastructure.enums.ContractForm;
 import pl.psk.upc.web.UpcTest;
 import pl.psk.upc.web.order.OrderController;
-import pl.psk.upc.web.order.OrderDto;
-import pl.psk.upc.web.order.OrderDtoWrapper;
 import pl.psk.upc.web.service.ServiceDto;
 
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
+
 class UserControllerTest extends UpcTest {
 
     @Autowired
@@ -27,9 +25,6 @@ class UserControllerTest extends UpcTest {
 
     @Autowired
     OrderController orderController;
-
-    @Autowired
-    ClientService clientService;
 
     @Test
     @Transactional
@@ -58,8 +53,7 @@ class UserControllerTest extends UpcTest {
     @Test
     @Transactional
     void getEmployeeByUuid() {
-        UUID uuid = UUID.fromString("53bd49ca-9599-4c9a-b179-9c6d597845b5");
-        EmployeeDto employee = userController.getEmployeeByUuid(uuid);
+        EmployeeDto employee = userController.getEmployeeByUuid(EMPLOYEE_UUID);
 
         testEmployee(employee);
     }
@@ -74,7 +68,7 @@ class UserControllerTest extends UpcTest {
     @Test
     @Transactional
     void getEmployeeByEmail() {
-        EmployeeDto employee = userController.getEmployeeByEmail("jarod.howell@yahoo.com");
+        EmployeeDto employee = userController.getEmployeeByEmail(EMPLOYEE_EMAIL);
 
         testEmployee(employee);
     }
@@ -133,7 +127,7 @@ class UserControllerTest extends UpcTest {
     @Test
     @Transactional
     void saveExistedEmployee() {
-        assertThrows(GenericException.class, () -> userController.saveEmployee(employeeRegisterRequestDto.toBuilder().email("jarod.howell@yahoo.com").build()));
+        assertThrows(GenericException.class, () -> userController.saveEmployee(employeeRegisterRequestDto.toBuilder().email(EMPLOYEE_EMAIL).build()));
     }
 
     @Test
@@ -159,12 +153,12 @@ class UserControllerTest extends UpcTest {
     @Transactional
     void editEmployeeData() {
         userController.editEmployeeData(employeeEditRequestDto);
-        EmployeeDto employee = userController.getEmployeeByEmail("jarod.howell@yahoo.com");
+        EmployeeDto employee = userController.getEmployeeByEmail(EMPLOYEE_EMAIL);
 
         assertEquals(employeeEditRequestDto.getUuid(), employee.getUuid());
         assertEquals(employeeEditRequestDto.getFirstName(), employee.getFirstName());
         assertEquals(employeeEditRequestDto.getLastName(), employee.getLastName());
-        assertEquals("jarod.howell@yahoo.com", employee.getEmail());
+        assertEquals(EMPLOYEE_EMAIL, employee.getEmail());
         assertEquals(employeeEditRequestDto.getPhoneNumber(), employee.getPhoneNumber());
         assertEquals(employeeEditRequestDto.getWorkplace(), employee.getWorkplace());
         assertEquals(employeeEditRequestDto.getSalary(), employee.getSalary());
@@ -191,7 +185,7 @@ class UserControllerTest extends UpcTest {
     private void testEmployee(EmployeeDto employee) {
         assertEquals("Alejandra", employee.getFirstName());
         assertEquals("Langworth", employee.getLastName());
-        assertEquals("jarod.howell@yahoo.com", employee.getEmail());
+        assertEquals(EMPLOYEE_EMAIL, employee.getEmail());
         assertEquals("661412255", employee.getPhoneNumber());
         assertEquals("Kielce", employee.getWorkplace());
         assertEquals(12000.0, employee.getSalary());

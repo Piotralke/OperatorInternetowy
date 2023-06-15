@@ -122,13 +122,12 @@ class OrderControllerTest extends UpcTest {
     @Test
     @Transactional
     void getOrdersByEmployeeUuid() {
-        UUID uuid = UUID.fromString("53bd49ca-9599-4c9a-b179-9c6d597845b5");
-        OrderDtoWrapper ordersByEmployeeEmailBeforeSave = orderController.getOrdersByEmployeeUuid(uuid);
+        OrderDtoWrapper ordersByEmployeeEmailBeforeSave = orderController.getOrdersByEmployeeUuid(EMPLOYEE_UUID);
         assertEquals(0, ordersByEmployeeEmailBeforeSave.getContent().size());
 
         orderController.saveOrder(employeeOrderInputDto);
 
-        OrderDtoWrapper ordersByEmployeeEmailAfterSave = orderController.getOrdersByEmployeeUuid(uuid);
+        OrderDtoWrapper ordersByEmployeeEmailAfterSave = orderController.getOrdersByEmployeeUuid(EMPLOYEE_UUID);
         assertEquals(1, ordersByEmployeeEmailAfterSave.getContent().size());
     }
 
@@ -217,7 +216,7 @@ class OrderControllerTest extends UpcTest {
             assertNotNull(employee.getUuid());
             assertEquals("Alejandra", employee.getFirstName());
             assertEquals("Langworth", employee.getLastName());
-            assertEquals("jarod.howell@yahoo.com", employee.getEmail());
+            assertEquals(EMPLOYEE_EMAIL, employee.getEmail());
             assertNull(employee.getAddress());
             assertEquals("661412255", employee.getPhoneNumber());
             assertEquals("Kielce", employee.getWorkplace());

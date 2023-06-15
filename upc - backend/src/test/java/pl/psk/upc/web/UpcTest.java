@@ -1,10 +1,6 @@
 package pl.psk.upc.web;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.springframework.test.context.TestPropertySource;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.test.context.ActiveProfiles;
 import pl.psk.upc.infrastructure.entity.ClientAccountEntity;
 import pl.psk.upc.infrastructure.enums.ContractForm;
 import pl.psk.upc.infrastructure.enums.ContractLengthEnum;
@@ -26,13 +22,12 @@ import java.util.List;
 import java.util.UUID;
 
 
-@Testcontainers
-@TestPropertySource(properties = {
-        "spring.datasource.url=jdbc:postgresql://localhost:5432/upcTest",
-        "spring.datasource.username=postgres",
-        "spring.datasource.password=dcfc107313a64a2c85aff761e0676313"
-})
+@ActiveProfiles("test")
 public class UpcTest {
+
+    public final static String PRODUCT_NAME = "TP-LINK Deco M4 Mesh WiFi System";
+    public final UUID EMPLOYEE_UUID = UUID.fromString("53bd49ca-9599-4c9a-b179-9c6d597845b5");
+    public final String EMPLOYEE_EMAIL = "jarod.howell@yahoo.com";
 
     public final SaveProductWithOfferRequestDto saveProductWithOfferRequestDto = SaveProductWithOfferRequestDto.builder()
             .name("New test device")
@@ -174,23 +169,5 @@ public class UpcTest {
             .nip("1111111111")
             .isBusinessClient(true)
             .build();
-
-    @BeforeAll
-    public static void setEnvironmentVariables() {
-        System.setProperty("paypal.clientId", "AaqDntfE_PTyQabo-E_Uw43YeK8lNu4wP3FuMji7UGbdrQkqIeJTv5LOOGl1yCYVK9naOp-N1uCo__bc");
-        System.setProperty("paypal.clientSecret", "EHrKW84WZ3y3uYns0kBYa9tWRHRNWh6f4nIdEIMjqwJ4hBzoslf18fLLlloWf56NqfQfCHYWruWOWjh-");
-        System.setProperty("paypal.mode", "sandbox");
-    }
-
-    @Container
-    private static final PostgreSQLContainer<?> container;
-
-    static {
-        container = new PostgreSQLContainer<>("postgres:latest")
-                .withDatabaseName("upcTest")
-            .withUsername("postgres")
-            .withPassword("dcfc107313a64a2c85aff761e0676313");
-        container.start();
-    }
 
 }

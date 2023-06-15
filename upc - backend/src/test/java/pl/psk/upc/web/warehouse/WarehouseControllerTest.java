@@ -16,8 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest
 class WarehouseControllerTest extends UpcTest {
 
-    private final static String PRODUCT_NAME = "TP-LINK Deco M4 Mesh WiFi System";
-
     @Autowired
     WarehouseController warehouseController;
 
