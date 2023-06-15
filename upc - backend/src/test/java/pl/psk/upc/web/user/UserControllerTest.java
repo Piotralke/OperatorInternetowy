@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import pl.psk.upc.application.client.ClientService;
+import pl.psk.upc.exception.GenericException;
 import pl.psk.upc.infrastructure.enums.ContractForm;
 import pl.psk.upc.web.UpcTest;
 import pl.psk.upc.web.order.OrderController;
@@ -106,22 +107,86 @@ class UserControllerTest extends UpcTest {
         assertEquals(2, userServicesAfterSaveSecondOrder.size());
     }
 
-    @Test @Transactional
+    @Test
+    @Transactional
     void saveClient() {
+        UUID uuid = userController.saveClient(clientRegisterRequestDto);
+        ClientDto userByUuid = userController.getUserByUuid(uuid);
 
+        assertEquals(uuid, userByUuid.getUuid());
+        assertEquals(clientRegisterRequestDto.getFirstName(), userByUuid.getFirstName());
+        assertEquals(clientRegisterRequestDto.getLastName(), userByUuid.getLastName());
+        assertEquals(clientRegisterRequestDto.getEmail(), userByUuid.getEmail());
+        assertEquals(clientRegisterRequestDto.getAddress(), userByUuid.getAddress());
+        assertEquals(clientRegisterRequestDto.getPhoneNumber(), userByUuid.getPhoneNumber());
+        assertEquals(clientRegisterRequestDto.getNip(), userByUuid.getNip());
+        assertEquals(clientRegisterRequestDto.getPesel(), userByUuid.getPesel());
+        assertEquals(clientRegisterRequestDto.isBusinessClient(), userByUuid.isBusinessClient());
     }
 
-//    @Test @Transactional
-//    void saveEmployee() {
-//    }
-//
-//    @Test @Transactional
-//    void editEmployeeData() {
-//    }
-//
-//    @Test @Transactional
-//    void editClientData() {
-//    }
+    @Test
+    @Transactional
+    void saveExistedClient() {
+        assertThrows(GenericException.class, () -> userController.saveClient(clientRegisterRequestDto.toBuilder().email(clientAccount.getEmail()).build()));
+    }
+
+    @Test
+    @Transactional
+    void saveExistedEmployee() {
+        assertThrows(GenericException.class, () -> userController.saveEmployee(employeeRegisterRequestDto.toBuilder().email("jarod.howell@yahoo.com").build()));
+    }
+
+    @Test
+    @Transactional
+    void saveEmployee() {
+        UUID uuid = userController.saveEmployee(employeeRegisterRequestDto);
+        EmployeeDto employeeByUuid = userController.getEmployeeByUuid(uuid);
+
+        assertEquals(uuid, employeeByUuid.getUuid());
+        assertEquals(employeeRegisterRequestDto.getFirstName(), employeeByUuid.getFirstName());
+        assertEquals(employeeRegisterRequestDto.getLastName(), employeeByUuid.getLastName());
+        assertEquals(employeeRegisterRequestDto.getEmail(), employeeByUuid.getEmail());
+        assertEquals(employeeRegisterRequestDto.getAddress(), employeeByUuid.getAddress());
+        assertEquals(employeeRegisterRequestDto.getWorkplace(), employeeByUuid.getWorkplace());
+        assertEquals(employeeRegisterRequestDto.getSalary(), employeeByUuid.getSalary());
+        assertEquals(employeeRegisterRequestDto.getContractForm(), employeeByUuid.getContractForm());
+        assertEquals(employeeRegisterRequestDto.getPhoneNumber(), employeeByUuid.getPhoneNumber());
+        assertEquals(employeeRegisterRequestDto.getNip(), employeeByUuid.getNip());
+        assertEquals(employeeRegisterRequestDto.getPesel(), employeeByUuid.getPesel());
+    }
+
+    @Test
+    @Transactional
+    void editEmployeeData() {
+        userController.editEmployeeData(employeeEditRequestDto);
+        EmployeeDto employee = userController.getEmployeeByEmail("jarod.howell@yahoo.com");
+
+        assertEquals(employeeEditRequestDto.getUuid(), employee.getUuid());
+        assertEquals(employeeEditRequestDto.getFirstName(), employee.getFirstName());
+        assertEquals(employeeEditRequestDto.getLastName(), employee.getLastName());
+        assertEquals("jarod.howell@yahoo.com", employee.getEmail());
+        assertEquals(employeeEditRequestDto.getPhoneNumber(), employee.getPhoneNumber());
+        assertEquals(employeeEditRequestDto.getWorkplace(), employee.getWorkplace());
+        assertEquals(employeeEditRequestDto.getSalary(), employee.getSalary());
+        assertEquals(employeeEditRequestDto.getContractForm(), employee.getContractForm());
+        assertEquals(employeeEditRequestDto.getNip(), employee.getNip());
+    }
+
+    @Test
+    @Transactional
+    void editClientData() {
+        UUID uuid = userController.editClientData(clientEditRequestDto);
+        ClientDto userByUuid = userController.getUserByUuid(uuid);
+
+        assertEquals(uuid, userByUuid.getUuid());
+        assertEquals(clientEditRequestDto.getFirstName(), userByUuid.getFirstName());
+        assertEquals(clientEditRequestDto.getLastName(), userByUuid.getLastName());
+        assertEquals(clientEditRequestDto.getAddress(), userByUuid.getAddress());
+        assertEquals(clientEditRequestDto.getBalance(), userByUuid.getBalance());
+        assertEquals(clientEditRequestDto.getPhoneNumber(), userByUuid.getPhoneNumber());
+        assertEquals(clientEditRequestDto.getNip(), userByUuid.getNip());
+        assertEquals(clientEditRequestDto.isBusinessClient(), userByUuid.isBusinessClient());
+    }
 
     private void testEmployee(EmployeeDto employee) {
         assertEquals("Alejandra", employee.getFirstName());

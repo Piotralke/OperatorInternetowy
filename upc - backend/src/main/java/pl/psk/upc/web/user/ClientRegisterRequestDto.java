@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Value;
 
 @Value
@@ -66,6 +67,7 @@ public class ClientRegisterRequestDto {
     @JsonProperty(IS_BUSINESS_CLIENT)
     boolean isBusinessClient;
 
+    @Builder(toBuilder = true)
     public ClientRegisterRequestDto(@JsonProperty(UUID) String uuid, @JsonProperty(FIRST_NAME) String firstName, @JsonProperty(LAST_NAME) String lastName, @JsonProperty(EMAIL) String email, @JsonProperty(PASSWORD) String password,
                                     @JsonProperty(ADDRESS) String address, @JsonProperty(BALANCE) double balance, @JsonProperty(PHONE_NUMBER) String phoneNumber,
                                     @JsonProperty(NIP) String nip, @JsonProperty(PESEL) String pesel, @JsonProperty(IS_BUSINESS_CLIENT) boolean isBusinessClient) {

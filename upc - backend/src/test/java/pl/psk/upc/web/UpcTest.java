@@ -6,6 +6,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import pl.psk.upc.infrastructure.entity.ClientAccountEntity;
+import pl.psk.upc.infrastructure.enums.ContractForm;
 import pl.psk.upc.infrastructure.enums.ContractLengthEnum;
 import pl.psk.upc.infrastructure.enums.OfferType;
 import pl.psk.upc.infrastructure.enums.ProductType;
@@ -15,6 +16,10 @@ import pl.psk.upc.web.offer.SaveProductWithOfferRequestDto;
 import pl.psk.upc.web.order.OrderInputDto;
 import pl.psk.upc.web.product.ProductEditRequestDto;
 import pl.psk.upc.web.product.SaveProductRequestDto;
+import pl.psk.upc.web.user.ClientEditRequestDto;
+import pl.psk.upc.web.user.ClientRegisterRequestDto;
+import pl.psk.upc.web.user.EmployeeEditRequestDto;
+import pl.psk.upc.web.user.EmployeeRegisterRequestDto;
 import pl.psk.upc.web.userproblem.UserProblemInputDto;
 
 import java.util.List;
@@ -117,6 +122,57 @@ public class UpcTest {
             .uuid(UUID.fromString("e3154cab-640e-49cf-9b7e-f537578a72be"))
             .price(619.0)
             .description("New description")
+            .build();
+
+    public final ClientRegisterRequestDto clientRegisterRequestDto = ClientRegisterRequestDto.builder()
+            .firstName("testowe imię")
+            .lastName("testowe nazwisko")
+            .email("test@wp.pl")
+            .password("test")
+            .address("Testowy adres")
+            .phoneNumber("661415528")
+            .nip("1111111111")
+            .pesel("11111111111")
+            .isBusinessClient(true)
+            .build();
+
+    public final EmployeeRegisterRequestDto employeeRegisterRequestDto = EmployeeRegisterRequestDto.builder()
+            .firstName("testowe imię")
+            .lastName("testowe nazwisko")
+            .email("test@wp.pl")
+            .password("test")
+            .address("Testowy adres")
+            .workplace("Kielce")
+            .salary(6000.0)
+            .contractForm(ContractForm.B2B)
+            .phoneNumber("661415528")
+            .nip("1111111111")
+            .pesel("11111111111")
+            .build();
+
+    public final EmployeeEditRequestDto employeeEditRequestDto = EmployeeEditRequestDto.builder()
+            .uuid(UUID.fromString("53bd49ca-9599-4c9a-b179-9c6d597845b5"))
+            .firstName("testowe imię")
+            .lastName("testowe nazwisko")
+            .password("test")
+            .address("Testowy adres")
+            .workplace("Kielce")
+            .salary(6000.0)
+            .contractForm(ContractForm.PERMANENT)
+            .phoneNumber("661415528")
+            .nip("1111111111")
+            .build();
+
+    public final ClientEditRequestDto clientEditRequestDto = ClientEditRequestDto.builder()
+            .uuid(UUID.fromString("522346b2-acf8-449d-99f5-c10f491f3658"))
+            .firstName("testowe imię")
+            .lastName("testowe nazwisko")
+            .password("test")
+            .address("Testowy adres")
+            .balance(4321.0)
+            .phoneNumber("661415528")
+            .nip("1111111111")
+            .isBusinessClient(true)
             .build();
 
     @BeforeAll

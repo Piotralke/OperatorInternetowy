@@ -2,6 +2,7 @@ package pl.psk.upc.web.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
+import lombok.Builder;
 import lombok.Value;
 import pl.psk.upc.infrastructure.enums.ContractForm;
 
@@ -10,7 +11,7 @@ public class EmployeeEditRequestDto {
 
     private final static String UUID = "uuid";
     private final static String FIRST_NAME = "firstName";
-    private final static String LAST_NAME = "last_name";
+    private final static String LAST_NAME = "lastName";
     private final static String PASSWORD = "password";
     private final static String ADDRESS = "address";
     private final static String WORKPLACE = "workplace";
@@ -60,6 +61,7 @@ public class EmployeeEditRequestDto {
     @JsonProperty(NIP)
     String nip;
 
+    @Builder
     public EmployeeEditRequestDto(@JsonProperty(UUID) java.util.UUID uuid,@JsonProperty(FIRST_NAME) String firstName, @JsonProperty(LAST_NAME) String lastName, @JsonProperty(PASSWORD) String password,
                                   @JsonProperty(ADDRESS) String address, @JsonProperty(PHONE_NUMBER) String phoneNumber, @JsonProperty(WORKPLACE) String workplace, @JsonProperty(SALARY) double salary,
                                   @JsonProperty(CONTRACT_FORM) ContractForm contractForm, @JsonProperty(NIP) String nip) {

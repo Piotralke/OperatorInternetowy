@@ -4,15 +4,16 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.psk.upc.application.service.ServiceService;
-import pl.psk.upc.web.service.ServiceDtoWrapper;
-import pl.psk.upc.web.user.ClientRegisterRequestDto;
+import pl.psk.upc.exception.GenericException;
 import pl.psk.upc.infrastructure.entity.ClientAccountEntity;
 import pl.psk.upc.infrastructure.enums.RoleEnum;
 import pl.psk.upc.infrastructure.repository.ClientRepository;
 import pl.psk.upc.tech.MethodArgumentValidator;
+import pl.psk.upc.web.service.ServiceDtoWrapper;
 import pl.psk.upc.web.user.ClientDto;
 import pl.psk.upc.web.user.ClientDtoWrapper;
 import pl.psk.upc.web.user.ClientEditRequestDto;
+import pl.psk.upc.web.user.ClientRegisterRequestDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -67,16 +68,13 @@ class ClientServiceImpl implements ClientService {
     public UUID save(ClientRegisterRequestDto registerRequestDto) {
         MethodArgumentValidator.requiredNotNull(registerRequestDto, "registerRequestDto");
         Optional<ClientAccountEntity> optionalClientAccount = clientRepository.findByEmail(registerRequestDto.getEmail());
-        UUID uuid = null;
 
         if (optionalClientAccount.isPresent()) {
-            uuid = optionalClientAccount.get().getUuid();
-        } else {
-            uuid = UUID.randomUUID();
+            throw new GenericException("Client with email: " + registerRequestDto.getEmail() + "exist");
         }
 
         ClientAccountEntity accountEntity = ClientAccountEntity.builder()
-                .uuid(uuid)
+                .uuid(UUID.randomUUID())
                 .firstName(registerRequestDto.getFirstName())
                 .lastName(registerRequestDto.getLastName())
                 .email(registerRequestDto.getEmail())

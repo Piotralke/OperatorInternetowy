@@ -26,6 +26,10 @@ public class OrderConverter {
     }
 
     public static OrderDtoWrapper convertFrom(List<OrderEntity> orders) {
+        if (orders == null || orders.isEmpty()) {
+            return OrderDtoWrapper.builder().build();
+        }
+
         List<OrderDto> convertedOrders = orders.stream()
                 .map(OrderConverter::convertFrom)
                 .toList();
