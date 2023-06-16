@@ -5,7 +5,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pl.psk.upc.application.client.ClientConverter;
 import pl.psk.upc.application.product.ProductService;
-import pl.psk.upc.application.service.ServiceService;
 import pl.psk.upc.exception.GenericNotFoundException;
 import pl.psk.upc.infrastructure.entity.ClientAccountEntity;
 import pl.psk.upc.infrastructure.entity.PaymentEntity;
@@ -33,13 +32,11 @@ class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
     private final ClientRepository clientRepository;
     private final ProductService productService;
-    private final ServiceService serviceService;
 
-    public PaymentServiceImpl(PaymentRepository paymentRepository, ClientRepository clientRepository, ProductService productService, ServiceService serviceService) {
+    public PaymentServiceImpl(PaymentRepository paymentRepository, ClientRepository clientRepository, ProductService productService) {
         this.paymentRepository = paymentRepository;
         this.clientRepository = clientRepository;
         this.productService = productService;
-        this.serviceService = serviceService;
     }
 
     @Override
@@ -102,9 +99,12 @@ class PaymentServiceImpl implements PaymentService {
                     .clientLastName(client.getLastName())
                     .clientAddress(client.getAddress())
                     .clientPesel(client.getPesel())
-//                    .service(serviceService.getService(UUID.fromString(p.getServiceUuid())))
                     .build());
         }
         return result;
+    }
+
+    public List<PaymentEntity> getAllNotPayedPayments() {
+        return paymentRepository.findAllByPaymentStatus(PaymentStatus.NIEOPLACONE);
     }
 }

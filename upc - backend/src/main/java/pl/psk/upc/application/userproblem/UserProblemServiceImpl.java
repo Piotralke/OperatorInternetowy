@@ -74,7 +74,16 @@ class UserProblemServiceImpl implements UserProblemService {
     public UserProblemDto getUserProblem(UUID uuid) {
         MethodArgumentValidator.requiredNotNull(uuid, "uuid");
         UserProblemEntity userProblem = userProblemRepository.findByUuid(uuid);
-        return UserProblemConverter.convertFrom(userProblem);
+        UserProblemDto userProblemDto = UserProblemConverter.convertFrom(userProblem);
+        return setDataFromClientEntity(userProblem.getClientAccountEntity(), userProblemDto);
+    }
+
+    private UserProblemDto setDataFromClientEntity(ClientAccountEntity clientAccountEntity, UserProblemDto userProblemDto){
+        return userProblemDto.toBuilder()
+                .userUuid(clientAccountEntity.getUuid())
+                .userFirstName(clientAccountEntity.getFirstName())
+                .userLastName(clientAccountEntity.getLastName())
+                .build();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package pl.psk.upc.application.notice;
 
+import pl.psk.upc.infrastructure.entity.NoticeEntity;
 import pl.psk.upc.web.notice.NoticeDto;
 import pl.psk.upc.web.notice.NoticeDtoWrapper;
 import pl.psk.upc.web.notice.SaveNoticeRequestDto;
@@ -12,4 +13,5 @@ public interface NoticeService {
     NoticeDtoWrapper getAllByUser(UUID uuid);
     NoticeDto getByUuid(UUID uuid);
     UUID editNoticeStatus(UUID uuid, boolean isClicked);
+    void saveNoticesFromScheduler(List<NoticeEntity> notices);
 }
