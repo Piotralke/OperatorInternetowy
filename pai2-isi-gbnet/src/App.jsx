@@ -17,7 +17,7 @@ import AdminProducts from "./pages/Admin/Products/AdminProducts";
 import AdminProductDetail from "./pages/Admin/Products/AdminProductDetail"
 import AdminOffers from "./pages/Admin/Offers/AdminOffers"
 import AdminOfferDetail from "./pages/Admin/Offers/AdminOfferDetail";
-import Reports from "./pages/Admin/Reports/AdminReports";
+import Reports from "./pages/Client/Reports/Reports";
 import AddReport from "./pages/Client/Reports/AddReport";
 import ReportDetail from "./pages/Client/Reports/ReportDetail";
 import AdminWorkerDetail from "./pages/Admin/Workers/AdminWorkerDetail";
@@ -25,6 +25,9 @@ import WorkerAdd from "./pages/Admin/Workers/WorkerAdd";
 import ClientAdd from "./pages/Admin/Clients/ClientAdd";
 import AdminProductAdd from "./pages/Admin/Products/AdminProductAdd";
 import AdminOfferAdd from "./pages/Admin/Offers/AdminOfferAdd";
+import AdminReports from "./pages/Admin/Reports/AdminReports";
+import AdminReportDetail from "./pages/Admin/Reports/AdminReportDetail";
+import MakeOrder from "./pages/Client/Orders/MakeOrder";
 export default function App() {
   return (
     <AuthProvider
@@ -59,6 +62,7 @@ export default function App() {
               <Route path=":reportId" element={<ReportDetail></ReportDetail>}></Route>
               <Route path="add" element={<AddReport/>}></Route>
             </Route>
+             <Route path="order/:offerId" element={<MakeOrder/>}></Route> 
           </Route>
           <Route
             path="/admin"
@@ -90,8 +94,8 @@ export default function App() {
             </Route>
             <Route path="offerAdd" element={<AdminOfferAdd/>}></Route>
             
-            <Route path="reports">
-              <Route path=":reportId"></Route>
+            <Route path="reports" element={<AdminReports/>}>
+              <Route path=":reportId" element={<AdminReportDetail/>}></Route>
             </Route>
             <Route path="notification"></Route>
           </Route>

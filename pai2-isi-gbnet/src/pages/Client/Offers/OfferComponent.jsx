@@ -39,16 +39,16 @@ export default function Offer(props) {
         {/* {props.installation? (<div className="text-lg text-blue-500">Instalacja za: {props.installation} zł</div>):null}
                 {props.activation? (<div className="text-lg text-blue-500">Aktywacja za: {props.activation} zł</div>):null} */}
         <div className="text-lg text-blue-500">
-          {props.product ? "W zestawie z: " + props.product.name : <div className="h-[28px]"></div>}
+          {props.withDevice ? "W zestawie z: " + props.product.name : <div className="h-[28px]"></div>}
         </div>
-        <div className="flex flex-row border border-blue-gray-200">
+        <div className="flex flex-row border border-blue-gray-200 items-center">
           <div className="flex flex-col w-2/3">
             <text className="text-2xl font-bold text-center">
               {props.price ? props.price.toFixed(2) : "0.00"} zł
             </text>
             <text className="text-xl text-center">MIESIĘCZNIE</text>
           </div>
-          <button className="w-1/3 font-bold bg-yellow-400 hover:bg-yellow-300" onClick={()=>navigate(`/offers/${props.id}`)}>Szczegóły</button>
+          <button className="w-1/3 p-3 font-bold bg-yellow-400 hover:bg-yellow-300" onClick={()=>navigate(`/offers/${props.id}`)}>Szczegóły</button>
         </div>
       </div>
     </div>

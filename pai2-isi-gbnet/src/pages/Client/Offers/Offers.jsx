@@ -52,7 +52,8 @@ export default function Offers() {
                 price={offer.price}
                 key={offer.uuid}
                 type={offer.offerType}
-                product={offer.productEntity}
+                product={offer.productDto}
+                withDevice={offer.withDevice}
               />
             ))}
         </div>
@@ -74,7 +75,8 @@ export default function Offers() {
                 price={offer.price}
                 key={offer.uuid}
                 type={offer.offerType}
-                product={offer.productEntity}
+                product={offer.productDto}
+                withDevice={offer.withDevice}
               />
             ))}
         </div>
@@ -96,7 +98,8 @@ export default function Offers() {
                 price={offer.price}
                 key={offer.uuid}
                 type={offer.offerType}
-                product={offer.productEntity}
+                product={offer.productDto}
+                withDevice={offer.withDevice}
               />
             ))}
         </div>

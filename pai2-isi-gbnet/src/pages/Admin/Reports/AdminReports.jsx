@@ -5,20 +5,20 @@ import axios from "axios";
 import { useAuthHeader } from "react-auth-kit";
 import { Outlet } from "react-router-dom";
 import { Spinner } from "@material-tailwind/react";
-const TABLE_HEAD = [{name: "Nazwa",key: "name"},{name:"Typ urządzenia",key:"productType"}, {name:"Cena",key:"price"} ,{name:"Szczegóły",key:null} ];
+const TABLE_HEAD = [{name: "Nr zgłoszenia",key: "userProblemId"},{name:"Data wysłania",key:"userProblemStartDate"}, {name:"Status zgłoszenia",key:"userProblemStatus"} ,{name:"Szczegóły",key:null} ];
  
 export default function AdminReports(){
     const [products,setProducts] = useState([])
     const [loading,setLoading] = useState(true)
     useEffect(()=>{    
         
-        axios.get("http://localhost:8080/upc/unsecured/v1/get-user-problems").then(res=>{
+        axios.get("http://localhost:8080/upc/unsecured/v1/get-all-user-problems").then(res=>{
             console.log(res.data.content)
             const tab = res.data.content.map(u=>({
                 uuid: u.uuid,
-                name: u.description,
-                productType: u.productType,
-                price: u.price              
+                userProblemId: u.uuid,
+                userProblemStartDate: u.userProblemStartDate,
+                userProblemStatus: u.userProblemStatus              
             }))
             setProducts(tab)
             setLoading(false)

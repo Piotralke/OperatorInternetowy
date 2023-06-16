@@ -71,6 +71,9 @@ export default function AdminLayout() {
     else if (nodeName === "Dodaj ofertę") {
       navigate('offerAdd');
     }
+    else if (nodeName === "Zgłoszenia") {
+      navigate('reports');
+    }
   };
 
   const folder = {

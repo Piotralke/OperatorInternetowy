@@ -3,6 +3,15 @@ import { TiTick } from 'react-icons/ti';
 import axios from "axios";
 import {useAuthHeader} from 'react-auth-kit'
 import { useAuthUser } from "react-auth-kit"
+import {
+    Button,
+    Typography,
+    Accordion,
+    Card,
+    CardBody,
+    AccordionHeader,
+    AccordionBody,
+  } from "@material-tailwind/react";
 import jwt from "jwt-decode"
 export default function Invoices(){
     const [invoicesPaid, setInvoicesPaid] = useState(true)
@@ -29,9 +38,9 @@ export default function Invoices(){
     <div className="flex flex-col basis-4/5">
         <div className="flex flex-row justify-between bg-blue-gray-900 items-center">
             <a className="text-white text-xl font-medium ml-4">Płatności</a>
-            <div className="flex flex-row bg-blue-500 p-4 items-end">
-                <a className="text-white text-2xl font-medium mr-2">Saldo:</a>
-                <a className="text-white font-bold text-3xl">{data.balance} zł</a>
+            <div className="flex flex-row bg-amber-500 p-4 items-end">
+                <a className="text-black text-2xl font-medium mr-2">Saldo:</a>
+                <a className="text-black font-bold text-3xl">{data.balance} zł</a>
             </div>
         </div>
         <div className="flex flex-col bg-blue-gray-800 p-4">
@@ -54,8 +63,9 @@ export default function Invoices(){
                     <input className="cursor-pointer  bg-blue-gray-700 text-white hover:bg-blue-gray-800 p-1" type="date" id="to" name="to"></input>
                 </div>
                 <div className="flex flex-row mt-8 space-x-4 items-center">
-                    <input className="cursor-pointer bg-blue-gray-700 rounded-md font-bold text-white p-4 hover:bg-blue-gray-800" type="button" value="WYCZYŚĆ" onClick={functiona}></input>
-                    <input className=" cursor-pointer bg-blue-500 rounded-md text-white p-4 font-bold hover:bg-blue-700" type="button" value="SZUKAJ"></input>
+                    
+                    <Button color='deep-orange'>Wyczyść</Button>
+                    <Button color='amber'>Szukaj</Button>
                 </div>
             </div>
             <div className="flex flex-row"> {/*Lista faktur*/}

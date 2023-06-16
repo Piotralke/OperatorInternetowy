@@ -33,12 +33,12 @@ public class TestService {
         this.clientRepository = clientRepository;
         this.faker = Faker.instance();
     }
-
+/*
    @EventListener(ApplicationReadyEvent.class)
    public void initDb() {
        init();
    }
-
+*/
     public void init() {
         initProducts();
         initWarehouse();
