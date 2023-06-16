@@ -55,6 +55,12 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
+    public void saveNoticesFromScheduler(List<NoticeEntity> notices) {
+        MethodArgumentValidator.requiredNotNullOrEmptyCollection(notices, "notices");
+        noticeRepository.saveAll(notices);
+    }
+
+    @Override
     public NoticeDtoWrapper getAllByUser(UUID clientUuid) {
         MethodArgumentValidator.requiredNotNull(clientUuid, "clientUuid");
         List<NoticeEntity> allByClientAccountEntityUuid = noticeRepository.findAllByClientAccountEntity_Uuid(clientUuid);

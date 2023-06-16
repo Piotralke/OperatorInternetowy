@@ -46,10 +46,17 @@ class ContractServiceImpl implements ContractService {
         if (payments == null) {
             payments = new ArrayList<>();
         }
-        String productsUuidList = products.stream()
-                .map(ProductDto::getUuid)
-                .map(UUID::toString)
-                .collect(Collectors.joining(","));
+
+        String productsUuidList = "";
+
+        if (products != null && !products.isEmpty()) {
+            productsUuidList = products.stream()
+                    .map(ProductDto::getUuid)
+                    .map(UUID::toString)
+                    .collect(Collectors.joining(","));
+        } else {
+            productsUuidList = null;
+        }
 
         PaymentEntity newPayment = PaymentEntity.builder()
                 .paymentStatus(PaymentStatus.NIEOPLACONE)
