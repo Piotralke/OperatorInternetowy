@@ -5,12 +5,6 @@ import {useAuthHeader} from 'react-auth-kit'
 import { useAuthUser } from "react-auth-kit"
 import {
     Button,
-    Typography,
-    Accordion,
-    Card,
-    CardBody,
-    AccordionHeader,
-    AccordionBody,
   } from "@material-tailwind/react";
 import jwt from "jwt-decode"
 export default function Invoices(){
