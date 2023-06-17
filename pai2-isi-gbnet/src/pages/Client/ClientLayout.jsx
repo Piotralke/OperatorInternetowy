@@ -4,6 +4,7 @@ import { CgProfile } from "react-icons/cg";
 import { BiMenuAltLeft } from "react-icons/bi";
 import { FaFileInvoiceDollar } from "react-icons/fa";
 import { RiCopyleftLine } from "react-icons/ri";
+import Notifications from "../../components/Notifications"
 import {
   MdLocalOffer,
   MdOutlineLocalOffer,
@@ -16,13 +17,52 @@ import {
   Typography,
   IconButton,
 } from "@material-tailwind/react";
-import { useState } from "react";
+import { useState,useEffect,useCallback } from "react";
 export default function ClientLayout() {
+  const [notifications,setNotifications] = useState();
   const [open, setOpen] = useState(false);
   const openDrawer = () => setOpen(true);
   const closeDrawer = () => setOpen(false);
   const navigate = useNavigate();
   const signOut = useSignOut();
+
+  useEffect(()=>{
+    const not = JSON.parse(localStorage.getItem("notifications"));
+    if(not){
+      setNotifications(not);
+    }
+  },[])
+  useEffect(()=>{
+    const handleStorageChange = (event) =>{
+      console.log("LISTENER przed if")
+      if(event.key="notifications"){
+        console.log("LISTENER")
+        const newNotifications = JSON.parse(localStorage.getItem("notifications"));
+        setNotifications(newNotifications);
+        }
+    }
+
+    window.addEventListener('storage',handleStorageChange);
+
+    return()=>{
+      window.removeEventListener('storage',handleStorageChange);
+    }
+
+  },[])
+
+  const handleDelete = useCallback(() =>{
+    console.log("DELETE")
+    const newNotifications = JSON.parse(localStorage.getItem("notifications"));
+    const updatedNotifications = newNotifications.slice(1); // Usuwanie pierwszego powiadomienia
+    console.log(updatedNotifications)
+        setNotifications(updatedNotifications);
+        window.localStorage.setItem('notifications', JSON.stringify(updatedNotifications));
+  }, [])
+
+
+
+
+
   return (
     <div className="flex flex-col min-h-screen min-w-full justify-stretch">
       <Drawer
@@ -165,8 +205,13 @@ export default function ClientLayout() {
           <Outlet></Outlet>
         </div>
       </div>
-
-      <div className="flex flex-col bg-blue-gray-700 h-10 basis-1/12 items-center">
+      <div className="absolute right-10 bottom-10 ">
+      {notifications?.map((not,index)=>{
+          return (
+            <Notifications index={index} not={not} handleDelete={handleDelete}></Notifications>
+        )})}
+        </div>
+      <div className="flex flex-col bg-blue-gray-800 h-10 basis-1/12 items-center">
         <p className="flex flex-row text-blue-gray-100 items-center">
           {" "}
           <span>

@@ -26,7 +26,7 @@ export default function WorkerAdd() {
 
 
   async function handleSubmit(e){
-    e.preventDefault()
+    e.preventDefault();
     const data = {
       firstName: nameRef.current.value,
       last_name: lastNameRef.current.value,
@@ -44,6 +44,21 @@ export default function WorkerAdd() {
     const apiUrl = "http://localhost:8080/upc/unsecured/v1/employee-register";
      const response = await axios.post(apiUrl, data);
      console.log(response);
+     if(response.status === 200)
+     {
+        const tab = JSON.parse(localStorage.getItem("notifications"));
+        let newTab;
+        if(tab)
+        {
+          newTab = [...tab,`Pomyślnie dodano nowego pracownika ${data.email}`];
+        }else{
+          newTab = [`Pomyślnie dodano nowego pracownika ${data.email}`];
+        }
+        
+        window.localStorage.setItem("notifications",JSON.stringify(newTab));
+        window.dispatchEvent(new Event("storage"))
+       window.location.reload();
+     }
   };
   return (
     <div className="flex flex-col h-full">

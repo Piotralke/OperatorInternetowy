@@ -61,7 +61,7 @@ export default function ReportDetail() {
         activeStep={problemStatus}
       >
         <Step >
-          <div className="absolute -bottom-[4.5rem] w-max text-center">
+          <div className="absolute -bottom-[2rem] w-max text-center">
             <Typography
               variant="h6"
               color={problemStatus === 0 ? "blue" : "blue-gray"}
@@ -71,7 +71,7 @@ export default function ReportDetail() {
           </div>
         </Step>
         <Step >
-          <div className="absolute -bottom-[4.5rem] w-max text-center">
+          <div className="absolute -bottom-[2rem] w-max text-center">
             <Typography
               variant="h6"
               color={problemStatus === 1 ? "blue" : "blue-gray"}
@@ -81,7 +81,7 @@ export default function ReportDetail() {
           </div>
         </Step>
         <Step >
-          <div className="absolute -bottom-[4.5rem] w-max text-center">
+          <div className="absolute -bottom-[2rem] w-max text-center">
             <Typography
               variant="h6"
               color={problemStatus === 2 ? "blue" : "blue-gray"}

@@ -1,10 +1,14 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
+import { Alert,Typography } from "@material-tailwind/react";
+import {BsInfoCircle} from "react-icons/bs"
+import { useEffect } from "react";
 
-export default function WorkerAdd() {
+export default function ClientAdd() {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [isBusiness, setIsBusiness] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const nameRef = useRef();
   const lastNameRef = useRef();
   const emaiRef = useRef();
@@ -15,11 +19,11 @@ export default function WorkerAdd() {
   const adddressRef = useRef();
   const nipRef = useRef();  
 
+
+ 
   async function handleSubmit(e){
-    e.preventDefault();
-
-
-    const data = {
+      e.preventDefault();
+      const data = {
       firstName: nameRef.current.value,
       last_name: lastNameRef.current.value,
       email: emaiRef.current.value,
@@ -34,12 +38,27 @@ export default function WorkerAdd() {
     const apiUrl = "http://localhost:8080/upc/unsecured/v1/client-register";
      const response = await axios.post(apiUrl, data);
      console.log(response);
+     if(response.status === 200)
+     {
+        const tab = JSON.parse(localStorage.getItem("notifications"));
+        let newTab;
+        if(tab)
+        {
+          newTab = [...tab,`Pomyślnie dodano nowego użytkownika ${data.email}`];
+        }else{
+          newTab = [`Pomyślnie dodano nowego użytkownika ${data.email}`];
+        }
+        
+        window.localStorage.setItem("notifications",JSON.stringify(newTab));
+        window.dispatchEvent(new Event("storage"))
+        window.location.reload();
+     }
   };
   return (
     <div className="flex flex-col h-full">
       <div className="flex flex-col w-full items-center bg-gray-400 p-2 ">
         <span className="text-xl text-gray-800 font-semibold">
-          Dodaj pracownika
+          Dodaj klienta
         </span>
       </div>
       <form

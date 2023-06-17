@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState,useEffect,useCallback } from "react";
 import {FiUsers,FiUserPlus, FiBox} from "react-icons/fi"
 import { FaPeopleCarry,FaNetworkWired, } from "react-icons/fa"
 import { LuWarehouse } from "react-icons/lu"
-import { Spinner } from "@material-tailwind/react";
+import { Spinner,Alert } from "@material-tailwind/react";
 import {RiUser2Fill, RiUserSearchLine,RiCopyleftLine, RiUser3Fill,} from "react-icons/ri"
 import { MdOutlineMiscellaneousServices} from "react-icons/md"
 import { AiOutlineNotification, AiFillDatabase, AiOutlineDropbox } from "react-icons/ai"
@@ -10,6 +10,7 @@ import {TiWarningOutline} from "react-icons/ti"
 import {HiCloudUpload} from "react-icons/hi"
 import { useNavigate, Outlet } from "react-router-dom";
 import { useSignOut } from "react-auth-kit";
+import Notifications from "../../components/Notifications"
 function TreeNode({ node, level, handleNodeClick }) {
   const [isExpanded, setIsExpanded] = useState(false);
   
@@ -20,7 +21,6 @@ function TreeNode({ node, level, handleNodeClick }) {
   };
 
   
-
   return (
     <div style={{ paddingLeft: 15 * (level - 1) }}>
       <div className="flex flex-row items-center space-x-4 ">
@@ -44,8 +44,12 @@ function TreeNode({ node, level, handleNodeClick }) {
 }
 
 export default function AdminLayout() {
+  const [notifications,setNotifications] = useState();
   const navigate = useNavigate()
   const signOut = useSignOut()
+  
+  
+
   const handleNodeClick = (nodeName) => {
     if (nodeName === "Wyświetl klientów") {
      navigate('clients');
@@ -75,6 +79,39 @@ export default function AdminLayout() {
       navigate('reports');
     }
   };
+
+  useEffect(()=>{
+    const not = JSON.parse(localStorage.getItem("notifications"));
+    if(not){
+      setNotifications(not);
+    }
+  },[])
+  useEffect(()=>{
+    const handleStorageChange = (event) =>{
+      console.log("LISTENER przed if")
+      if(event.key="notifications"){
+        console.log("LISTENER")
+        const newNotifications = JSON.parse(localStorage.getItem("notifications"));
+        setNotifications(newNotifications);
+        }
+    }
+
+    window.addEventListener('storage',handleStorageChange);
+
+    return()=>{
+      window.removeEventListener('storage',handleStorageChange);
+    }
+
+  },[])
+
+  const handleDelete = useCallback(() =>{
+    console.log("DELETE")
+    const newNotifications = JSON.parse(localStorage.getItem("notifications"));
+    const updatedNotifications = newNotifications.slice(1); // Usuwanie pierwszego powiadomienia
+    console.log(updatedNotifications)
+        setNotifications(updatedNotifications);
+        window.localStorage.setItem('notifications', JSON.stringify(updatedNotifications));
+  }, [])
 
   const folder = {
     name: "Zarządzaj",
@@ -163,6 +200,8 @@ export default function AdminLayout() {
     <div className="flex flex-col min-h-screen min-w-full justify-stretch">
       <div className="flex flex-row items-center w-full p-3 bg-gray-800 sticky top-0">
         <span className="text-xl flex-grow font-bold text-white">Gb net</span>
+        <div className="bg-red-500">
+      </div>
         <button
           className="text-xl bg-red-600 p-1 rounded-lg font-bold  text-white hover:bg-red-500"
           onClick={() => signOut()}
@@ -185,7 +224,12 @@ export default function AdminLayout() {
           <Outlet></Outlet>
         </div>
       </div>
-
+      <div className="absolute right-10 bottom-10 ">
+      {notifications?.map((not,index)=>{
+          return (
+            <Notifications index={index} not={not} handleDelete={handleDelete}></Notifications>
+        )})}
+        </div>
       <div className="flex flex-col bg-gray-800 h-10 basis-1/12 items-center">
         <a className="flex flex-row text-blue-gray-100 items-center"> <span><RiCopyleftLine/></span> Copyleft by Barański, Dziewięcki, Rudnicki and Spychalski. 2023</a>
       </div>

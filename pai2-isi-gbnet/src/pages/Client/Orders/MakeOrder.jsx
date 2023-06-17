@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   Button,
@@ -28,27 +28,30 @@ export default function MakeOrder() {
   const [products, setProducts] = useState();
   const [open, setOpen] = useState();
   const [selectedProducts, setSelectedProducts] = useState([]);
-  const [selectedPages,setSelectedPages]=useState()
+  const [selectedPages, setSelectedPages] = useState();
+  const [enums, setEnums] = useState();
+  const [chosen, setChosen] = useState(null);
   const { offerId } = useParams();
   const navigate = useNavigate();
+  const contractRef = useRef();
   const handleOpen = (value) => {
     setOpen(open === value ? -1 : value);
   };
-  const calculatePrice = () =>{
-    let price=0;
-    selectedProducts.forEach(p=>{
-        price+=p.price;
-    })
+  const calculatePrice = () => {
+    let price = 0;
+    selectedProducts.forEach((p) => {
+      price += p.price;
+    });
     return price;
-  }
+  };
   const toggleOpen = () => {
     isWithBonus((cur) => !cur);
   };
-useEffect(()=>{
+  useEffect(() => {
     const itemCount = selectedProducts.length;
     const totalPages = Math.ceil(itemCount / itemsPerPage);
-    setSelectedPages(totalPages)
-},[selectedProducts])
+    setSelectedPages(totalPages);
+  }, [selectedProducts]);
 
   useEffect(() => {
     async function fetchData() {
@@ -58,8 +61,23 @@ useEffect(()=>{
       console.log(response.data);
       setOffer(response.data);
     }
-
+    async function fetchEnums() {
+      const response = await axios.get(
+        `http://localhost:8080/upc/unsecured/v1/get-contract-lengths`
+      );
+      console.log(response.data);
+      setEnums(response.data);
+    }
+    const items = JSON.parse(localStorage.getItem("selectedProducts"));
+    const contractLength = JSON.parse(localStorage.getItem("contract"));
+    if (items) {
+      setSelectedProducts(items);
+    }
+    if (contractLength) {
+      setChosen(contractLength);
+    }
     fetchData().catch(console.error);
+    fetchEnums().catch(console.error);
   }, []);
   useEffect(() => {
     async function fetchProducts() {
@@ -124,6 +142,19 @@ useEffect(()=>{
 
     return selectedProducts ? selectedProducts.slice(startIndex, endIndex) : [];
   };
+
+  const handleSubmit = () => {
+    if (selectedProducts.length > 0) {
+      localStorage.setItem(
+        "selectedProducts",
+        JSON.stringify(selectedProducts)
+      );
+    }
+    localStorage.setItem("offer", JSON.stringify(offer));
+    localStorage.setItem("contract", JSON.stringify(contractRef.current.value));
+    navigate("/orderSummary");
+  };
+
   return (
     <div className="flex flex-col basis-4/5 h-full bg-blue-gray-800 items-center">
       <div className="flex flex-col m-4 w-11/12 h-hull bg-blue-gray-700 p-4">
@@ -172,7 +203,13 @@ useEffect(()=>{
             </p>
           </div>
         ) : null}
-        
+        <Typography variant="h2" color="amber">
+          Wybierz okres zoobowiązania:
+        </Typography>
+        <select className="w-1/4 p-2 bg-blue-gray-500 text-white font-bold" ref={contractRef}>
+          {enums?.map((value)=> chosen == value? <option value={value} selected>{value === "TWENTY_FOUR" ? "24 miesiące" : "12 miesiący"}</option> : <option value={value}>{value === "TWENTY_FOUR" ? "24 miesiące" : "12 miesiący"}</option>)}
+          
+        </select>
         <Accordion open={withBonus}>
           <AccordionHeader
             onClick={toggleOpen}
@@ -261,67 +298,90 @@ useEffect(()=>{
           </AccordionBody>
         </Accordion>
         <div className="flex flex-col w-full mt-4 bg-blue-gray-600 p-4">
-            <Typography variant="h2" color="amber" className="border-b border-gray-300">Podsumowanie</Typography>
-            {selectedProducts.length > 0 ? (
-          <Card color="blue-gray" className="w-full ">
-            <Typography variant="h3" color="amber" className="mx-auto">
-              KOSZYK
+          <Typography
+            variant="h2"
+            color="amber"
+            className="border-b border-gray-300"
+          >
+            Podsumowanie
+          </Typography>
+          {selectedProducts.length > 0 ? (
+            <Card color="blue-gray" className="w-full ">
+              <Typography variant="h3" color="amber" className="mx-auto">
+                KOSZYK
+              </Typography>
+              <CardBody className="p-1 ">
+                <List>
+                  {getPaginatedSelectedProducts().map((product, index) => {
+                    return (
+                      <ListItem className="text-white">
+                        <span className="flex-grow">{product.name}</span>
+                        <ListItemSuffix className="ml-0">
+                          <IconButton
+                            color="red"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const updatedSelectedProducts =
+                                selectedProducts.filter(
+                                  (item) => item !== product
+                                );
+                              setSelectedProducts(updatedSelectedProducts);
+                            }}
+                          >
+                            <ImMinus className="w-5 h-5"></ImMinus>
+                          </IconButton>
+                        </ListItemSuffix>
+                      </ListItem>
+                    );
+                  })}
+                  <div className="flex items-center gap-8 justify-center">
+                    <IconButton
+                      size="sm"
+                      color="amber"
+                      onClick={prevSelected}
+                      disabled={activeSelected === 1}
+                    >
+                      <AiOutlineArrowLeft strokeWidth={2} className="h-4 w-4" />
+                    </IconButton>
+                    <Typography color="white" className="font-normal">
+                      Page{" "}
+                      <strong className="text-amber-500">
+                        {activeSelected}
+                      </strong>{" "}
+                      of{" "}
+                      <strong className="text-amber-500">
+                        {selectedPages}
+                      </strong>
+                    </Typography>
+                    <IconButton
+                      size="sm"
+                      color="amber"
+                      onClick={nextSelected}
+                      disabled={activeSelected === selectedPages}
+                    >
+                      <AiOutlineArrowRight
+                        strokeWidth={2}
+                        className="h-4 w-4"
+                      />
+                    </IconButton>
+                  </div>
+                </List>
+              </CardBody>
+            </Card>
+          ) : null}
+          <Typography variant="h4" className="ml-auto text-white mt-2">
+            Opłata miesięczna: {offer?.price.toFixed(2)} zł
+          </Typography>
+          {selectedProducts.length > 0 ? (
+            <Typography variant="h4" className="ml-auto text-white">
+              Opłata jednorazowa w pierwszym miesiącu:{" "}
+              {calculatePrice().toFixed(2)} zł
             </Typography>
-            <CardBody className="p-1 ">
-              <List >
-                {getPaginatedSelectedProducts().map((product, index) => {
-                  return (
-                    <ListItem className="text-white">
-                      <span className="flex-grow">{product.name}</span>
-                      <ListItemSuffix className="ml-0">
-                        <IconButton
-                          color="red"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            const updatedSelectedProducts =
-                              selectedProducts.filter(
-                                (item) => item !== product
-                              );
-                            setSelectedProducts(updatedSelectedProducts);
-                          }}
-                        >
-                          <ImMinus className="w-5 h-5"></ImMinus>
-                        </IconButton>
-                      </ListItemSuffix>
-                    </ListItem>
-                  );
-                })}
-                <div className="flex items-center gap-8 justify-center">
-                  <IconButton
-                    size="sm"
-                    color="amber"
-                    onClick={prevSelected}
-                    disabled={activeSelected === 1}
-                  >
-                    <AiOutlineArrowLeft strokeWidth={2} className="h-4 w-4" />
-                  </IconButton>
-                  <Typography color="white" className="font-normal">
-                    Page <strong className="text-amber-500">{activeSelected}</strong> of{" "}
-                    <strong className="text-amber-500">{selectedPages}</strong>
-                  </Typography>
-                  <IconButton
-                    size="sm"
-                    color="amber"
-                    onClick={nextSelected}
-                    disabled={activeSelected === selectedPages}
-                  >
-                    <AiOutlineArrowRight strokeWidth={2} className="h-4 w-4" />
-                  </IconButton>
-                </div>
-              </List>
-            </CardBody>
-          </Card>
-        ) : null}
-            <Typography variant="h4" className="ml-auto text-white mt-2">Opłata miesięczna: {offer?.price.toFixed(2)} zł</Typography>
-            {selectedProducts.length>0?<Typography variant="h4" className="ml-auto text-white">Opłata jednorazowa w pierwszym miesiącu: {calculatePrice().toFixed(2)} zł</Typography>:null}
-        
+          ) : null}
         </div>
-        <Button color="amber" className="mt-4 ml-auto">Podsumowanie</Button>
+        <Button color="amber" className="mt-4 ml-auto" onClick={handleSubmit}>
+          Podsumowanie
+        </Button>
       </div>
     </div>
   );

@@ -18,7 +18,6 @@ import AdminProductDetail from "./pages/Admin/Products/AdminProductDetail"
 import AdminOffers from "./pages/Admin/Offers/AdminOffers"
 import AdminOfferDetail from "./pages/Admin/Offers/AdminOfferDetail";
 import Reports from "./pages/Client/Reports/Reports";
-import AddReport from "./pages/Client/Reports/AddReport";
 import ReportDetail from "./pages/Client/Reports/ReportDetail";
 import AdminWorkerDetail from "./pages/Admin/Workers/AdminWorkerDetail";
 import WorkerAdd from "./pages/Admin/Workers/WorkerAdd";
@@ -28,6 +27,7 @@ import AdminOfferAdd from "./pages/Admin/Offers/AdminOfferAdd";
 import AdminReports from "./pages/Admin/Reports/AdminReports";
 import AdminReportDetail from "./pages/Admin/Reports/AdminReportDetail";
 import MakeOrder from "./pages/Client/Orders/MakeOrder";
+import OrderSummary from "./pages/Client/Orders/OrderSummary";
 export default function App() {
   return (
     <AuthProvider
@@ -60,9 +60,10 @@ export default function App() {
             <Route path="/profile" element={<Profile></Profile>}></Route>
             <Route path="/reports" element={<Reports></Reports>}>
               <Route path=":reportId" element={<ReportDetail></ReportDetail>}></Route>
-              <Route path="add" element={<AddReport/>}></Route>
             </Route>
              <Route path="order/:offerId" element={<MakeOrder/>}></Route> 
+             <Route path="orderSummary" element={<OrderSummary/>}></Route>
+             
           </Route>
           <Route
             path="/admin"

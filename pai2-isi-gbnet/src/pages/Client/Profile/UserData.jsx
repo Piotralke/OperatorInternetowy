@@ -1,6 +1,6 @@
 import userPic from "../../../assets/userPic.jpg";
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
-
+import axios from "axios";
 export default function UserData(props) {
 
   const [phoneNumber, setPhoneNumber] = useState(props.phoneNumber);
@@ -9,6 +9,18 @@ export default function UserData(props) {
   const [loading, setLoading] = useState(true);
 
 
+
+  async function handleSave ()
+  {
+    const data = {
+      phoneNumber: phoneNumber,
+      email: email,
+    };
+
+    const apiUrl = "http://localhost:8080/upc/unsecured/v1/edit-client";
+     const response = await axios.put(apiUrl, data);
+    console.log(response);
+  }
 
   return (
     <div className="flex flex-col bg-blue-gray-700 my-7 basis-3/5">
@@ -24,14 +36,7 @@ export default function UserData(props) {
             <div className="text-lg text-blue-300 ml-3">
               {props.firstName} {props.lastName}
             </div>
-            <div className="flex flex-row">
-              <text className="text-slate-300 mt-3 ml-3 flex flex-col">
-                Status konta:
-              </text>
-              <text className="text-slate-300 mt-3 ml-3 flex flex-col font-bold">
-                {props.accountStatus}
-              </text>
-            </div>
+            
           </div>
         </div>
         <div className="flex flex-col whitespace-nowrap p-8">
@@ -39,7 +44,7 @@ export default function UserData(props) {
             <a className="text-lg text-white">Telefon komórkowy</a>
             <input
               disabled={isDisabled}
-              className="px-2 py-2 border drop-shadow-lg border-blue-gray-500 bg-blue-gray-700 w-1/2 rounded-sm text-blue-400 text-lg"
+              className={`px-2 py-2 border drop-shadow-lg border-blue-gray-500 ${isDisabled ? "bg-blue-gray-700" : "bg-blue-gray-600"}  w-1/2 rounded-sm text-blue-400 text-lg`}
               value={loading ? props.phoneNumber : phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
@@ -48,7 +53,7 @@ export default function UserData(props) {
             <text className="text-lg text-white">Adres e-mail</text>
             <input
               disabled={isDisabled}
-              className="px-2 py-2 border drop-shadow-lg border-blue-gray-500 bg-blue-gray-700 w-1/2 rounded-sm text-blue-400 text-lg"
+              className={`px-2 py-2 border drop-shadow-lg border-blue-gray-500 ${isDisabled ? "bg-blue-gray-700" : "bg-blue-gray-600"}  w-1/2 rounded-sm text-blue-400 text-lg`}
               value={loading ? props.email : email }
               onChange={(e) => setEmail(e.target.value)}
               
@@ -58,7 +63,7 @@ export default function UserData(props) {
           <div className="flex flex-row mb-4 justify-between">
             <a className="text-lg text-white">Adres Korespondencyjny</a>
             <input
-              className="px-2 py-2 border drop-shadow-lg border-blue-gray-500 bg-blue-gray-700 w-1/2 rounded-sm text-blue-400  text-lg"
+              className={`px-2 py-2 border drop-shadow-lg border-blue-gray-500 ${isDisabled ? "bg-blue-gray-700" : "bg-blue-gray-600"}  w-1/2 rounded-sm text-blue-400 text-lg`}
               value={props.address}
               readOnly
             />
@@ -90,7 +95,7 @@ export default function UserData(props) {
               Anuluj
             </button>
           )}
-          <button className="bg-blue-gray-800 drop-shadow-md rounded-md text-white font-bold text-md h-12 mt-4">
+          <button className="bg-blue-gray-800 drop-shadow-md rounded-md text-white font-bold text-md h-12 mt-4" onClick={()=> handleSave()}>
             Zapisz
           </button>
         </div>

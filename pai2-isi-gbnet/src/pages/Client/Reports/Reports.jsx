@@ -2,9 +2,22 @@ import { useEffect, useState } from "react";
 import Table from "../../../components/Table";
 import axios from "axios";
 import { Outlet, useNavigate } from "react-router-dom";
+import {BsInfoCircle} from "react-icons/bs"
 import jwt from "jwt-decode";
 import { useAuthHeader } from "react-auth-kit";
-import { Button,Spinner } from "@material-tailwind/react";
+import {
+    Button,
+    Dialog,
+    DialogHeader,
+    DialogBody,
+    DialogFooter,
+    Input,
+    Spinner,
+    Textarea,
+    Alert,
+    Typography 
+  } from "@material-tailwind/react";
+import { ImFacebook } from "react-icons/im";
 
 const TABLE_HEAD = [{name: "Nr zgłoszenia",key: "userProblemId"},{name:"Data wysłania",key:"userProblemStartDate"}, {name:"Status zgłoszenia",key:"userProblemStatus"} ,{name:"Szczegóły",key:null} ];
 // const TABLE_HEAD = [{name: "Nazwa",key: "name"},{name:"Typ urządzenia",key:"productType"}, {name:"Cena",key:"price"} ,{name:"Szczegóły",key:null} ];
@@ -13,8 +26,50 @@ export default function Reports(){
     const [products,setProducts] = useState([])
     const [loading,setLoading] = useState(true)
     const token = useAuthHeader()
+    const [showError, setShowError] = useState(false);
 
-    
+
+    //WYSYLANIE
+    const [description,setDescription] = useState("")
+    const [open,setOpen] = useState(false);
+    async function handleSubmit() {        
+
+    if(description?.length < 20)
+    {
+      setShowError(true);
+    }
+    else
+    {
+        const user = jwt(token());
+        const data={
+          email :  user.sub,
+          description : description
+        }
+        console.log(description)
+        const apiUrl = 'http://localhost:8080/upc/unsecured/v1/save-user-problem';
+              const response = await axios.post(apiUrl, data);
+              console.log(response)
+              if(response.status === 200)
+              {
+                 const tab = JSON.parse(localStorage.getItem("notifications"));
+                 let newTab;
+                 if(tab)
+                 {
+                   newTab = [...tab,"Pomyślnie wysłano zgłoszenie"];
+                 }else{
+                   newTab = ["Pomyślnie wysłano zgłoszenie"];
+                 }
+                 
+                 window.localStorage.setItem("notifications",JSON.stringify(newTab));
+                 window.dispatchEvent(new Event("storage"))
+                 window.location.reload();
+              }
+    }
+        
+      }
+      const handleOpen = () => setOpen(!open);
+
+    //POBIERANIE
     useEffect(()=>{    
         const data = jwt(token());
             axios.defaults.headers.common['Authorization'] = token();
@@ -46,13 +101,42 @@ export default function Reports(){
             <div className="">
             <Button
                   className=" bg-green-400 drop-shadow-md rounded-md text-white font-bold text-md p-2 hover:bg-green-500 m-2"
-                  onClick={() => {navigate("add")}}
+                  onClick={() => {handleOpen()}}
                 >
                   DODAJ ZGŁOSZENIE
                 </Button>
             </div>
-
+        
             <Table headers={TABLE_HEAD} rows={products}></Table>
+      <Dialog open={open} handler={handleOpen} >
+        <div className="flex items-center justify-between">
+          <DialogHeader>Nowe zgłoszenie</DialogHeader>
+         
+        </div>
+        <DialogBody divider>
+          <div className="grid gap-6">
+            {showError && <p className="text-md text-red-500">Tresć zgłoszenia musi wynosić conajmniej 20 znaków!</p>}
+            <Textarea label="Treść zgłoszenia" onChange={(e) => {
+            setDescription(e.target.value);
+            setShowError(false);
+          }} rows={10} />
+          </div>
+        </DialogBody>
+        <DialogFooter className="space-x-2">
+          <Button  color="red" onClick={()=> 
+            {
+            handleOpen();
+            }}>
+            Anuluj
+          </Button>
+          <Button variant="gradient" color="green" type="submit" onClick={()=> {
+            handleSubmit();
+          }}>
+            Wyślij zgłoszenie
+          </Button>
+        </DialogFooter>
+      </Dialog>
+      
             <Outlet></Outlet>
         </div>
     )

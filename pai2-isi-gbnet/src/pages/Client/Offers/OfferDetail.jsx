@@ -58,7 +58,10 @@ export default function OfferDetail() {
                 </p>
                 <p className="text-white ">MIESIĘCZNIE</p>
               </div>
-              <Button onClick={()=>{navigate(`/order/${offerId}`)}} color="amber" className="flex flex-col  p-4 h-1/2 items-center justify-center self-center">
+              <Button onClick={()=>{ localStorage.removeItem("selectedProducts");
+              localStorage.removeItem("offer");
+              localStorage.removeItem("contract");
+                navigate(`/order/${offerId}`) }} color="amber" className="flex flex-col  p-4 h-1/2 items-center justify-center self-center">
                 <p className="font-bold ">ZAMÓW</p>
               </Button>
             </div>

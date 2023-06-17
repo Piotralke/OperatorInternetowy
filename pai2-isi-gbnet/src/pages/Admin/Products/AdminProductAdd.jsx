@@ -19,8 +19,8 @@ export default function AdminProductAdd() {
   }, []);
 
   async function handleSubmit(e) {
-    e.preventDefault()
     // const user = jwt(token());
+
 
     const  data ={
       name: deviceNameRef.current.value,
@@ -33,6 +33,21 @@ export default function AdminProductAdd() {
      const apiUrl = "http://localhost:8080/upc/unsecured/v1/save-product";
      const response = await axios.post(apiUrl, data);
      console.log(response);
+     if(response.status === 200)
+     {
+        const tab = JSON.parse(localStorage.getItem("notifications"));
+        let newTab;
+        if(tab)
+        {
+          newTab = [...tab,`Pomyślnie dodano nowy produkt ${data.name}`];
+        }else{
+          newTab = [`Pomyślnie dodano nowy produkt ${data.name}`];
+        }
+        
+        window.localStorage.setItem("notifications",JSON.stringify(newTab));
+        window.dispatchEvent(new Event("storage"))
+        window.location.reload();
+     }
   }
 
   return (

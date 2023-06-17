@@ -106,6 +106,21 @@ export default function AdminOfferAdd() {
      const apiUrl = "http://localhost:8080/upc/unsecured/v1/save-offer";
      const response = await axios.post(apiUrl, data);
      console.log(response);
+     if(response.status === 200)
+     {
+        const tab = JSON.parse(localStorage.getItem("notifications"));
+        let newTab;
+        if(tab)
+        {
+          newTab = [...tab,`Pomyślnie dodano nową ofertę ${data.name}`];
+        }else{
+          newTab = [`Pomyślnie dodano nową ofertę ${data.name}`];
+        }
+        
+        window.localStorage.setItem("notifications",JSON.stringify(newTab));
+        window.dispatchEvent(new Event("storage"))
+        window.location.reload();
+     }
   }
 
   return (
