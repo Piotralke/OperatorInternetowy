@@ -16,7 +16,7 @@ public class PaymentInputDto {
     private final static String SUCCESS_URL = "successUrl";
     private final static String CANCEL_URL = "cancelUrl";
 
-    @NotNull
+    @NotBlank
     @JsonProperty(CLIENT_UUID)
     UUID clientUuid;
 
