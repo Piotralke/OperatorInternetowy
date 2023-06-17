@@ -28,6 +28,8 @@ import AdminReports from "./pages/Admin/Reports/AdminReports";
 import AdminReportDetail from "./pages/Admin/Reports/AdminReportDetail";
 import MakeOrder from "./pages/Client/Orders/MakeOrder";
 import OrderSummary from "./pages/Client/Orders/OrderSummary";
+import OrderSuccess from "./pages/Client/Orders/OrderSuccess";
+import OrderCancel from "./pages/Client/Orders/OrderCancel";
 export default function App() {
   return (
     <AuthProvider
@@ -62,6 +64,8 @@ export default function App() {
               <Route path=":reportId" element={<ReportDetail></ReportDetail>}></Route>
             </Route>
              <Route path="order/:offerId" element={<MakeOrder/>}></Route> 
+             <Route path="order/:offerId/success" element={<OrderSuccess/>} ></Route> 
+             <Route path="order/:offerId/cancel"element={<OrderCancel/>} ></Route> 
              <Route path="orderSummary" element={<OrderSummary/>}></Route>
              
           </Route>

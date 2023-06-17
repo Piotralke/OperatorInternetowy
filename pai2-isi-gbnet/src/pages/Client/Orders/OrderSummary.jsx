@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate,Navigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useAuthHeader } from "react-auth-kit";
 import axios from "axios";
@@ -85,7 +85,11 @@ export default function OrderSummary() {
 
   async function handleSubmit (){
      console.log(products);
-     const prodUuids = products.map(p=>p.uuid)
+     let prodUuids;
+     if(products?.length>0)
+         prodUuids = products.map(p=>p.uuid)
+    else
+        prodUuids=null
     const data={
         clientEmail: userData.email,
         employeeEmail: "",
@@ -101,12 +105,12 @@ export default function OrderSummary() {
         orderUuid: response.data,
         clientUuid: userData.uuid,
         serviceUuid: "",
-        successUrl: "http://localhost:8080/success",
-        cancelUrl: "http://localhost:8080/cancel"
+        successUrl: `http://localhost:5173/order/${response.data}/success/`,
+        cancelUrl: `http://localhost:5173/order/${response.data}/cancel/`
     }
     console.log(paymentData);
-    const link = await axios.get(`http://localhost:8080/upc/unsecured/v1/payment/create`,{ params:paymentData} );
-    console.log(link);
+    const link = await axios.post(`http://localhost:8080/upc/unsecured/v1/payment/create`,paymentData);
+    window.location.href = link.data;
   }
 
   return (

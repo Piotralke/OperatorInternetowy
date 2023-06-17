@@ -111,12 +111,13 @@ export default function MakeOrder() {
     if (active === totalPages) return;
 
     setActive(active + 1);
+    setOpen(-1);
   };
 
   const prev = () => {
     if (active === 1) return;
-
     setActive(active - 1);
+    setOpen(-1);
   };
   const nextSelected = () => {
     if (activeSelected === selectedPages) return;
