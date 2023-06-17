@@ -11,6 +11,7 @@ import java.time.ZonedDateTime;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(UsernameNotFoundException.class)
     public ErrorDto handleException(UsernameNotFoundException e) {
         return ErrorDto.builder()
                 .message(e.getMessage())
@@ -34,6 +35,15 @@ public class GlobalExceptionHandler {
                 .message(e.getMessage())
                 .date(ZonedDateTime.now(ZoneId.systemDefault()))
                 .responseCode(HttpStatus.BAD_REQUEST)
+                .build();
+    }
+
+    @ExceptionHandler(NoAccessRightsException.class)
+    public ErrorDto handleException(NoAccessRightsException e) {
+        return ErrorDto.builder()
+                .message(e.getMessage())
+                .date(ZonedDateTime.now(ZoneId.systemDefault()))
+                .responseCode(HttpStatus.FORBIDDEN)
                 .build();
     }
 
