@@ -16,6 +16,8 @@ import pl.psk.upc.web.order.OrderDto;
 import pl.psk.upc.web.order.OrderDtoWrapper;
 import pl.psk.upc.web.order.OrderInputDto;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -221,7 +223,11 @@ class OrderServiceImpl implements OrderService {
             result += price;
         }
         result += offer.getPrice();
-        return result;
+
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.HALF_UP);
+        String resultAsString = df.format(result).replace(",", ".");
+        return Double.parseDouble(resultAsString);
     }
 
     private ZonedDateTime getDateOfContractEnd(ZonedDateTime startDate, ContractLengthEnum contractLength) {
