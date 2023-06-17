@@ -24,7 +24,7 @@ export default function Messages() {
     }, 2000);
   }, []);
   return (
-    <div className="w-1/4 h-1/3 ">
+    <div className="w-full xl:w-1/4 h-1/3 ">
       <div className="h-full">
         <div className="flex flex-row">
         <div className="text-xl text-blue-500 flex-grow mr-4">Wiadomości</div>

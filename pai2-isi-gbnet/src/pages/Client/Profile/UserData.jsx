@@ -40,37 +40,37 @@ export default function UserData(props) {
           </div>
         </div>
         <div className="flex flex-col whitespace-nowrap p-8">
-          <div className="flex flex-row mb-4 justify-between">
+          <div className="flex flex-col xl:flex-row mb-4 justify-between">
             <a className="text-lg text-white">Telefon komórkowy</a>
             <input
               disabled={isDisabled}
-              className={`px-2 py-2 border drop-shadow-lg border-blue-gray-500 ${isDisabled ? "bg-blue-gray-700" : "bg-blue-gray-600"}  w-1/2 rounded-sm text-blue-400 text-lg`}
+              className={`px-2 py-2 border drop-shadow-lg border-blue-gray-500 ${isDisabled ? "bg-blue-gray-700" : "bg-blue-gray-600"}  w-full xl:w-1/2 rounded-sm text-blue-400 text-lg`}
               value={loading ? props.phoneNumber : phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
           </div>
-          <div className="flex flex-row mb-4 justify-between">
+          <div className="flex flex-col xl:flex-row mb-4 justify-between">
             <text className="text-lg text-white">Adres e-mail</text>
             <input
               disabled={isDisabled}
-              className={`px-2 py-2 border drop-shadow-lg border-blue-gray-500 ${isDisabled ? "bg-blue-gray-700" : "bg-blue-gray-600"}  w-1/2 rounded-sm text-blue-400 text-lg`}
+              className={`px-2 py-2 border drop-shadow-lg border-blue-gray-500 ${isDisabled ? "bg-blue-gray-700" : "bg-blue-gray-600"}  w-full xl:w-1/2 rounded-sm text-blue-400 text-lg`}
               value={loading ? props.email : email }
               onChange={(e) => setEmail(e.target.value)}
               
             />
           </div>
 
-          <div className="flex flex-row mb-4 justify-between">
+          <div className="flex flex-col xl:flex-row mb-4 justify-between">
             <a className="text-lg text-white">Adres Korespondencyjny</a>
             <input
-              className={`px-2 py-2 border drop-shadow-lg border-blue-gray-500 ${isDisabled ? "bg-blue-gray-700" : "bg-blue-gray-600"}  w-1/2 rounded-sm text-blue-400 text-lg`}
+              className={`px-2 py-2 border drop-shadow-lg border-blue-gray-500 ${isDisabled ? "bg-blue-gray-700" : "bg-blue-gray-600"}  w-full xl:w-1/2 rounded-sm text-blue-400 text-lg`}
               value={props.address}
               readOnly
             />
           </div>
           {isDisabled && (
             <button
-              className="bg-blue-900 drop-shadow-md rounded-md text-white font-bold h-12 w-1/4 text-md  ml-auto"
+              className="bg-blue-900 drop-shadow-md rounded-md text-white font-bold h-12 w-full xl:w-1/4 text-md  ml-auto"
               onClick={() => {
                 setIsDisabled(false)
                 setEmail(props.email)

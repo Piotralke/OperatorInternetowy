@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function Balance() {
   return (
-    <div className="w-1/4 h-1/3">
+    <div className="w-full xl:w-1/4 h-1/3">
         <div className="text-xl text-blue-500">
             Płatności
         </div>

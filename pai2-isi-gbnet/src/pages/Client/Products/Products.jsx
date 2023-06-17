@@ -44,7 +44,7 @@ export default function Products() {
         >
           Internet
         </div>
-        <div className="grid grid-cols-3 gap-4" >
+        <div className="xl:grid xl:grid-cols-3 xl:gap-4" >
           {products
             ?.filter((product) => product.productType === "INTERNET")
             .map((product) => (
@@ -65,7 +65,7 @@ export default function Products() {
         >
           Telewizja
         </div>
-        <div className="grid grid-cols-3 gap-4" >
+        <div className="xl:grid xl:grid-cols-3 xl:gap-4" >
           {products
             ?.filter((product) => product.productType === "TV")
             .map((product) => (
@@ -86,7 +86,7 @@ export default function Products() {
         >
           Telefony
         </div>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="xl:grid xl:grid-cols-3 xl:gap-4">
           {products
             ?.filter((product) => product.productType === "MOBILE")
             .map((product) => (

@@ -42,7 +42,7 @@ export default function Offers() {
         >
           Telewizja
         </div>
-        <div className="grid grid-cols-3 gap-4" >
+        <div className="xl:grid xl:grid-cols-3 xl:gap-4" >
           {offers
             ?.filter((offer) => offer.offerType === "TV")
             .map((offer) => (
@@ -65,7 +65,7 @@ export default function Offers() {
         >
           Internet
         </div>
-        <div className="grid grid-cols-3 gap-4" >
+        <div className="xl:grid xl:grid-cols-3 xl:gap-4" >
           {offers
             ?.filter((offer) => offer.offerType === "INTERNET")
             .map((offer) => (
@@ -88,7 +88,7 @@ export default function Offers() {
         >
           Internet + telewizja
         </div>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="xl:grid xl:grid-cols-3 xl:gap-4">
           {offers
             ?.filter((offer) => offer.offerType === "INTERNET_PLUS_TV")
             .map((offer) => (
