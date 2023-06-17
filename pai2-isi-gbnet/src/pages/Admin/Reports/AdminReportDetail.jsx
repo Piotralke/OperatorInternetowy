@@ -68,7 +68,7 @@ export default function AdminReportDetail() {
       </div>
       <form onSubmit={handleStatusChange}>
       {
-        problemStatus != 2 ? (problemStatus ==0? <Button type="submit">Przyjmij zgłoszenie</Button>:<Button type="submit">Zakończ zgłoszenie</Button>):null
+        problemStatus != 2 ? (problemStatus ==0? <Button type="submit" color='amber'>Przyjmij zgłoszenie</Button>:<Button type="submit" color='amber'>Zakończ zgłoszenie</Button>):null
       }
       </form>
       
@@ -77,12 +77,13 @@ export default function AdminReportDetail() {
       <div className="w-3/4 pt-4">
       <Stepper
         activeStep={problemStatus}
+        color="amber"
       >
         <Step >
           <div className="absolute -bottom-[4.5rem] w-max text-center">
             <Typography
               variant="h6"
-              color={problemStatus === 0 ? "blue" : "blue-gray"}
+              color={problemStatus === 0 ? "amber" : "gray"}
             >
               Nie rozpoczęte
             </Typography>
@@ -92,7 +93,7 @@ export default function AdminReportDetail() {
           <div className="absolute -bottom-[4.5rem] w-max text-center">
             <Typography
               variant="h6"
-              color={problemStatus === 1 ? "blue" : "blue-gray"}
+              color={problemStatus === 1 ? "amber" : "gray"}
             >
               W trakcie
             </Typography>
@@ -102,7 +103,7 @@ export default function AdminReportDetail() {
           <div className="absolute -bottom-[4.5rem] w-max text-center">
             <Typography
               variant="h6"
-              color={problemStatus === 2 ? "blue" : "blue-gray"}
+              color={problemStatus === 2 ? "amber" : "gray"}
             >
               Zakończone
             </Typography>

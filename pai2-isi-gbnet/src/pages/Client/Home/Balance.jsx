@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export default function Balance() {
   return (
     <div className="w-full xl:w-1/4 h-1/3">
-        <div className="text-xl text-blue-500">
+        <div className="text-xl text-white">
             Płatności
         </div>
       <div className="flex flex-col bg-blue-gray-700 h-full overflow-y-auto">
@@ -18,7 +18,7 @@ export default function Balance() {
           </div>
           <div className="flex flex-row w-full m-4 h-1/3 bg-blue-gray-800 justify-center align-middle">
             <Link className="flex flex-col justify-center" to="/invoices">
-              <div className="text-lg text-blue-300 align-middle">
+              <div className="text-lg text-amber-500 align-middle">
                 Wszystkie faktury
               </div>
             </Link>

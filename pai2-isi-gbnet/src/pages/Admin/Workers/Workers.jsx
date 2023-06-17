@@ -36,7 +36,7 @@ export default function Workers(){
     if(loading){
         return(
             <div className="flex flex-col w-full h-full items-center justify-center">
-                <Spinner className="h-1/2 w-1/2"></Spinner>
+                <Spinner color="amber"  className="h-1/2 w-1/2"></Spinner>
             </div>
         )
     }

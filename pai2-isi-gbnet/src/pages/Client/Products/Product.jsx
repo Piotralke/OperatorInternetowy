@@ -50,7 +50,7 @@ export default function Product(props) {
               {props.price ? props.price.toFixed(2) : "0.00"} zł
             </text>
           </div>
-          <button className="w-1/3 font-bold bg-yellow-400 hover:bg-yellow-300" >Szczegóły</button>
+          <button className="w-1/3 font-bold bg-amber-500 hover:bg-yellow-300" >Szczegóły</button>
         </div>
       </div>
     </div>

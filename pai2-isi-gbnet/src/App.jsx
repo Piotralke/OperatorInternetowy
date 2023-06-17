@@ -30,6 +30,7 @@ import MakeOrder from "./pages/Client/Orders/MakeOrder";
 import OrderSummary from "./pages/Client/Orders/OrderSummary";
 import OrderSuccess from "./pages/Client/Orders/OrderSuccess";
 import OrderCancel from "./pages/Client/Orders/OrderCancel";
+import AdminNotices from "./pages/Admin/Notices/AdminNotices";
 export default function App() {
   return (
     <AuthProvider
@@ -102,7 +103,7 @@ export default function App() {
             <Route path="reports" element={<AdminReports/>}>
               <Route path=":reportId" element={<AdminReportDetail/>}></Route>
             </Route>
-            <Route path="notification"></Route>
+            <Route path="notifications" element={<AdminNotices></AdminNotices>}></Route>
           </Route>
         </Routes>
       </BrowserRouter>

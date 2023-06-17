@@ -27,8 +27,8 @@ export default function Messages() {
     <div className="w-full xl:w-1/4 h-1/3 ">
       <div className="h-full">
         <div className="flex flex-row">
-        <div className="text-xl text-blue-500 flex-grow mr-4">Wiadomości</div>
-        {messages && (<button className=" hover:font-bold  self-center  text-blue-500 truncate">Wszystkie wiadomości</button>)}
+        <div className="text-xl text-white flex-grow mr-4">Wiadomości</div>
+        {messages && (<button className=" hover:font-bold  self-center  text-white truncate">Wszystkie wiadomości</button>)}
         </div>
         
         <div className="flex flex-col bg-blue-gray-700 h-full justify-center overflow-y-auto">
@@ -39,7 +39,7 @@ export default function Messages() {
                   return (
                     <button className="flex flex-row hover:bg-blue-gray-500 h-min">
                       <div className="text-lg text-white font-bold basis-2/5 truncate">{message.title}</div>
-                      <div className="text-md text-white truncate basis-3/5">
+                      <div className="text-md text-amber-500 truncate basis-3/5">
                         {message.description}
                       </div>
                     </button>
@@ -50,8 +50,8 @@ export default function Messages() {
             </div>
           ) : (
             <div className="flex flex-row justify-center items-center">
-              <AiOutlineInfoCircle className="w-8 h-8 text-blue-300"></AiOutlineInfoCircle>
-              <div className="text-blue-300 text-md ml-2">Brak Wiadomości</div>
+              <AiOutlineInfoCircle className="w-8 h-8 text-amber-500"></AiOutlineInfoCircle>
+              <div className="text-amber-500 text-md ml-2">Brak Wiadomości</div>
             </div>
           )}
           

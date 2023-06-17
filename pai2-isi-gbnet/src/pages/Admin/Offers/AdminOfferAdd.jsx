@@ -110,11 +110,15 @@ export default function AdminOfferAdd() {
      {
         const tab = JSON.parse(localStorage.getItem("notifications"));
         let newTab;
+        const message = {
+          message:`Pomyślnie dodano nową ofertę ${data.name}`,
+          type: "SUCCESS"
+        }
         if(tab)
         {
-          newTab = [...tab,`Pomyślnie dodano nową ofertę ${data.name}`];
+          newTab = [...tab,message];
         }else{
-          newTab = [`Pomyślnie dodano nową ofertę ${data.name}`];
+          newTab = [message];
         }
         
         window.localStorage.setItem("notifications",JSON.stringify(newTab));

@@ -29,7 +29,7 @@ export default function Notifications(props) {
      mount: { y: 0 },
      unmount: { y: 100 },
    }}
-    color="green"
+    color= {props.not.type==="SUCCESS"?"green":"red"}
     icon={
      <BsInfoCircle
        strokeWidth={1}
@@ -38,10 +38,10 @@ export default function Notifications(props) {
    }
     >
      <Typography variant="h5" color="white">
-       Sukces
+     {props.not.type==="SUCCESS"?"SUKCES":"BŁĄD"}
      </Typography>
      <Typography color="white" className="mt-2 font-normal">
-       {props.not}
+       {props.not.message}
      </Typography>
    </Alert>
    </div>

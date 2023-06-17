@@ -37,11 +37,15 @@ export default function AdminProductAdd() {
      {
         const tab = JSON.parse(localStorage.getItem("notifications"));
         let newTab;
+        const message = {
+          message:`Pomyślnie dodano nowy produkt ${data.name}`,
+          type: "SUCCESS"
+        }
         if(tab)
         {
-          newTab = [...tab,`Pomyślnie dodano nowy produkt ${data.name}`];
+          newTab = [...tab,message];
         }else{
-          newTab = [`Pomyślnie dodano nowy produkt ${data.name}`];
+          newTab = [message];
         }
         
         window.localStorage.setItem("notifications",JSON.stringify(newTab));

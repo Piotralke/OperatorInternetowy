@@ -2,9 +2,10 @@ import { useState,useEffect,useCallback } from "react";
 import {FiUsers,FiUserPlus, FiBox} from "react-icons/fi"
 import { FaPeopleCarry,FaNetworkWired, } from "react-icons/fa"
 import { LuWarehouse } from "react-icons/lu"
-import { Spinner,Alert } from "@material-tailwind/react";
+import { Drawer } from "@material-tailwind/react";
 import {RiUser2Fill, RiUserSearchLine,RiCopyleftLine, RiUser3Fill,} from "react-icons/ri"
 import { MdOutlineMiscellaneousServices} from "react-icons/md"
+import { BiMenuAltLeft} from "react-icons/bi"
 import { AiOutlineNotification, AiFillDatabase, AiOutlineDropbox } from "react-icons/ai"
 import {TiWarningOutline} from "react-icons/ti"
 import {HiCloudUpload} from "react-icons/hi"
@@ -23,11 +24,11 @@ function TreeNode({ node, level, handleNodeClick }) {
   
   return (
     <div style={{ paddingLeft: 15 * (level - 1) }}>
-      <div className="flex flex-row items-center space-x-4 ">
-        <div className="text-[1.25vw] text-orange-500 ">
+      <div className="flex flex-row items-center space-x-1 2xl:space-x-2 ">
+        <div className=" text-orange-500 ">
           {node?.icon}
         </div>
-        <span className="  text-[1vw] cursor-pointer hover:font-bold hover:text-orange-400 hover:animate-pulse" onClick={handleItemClick}>{node.name}</span>
+        <span className=" cursor-pointer hover:text-orange-400 hover:animate-pulse" onClick={handleItemClick}>{node.name}</span>
       </div>
       {isExpanded &&
         node.children &&
@@ -52,31 +53,44 @@ export default function AdminLayout() {
 
   const handleNodeClick = (nodeName) => {
     if (nodeName === "Wyświetl klientów") {
+      closeDrawer()
      navigate('clients');
     } 
     else if (nodeName === "Dodaj klienta") {
+      closeDrawer()
       navigate('clientAdd');
     }
     else if (nodeName === "Wyświetl pracowników") {
+      closeDrawer()
       navigate('employees');
     } 
     else if (nodeName === "Dodaj pracownika") {
+      closeDrawer()
       navigate('employeeAdd');
     }
     else if (nodeName === "Wyświetl produkty") {
+      closeDrawer()
       navigate('products');
     }
     else if (nodeName === "Dodaj produkt") {
+      closeDrawer()
       navigate('productAdd');
     }
     else if (nodeName === "Wyświetl oferty") {
+      closeDrawer()
       navigate('offers');
     }
     else if (nodeName === "Dodaj ofertę") {
+      closeDrawer()
       navigate('offerAdd');
     }
     else if (nodeName === "Zgłoszenia") {
+      closeDrawer()
       navigate('reports');
+    }
+    else if (nodeName === "Powiadamianie") {
+      closeDrawer()
+      navigate('notifications');
     }
   };
 
@@ -196,12 +210,38 @@ export default function AdminLayout() {
     ],
   };
 
+  const openDrawer = () => setOpen(true);
+  const closeDrawer = () => setOpen(false);
+  const [open, setOpen] = useState(false);
+
   return (
     <div className="flex flex-col min-h-screen min-w-full justify-stretch">
+      <Drawer
+        open={open}
+        onClose={closeDrawer}
+        className=" bg-gray-700"
+      >
+        <div className="flex flex-col  space-y-8 items-center h-full fixed ">
+        <div className="flex flex-col basis-1/5 min-h-full bg-gray-700 justify-between ">
+          <div className="flex text-white p-4 h-full fixed">
+              <TreeNode
+                
+                node={folder}
+                level={1}
+                handleNodeClick={handleNodeClick}
+              />
+          </div>
+        </div>
+        </div>
+      </Drawer>
       <div className="flex flex-row items-center w-full p-3 bg-gray-800 sticky top-0">
+        <BiMenuAltLeft
+          onClick={openDrawer}
+          size={32}
+          className="2xl:hidden text-white hover:cursor-pointer"
+        ></BiMenuAltLeft>
         <span className="text-xl flex-grow font-bold text-white">Gb net</span>
-        <div className="bg-red-500">
-      </div>
+        <div className="bg-red-500"></div>
         <button
           className="text-xl bg-red-600 p-1 rounded-lg font-bold  text-white hover:bg-red-500"
           onClick={() => signOut()}
@@ -210,7 +250,7 @@ export default function AdminLayout() {
         </button>
       </div>
       <div className="flex-grow flex flex-row w-full m-0 p-0">
-        <div className="flex flex-col basis-1/5 min-h-full bg-gray-700 justify-between p-8">
+        <div className="hidden 2xl:flex flex-col basis-1/5 min-h-full bg-gray-700 justify-between px-2">
           <div className="flex text-white pt-5  h-full fixed">
               <TreeNode
                 
@@ -220,7 +260,7 @@ export default function AdminLayout() {
               />
           </div>
         </div>
-        <div className="basis-4/5 min-h-full ">
+        <div className="w-full 2xl:basis-4/5 min-h-full ">
           <Outlet></Outlet>
         </div>
       </div>

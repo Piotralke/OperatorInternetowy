@@ -31,13 +31,13 @@ export default function Offers() {
   return (
     <div className="flex flex-col w-full min-h-full bg-blue-gray-300 basis-4/5">
       <div className="w-full" ref={telewizjaRef} >
-        <div className="flex flex-row fixed space-x-5 bg-blue-gray-600 w-full bg-opacity-70">
+        <div className="flex flex-row fixed space-x-5 bg-amber-500 w-full bg-opacity-50 text-black">
             <button className="rounded-xl text-2xl hover:font-bold italic "onClick={() => scrollToRef(telewizjaRef)}>Telewizja</button>
             <button className="rounded-xl text-2xl hover:font-bold italic"onClick={() => scrollToRef(internetRef)}>Internet</button>
             <button className="rounded-xl text-2xl hover:font-bold italic"onClick={() => scrollToRef(internetTelewizjaRef)}>Internet + Telewizja</button>
         </div>
         <div
-          className="w-1/2 text-lg rounded-full bg-gradient-to-r mt-8 from-blue-500 text-white p-3 font-bold"
+          className="w-1/2 text-lg rounded-full bg-gradient-to-r mt-8 from-amber-500 text-black p-3 font-bold"
           
         >
           Telewizja
@@ -60,7 +60,7 @@ export default function Offers() {
       </div>
       <div className="w-full"ref={internetRef} >
         <div
-          className="w-1/2 text-lg rounded-full bg-gradient-to-r from-blue-500 text-white p-3 font-bold"
+          className="w-1/2 text-lg rounded-full bg-gradient-to-r from-amber-500 text-black p-3 font-bold"
           
         >
           Internet
@@ -83,7 +83,7 @@ export default function Offers() {
       </div>
       <div className="w-full" ref={internetTelewizjaRef} >
         <div
-          className="w-1/2 text-lg rounded-full bg-gradient-to-r from-blue-500 text-white p-3 font-bold"
+          className="w-1/2 text-lg rounded-full bg-gradient-to-r from-amber-500 text-black p-3 font-bold"
           
         >
           Internet + telewizja

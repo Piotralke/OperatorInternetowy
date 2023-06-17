@@ -42,11 +42,15 @@ export default function ClientAdd() {
      {
         const tab = JSON.parse(localStorage.getItem("notifications"));
         let newTab;
+        const message = {
+          message:`Pomyślnie dodano nowego użytkownika ${data.email}`,
+          type: "SUCCESS"
+        }
         if(tab)
         {
-          newTab = [...tab,`Pomyślnie dodano nowego użytkownika ${data.email}`];
+          newTab = [...tab,message];
         }else{
-          newTab = [`Pomyślnie dodano nowego użytkownika ${data.email}`];
+          newTab = [message];
         }
         
         window.localStorage.setItem("notifications",JSON.stringify(newTab));

@@ -28,7 +28,7 @@ export default function AdminOffers(){
     if(loading){
         return(
             <div className="flex flex-col w-full h-full items-center justify-center">
-                <Spinner classname="h-1/2 w-1/2"></Spinner>
+                <Spinner color="amber"  className="h-1/2 w-1/2"></Spinner>
             </div>
             
         )

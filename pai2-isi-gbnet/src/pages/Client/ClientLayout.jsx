@@ -77,8 +77,8 @@ export default function ClientLayout() {
               closeDrawer()
               navigate("/home")}}
           >
-            <ImHome className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-blue-500" />
-            <p className="text-xl group-hover:text-blue-500 truncate">
+            <ImHome className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-amber-500" />
+            <p className="text-xl group-hover:text-amber-500 truncate">
               STRONA GŁÓWNA
             </p>
           </button>
@@ -89,8 +89,8 @@ export default function ClientLayout() {
               closeDrawer()
               navigate("/offers")}}
           >
-            <MdLocalOffer className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-blue-500" />
-            <p className="group-hover:text-blue-500">OFERTY</p>
+            <MdLocalOffer className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-amber-500" />
+            <p className="group-hover:text-amber-500">OFERTY</p>
           </button>
 
           <button
@@ -99,8 +99,8 @@ export default function ClientLayout() {
               closeDrawer()
               navigate("/products")}}
           >
-            <MdOutlineLocalOffer className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-blue-500" />
-            <p className="group-hover:text-blue-500">PRODUKTY</p>
+            <MdOutlineLocalOffer className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-amber-500" />
+            <p className="group-hover:text-amber-500">PRODUKTY</p>
           </button>
 
           <button
@@ -109,8 +109,8 @@ export default function ClientLayout() {
               closeDrawer()
               navigate("/invoices")}}
           >
-            <FaFileInvoiceDollar className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-blue-500" />
-            <p className="group-hover:text-blue-500">FAKTURY</p>
+            <FaFileInvoiceDollar className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-amber-500" />
+            <p className="group-hover:text-amber-500">FAKTURY</p>
           </button>
 
           <button
@@ -119,8 +119,8 @@ export default function ClientLayout() {
               closeDrawer()
               navigate("/profile")}}
           >
-            <CgProfile className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-blue-500" />
-            <p className="group-hover:text-blue-500">PROFIL</p>
+            <CgProfile className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-amber-500" />
+            <p className="group-hover:text-amber-500">PROFIL</p>
           </button>
           <button
             className="group w-full text-xl text-white font-bold flex flex-row items-center space-x-4 hover:animate-pulse"
@@ -128,8 +128,8 @@ export default function ClientLayout() {
               closeDrawer()
               navigate("/reports")}}
           >
-            <MdReportGmailerrorred className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-blue-500" />
-            <p className="group-hover:text-blue-500">ZGŁOSZENIA</p>
+            <MdReportGmailerrorred className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-amber-500" />
+            <p className="group-hover:text-amber-500">ZGŁOSZENIA</p>
           </button>
         </div>
       </Drawer>
@@ -155,8 +155,8 @@ export default function ClientLayout() {
               className="group w-full  text-white font-bold  flex flex-row items-center justify-center space-x-4 hover:animate-pulse"
               onClick={() => navigate("/home")}
             >
-              <ImHome className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-blue-500" />
-              <p className="text-xl group-hover:text-blue-500 truncate">
+              <ImHome className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-amber-500" />
+              <p className="text-xl group-hover:text-amber-500 truncate">
                 STRONA GŁÓWNA
               </p>
             </button>
@@ -165,39 +165,39 @@ export default function ClientLayout() {
               className="group w-full text-xl text-white font-bold flex flex-row items-center  space-x-4 hover:animate-pulse"
               onClick={() => navigate("/offers")}
             >
-              <MdLocalOffer className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-blue-500" />
-              <p className="group-hover:text-blue-500">OFERTY</p>
+              <MdLocalOffer className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-amber-500" />
+              <p className="group-hover:text-amber-500">OFERTY</p>
             </button>
 
             <button
               className="group w-full text-xl text-white font-bold flex flex-row items-center  space-x-4 hover:animate-pulse"
               onClick={() => navigate("/products")}
             >
-              <MdOutlineLocalOffer className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-blue-500" />
-              <p className="group-hover:text-blue-500">PRODUKTY</p>
+              <MdOutlineLocalOffer className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-amber-500" />
+              <p className="group-hover:text-amber-500">PRODUKTY</p>
             </button>
 
             <button
               className="group w-full text-xl text-white font-bold flex flex-row items-center  space-x-4 hover:animate-pulse"
               onClick={() => navigate("/invoices")}
             >
-              <FaFileInvoiceDollar className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-blue-500" />
-              <p className="group-hover:text-blue-500">FAKTURY</p>
+              <FaFileInvoiceDollar className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-amber-500" />
+              <p className="group-hover:text-amber-500">FAKTURY</p>
             </button>
 
             <button
               className="group w-full text-xl text-white font-bold flex flex-row items-center space-x-4 hover:animate-pulse"
               onClick={() => navigate("/profile")}
             >
-              <CgProfile className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-blue-500" />
-              <p className="group-hover:text-blue-500">PROFIL</p>
+              <CgProfile className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-amber-500" />
+              <p className="group-hover:text-amber-500">PROFIL</p>
             </button>
             <button
               className="group w-full text-xl text-white font-bold flex flex-row items-center space-x-4 hover:animate-pulse"
               onClick={() => navigate("/reports")}
             >
-              <MdReportGmailerrorred className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-blue-500" />
-              <p className="group-hover:text-blue-500">ZGŁOSZENIA</p>
+              <MdReportGmailerrorred className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-amber-500" />
+              <p className="group-hover:text-amber-500">ZGŁOSZENIA</p>
             </button>
           </div>
         </div>
