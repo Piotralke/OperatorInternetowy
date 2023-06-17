@@ -40,7 +40,7 @@ public class PaymentController {
                 .toList();
     }
 
-    @GetMapping(UpcRestPaths.CREATE_PAYMENT)
+    @PostMapping(UpcRestPaths.CREATE_PAYMENT)
     public String createPayment(@RequestBody PaymentInputDto inputDto) throws PayPalRESTException {
         return payPalService.createPayment(inputDto);
     }
