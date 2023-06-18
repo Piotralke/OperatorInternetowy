@@ -2,8 +2,7 @@ package pl.psk.upc.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,10 +19,12 @@ public class SecurityConfig {
 
     private final ClientRepository clientRepository;
     private final EmployeeRepository employeeRepository;
+    private final AuthenticationConfiguration authenticationConfiguration;
 
-    public SecurityConfig(ClientRepository clientRepository, EmployeeRepository employeeRepository) {
+    public SecurityConfig(ClientRepository clientRepository, EmployeeRepository employeeRepository, AuthenticationConfiguration authenticationConfiguration) {
         this.clientRepository = clientRepository;
         this.employeeRepository = employeeRepository;
+        this.authenticationConfiguration = authenticationConfiguration;
     }
 
     @Bean
@@ -40,24 +41,39 @@ public class SecurityConfig {
 
         http.cors().configurationSource(request -> corsConfiguration);
         http.csrf().disable()
-                .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers(UpcRestPaths.UPC_SECURED_PREFIX + "/*").hasAnyRole( "WORKER", "ADMIN")
-                        .requestMatchers(UpcRestPaths.UPC_UNSECURED_PREFIX + "/*").permitAll()
-                        .anyRequest().authenticated()
+                .authorizeHttpRequests((requests) -> {
+                            try {
+                                requests
+                                        .requestMatchers(UpcRestPaths.UPC_SECURED_PREFIX + "/*").hasAnyRole( "WORKER", "ADMIN")
+                                        .requestMatchers(UpcRestPaths.UPC_UNSECURED_PREFIX + "/*").permitAll()
+                                        .anyRequest().authenticated().and()
+                                        .addFilter(new AuthoritiesFilter(authenticationConfiguration.getAuthenticationManager()))
+                                        .httpBasic().disable().sessionManagement().disable();
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+
                 )
-                .httpBasic();
+                .httpBasic().disable();
 
         return http.build();
     }
 
-    @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder)
-            throws Exception {
-        return http.getSharedObject(AuthenticationManagerBuilder.class)
-                .userDetailsService(new UserInfoUserDetailsService(clientRepository, employeeRepository))
-                .passwordEncoder(bCryptPasswordEncoder)
-                .and()
-                .build();
-    }
+//    @Bean
+//    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+//            throws Exception {
+//        return authenticationConfiguration.getAuthenticationManager();
+//    }
+
+//    @Bean
+//    public AuthenticationManager authenticationManager(HttpSecurity http)
+//            throws Exception {
+//        return http.getSharedObject(AuthenticationManagerBuilder.class)
+//                .userDetailsService(new UserInfoUserDetailsService(clientRepository, employeeRepository))
+//                .passwordEncoder(bCryptPasswordEncoder)
+//                .and()
+//                .build();
+//    }
 
 }
