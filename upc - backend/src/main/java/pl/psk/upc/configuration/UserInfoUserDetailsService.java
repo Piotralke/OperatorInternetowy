@@ -22,65 +22,19 @@ public class UserInfoUserDetailsService implements UserDetailsService {
         this.employeeRepository = employeeRepository;
     }
 
-
-//    public UserDetails loadUserByUsername(String email, LoginProvider provider) throws UsernameNotFoundException {
-//        if (provider.equals(LoginProvider.GOOGLE)) {
-//            Optional<ClientAccountEntity> clientByEmail = clientRepository.findByEmail(email);
-//            if (clientByEmail.isPresent()) {
-//                return clientByEmail.map(UserInfoUserDetails::new)
-//                        .orElseThrow(() -> new UsernameNotFoundException("user not found " + email));
-//            }
-//            ClientAccountEntity newAccountEntity = ClientAccountEntity.builder()
-//                    .uuid(UUID.randomUUID())
-//                    .email(email)
-//                    .balance(0L)
-//                    .accountStatus("new")
-//                    .roles(RoleEnum.USER.name())
-//                    .isBusinessClient(false)
-//                    .build();
-//
-//            clientRepository.save(newAccountEntity);
-//            Optional<ClientAccountEntity> newClientByEmail = clientRepository.findByEmail(email);
-//            if (newClientByEmail.isPresent()) {
-//                return newClientByEmail.map(UserInfoUserDetails::new)
-//                        .orElseThrow(() -> new UsernameNotFoundException("user not found " + email));
-//            }
-//        }
-//
-//        Optional<ClientAccountEntity> clientByEmail = clientRepository.findByEmail(email);
-//        if (clientByEmail.isPresent()) {
-//            return clientByEmail.map(UserInfoUserDetails::new)
-//                    .orElseThrow(() -> new UsernameNotFoundException("user not found " + email));
-//        }
-//
-//
-//        Optional<EmployeeEntity> employeeByEmail = employeeRepository.findByEmail(email);
-//        if (employeeByEmail.isPresent()) {
-//            return employeeByEmail.map(UserInfoUserDetails::new)
-//                    .orElseThrow(() -> new UsernameNotFoundException("user not found " + email));
-//        }
-//
-//
-//        throw new UsernameNotFoundException("user not found " + email);
-//    }
-
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-
-
         Optional<ClientAccountEntity> clientByEmail = clientRepository.findByEmail(email);
         if (clientByEmail.isPresent()) {
             return clientByEmail.map(UserInfoUserDetails::new)
                     .orElseThrow(() -> new UsernameNotFoundException("user not found " + email));
         }
 
-
         Optional<EmployeeEntity> employeeByEmail = employeeRepository.findByEmail(email);
         if (employeeByEmail.isPresent()) {
             return employeeByEmail.map(UserInfoUserDetails::new)
                     .orElseThrow(() -> new UsernameNotFoundException("user not found " + email));
         }
-
 
         throw new UsernameNotFoundException("user not found " + email);
     }

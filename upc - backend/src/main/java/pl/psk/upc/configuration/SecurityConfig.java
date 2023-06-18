@@ -9,22 +9,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
-import pl.psk.upc.infrastructure.repository.ClientRepository;
-import pl.psk.upc.infrastructure.repository.EmployeeRepository;
 import pl.psk.upc.web.UpcRestPaths;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
-    private final ClientRepository clientRepository;
-    private final EmployeeRepository employeeRepository;
     private final AuthenticationConfiguration authenticationConfiguration;
+    private final JwtPropertiesConfig jwtPropertiesConfig;
 
-    public SecurityConfig(ClientRepository clientRepository, EmployeeRepository employeeRepository, AuthenticationConfiguration authenticationConfiguration) {
-        this.clientRepository = clientRepository;
-        this.employeeRepository = employeeRepository;
+    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, JwtPropertiesConfig jwtPropertiesConfig) {
         this.authenticationConfiguration = authenticationConfiguration;
+        this.jwtPropertiesConfig = jwtPropertiesConfig;
     }
 
     @Bean
@@ -47,7 +42,7 @@ public class SecurityConfig {
                                         .requestMatchers(UpcRestPaths.UPC_SECURED_PREFIX + "/*").hasAnyRole( "WORKER", "ADMIN")
                                         .requestMatchers(UpcRestPaths.UPC_UNSECURED_PREFIX + "/*").permitAll()
                                         .anyRequest().authenticated().and()
-                                        .addFilter(new AuthoritiesFilter(authenticationConfiguration.getAuthenticationManager()))
+                                        .addFilter(new AuthoritiesFilter(authenticationConfiguration.getAuthenticationManager(),jwtPropertiesConfig))
                                         .httpBasic().disable().sessionManagement().disable();
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
@@ -59,21 +54,5 @@ public class SecurityConfig {
 
         return http.build();
     }
-
-//    @Bean
-//    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
-//            throws Exception {
-//        return authenticationConfiguration.getAuthenticationManager();
-//    }
-
-//    @Bean
-//    public AuthenticationManager authenticationManager(HttpSecurity http)
-//            throws Exception {
-//        return http.getSharedObject(AuthenticationManagerBuilder.class)
-//                .userDetailsService(new UserInfoUserDetailsService(clientRepository, employeeRepository))
-//                .passwordEncoder(bCryptPasswordEncoder)
-//                .and()
-//                .build();
-//    }
 
 }

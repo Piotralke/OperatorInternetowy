@@ -1,4 +1,4 @@
-package pl.psk.upc.configuration;
+package pl.psk.upc.infrastructure.enums;
 
 import lombok.Getter;
 import pl.psk.upc.web.UpcRestPaths;
