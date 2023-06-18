@@ -1,198 +1,301 @@
-import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useSignIn } from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
-import jwt from "jwt-decode"
+import jwt from "jwt-decode";
+import React, { useRef, useState } from "react";
+import { Alert, Typography } from "@material-tailwind/react";
+import { BsInfoCircle } from "react-icons/bs";
+import { useEffect } from "react";
+import { RiCopyleftLine } from "react-icons/ri";
+import { FcGoogle } from "react-icons/fc";
+import { Button } from "@material-tailwind/react";
 export default function LoginPage() {
   const [registering, setRegistering] = useState(false);
-  const [isBusiness, setIsBusiness] = useState(false);
   const loginRef = useRef();
   const passwordRef = useRef();
   const signIn = useSignIn();
   const navigate = useNavigate();
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [isBusiness, setIsBusiness] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const nameRef = useRef();
+  const lastNameRef = useRef();
+  const emaiRef = useRef();
+  const phoneRef = useRef();
+  const passwordConfirmRef = useRef();
+  const peselRef = useRef();
+  const adddressRef = useRef();
+  const nipRef = useRef();
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const data = {
+      firstName: nameRef.current.value,
+      last_name: lastNameRef.current.value,
+      email: emaiRef.current.value,
+      password: passwordRef.current.value,
+      address: adddressRef.current.value,
+      phoneNumber: phoneRef.current.value,
+      nip: isBusiness ? nipRef.current.value : null,
+      pesel: peselRef.current.value,
+      isBusinessClient: isBusiness,
+    };
+    console.log(data);
+    const apiUrl = "http://localhost:8080/upc/unsecured/v1/client-register";
+    const response = await axios.post(apiUrl, data);
+    console.log(response);
+    if (response.status === 200) {
+      const tab = JSON.parse(localStorage.getItem("notifications"));
+      let newTab;
+      const message = {
+        message: `Pomyślnie dodano nowego użytkownika ${data.email}`,
+        type: "SUCCESS",
+      };
+      if (tab) {
+        newTab = [...tab, message];
+      } else {
+        newTab = [message];
+      }
+
+      window.localStorage.setItem("notifications", JSON.stringify(newTab));
+      window.dispatchEvent(new Event("storage"));
+      window.location.reload();
+    }
+  }
   async function handleLogin(event) {
     event.preventDefault();
     try {
-      const data={
-        email :  loginRef.current.value,
-        password : passwordRef.current.value
-      }
+      const data = {
+        email: loginRef.current.value,
+        password: passwordRef.current.value,
+      };
 
-        const apiUrl = 'http://localhost:8080/upc/unsecured/v1/login';
-        console.log(data)
-        const response = await axios.post(apiUrl, data);
-        console.log(response);
+      const apiUrl = "http://localhost:8080/upc/unsecured/v1/login";
+      console.log(data);
+      const response = await axios.post(apiUrl, data);
+      console.log(response);
 
-        signIn(
-          {
-              token: response.data,
-              expiresIn:3600,
-              tokenType: "Bearer",
-              authState: response.status
-          })
-        // Otrzymujemy odpowiedź z serwera
-        console.log(response.data); // Token JWT
-        //localStorage.setItem('token',response.data);
-        
-        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data}`;
+      signIn({
+        token: response.data,
+        expiresIn: 3600,
+        tokenType: "Bearer",
+        authState: response.status,
+      });
+      // Otrzymujemy odpowiedź z serwera
+      console.log(response.data); // Token JWT
+      //localStorage.setItem('token',response.data);
 
-    // Wykonaj żądanie do chronionego endpointu
-          const userData = jwt(response.data)
-          if(userData.roles.includes("USER"))
-          {
-            navigate("/home")
-          }
-          else
-            navigate("/admin")
-  } catch (error) {
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${response.data}`;
+
+      // Wykonaj żądanie do chronionego endpointu
+      const userData = jwt(response.data);
+      if (userData.roles.includes("USER")) {
+        navigate("/home");
+      } else navigate("/admin");
+    } catch (error) {
       console.error(error);
     }
   }
   return (
     <>
       {registering ? (
-        <div className="flex flex-col w-full min-h-screen bg-gray-300 items-center">
-          <div className="flex flex-col items-center justify-center mt-40 border border-black w-1/2 rounded-xl min-h-[50vh] bg-blue-gray-800">
-            <text className="font-bold mb-3 text-xl text-blue-500">
+        <div className="flex flex-col w-full h-screen justify-center  items-center self-cecnter bg-blue-gray-600">
+          <div className="flex flex-row w-full items-center justify-between bg-blue-gray-900 p-2 ">
+            <span className="text-xl text-white font-semibold">Gb Net</span>
+            <span className="text-xl text-white font-semibold">
               Rejestracja
-            </text>
-            <div className="flex flex-row w-full p-4">
-              <div className="flex flex-col w-1/2 p-4 items-center justify-center">
-                <div className="flex flex-row w-full space-x-2 m-3">
-                  <input
-                    className="p-3 w-1/2 border border-black rounded-xl"
-                    type="text"
-                    id="password"
-                    name="password"
-                    placeholder="imię"
-                  />
-                  <input
-                    className="p-3 w-1/2 border border-black rounded-xl"
-                    type="text"
-                    id="password"
-                    name="password"
-                    placeholder="nazwisko"
-                  />
-                </div>
+            </span>
+            <span className="text-xl text-white font-semibold">3ID12A</span>
+          </div>
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col my-32 rounded-3xl drop-shadow-2xl py-8 px-4 bg-blue-gray-100 h-full justify-between"
+          >
+            <div className="grid gap-10 px-48 md:grid-cols-2">
+              <div className="flex flex-col">
+                <label className="text-md font-bold text-gray-700 ">Imię</label>
                 <input
-                  className="p-3 m-3 w-full border border-black rounded-xl"
                   type="text"
-                  id="login"
-                  name="login"
-                  placeholder="login"
-                />
-                <input
-                  className="p-3 m-3 w-full border border-black rounded-xl"
-                  type="text"
-                  id="login"
-                  name="login"
-                  placeholder="e-mail"
-                />
-                <input
-                  className="p-3 m-3 w-full border border-black rounded-xl"
-                  type="password"
-                  id="password"
-                  name="password"
-                  placeholder="haslo"
-                />
-                <input
-                  className="p-3 m-3 w-full border border-black rounded-xl"
-                  type="password"
-                  id="password"
-                  name="password"
-                  placeholder="potwierdź haslo"
+                  ref={nameRef}
+                  pattern="[A-Z]{1}[a-z]{1,}"
+                  title="Imię zaczyna się z dużej litery."
+                  className="border-2 border-gray-500 invalid:border-red-500 invalid:outline-red-500   rounded-md mt-1 text-gray-900  px-4 py-1"
+                  required
                 />
               </div>
-              <div className="flex flex-col w-1/2 p-4 items-center justify-center">
+              <div className="flex flex-col">
+                <label className="text-md font-bold text-gray-700 ">
+                  Nazwisko
+                </label>
                 <input
-                  className="p-3 m-3 w-full border border-black rounded-xl"
                   type="text"
-                  id="password"
-                  name="password"
-                  placeholder="pesel"
+                  ref={lastNameRef}
+                  pattern="[A-Z]{1}[a-z]{1,}"
+                  title="Nazwisko zaczyna się z dużej litery."
+                  className="border-2 border-gray-500  invalid:border-red-500 invalid:outline-red-500 rounded-md mt-1 text-gray-900 px-4 py-1"
+                  required
                 />
+              </div>
+              <div className="flex flex-col">
+                <label className="text-md font-bold text-gray-700 ">
+                  Adres e-mail
+                </label>
                 <input
-                  className="p-3 m-3 w-full border border-black rounded-xl"
-                  type="text"
-                  id="password"
-                  name="password"
-                  placeholder="nr telefonu"
+                  type="email"
+                  ref={emaiRef}
+                  className="border-2 border-gray-500 invalid:border-red-500 invalid:outline-red-500 rounded-md mt-1 text-gray-900  px-4 py-1"
+                  required
                 />
-                <div className="flex flex-row w-full space-x-2 m-3">
-                  <input
-                    className="p-3 border border-black rounded-xl w-3/5"
-                    type="text"
-                    id="password"
-                    name="password"
-                    placeholder="ulica"
-                  />
-                  <input
-                    className="p-3 w-2/5 border border-black rounded-xl"
-                    type="text"
-                    id="password"
-                    name="password"
-                    placeholder="nr domu/lokalu"
-                  />
+              </div>
+              <div className="flex flex-col">
+                <label className="text-md font-bold text-gray-700 ">
+                  Numer Telefonu
+                </label>
+                <input
+                  type="text"
+                  ref={phoneRef}
+                  pattern="[0-9]{9}"
+                  title="Numer telefonu powinien składać się z 9 cyfr."
+                  className="border-2 border-gray-500 invalid:border-red-500 invalid:outline-red-500 rounded-md mt-1 text-gray-900  px-4 py-1"
+                  required
+                />
+              </div>
+              <div className="flex flex-col">
+                <label className="text-md font-bold text-gray-700 ">
+                  Hasło
+                </label>
+                <input
+                  type="password"
+                  pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                  title="Hasło powino zawierać: conajmniej 8 znaków, conajmniej 1 wielką litere, conajmniej 1 cyfrę!"
+                  onChange={(e) => setPassword(e.target.value)}
+                  ref={passwordRef}
+                  className="border-2 border-gray-500 invalid:border-red-500 invalid:outline-red-500 rounded-md mt-1 text-gray-900  px-4 py-1"
+                  required
+                />
+              </div>
+              <div className="flex flex-col">
+                <div className="flex flex-row space-x-2">
+                  <label className="text-md font-bold text-gray-700 ">
+                    Powtórz hasło
+                  </label>
+                  {passwordConfirm.length > 0 && password != passwordConfirm ? (
+                    <p className="text-red-500 text-xs mt-1">
+                      Hasła nie zgadzają się
+                    </p>
+                  ) : null}
                 </div>
-                <div className="flex flex-row w-full space-x-2 m-3">
-                  <input
-                    className="p-3 border border-black rounded-xl w-2/5"
-                    type="text"
-                    id="password"
-                    name="password"
-                    placeholder="kod pocztowy"
-                  />
-                  <input
-                    className="p-3  w-3/5 border border-black rounded-xl"
-                    type="text"
-                    id="password"
-                    name="password"
-                    placeholder="miasto"
-                  />
-                </div>
-                <div className="w-1/2 flex flex-row items-center space-x-2 p-2">
-                  <input
-                    type="checkbox"
-                    onChange={() => {
-                      setIsBusiness(!isBusiness);
-                    }}
-                  ></input>
-                  <div className="text-white">Klient biznesowy</div>
-                </div>
-                {isBusiness ? (
-                  <input
-                    className="p-3 m-3 w-full border border-black rounded-xl"
-                    type="text"
-                    id="password"
-                    name="password"
-                    placeholder="nip"
-                  />
-                ) : null}
+                <input
+                  type="password"
+                  minLength={8}
+                  onChange={(e) => setPasswordConfirm(e.target.value)}
+                  ref={passwordConfirmRef}
+                  className={`border-2 border-gray-500 ${
+                    passwordConfirm.length > 0 && password != passwordConfirm
+                      ? "border-red-500 outline-red-500"
+                      : "border-gray-500 outline-gray-500"
+                  } rounded-md mt-1 text-gray-900  px-4 py-1`}
+                  required
+                />
+              </div>
+              <div className="flex flex-col">
+                <label className="text-md font-bold text-gray-700 ">
+                  PESEL
+                </label>
+                <input
+                  type="text"
+                  minLength={11}
+                  maxLength={11}
+                  ref={peselRef}
+                  pattern="[0-9]{11}"
+                  title="PESEL powinien składać się z 11 cyfr."
+                  className={`border-2 border-gray-500 invalid:border-red-500 invalid:outline-red-500 rounded-md mt-1 text-gray-900  px-4 py-1`}
+                  required
+                />
+              </div>
+
+              <div className="flex flex-col">
+                <label className="text-md font-bold text-gray-700 ">NIP</label>
+                <input
+                  required={isBusiness ? true : false}
+                  disabled={!isBusiness}
+                  type="text"
+                  ref={nipRef}
+                  minLength={10}
+                  maxLength={10}
+                  pattern="[0-9]{10}"
+                  title="NIP powinien mieć 10 cyfr!"
+                  className={`border-2 border-gray-500 invalid:border-red-500 invalid:outline-red-500 rounded-md mt-1 text-gray-900  px-4 py-1`}
+                />
+              </div>
+              <div className="flex flex-col">
+                <label className="text-md font-bold text-gray-700 ">
+                  Adres
+                </label>
+                <input
+                  type="text"
+                  ref={adddressRef}
+                  className="border-2 border-gray-500 rounded-md mt-1 text-gray-900  px-4 py-1"
+                  required
+                />
+              </div>
+              <div className="flex flex-row items-center space-x-4">
+                <input
+                  type="checkbox"
+                  className="scale-150"
+                  onChange={() => {
+                    setIsBusiness(!isBusiness);
+                  }}
+                />
+                <label className="text-lg font-bold text-gray-700">
+                  Klient biznesowy
+                </label>
               </div>
             </div>
-
-            <div className="flex flex-row w-1/2 space-x-3 my-3">
+            <div className="flex flex-row w-full space-x-2 mt-8 items-center">
               <button
-                className=" border border-blue-500 p-6 w-full rounded-xl text-blue-500"
                 onClick={() => {
                   setRegistering(false);
                 }}
+                className="bg-deep-orange-300 py-2 w-1/4 rounded-md text-gray-900 text-xl shadow-md hover:bg-deep-orange-500"
               >
                 Logowanie
               </button>
-              <button className=" border border-blue-500 p-6 w-full text-white bg-blue-500 rounded-xl">
+              <button
+                type="submit"
+                className="bg-amber-300 py-2 w-3/4 rounded-md text-gray-900 text-xl shadow-md hover:bg-amber-500"
+              >
                 Zarejestruj
               </button>
             </div>
+          </form>
+          <div className="flex flex-col bg-blue-gray-800 h-10 w-full items-center">
+            <p className="flex flex-row text-blue-gray-100 items-center">
+              {" "}
+              <span>
+                <RiCopyleftLine />
+              </span>{" "}
+              Copyleft by Barański, Dziewięcki, Rudnicki and Spychalski. 2023
+            </p>
           </div>
         </div>
-      ) : (
+      ) : ( ///###################################### LOGOWANIE ###################################################
         <form>
-          <div className="flex flex-col w-full min-h-screen bg-gray-300 items-center">
-            <div className="flex flex-col items-center justify-center mt-40 border border-black w-1/2 rounded-xl min-h-[50vh] bg-gray-800">
-              <text className="font-bold mb-3 text-xl text-blue-500">
-                Logowanie
+          <div className="flex flex-col w-full h-screen  items-center self-cecnter bg-blue-gray-200">
+          <div className="flex flex-row w-full items-center justify-between bg-blue-gray-900 p-2 ">
+            <span className="text-xl text-white font-semibold">Gb Net</span>
+            <span className="text-xl text-white font-semibold">
+              Logowanie
+            </span>
+            <span className="text-xl text-white font-semibold">3ID12A</span>
+          </div>
+            <div className="flex flex-col items-center justify-center mt-40 border border-black w-1/2 rounded-xl min-h-[50vh] bg-blue-gray-600 drop-shadow-2xl">
+              <text className="font-bold mb-3 text-xl text-amber-500">
+                Wprowadź dane do logowania
               </text>
               <input
                 className="p-3 m-3 w-1/2 border border-black rounded-xl"
@@ -211,25 +314,45 @@ export default function LoginPage() {
                 placeholder="haslo"
               />
               <div className="flex flex-row w-1/2 space-x-3 my-3">
-                <button
-                  className=" border border-blue-500 p-6 w-full rounded-xl text-blue-500"
+                <Button
+                color="deep-orange"
+                  className=" p-6 w-full "
                   onClick={() => {
                     setRegistering(true);
                   }}
                 >
                   Rejestracja
-                </button>
-                <button
-                  className=" border border-blue-500 p-6 w-full text-white bg-blue-500 rounded-xl text-center"
+                </Button>
+                <Button
+                color="amber"
+                  className="p-6 w-full text-center"
                   onClick={handleLogin}
                 >
                   Zaloguj
-                </button>
+                </Button>
               </div>
-              <div className="text-white text-xs">TU BEDZIE GOOGLE</div>
+              <Button
+                size="lg"
+                variant="outlined"
+                color="blue-gray"
+                className="flex items-center gap-3 bg-white"
+              >
+                <FcGoogle className="w-6 h-6"/>
+                Continue with Google
+              </Button>
             </div>
+            <div className="flex flex-col bg-blue-gray-800 h-10 w-full mt-auto pt-2 items-center">
+            <p className="flex flex-row text-blue-gray-100 items-center">
+              {" "}
+              <span>
+                <RiCopyleftLine />
+              </span>{" "}
+              Copyleft by Barański, Dziewięcki, Rudnicki and Spychalski. 2023
+            </p>
+          </div>
           </div>
         </form>
+        
       )}
     </>
   );

@@ -22,7 +22,7 @@ public class NoticeController {
     }
 
     @GetMapping(UpcRestPaths.GET_ALL_NOTICES_BY_USER)
-    public NoticeDtoWrapper getAllByUser(@RequestParam UUID userUuid) {
+    public NoticeDtoWrapper getAllByUser(@PathVariable(value = "uuid") UUID userUuid ){
         return noticeService.getAllByUser(userUuid);
     }
 

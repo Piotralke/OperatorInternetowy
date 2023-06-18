@@ -23,6 +23,15 @@ export default function AdminWorkerDetail() {
     setIsDisabled(true)
   }, [employeeId]);
 
+
+  const handleSelectChange = (event) => {
+    const value = event.target.value;
+    setUserData((prevState) => ({
+      ...prevState,
+      contractForm: value,
+    }));
+  };
+
   async function handleSave ()
   {
     console.log(userData);
@@ -51,7 +60,7 @@ export default function AdminWorkerDetail() {
   }
 
   return (
-    <div className="flex flex-direction flex-col bg-gray-100 w-full h-full">
+    <form onSubmit={handleSave} className="flex flex-direction flex-col bg-gray-100 w-full h-full">
       <div className="flex flex-col w-full items-center bg-gray-400">
         <span className="text-xl text-gray-800 font-semibold">
           {userData.firstName} {userData.lastName}
@@ -65,6 +74,8 @@ export default function AdminWorkerDetail() {
               <input
                 value={userData.firstName}
                 disabled={isDisabled}
+                pattern="[A-Z]{1}[a-z]{1,}"
+                title="Imię zaczyna się z dużej litery."
                 onChange={(e) => {
                   setUserData((prevState) => ({
                     ...prevState,
@@ -72,6 +83,7 @@ export default function AdminWorkerDetail() {
                   }));
                 }}
                 className="px-4 py-1 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
+                required
               />
             </div>
             <div className="flex flex-row  justify-between items-center">
@@ -79,13 +91,17 @@ export default function AdminWorkerDetail() {
               <input
                 value={userData.lastName}
                 disabled={isDisabled}
+                pattern="[A-Z]{1}[a-z]{1,}"
+                title="Nazwisko zaczyna się z dużej litery."
                 onChange={(e) => {
                   setUserData((prevState) => ({
                     ...prevState,
                     lastName: e.target.value,
                   }));
                 }}
+                
                 className="px-4 py-1 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
+                required
               />
             </div>
             <div className="flex flex-row justify-between items-center">
@@ -106,6 +122,9 @@ export default function AdminWorkerDetail() {
               <a className="text-lg text-gray-700">Telefon komórkowy</a>
               <input
                 value={userData.phoneNumber}
+                pattern="[0-9]{9}"
+                maxLength={9}
+                title="Numer telefonu powinien składać się z 9 cyfr."
                 disabled={isDisabled}
                 onChange={(e) => {
                   setUserData((prevState) => ({
@@ -121,6 +140,7 @@ export default function AdminWorkerDetail() {
               <input
                 value={userData?.workplace}
                 disabled={isDisabled}
+                pattern="[A-Z]{1}[a-z]{1,}"
                 onChange={(e) => {
                   setUserData((prevState) => ({
                     ...prevState,
@@ -138,13 +158,8 @@ export default function AdminWorkerDetail() {
               <a className="text-lg text-gray-700">E-mail</a>
               <input
                 value={userData.email}
-                disabled={isDisabled}
-                onChange={(e) => {
-                  setUserData((prevState) => ({
-                    ...prevState,
-                    email: e.target.value,
-                  }));
-                }}
+                disabled
+                readOnly
                 className="px-4 py-1 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
               />
             </div>
@@ -152,13 +167,8 @@ export default function AdminWorkerDetail() {
               <a className="text-lg text-gray-700">PESEL</a>
               <input
                 value={userData.pesel}
-                disabled={isDisabled}
-                onChange={(e) => {
-                  setUserData((prevState) => ({
-                    ...prevState,
-                    pesel: e.target.value,
-                  }));
-                }}
+                disabled
+                readOnly
                 className="px-4 py-1 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
               />
             </div>
@@ -166,7 +176,11 @@ export default function AdminWorkerDetail() {
               <a className="text-lg text-gray-700">NIP</a>
               <input
                 value={userData.nip}
-                disabled={isDisabled}
+                minLength={10}
+                maxLength={10}
+                pattern="[0-9]{10}"
+                title="NIP powinien mieć 10 cyfr!"
+                disabled={(isDisabled || userData.contractForm !== "B2B")}
                 onChange={(e) => {
                   setUserData((prevState) => ({
                     ...prevState,
@@ -179,6 +193,8 @@ export default function AdminWorkerDetail() {
             <div className="flex flex-row justify-between items-center">
               <a className="text-lg text-gray-700">Pensja</a>
               <input
+                type="number"
+                step="0.01"
                 value={userData?.salary}
                 disabled={isDisabled}
                 onChange={(e) => {
@@ -192,17 +208,16 @@ export default function AdminWorkerDetail() {
             </div>
             <div className="flex flex-row justify-between items-center">
               <a className="text-lg text-gray-700">Rodzaj umowy</a>
-              <input
-                value={userData?.contractForm}
-                disabled={isDisabled}
-                onChange={(e) => {
-                  setUserData((prevState) => ({
-                    ...prevState,
-                    contractForm: e.target.value,
-                  }));
-                }}
-                className="px-4 py-1 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
-              />
+              <select
+              type="text"
+              disabled={isDisabled}
+              value={userData?.contractForm}
+              className="px-4 py-1 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
+              onChange={handleSelectChange}
+            >
+              <option value="B2B">B2B</option>
+              <option value="PERMANENT">PERMANENT</option>
+            </select>
             </div>
           </div>
           
@@ -230,14 +245,14 @@ export default function AdminWorkerDetail() {
               Anuluj
             </button>
             <button
-              className=" bg-green-400 drop-shadow-md rounded-md text-white font-bold text-md p-2 hover:bg-green-500"
-              onClick={() => {handleSave()}}
+             type="submit" className=" bg-green-400 drop-shadow-md rounded-md text-white font-bold text-md p-2 hover:bg-green-500"
             >
               Zapisz
             </button>
           </div>
         )}
       </div>
-    </div>
+
+    </form>
   );
 }

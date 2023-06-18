@@ -50,8 +50,17 @@ export default function ClientDetail() {
     console.log(response);
   }
 
+  const handleSelectChange = (event) => {
+
+    const value = event.target.value;
+    setUserData((prevState) => ({
+      ...prevState,
+      isBusinessClient: value,
+    }));
+  };
+
   return (
-    <div className="flex flex-direction flex-col bg-gray-100 w-full h-full">
+    <form onSubmit={handleSave} className="flex flex-direction flex-col bg-gray-100 w-full h-full">
       <div className="flex flex-col w-full items-center bg-gray-400">
         <span className="text-xl text-gray-800 font-semibold">
           {userData.firstName} {userData.lastName}
@@ -65,6 +74,8 @@ export default function ClientDetail() {
               <input
                 value={userData.firstName}
                 disabled={isDisabled}
+                pattern="[A-Z]{1}[a-z]{1,}"
+                title="Imię zaczyna się z dużej litery."
                 onChange={(e) => {
                   setUserData((prevState) => ({
                     ...prevState,
@@ -72,13 +83,17 @@ export default function ClientDetail() {
                   }));
                 }}
                 className="px-4 py-1 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
+               required
               />
+
             </div>
             <div className="flex flex-row  justify-between items-center">
               <a className="text-lg text-gray-700">Nazwisko</a>
               <input
                 value={userData.lastName}
                 disabled={isDisabled}
+                pattern="[A-Z]{1}[a-z]{1,}"
+                title="Nazwisko zaczyna się z dużej litery."
                 onChange={(e) => {
                   setUserData((prevState) => ({
                     ...prevState,
@@ -86,6 +101,7 @@ export default function ClientDetail() {
                   }));
                 }}
                 className="px-4 py-1 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
+                required
               />
             </div>
             <div className="flex flex-row justify-between items-center">
@@ -107,6 +123,9 @@ export default function ClientDetail() {
               <input
                 value={userData.phoneNumber}
                 disabled={isDisabled}
+                pattern="[0-9]{9}"
+                maxLength={9}
+                title="Numer telefonu powinien składać się z 9 cyfr."
                 onChange={(e) => {
                   setUserData((prevState) => ({
                     ...prevState,
@@ -114,6 +133,7 @@ export default function ClientDetail() {
                   }));
                 }}
                 className="px-4 py-1 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
+                required
               />
             </div>
           </div>
@@ -124,13 +144,8 @@ export default function ClientDetail() {
               <a className="text-lg text-gray-700">E-mail</a>
               <input
                 value={userData.email}
-                disabled={isDisabled}
-                onChange={(e) => {
-                  setUserData((prevState) => ({
-                    ...prevState,
-                    email: e.target.value,
-                  }));
-                }}
+                disabled
+                readOnly
                 className="px-4 py-1 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
               />
             </div>
@@ -138,13 +153,8 @@ export default function ClientDetail() {
               <a className="text-lg text-gray-700">PESEL</a>
               <input
                 value={userData.pesel}
-                disabled={isDisabled}
-                onChange={(e) => {
-                  setUserData((prevState) => ({
-                    ...prevState,
-                    pesel: e.target.value,
-                  }));
-                }}
+                disabled
+                readOnly
                 className="px-4 py-1 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
               />
             </div>
@@ -152,7 +162,11 @@ export default function ClientDetail() {
               <a className="text-lg text-gray-700">NIP</a>
               <input
                 value={userData.nip}
-                disabled={isDisabled}
+                minLength={10}
+                maxLength={10}
+                pattern="[0-9]{10}"
+                disabled={isDisabled || !userData.isBusinessClient}
+                title="NIP powinien mieć 10 cyfr!"
                 onChange={(e) => {
                   setUserData((prevState) => ({
                     ...prevState,
@@ -160,18 +174,14 @@ export default function ClientDetail() {
                   }));
                 }}
                 className="px-4 py-1 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
+                required={userData.isBusinessClient}
               />
             </div>
             <div className="flex flex-row justify-between items-center">
               <a className="text-lg text-gray-700">Klient biznesowy</a>
               <select
                 disabled={isDisabled}
-                onChange={(e) => {
-                  setUserData((prevState) => ({
-                    ...prevState,
-                    isBusinessClient: e.target.value,
-                  }));
-                }}
+                onChange={handleSelectChange}
                 className="px-4 py-1 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
               >
                 <option value={true} selected={ userData?.isBusinessClient? true:false }>TAK</option>
@@ -204,13 +214,13 @@ export default function ClientDetail() {
             </button>
             <button
               className=" bg-green-400 drop-shadow-md rounded-md text-white font-bold text-md p-2 hover:bg-green-500"
-              onClick={() => {handleSave()}}
+              type="submit"
             >
               Zapisz
             </button>
           </div>
         )}
       </div>
-    </div>
+    </form>
   );
 }

@@ -59,9 +59,9 @@ public class UpcRestPaths {
     public static final String GET_INVOICES_BY_CLIENT_UUID = UPC_UNSECURED_PREFIX + "/get-invoices/{uuid}";
     public static final String GET_INVOICE_AS_PDF = UPC_UNSECURED_PREFIX + "/get-invoice";
     public static final String SAVE_NOTICE = UPC_UNSECURED_PREFIX + "/save-notice";
-    public static final String GET_ALL_NOTICES_BY_USER = UPC_UNSECURED_PREFIX + "/get-notices";
+    public static final String GET_ALL_NOTICES_BY_USER = UPC_UNSECURED_PREFIX + "/get-user-notices/{uuid}";
     public static final String GET_NOTICE_BY_UUID = UPC_UNSECURED_PREFIX + "/get-notice/{uuid}";
-    public static final String EDIT_NOTICE_STATUS = UPC_UNSECURED_PREFIX + "/edit-notice";
+    public static final String EDIT_NOTICE_STATUS = UPC_UNSECURED_PREFIX + "/edit-notice/{uuid}";
 
 
 }

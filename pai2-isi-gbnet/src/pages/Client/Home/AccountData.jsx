@@ -1,34 +1,53 @@
 import userPic from "../../../assets/userPic.jpg";
 import { Link } from "react-router-dom";
 import { AiOutlineInfoCircle } from "react-icons/ai";
+import axios from "axios";
+import { useAuthHeader } from "react-auth-kit";
+import { useState, useEffect } from "react";
+import jwt from "jwt-decode";
 export default function AccountData() {
-  const user = {
-    accountId: "213742069",
-    name: "Jan",
-    surname: "Dyrduł",
-    pic: userPic,
-    address: "ul. Johansona 69, 21-370 Busko Zdrój",
-  };
+  const [userData, setUserData] = useState([]);
+  const token = useAuthHeader();
+
+  useEffect(() => {
+    async function getUserData() {
+      const data = jwt(token());
+      axios.defaults.headers.common["Authorization"] = token();
+      const protectedEndpointResponse = await axios.get(
+        "http://localhost:8080/upc/unsecured/v1/user",
+        {
+          params: {
+            email: data.sub,
+          },
+        }
+      );
+      console.log(protectedEndpointResponse.data);
+      setUserData(protectedEndpointResponse.data);
+    }
+    getUserData();
+  }, []);
 
   return (
-    <div className="w-full xl:w-1/4 h-1/3">
+    <div className="flex flex-col w-full xl:w-1/2 ">
       <div className="text-xl text-white">Moje konto</div>
       <div className="flex flex-col bg-blue-gray-700 h-full overflow-y-auto">
         <div className="flex flex-row p-4 border-b border-blue-gray-600">
           <text className="flex-grow text-white">Numer klienta</text>
-          <text className="text-amber-500 font-bold">{user.accountId}</text>
+          <text className="text-amber-500 font-bold">{userData?.uuid}</text>
         </div>
         <div className="flex flex-col items-center justify-center p-4 h-full w-full">
           <div className="flex flex-row w-full p-5 m-4 bg-blue-gray-800 items-center">
-            <div className=" justify-center align-middle items-center mr-2 w-1/5 xl:w-1/3">
-              <img className="self-center rounded-full " src={user.pic}></img>
+            <div className=" justify-center align-middle items-center mr-8 w-1/5 xl:w-[10%]">
+              <img className="self-center rounded-full " src={userPic}></img>
             </div>
             <div className="flex flex-col w-4/5 xl:w-2/3">
               <div className="text-sm text-amber-500">
-                {user.name} {user.surname}
+                {userData?.firstName} {userData?.lastName}
               </div>
-              <div className="text-sm text-white">Adres</div>
-              <div className="text-sm text-amber-500 truncate">{user.address}</div>
+              <div className="text-sm text-amber-500">Adres</div>
+              <div className="text-sm text-amber-500 truncate">
+                {userData?.address}
+              </div>
             </div>
           </div>
           <div className="flex flex-row">
