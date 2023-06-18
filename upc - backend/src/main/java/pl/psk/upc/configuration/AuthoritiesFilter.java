@@ -10,11 +10,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import pl.psk.upc.exception.NoAccessRightsException;
@@ -24,11 +26,15 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-@Component
-@Order(Ordered.HIGHEST_PRECEDENCE)
-public class AuthoritiesFilter extends OncePerRequestFilter {
+//@Component
+//@Order(Ordered.HIGHEST_PRECEDENCE)
+public class AuthoritiesFilter extends BasicAuthenticationFilter {
 
     private String KEY = "secretsecretsecretsecretsecretsecretsecretsecretsecretsecret";
+
+    public AuthoritiesFilter(AuthenticationManager authenticationManager) {
+        super(authenticationManager);
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
