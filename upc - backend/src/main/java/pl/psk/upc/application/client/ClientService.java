@@ -1,10 +1,7 @@
 package pl.psk.upc.application.client;
 
 import pl.psk.upc.web.service.ServiceDtoWrapper;
-import pl.psk.upc.web.user.ClientRegisterRequestDto;
-import pl.psk.upc.web.user.ClientDto;
-import pl.psk.upc.web.user.ClientDtoWrapper;
-import pl.psk.upc.web.user.ClientEditRequestDto;
+import pl.psk.upc.web.user.*;
 
 import java.util.UUID;
 
@@ -14,5 +11,6 @@ public interface ClientService {
     ServiceDtoWrapper findAllClientServices(String email);
     UUID save(ClientRegisterRequestDto registerRequestDto);
     UUID edit(ClientEditRequestDto clientEditRequestDto);
+    UUID editClientPassword(ClientDtoPasswordEditRequest clientEditRequestDto);
     ClientDto findByUuid(UUID uuid);
 }

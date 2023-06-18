@@ -1,9 +1,6 @@
 package pl.psk.upc.application.employee;
 
-import pl.psk.upc.web.user.EmployeeEditRequestDto;
-import pl.psk.upc.web.user.EmployeeRegisterRequestDto;
-import pl.psk.upc.web.user.EmployeeDto;
-import pl.psk.upc.web.user.EmployeeWrapper;
+import pl.psk.upc.web.user.*;
 
 import java.util.UUID;
 
@@ -12,5 +9,6 @@ public interface EmployeeService {
     EmployeeWrapper findAll();
     UUID save(EmployeeRegisterRequestDto registerRequestDto);
     UUID edit(EmployeeEditRequestDto employeeEditRequestDto);
+    UUID editPassword(EmployeeDtoPasswordEditRequest employeeEditRequestDto);
     EmployeeDto findByUuid(UUID uuid);
 }

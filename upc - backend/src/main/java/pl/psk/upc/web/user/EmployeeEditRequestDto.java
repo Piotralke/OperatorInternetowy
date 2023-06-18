@@ -32,11 +32,6 @@ public class EmployeeEditRequestDto {
     @JsonProperty(LAST_NAME)
     String lastName;
 
-    @NotBlank(message = "Hasło jest wymagane")
-    @Size(min = 8, message = "Hasło musi mieć co najmniej 8 znaków")
-    @JsonProperty(PASSWORD)
-    String password;
-
     @NotBlank
     @JsonProperty(ADDRESS)
     String address;
@@ -62,13 +57,12 @@ public class EmployeeEditRequestDto {
     String nip;
 
     @Builder
-    public EmployeeEditRequestDto(@JsonProperty(UUID) java.util.UUID uuid,@JsonProperty(FIRST_NAME) String firstName, @JsonProperty(LAST_NAME) String lastName, @JsonProperty(PASSWORD) String password,
+    public EmployeeEditRequestDto(@JsonProperty(UUID) java.util.UUID uuid,@JsonProperty(FIRST_NAME) String firstName, @JsonProperty(LAST_NAME) String lastName,
                                   @JsonProperty(ADDRESS) String address, @JsonProperty(PHONE_NUMBER) String phoneNumber, @JsonProperty(WORKPLACE) String workplace, @JsonProperty(SALARY) double salary,
                                   @JsonProperty(CONTRACT_FORM) ContractForm contractForm, @JsonProperty(NIP) String nip) {
         this.uuid = uuid;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.password = password;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.workplace = workplace;

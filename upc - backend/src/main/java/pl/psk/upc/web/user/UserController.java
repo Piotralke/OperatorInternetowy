@@ -72,9 +72,19 @@ public class UserController {
         return employeeService.edit(employeeEditRequestDto);
     }
 
+    @PutMapping(UpcRestPaths.EDIT_EMPLOYEE_PASSWORD)
+    public UUID editEmployeePassword(@RequestBody EmployeeDtoPasswordEditRequest employeeEditRequestDto) {
+        return employeeService.editPassword(employeeEditRequestDto);
+    }
+
     @PutMapping(UpcRestPaths.EDIT_CLIENT)
     public UUID editClientData(@RequestBody ClientEditRequestDto clientEditRequestDto) {
         return clientService.edit(clientEditRequestDto);
+    }
+
+    @PutMapping(UpcRestPaths.EDIT_CLIENT_PASSWORD)
+    public UUID editClientPassword(@RequestBody ClientDtoPasswordEditRequest clientEditRequestDto) {
+        return clientService.editClientPassword(clientEditRequestDto);
     }
 
     @GetMapping(UpcRestPaths.GET_CONTRACT_FORMS)

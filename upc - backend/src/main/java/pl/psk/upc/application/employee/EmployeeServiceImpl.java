@@ -4,14 +4,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.psk.upc.exception.GenericException;
-import pl.psk.upc.web.user.EmployeeEditRequestDto;
-import pl.psk.upc.web.user.EmployeeRegisterRequestDto;
+import pl.psk.upc.web.user.*;
 import pl.psk.upc.infrastructure.entity.EmployeeEntity;
 import pl.psk.upc.infrastructure.enums.RoleEnum;
 import pl.psk.upc.infrastructure.repository.EmployeeRepository;
 import pl.psk.upc.tech.MethodArgumentValidator;
-import pl.psk.upc.web.user.EmployeeDto;
-import pl.psk.upc.web.user.EmployeeWrapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -89,13 +86,25 @@ class EmployeeServiceImpl implements EmployeeService {
 
         employee.setFirstName(employeeEditRequestDto.getFirstName());
         employee.setLastName(employeeEditRequestDto.getLastName());
-        employee.setPassword(passwordEncoder.encode(employeeEditRequestDto.getPassword()));
         employee.setAddress(employeeEditRequestDto.getAddress());
         employee.setPhoneNumber(employeeEditRequestDto.getPhoneNumber());
         employee.setWorkplace(employeeEditRequestDto.getWorkplace());
         employee.setSalary(employeeEditRequestDto.getSalary());
         employee.setContractForm(employeeEditRequestDto.getContractForm());
         employee.setNip(employeeEditRequestDto.getNip());
+
+        return employeeRepository.save(employee)
+                .getUuid();
+    }
+
+    @Override
+    public UUID editPassword(EmployeeDtoPasswordEditRequest employeeEditRequestDto) {
+        MethodArgumentValidator.requiredNotNull(employeeEditRequestDto, "employeeEditRequestDto)");
+
+        EmployeeEntity employee = employeeRepository.findByUuid(employeeEditRequestDto.getUuid())
+                .orElseThrow(() -> new UsernameNotFoundException(NOT_FOUND_MESSAGE));
+
+        employee.setPassword(passwordEncoder.encode(employeeEditRequestDto.getPassword()));
 
         return employeeRepository.save(employee)
                 .getUuid();
