@@ -56,7 +56,6 @@ public class ClientRegisterRequestDto {
     @JsonProperty(PHONE_NUMBER)
     String phoneNumber;
 
-    @Pattern(regexp = "\\d{10}", message = "NIP musi składać się z 10 cyfr")
     @JsonProperty(NIP)
     String nip;
 

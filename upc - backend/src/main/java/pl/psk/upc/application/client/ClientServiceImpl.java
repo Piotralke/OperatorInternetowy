@@ -10,10 +10,7 @@ import pl.psk.upc.infrastructure.enums.RoleEnum;
 import pl.psk.upc.infrastructure.repository.ClientRepository;
 import pl.psk.upc.tech.MethodArgumentValidator;
 import pl.psk.upc.web.service.ServiceDtoWrapper;
-import pl.psk.upc.web.user.ClientDto;
-import pl.psk.upc.web.user.ClientDtoWrapper;
-import pl.psk.upc.web.user.ClientEditRequestDto;
-import pl.psk.upc.web.user.ClientRegisterRequestDto;
+import pl.psk.upc.web.user.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -105,6 +102,18 @@ class ClientServiceImpl implements ClientService {
         client.setPhoneNumber(clientEditRequestDto.getPhoneNumber());
         client.setNip(clientEditRequestDto.getNip());
         client.setBusinessClient(clientEditRequestDto.isBusinessClient());
+
+        return clientRepository.save(client)
+                .getUuid();
+    }
+
+    @Override
+    public UUID editClientPassword(ClientDtoPasswordEditRequest clientEditRequestDto) {
+        MethodArgumentValidator.requiredNotNull(clientEditRequestDto, "clientEditRequestDto");
+        ClientAccountEntity client = clientRepository.findByUuid(clientEditRequestDto.getUuid())
+                .orElseThrow(() -> new UsernameNotFoundException(NOT_FOUND_MESSAGE));
+
+        client.setPassword(passwordEncoder.encode(clientEditRequestDto.getPassword()));
 
         return clientRepository.save(client)
                 .getUuid();
