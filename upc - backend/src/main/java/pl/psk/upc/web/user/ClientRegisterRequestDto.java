@@ -13,7 +13,7 @@ public class ClientRegisterRequestDto {
 
     private final static String UUID = "uuid";
     private final static String FIRST_NAME = "firstName";
-    private final static String LAST_NAME = "last_name";
+    private final static String LAST_NAME = "lastName";
     private final static String EMAIL = "email";
     private final static String PASSWORD = "password";
     private final static String ADDRESS = "address";
