@@ -41,6 +41,7 @@ public class ClientEditRequestDto {
     @JsonProperty(PHONE_NUMBER)
     String phoneNumber;
 
+    @JsonProperty(NIP)
     String nip;
 
     @JsonProperty(IS_BUSINESS_CLIENT)

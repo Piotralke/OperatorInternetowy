@@ -59,7 +59,6 @@ public class EmployeeRegisterRequestDto {
     @JsonProperty(CONTRACT_FORM)
     ContractForm contractForm;
 
-    @Pattern(regexp = "\\d{10}", message = "NIP musi składać się z 10 cyfr")
     @JsonProperty(NIP)
     String nip;
 
