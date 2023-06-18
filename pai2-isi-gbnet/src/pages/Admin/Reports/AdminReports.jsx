@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Table from "../../../components/Table"
 import axios from "axios";
-import { useAuthHeader } from "react-auth-kit";
+import { useAuthHeader,useAuthUser } from "react-auth-kit";
 import { Outlet } from "react-router-dom";
 import { Spinner } from "@material-tailwind/react";
 import DateFormat from "../../../components/DateFormat"
@@ -11,9 +11,20 @@ const TABLE_HEAD = [{name: "Nr zgłoszenia",key: "userProblemId"},{name:"Data wy
 export default function AdminReports(){
     const [products,setProducts] = useState([])
     const [loading,setLoading] = useState(true)
+    const userCred = useAuthUser()
     useEffect(()=>{    
-        
-        axios.get("http://localhost:8080/upc/unsecured/v1/get-all-user-problems").then(res=>{
+        async function fetchData(){
+            const credentials = userCred().data
+            await axios.get("http://localhost:8080/upc/v1/worker-role/get-all-user-problems",{
+            auth : {
+              username: credentials.email,
+              password: credentials.password
+            },
+            headers:{
+              "Content-Type": "application/json"
+            },
+            data:{}
+          }).then(res=>{
             console.log(res.data.content)
             const tab = res.data.content.map(u=>({
                 uuid: u.uuid,
@@ -24,6 +35,8 @@ export default function AdminReports(){
             setProducts(tab)
             setLoading(false)
         })
+        }
+        fetchData()
     },[])
     if(loading){
         return(

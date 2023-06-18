@@ -47,6 +47,7 @@ export default function LoginPage() {
     const response = await axios.post(apiUrl, data);
     console.log(response);
     if (response.status === 200) {
+      
       const tab = JSON.parse(localStorage.getItem("notifications"));
       let newTab;
       const message = {
@@ -81,7 +82,7 @@ export default function LoginPage() {
         token: response.data,
         expiresIn: 3600,
         tokenType: "Bearer",
-        authState: response.status,
+        authState: {data},
       });
       // Otrzymujemy odpowiedź z serwera
       console.log(response.data); // Token JWT
@@ -103,7 +104,7 @@ export default function LoginPage() {
   return (
     <>
       {registering ? (
-        <div className="flex flex-col w-full h-screen justify-center  items-center self-cecnter bg-blue-gray-600">
+        <div className="flex flex-col w-full h-full justify-center  items-center self-cecnter bg-blue-gray-600">
           <div className="flex flex-row w-full items-center justify-between bg-blue-gray-900 p-2 ">
             <span className="text-xl text-white font-semibold">Gb Net</span>
             <span className="text-xl text-white font-semibold">
@@ -256,7 +257,7 @@ export default function LoginPage() {
                 </label>
               </div>
             </div>
-            <div className="flex flex-row w-full space-x-2 mt-8 items-center">
+            <div className="flex flex-col xl:flex-row w-full xl:space-x-2 mt-8 items-center">
               <button
                 onClick={() => {
                   setRegistering(false);
@@ -293,12 +294,12 @@ export default function LoginPage() {
             </span>
             <span className="text-xl text-white font-semibold">3ID12A</span>
           </div>
-            <div className="flex flex-col items-center justify-center mt-40 border border-black w-1/2 rounded-xl min-h-[50vh] bg-blue-gray-600 drop-shadow-2xl">
+            <div className="flex flex-col items-center justify-center mt-40 border border-black w-1/2 rounded-xl min-h-[50vh] bg-blue-gray-600 drop-shadow-2xl p-2">
               <text className="font-bold mb-3 text-xl text-amber-500">
                 Wprowadź dane do logowania
               </text>
               <input
-                className="p-3 m-3 w-1/2 border border-black rounded-xl"
+                className="p-3 m-3 xl:w-1/2 border border-black rounded-xl"
                 type="text"
                 id="login"
                 name="login"
@@ -306,14 +307,14 @@ export default function LoginPage() {
                 placeholder="login"
               />
               <input
-                className="p-3 m-3 w-1/2 border border-black rounded-xl"
+                className="p-3 m-3 xl:w-1/2 border border-black rounded-xl"
                 type="password"
                 id="password"
                 name="password"
                 ref={passwordRef}
                 placeholder="haslo"
               />
-              <div className="flex flex-row w-1/2 space-x-3 my-3">
+              <div className="flex flex-col xl:flex-row w-full xl:w-1/2 xl:space-x-3 my-3">
                 <Button
                 color="deep-orange"
                   className=" p-6 w-full "

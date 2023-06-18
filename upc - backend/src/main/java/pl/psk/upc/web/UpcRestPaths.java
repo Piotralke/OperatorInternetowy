@@ -34,9 +34,9 @@ public class UpcRestPaths {
     public static final String SAVE_PRODUCT = UPC_SECURED_PREFIX + WORKER_PREFIX + "/save-product";
     public static final String GET_ALL_FROM_WAREHOUSE = UPC_SECURED_PREFIX + WORKER_PREFIX + "/get-all-from-warehouse";
     public static final String GET_FROM_WAREHOUSE_BY_UUID = UPC_SECURED_PREFIX + WORKER_PREFIX + "/get-from-warehouse-by-uuid/{uuid}";
-    public static final String SAVE_USER_USER_PROBLEM = UPC_SECURED_PREFIX + WORKER_PREFIX + "/save-user-problem";
-    public static final String GET_USER_PROBLEM = UPC_SECURED_PREFIX + WORKER_PREFIX + "/get-user-problem/{uuid}";
-    public static final String GET_USER_PROBLEMS = UPC_SECURED_PREFIX + WORKER_PREFIX + "/get-user-problems";
+    public static final String SAVE_USER_USER_PROBLEM = UPC_SECURED_PREFIX + USER_PREFIX + "/save-user-problem";
+    public static final String GET_USER_PROBLEM = UPC_SECURED_PREFIX + USER_PREFIX + "/get-user-problem/{uuid}";
+    public static final String GET_USER_PROBLEMS = UPC_SECURED_PREFIX + USER_PREFIX + "/get-user-problems";
     public static final String SET_USER_PROBLEM_STATUS = UPC_SECURED_PREFIX + WORKER_PREFIX + "/set-user-problem-status";
     public static final String GET_ALL_PROBLEMS = UPC_SECURED_PREFIX + WORKER_PREFIX + "/get-all-user-problems";
     public static final String GET_ALL_SERVICES = UPC_SECURED_PREFIX + WORKER_PREFIX + "/get-all-services";
@@ -60,9 +60,9 @@ public class UpcRestPaths {
     public static final String GET_INVOICES_BY_CLIENT_UUID = UPC_SECURED_PREFIX + USER_PREFIX + "/get-invoices/{uuid}";
     public static final String GET_INVOICE_AS_PDF = UPC_SECURED_PREFIX + USER_PREFIX + "/get-invoice";
     public static final String SAVE_NOTICE = UPC_SECURED_PREFIX + WORKER_PREFIX + "/save-notice";
-    public static final String GET_ALL_NOTICES_BY_USER = UPC_SECURED_PREFIX + USER_PREFIX + "/get-notices";
+    public static final String GET_ALL_NOTICES_BY_USER = UPC_SECURED_PREFIX + USER_PREFIX + "/get-user-notices/{uuid}";
     public static final String GET_NOTICE_BY_UUID = UPC_SECURED_PREFIX + USER_PREFIX + "/get-notice/{uuid}";
-    public static final String EDIT_NOTICE_STATUS = UPC_SECURED_PREFIX + WORKER_PREFIX + "/edit-notice";
+    public static final String EDIT_NOTICE_STATUS = UPC_SECURED_PREFIX + USER_PREFIX + "/edit-notice/{uuid}";
 
 
 }

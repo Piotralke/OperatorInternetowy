@@ -2,18 +2,33 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import jwt from "jwt-decode";
 import { useState, useEffect } from "react";
-import { useAuthHeader } from "react-auth-kit";
+import { useAuthHeader,useAuthUser } from "react-auth-kit";
 export default function ClientDetail() {
   const [userOriginalData, setUserOriginalData] = useState({});
   const [userData, setUserData] = useState({});
   const { clientId } = useParams();
   const [isDisabled, setIsDisabled] = useState(true);
   const token = useAuthHeader();
+  const userCred = useAuthUser()
   useEffect(() => {
     async function fetchUser() {
-      axios.defaults.headers.common["Authorization"] = token();
+      const credentials = userCred().data
+      const data = jwt(token());
       const protectedEndpointResponse = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/user/${clientId}`
+        `http://localhost:8080/upc/v1/user-role/user/${clientId}`,
+        {
+          params: {
+            email: data.sub,
+          },
+          auth : {
+            username: credentials.email,
+            password: credentials.password
+          },
+          headers:{
+            "Content-Type": "application/json"
+          },
+          data:{}
+        }
       );
       console.log(protectedEndpointResponse.data)
       setUserOriginalData(protectedEndpointResponse.data);
@@ -23,11 +38,22 @@ export default function ClientDetail() {
     setIsDisabled(true)
   }, [clientId]);
 
-  async function handleSave ()
+  async function handleSave (e)
   {
-    console.log(userData);
-    const apiUrl = "http://localhost:8080/upc/unsecured/v1/edit-client";
-     const response = await axios.put(apiUrl, userData);
+    e.preventDefault()
+    const credentials = userCred().data
+    const apiUrl = "http://localhost:8080/upc/v1/user-role/edit-client";
+     const response = await axios.put(apiUrl, userData,{
+      auth : {
+        username: credentials.email,
+        password: credentials.password
+      },
+      headers:{
+        "Content-Type": "application/json"
+      },
+      data:{}
+    });
+    console.log(response)
      if(response.status === 200)
      {
         const tab = JSON.parse(localStorage.getItem("notifications"));

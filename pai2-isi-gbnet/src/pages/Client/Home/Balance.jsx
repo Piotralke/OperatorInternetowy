@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import axios from "axios"
-import {useAuthHeader} from 'react-auth-kit'
+import {useAuthHeader,useAuthUser} from 'react-auth-kit'
 import { useState,useEffect } from "react";
 import jwt from "jwt-decode"
 import { Spinner } from "@material-tailwind/react";
@@ -8,15 +8,28 @@ export default function Balance() {
 
   const [userData,setUserData] = useState([]);
   const token = useAuthHeader();
+  const userCred = useAuthUser();
   const [loading, setLoading] = useState(true);
   useEffect(()=>{
       async function getUserData(){
           const data = jwt(token());
-          axios.defaults.headers.common['Authorization'] = token();
-          const protectedEndpointResponse = await axios.get('http://localhost:8080/upc/unsecured/v1/user',{params: {
-              email: data.sub
-          }});
-      console.log(protectedEndpointResponse.data)
+          const credentials = userCred().data
+          const protectedEndpointResponse = await axios.get(
+            "http://localhost:8080/upc/v1/user-role/user",
+            {
+              params: {
+                email: data.sub,
+              },
+              auth : {
+                username: credentials.email,
+                password: credentials.password
+              },
+              headers:{
+                "Content-Type": "application/json"
+              },
+              data:{}
+            }
+          );
       setUserData(protectedEndpointResponse.data);
       setLoading(false);
       }

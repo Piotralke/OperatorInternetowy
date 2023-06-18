@@ -1,20 +1,34 @@
 import UserData from "./UserData"
 import axios from "axios"
-import {useAuthHeader} from 'react-auth-kit'
+import {useAuthHeader,useAuthUser} from 'react-auth-kit'
 import { useState,useEffect } from "react";
 import jwt from "jwt-decode"
 
 export default function Profile(){
     const [userData,setUserData] = useState([]);
     const token = useAuthHeader();
-
+    const userCred = useAuthUser()
     useEffect(()=>{
         async function getUserData(){
             const data = jwt(token());
+            const credentials = userCred().data
             axios.defaults.headers.common['Authorization'] = token();
-            const protectedEndpointResponse = await axios.get('http://localhost:8080/upc/unsecured/v1/user',{params: {
-                email: data.sub
-            }});
+            const protectedEndpointResponse = await axios.get(
+                "http://localhost:8080/upc/v1/user-role/user",
+                {
+                  params: {
+                    email: data.sub,
+                  },
+                  auth : {
+                    username: credentials.email,
+                    password: credentials.password
+                  },
+                  headers:{
+                    "Content-Type": "application/json"
+                  },
+                  data:{}
+                }
+              );
         console.log(protectedEndpointResponse.data)
         setUserData(protectedEndpointResponse.data);
         }

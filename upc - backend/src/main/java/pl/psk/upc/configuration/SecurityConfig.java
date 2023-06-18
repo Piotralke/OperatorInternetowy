@@ -41,7 +41,7 @@ public class SecurityConfig {
         http.cors().configurationSource(request -> corsConfiguration);
         http.csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers(UpcRestPaths.UPC_SECURED_PREFIX + "/*").hasAnyRole( "WORKER", "ADMIN")
+                        .requestMatchers(UpcRestPaths.UPC_SECURED_PREFIX + "/*").hasAnyRole( "USER","WORKER", "ADMIN")
                         .requestMatchers(UpcRestPaths.UPC_UNSECURED_PREFIX + "/*").permitAll()
                         .anyRequest().authenticated()
                 )

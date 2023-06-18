@@ -1,17 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import {useAuthHeader,useAuthUser} from 'react-auth-kit'
 import axios from "axios";
+import jwt from "jwt-decode"
 import { Stepper, Step, Textarea, Typography } from "@material-tailwind/react";
 import DateFormat from "../../../components/DateFormat"
 export default function ReportDetail() {
   const [reportData, setReportData] = useState();
   const [problemStatus, setProblemStatus] = useState();
   const { reportId } = useParams();
+  const token = useAuthHeader();
+  const userCred = useAuthUser()
   useEffect(() => {
     async function fetchReport() {
-      // axios.defaults.headers.common['Authorization'] = token();
+      const data = jwt(token());
+      const credentials = userCred().data;
       const protectedEndpointResponse = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-user-problem/${reportId}`
+        `http://localhost:8080/upc/v1/user-role/get-user-problem/${reportId}`,{
+          auth : {
+            username: credentials.email,
+            password: credentials.password
+          },
+          headers:{
+            "Content-Type": "application/json"
+          },
+          data:{}
+        }
       );
       setReportData(protectedEndpointResponse.data);
       switch (protectedEndpointResponse.data.userProblemStatus) {

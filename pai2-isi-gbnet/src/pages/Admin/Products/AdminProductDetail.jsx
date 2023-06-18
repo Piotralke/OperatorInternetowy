@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import jwt from "jwt-decode";
 import { useState, useEffect } from "react";
-import { useAuthHeader } from "react-auth-kit";
+import { useAuthHeader, useAuthUser } from "react-auth-kit";
 import { Textarea } from "@material-tailwind/react";
 
 export default function AdminProductDetail() {
@@ -12,11 +12,21 @@ export default function AdminProductDetail() {
   const { productId } = useParams();
   const [isDisabled, setIsDisabled] = useState(true);
   const token = useAuthHeader();
+  const userCred = useAuthUser()
   useEffect(() => {
     async function fetchProduct() {
-      // axios.defaults.headers.common['Authorization'] = token();
+      const credentials = userCred().data
       const protectedEndpointResponse = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-product/${productId}`
+        `http://localhost:8080/upc/unsecured/v1/get-product/${productId}`,{
+          auth : {
+            username: credentials.email,
+            password: credentials.password
+          },
+          headers:{
+            "Content-Type": "application/json"
+          },
+          data:{}
+        }
       );
       setProductData(protectedEndpointResponse.data);
       setProductOriginalData(protectedEndpointResponse.data);
@@ -27,8 +37,18 @@ export default function AdminProductDetail() {
 
   useEffect(() => {
     async function fetchProduct() {
+      const credentials = userCred().data
       const productTypes = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-product-types`
+        `http://localhost:8080/upc/unsecured/v1/get-product-types`,{
+          auth : {
+            username: credentials.email,
+            password: credentials.password
+          },
+          headers:{
+            "Content-Type": "application/json"
+          },
+          data:{}
+        }
       );
       console.log(productTypes.data)
       setProductType(productTypes.data)

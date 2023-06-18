@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Table from "../../../components/Table"
 import axios from "axios";
-import { useAuthHeader } from "react-auth-kit";
+import { useAuthHeader, useAuthUser } from "react-auth-kit";
 import { Outlet } from "react-router-dom";
 import { Spinner } from "@material-tailwind/react";
 const TABLE_HEAD = [{name: "Nazwa",key: "name"},{name:"Typ oferty",key:"productType"}, {name:"Cena",key:"price"},{name:"Urządzenie w zestawie",key:"productDto.name"} ,{name:"Szczegóły",key:null} ];
@@ -10,20 +10,33 @@ const TABLE_HEAD = [{name: "Nazwa",key: "name"},{name:"Typ oferty",key:"productT
 export default function AdminOffers(){
     const [offers,setOffers] = useState([])
     const [loading,setLoading] = useState(true)
+    const userCred = useAuthUser()
     useEffect(()=>{    
-        
-        axios.get("http://localhost:8080/upc/unsecured/v1/get-all-offers").then(res=>{
-            console.log(res.data.content)
-            const tab = res.data.content.map(u=>({
-                uuid: u.uuid,
-                name: u.name,
-                productType: u.offerType,
-                price: u.price,
-                "productDto.name": u.productDto.name? u.productDto.name:"Brak"         
-            }))
-            setOffers(tab)
-            setLoading(false)
-        })
+        async function fetchData(){
+            const credentials = userCred().data
+            await axios.get("http://localhost:8080/upc/unsecured/v1/get-all-offers",{
+                auth : {
+                  username: credentials.email,
+                  password: credentials.password
+                },
+                headers:{
+                  "Content-Type": "application/json"
+                },
+                data:{}
+              }).then(res=>{
+                console.log(res.data.content)
+                const tab = res.data.content.map(u=>({
+                    uuid: u.uuid,
+                    name: u.name,
+                    productType: u.offerType,
+                    price: u.price,
+                    "productDto.name": u.productDto.name? u.productDto.name:"Brak"         
+                }))
+                setOffers(tab)
+                setLoading(false)
+            })
+        }
+        fetchData()
     },[])
     if(loading){
         return(

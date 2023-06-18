@@ -5,16 +5,35 @@ import { Button } from "@material-tailwind/react";
 import Internet_TVoffer from "../../../assets/Internet_TVoffer.png";
 import Internetoffer from "../../../assets/Internetoffer.png";
 import TVoffer from "../../../assets/TVoffer.png";
+import { useAuthHeader,useAuthUser } from "react-auth-kit";
+import jwt from "jwt-decode";
 
 export default function OfferDetail() {
+  const token = useAuthHeader();
+  const userCred = useAuthUser()
+  const credentials = userCred().data
   const { offerId } = useParams();
   const [offer, setOffer] = useState();
   const [img, setImg] = useState();
   const navigate = useNavigate();
   useEffect(() => {
     async function fetchData() {
+      const data = jwt(token());
       const response = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-offer-by-uuid/${offerId}`
+        `http://localhost:8080/upc/unsecured/v1/get-offer-by-uuid/${offerId}`,
+        {
+          params: {
+            email: data.sub,
+          },
+          auth : {
+            username: credentials.email,
+            password: credentials.password
+          },
+          headers:{
+            "Content-Type": "application/json"
+          },
+          data:{}
+        }
       );
       console.log(response.data);
       setOffer(response.data);

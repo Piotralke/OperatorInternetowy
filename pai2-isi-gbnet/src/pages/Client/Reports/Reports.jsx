@@ -4,7 +4,7 @@ import axios from "axios";
 import { Outlet, useNavigate } from "react-router-dom";
 import { BsInfoCircle } from "react-icons/bs"
 import jwt from "jwt-decode";
-import { useAuthHeader } from "react-auth-kit";
+import { useAuthHeader, useAuthUser} from "react-auth-kit";
 import DateFormat from "../../../components/DateFormat"
 import {
   Button,
@@ -23,10 +23,12 @@ import { ImFacebook } from "react-icons/im";
 const TABLE_HEAD = [{ name: "Nr zgłoszenia", key: "userProblemId" }, { name: "Data wysłania", key: "userProblemStartDate" }, { name: "Status zgłoszenia", key: "userProblemStatus" }, { name: "Szczegóły", key: null }];
 // const TABLE_HEAD = [{name: "Nazwa",key: "name"},{name:"Typ urządzenia",key:"productType"}, {name:"Cena",key:"price"} ,{name:"Szczegóły",key:null} ];
 export default function Reports() {
+  const userCred = useAuthUser()
   const navigate = useNavigate()
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const token = useAuthHeader()
+  
   const [showError, setShowError] = useState(false);
 
 
@@ -35,6 +37,7 @@ export default function Reports() {
   const [open, setOpen] = useState(false);
   async function handleSubmit() {
 
+    const credentials = userCred().data
     if (description?.length < 20) {
       setShowError(true);
     }
@@ -44,9 +47,22 @@ export default function Reports() {
         email: user.sub,
         description: description
       }
+      const config = {
+        params: {
+          email: data.sub,
+        },
+        auth : {
+          username: credentials.email,
+          password: credentials.password
+        },
+        headers:{
+          "Content-Type": "application/json"
+        },
+        data:{}
+      }
       console.log(description)
-      const apiUrl = 'http://localhost:8080/upc/unsecured/v1/save-user-problem';
-      const response = await axios.post(apiUrl, data);
+      const apiUrl = 'http://localhost:8080/upc/v1/user-role/save-user-problem';
+      const response = await axios.post(apiUrl, data, config);
       console.log(response)
       if (response.status === 200) {
         const tab = JSON.parse(localStorage.getItem("notifications"));
@@ -70,11 +86,20 @@ export default function Reports() {
   //POBIERANIE
   useEffect(() => {
     const data = jwt(token());
+    const credentials = userCred().data
     axios.defaults.headers.common['Authorization'] = token();
-    axios.get("http://localhost:8080/upc/unsecured/v1/get-user-problems", {
+    axios.get("http://localhost:8080/upc/v1/user-role/get-user-problems", {
       params: {
-        email: data.sub
-      }
+        email: data.sub,
+      },
+      auth : {
+        username: credentials.email,
+        password: credentials.password
+      },
+      headers:{
+        "Content-Type": "application/json"
+      },
+      data:{}
     }).then(res => {
       console.log(res.data.content)
       const tab = res.data.content.map( u =>  ({

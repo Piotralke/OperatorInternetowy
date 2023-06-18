@@ -1,17 +1,28 @@
 import React, { useState, useEffect,useRef } from "react";
 import { Textarea } from "@material-tailwind/react";
 import axios from "axios";
-
+import { useAuthHeader,useAuthUser } from "react-auth-kit";
 export default function AdminProductAdd() {
   const [productTypesData, setProductTypesData] = useState();
   const [deviceDescription, setDeviceDescription] = useState("");
   const deviceNameRef = useRef();
   const devicePriceRef = useRef();
   const deviceTypeRef = useRef();
+  const userCred = useAuthUser()
   useEffect(() => {
     async function fetchProduct() {
+      const credentials = userCred().data
       const ResponseProductTypes = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-product-types`
+        `http://localhost:8080/upc/unsecured/v1/get-product-types`,{
+          auth : {
+            username: credentials.email,
+            password: credentials.password
+          },
+          headers:{
+            "Content-Type": "application/json"
+          },
+          data:{}
+        }
       );
       setProductTypesData(ResponseProductTypes.data);
     }
@@ -30,8 +41,18 @@ export default function AdminProductAdd() {
     };
     
     console.log(data)
-     const apiUrl = "http://localhost:8080/upc/unsecured/v1/save-product";
-     const response = await axios.post(apiUrl, data);
+    const credentials = userCred().data
+     const apiUrl = "http://localhost:8080/upc/v1/worker-role/save-product";
+     const response = await axios.post(apiUrl, data,{
+      auth : {
+        username: credentials.email,
+        password: credentials.password
+      },
+      headers:{
+        "Content-Type": "application/json"
+      },
+      data:{}
+    });
      console.log(response);
      if(response.status === 200)
      {

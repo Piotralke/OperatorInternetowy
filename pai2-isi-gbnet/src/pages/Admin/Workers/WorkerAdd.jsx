@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
-
+import { useAuthHeader,useAuthUser } from "react-auth-kit";
 export default function WorkerAdd() {
   const [selectedOption, setSelectedOption] = useState("B2B");
   const [NIP, setNIP] = useState(true);
@@ -19,7 +19,7 @@ export default function WorkerAdd() {
   const salaryRef = useRef();
   const contractFormRef = useRef();
   const nipRef = useRef();
-
+  const userCred = useAuthUser()
   const handleSelectChange = (event) => {
     setSelectedOption(event.target.value);
   };
@@ -29,7 +29,7 @@ export default function WorkerAdd() {
     e.preventDefault();
     const data = {
       firstName: nameRef.current.value,
-      last_name: lastNameRef.current.value,
+      lastName: lastNameRef.current.value,
       email: emaiRef.current.value,
       password: passwordRef.current.value,
       address: adddressRef.current.value,
@@ -41,8 +41,18 @@ export default function WorkerAdd() {
       pesel: peselRef.current.value,
     };
     console.log(data);
-    const apiUrl = "http://localhost:8080/upc/unsecured/v1/employee-register";
-     const response = await axios.post(apiUrl, data);
+    const credentials = userCred().data
+    const apiUrl = "http://localhost:8080/upc/unsecured/v1/admin-role/employee-register";
+     const response = await axios.post(apiUrl, data,{
+      auth : {
+        username: credentials.email,
+        password: credentials.password
+      },
+      headers:{
+        "Content-Type": "application/json"
+      },
+      data:{}
+    });
      console.log(response);
      if(response.status === 200)
      {

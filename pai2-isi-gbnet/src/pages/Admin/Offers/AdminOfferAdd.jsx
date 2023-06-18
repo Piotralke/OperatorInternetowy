@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { Textarea } from "@material-tailwind/react";
 import axios from "axios";
 import jwt from "jwt-decode";
-import { useAuthHeader } from "react-auth-kit";
 import { Outlet } from "react-router-dom";
+import { useAuthHeader,useAuthUser } from "react-auth-kit";
 export default function AdminOfferAdd() {
   const [isDevice, setIsDevice] = useState(false);
   const [productData, setProductData] = useState();
@@ -20,10 +20,21 @@ export default function AdminOfferAdd() {
   const devicePriceRef = useRef();
   const deviceTypeRef = useRef();
   const [productTypesData, setProductTypesData] = useState();
+  const userCred = useAuthUser()
   useEffect(() => {
     async function fetchProduct() {
+      const credentials = userCred().data
       const ResponseProductTypes = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-product-types`
+        `http://localhost:8080/upc/unsecured/v1/get-product-types`,{
+          auth : {
+            username: credentials.email,
+            password: credentials.password
+          },
+          headers:{
+            "Content-Type": "application/json"
+          },
+          data:{}
+        }
       );
       setProductTypesData(ResponseProductTypes.data);
     }
@@ -31,8 +42,18 @@ export default function AdminOfferAdd() {
   }, []);
   useEffect(() => {
     async function fetchProduct() {
+      const credentials = userCred().data
       const ResponseProduct = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-all-products`
+        `http://localhost:8080/upc/unsecured/v1/get-all-products`,{
+          auth : {
+            username: credentials.email,
+            password: credentials.password
+          },
+          headers:{
+            "Content-Type": "application/json"
+          },
+          data:{}
+        }
       );
       console.log(ResponseProduct.data.content);
       setProductData(ResponseProduct.data.content);
@@ -42,8 +63,18 @@ export default function AdminOfferAdd() {
 
   useEffect(() => {
     async function fetchProduct() {
+      const credentials = userCred().data
       const ResponseProductTypes = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-offer-types`
+        `http://localhost:8080/upc/unsecured/v1/get-offer-types`,{
+          auth : {
+            username: credentials.email,
+            password: credentials.password
+          },
+          headers:{
+            "Content-Type": "application/json"
+          },
+          data:{}
+        }
       );
       setOfferTypesData(ResponseProductTypes.data);
     }
@@ -103,8 +134,18 @@ export default function AdminOfferAdd() {
       }
     }
     console.log(data)
-     const apiUrl = "http://localhost:8080/upc/unsecured/v1/save-offer";
-     const response = await axios.post(apiUrl, data);
+    const credentials = userCred().data
+     const apiUrl = "http://localhost:8080/upc/v1/workek-role/save-offer";
+     const response = await axios.post(apiUrl, data , {
+      auth : {
+        username: credentials.email,
+        password: credentials.password
+      },
+      headers:{
+        "Content-Type": "application/json"
+      },
+      data:{}
+    });
      console.log(response);
      if(response.status === 200)
      {

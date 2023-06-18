@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import { TiTick,TiTimes } from "react-icons/ti";
 import { BiFileFind } from "react-icons/bi";
 import axios from "axios";
-import { useAuthHeader } from "react-auth-kit";
-import { useAuthUser } from "react-auth-kit";
+import { useAuthHeader,useAuthUser } from "react-auth-kit";
 import Table from "../../../components/Table";
 import { Button, Spinner } from "@material-tailwind/react";
 import jwt from "jwt-decode";
@@ -33,6 +32,7 @@ export default function Invoices() {
   const [loading, setLoading] = useState(true);
   const token = useAuthHeader();
   const a = useAuthHeader();
+  const userCred = useAuthUser();
   const data = {
     balance: "0.00",
     invoices: [{}],
@@ -40,19 +40,41 @@ export default function Invoices() {
   useEffect(() => {
     async function getUserData() {
       const data = jwt(token());
+      const credentials = userCred().data
       axios.defaults.headers.common["Authorization"] = token();
       const protectedEndpointResponse = await axios.get(
-        "http://localhost:8080/upc/unsecured/v1/user",
+        "http://localhost:8080/upc/v1/user-role/user",
         {
           params: {
             email: data.sub,
           },
+          auth : {
+            username: credentials.email,
+            password: credentials.password
+          },
+          headers:{
+            "Content-Type": "application/json"
+          },
+          data:{}
         }
       );
       console.log(protectedEndpointResponse.data);
       setUserData(protectedEndpointResponse.data);
       const response = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-invoices/${protectedEndpointResponse.data.uuid}`
+        `http://localhost:8080/upc/v1/user-role/get-invoices/${protectedEndpointResponse.data.uuid}`,
+        {
+          params: {
+            email: data.sub,
+          },
+          auth : {
+            username: credentials.email,
+            password: credentials.password
+          },
+          headers:{
+            "Content-Type": "application/json"
+          },
+          data:{}
+        }
       );
       console.log(response);
       const invoices = response.data.content.map((u) => ({

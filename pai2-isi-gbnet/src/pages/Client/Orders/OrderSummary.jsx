@@ -1,6 +1,6 @@
 import { useParams, useNavigate, Navigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { useAuthHeader } from "react-auth-kit";
+import {useAuthHeader,useAuthUser} from 'react-auth-kit'
 import axios from "axios";
 import jwt from "jwt-decode";
 import {
@@ -35,16 +35,25 @@ export default function OrderSummary() {
   const itemsPerPage = 5;
   const navigate = useNavigate();
   const token = useAuthHeader();
+  const userCred = useAuthUser()
   useEffect(() => {
     async function getUserData() {
       const data = jwt(token());
-      axios.defaults.headers.common["Authorization"] = token();
+      const credentials = userCred().data
       const protectedEndpointResponse = await axios.get(
-        "http://localhost:8080/upc/unsecured/v1/user",
+        "http://localhost:8080/upc/v1/user-role/user",
         {
           params: {
             email: data.sub,
           },
+          auth : {
+            username: credentials.email,
+            password: credentials.password
+          },
+          headers:{
+            "Content-Type": "application/json"
+          },
+          data:{}
         }
       );
       console.log(protectedEndpointResponse.data);
@@ -102,11 +111,20 @@ export default function OrderSummary() {
       offerUuid: offer.uuid,
       contractLength: contractLength,
     };
-
+    const credentials = userCred().data
     console.log(data);
     const response = await axios.post(
-      `http://localhost:8080/upc/unsecured/v1/save-order`,
-      data
+      `http://localhost:8080/upc/v1/user-role/save-order`,
+      data,{
+        auth : {
+          username: credentials.email,
+          password: credentials.password
+        },
+        headers:{
+          "Content-Type": "application/json"
+        },
+        data:{}
+      }
     );
 
     const paymentData = {
@@ -118,8 +136,18 @@ export default function OrderSummary() {
     };
     console.log(paymentData);
     const link = await axios.post(
-      `http://localhost:8080/upc/unsecured/v1/payment/create`,
-      paymentData
+      `http://localhost:8080/upc/v1/user-role/payment/create`,
+      paymentData,
+      {
+        auth : {
+          username: credentials.email,
+          password: credentials.password
+        },
+        headers:{
+          "Content-Type": "application/json"
+        },
+        data:{}
+      }
     );
     window.location.href = link.data;
   }

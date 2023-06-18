@@ -1,17 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import {useAuthHeader,useAuthUser} from 'react-auth-kit'
+import jwt from "jwt-decode"
 import { Stepper, Step, Textarea, Typography,Button } from "@material-tailwind/react";
 import DateFormat from "../../../components/DateFormat"
 export default function AdminReportDetail() {
   const [reportData, setReportData] = useState();
   const [problemStatus, setProblemStatus] = useState();
   const { reportId } = useParams();
+  const token = useAuthHeader();
+  const userCred = useAuthUser()
   useEffect(() => {
     async function fetchReport() {
-      // axios.defaults.headers.common['Authorization'] = token();
+      const credentials = userCred().data
       const protectedEndpointResponse = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-user-problem/${reportId}`
+        `http://localhost:8080/upc/v1/user-role/get-user-problem/${reportId}`,{
+          auth : {
+            username: credentials.email,
+            password: credentials.password
+          },
+          headers:{
+            "Content-Type": "application/json"
+          },
+          data:{}
+        }
       );
       console.log(protectedEndpointResponse.data)
       setReportData(protectedEndpointResponse.data);
@@ -30,13 +43,42 @@ export default function AdminReportDetail() {
     fetchReport();
   }, [reportId]);
 
-  async function handleStatusChange(){
+  async function handleStatusChange(e){
+    e.preventDefault()
     const data={
         uuid :  reportId,
         status : problemStatus + 1
       }
-    const response = await axios.put(`http://localhost:8080/upc/unsecured/v1/set-user-problem-status`,data);
-    console.log(response);
+      const credentials = userCred().data
+    const response = await axios.put(`http://localhost:8080/upc/v1/worker-role/set-user-problem-status`,data,{
+      auth : {
+        username: credentials.email,
+        password: credentials.password
+      },
+      headers:{
+        "Content-Type": "application/json"
+      },
+      data:{}
+    });
+    if(response.status === 200)
+     {
+        const tab = JSON.parse(localStorage.getItem("notifications"));
+        let newTab;
+        const message = {
+          message:`Pomyślnie zmieniono status zgłoszenia`,
+          type: "SUCCESS"
+        }
+        if(tab)
+        {
+          newTab = [...tab,message];
+        }else{
+          newTab = [message];
+        }
+        
+        window.localStorage.setItem("notifications",JSON.stringify(newTab));
+        window.dispatchEvent(new Event("storage"))
+        window.location.reload();
+     }
   }
 
   return (

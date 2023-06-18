@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState,useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useAuthHeader,useAuthUser } from "react-auth-kit";
+import jwt from "jwt-decode";
 import {
   Button,
   Typography,
@@ -32,6 +34,8 @@ export default function MakeOrder() {
   const [enums, setEnums] = useState();
   const [chosen, setChosen] = useState(null);
   const { offerId } = useParams();
+  const token = useAuthHeader();
+  const userCred = useAuthUser()
   const navigate = useNavigate();
   const contractRef = useRef();
   const handleOpen = (value) => {
@@ -55,15 +59,38 @@ export default function MakeOrder() {
 
   useEffect(() => {
     async function fetchData() {
+      const data = jwt(token());
+      const credentials = userCred().data
       const response = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-offer-by-uuid/${offerId}`
+        `http://localhost:8080/upc/unsecured/v1/get-offer-by-uuid/${offerId}`,
+        {
+          auth : {
+            username: credentials.email,
+            password: credentials.password
+          },
+          headers:{
+            "Content-Type": "application/json"
+          },
+          data:{}
+        }
       );
       console.log(response.data);
       setOffer(response.data);
     }
     async function fetchEnums() {
+      const data = jwt(token());
+      const credentials = userCred().data
       const response = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-contract-lengths`
+        `http://localhost:8080/upc/unsecured/v1/user-role/get-contract-lengths`,{
+          auth : {
+            username: credentials.email,
+            password: credentials.password
+          },
+          headers:{
+            "Content-Type": "application/json"
+          },
+          data:{}
+        }
       );
       console.log(response.data);
       setEnums(response.data);

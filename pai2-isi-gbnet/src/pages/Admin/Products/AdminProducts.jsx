@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Table from "../../../components/Table"
 import axios from "axios";
-import { useAuthHeader } from "react-auth-kit";
+import { useAuthHeader,useAuthUser } from "react-auth-kit";
 import { Outlet } from "react-router-dom";
 import { Spinner } from "@material-tailwind/react";
 const TABLE_HEAD = [{name: "Nazwa",key: "name"},{name:"Typ urządzenia",key:"productType"}, {name:"Cena",key:"price"} ,{name:"Szczegóły",key:null} ];
@@ -10,9 +10,20 @@ const TABLE_HEAD = [{name: "Nazwa",key: "name"},{name:"Typ urządzenia",key:"pro
 export default function AdminProducts(){
     const [products,setProducts] = useState([])
     const [loading,setLoading] = useState(true)
+    const userCred = useAuthUser()
     useEffect(()=>{    
-        
-        axios.get("http://localhost:8080/upc/unsecured/v1/get-all-products").then(res=>{
+        async function fetchData(){
+            const credentials = userCred().data
+        await axios.get("http://localhost:8080/upc/unsecured/v1/get-all-products",{
+            auth : {
+              username: credentials.email,
+              password: credentials.password
+            },
+            headers:{
+              "Content-Type": "application/json"
+            },
+            data:{}
+          }).then(res=>{
             console.log(res.data.content)
             const tab = res.data.content.map(u=>({
                 uuid: u.uuid,
@@ -23,6 +34,8 @@ export default function AdminProducts(){
             setProducts(tab)
             setLoading(false)
         })
+        }
+        fetchData()
     },[])
     if(loading){
         return(

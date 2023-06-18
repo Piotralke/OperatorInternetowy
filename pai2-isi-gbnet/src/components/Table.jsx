@@ -5,6 +5,7 @@ import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai";
 import { BsPaypal, BsFiletypePdf } from "react-icons/bs";
 import { LuEdit } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
+import { useAuthUser } from "react-auth-kit";
 import axios from "axios";
 export default function Table(props) {
   const headers = props.headers;
@@ -19,7 +20,7 @@ export default function Table(props) {
   const changePage = (page) => {
     setCurrentPage(page);
   };
-
+  const userCred = useAuthUser();
   // Oblicz liczbę stron na podstawie liczby wierszy i wierszy na stronę
   const [totalPages, setTotalPages] = useState(
     Math.ceil(rows?.length / rowsPerPage)
@@ -209,9 +210,18 @@ export default function Table(props) {
                         <button
                           className="flex flex-col w-full items-center"
                           onClick={async () => {
+                            const credentials = userCred().data
                             const response = await axios.get(
-                              "http://localhost:8080/upc/unsecured/v1/get-invoice",
+                              "http://localhost:8080/upc/v1/user-role/get-invoice",
                               {
+                                auth : {
+                                  username: credentials.email,
+                                  password: credentials.password
+                                },
+                                headers:{
+                                  "Content-Type": "application/json"
+                                },
+                                data:{},
                                 params: {
                                   clientUuid: props.userUuid,
                                   paymentUuid: row["uuid"],

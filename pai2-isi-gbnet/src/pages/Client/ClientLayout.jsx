@@ -16,7 +16,7 @@ import {
 import { useSignOut } from "react-auth-kit";
 import axios from "axios";
 import jwt from "jwt-decode";
-import { useAuthHeader } from "react-auth-kit";
+import { useAuthHeader,useAuthUser } from "react-auth-kit";
 import {
   Menu,
   MenuHandler,
@@ -44,7 +44,7 @@ export default function ClientLayout() {
   const navigate = useNavigate();
   const signOut = useSignOut();
   const token = useAuthHeader();
-
+  const userCred = useAuthUser();
   useEffect(() => {
     const not = JSON.parse(localStorage.getItem("notifications"));
     if (not) {
@@ -53,20 +53,37 @@ export default function ClientLayout() {
 
     async function getUserData() {
       const data = jwt(token());
-      axios.defaults.headers.common["Authorization"] = token();
+      const credentials = userCred().data
+      console.log(credentials)
       const protectedEndpointResponse = await axios.get(
-        "http://localhost:8080/upc/unsecured/v1/user",
+        "http://localhost:8080/upc/v1/user-role/user",
         {
           params: {
             email: data.sub,
           },
+          auth : {
+            username: credentials.email,
+            password: credentials.password
+          },
+          headers:{
+            "Content-Type": "application/json"
+          },
+          data:{}
         }
       );
+      console.log(protectedEndpointResponse.data)
       setUserData(protectedEndpointResponse.data);
       const interval = setInterval(async () => {
         if (protectedEndpointResponse.data) {
           const response = await axios.get(
-            `http://localhost:8080/upc/unsecured/v1/get-user-notices/${protectedEndpointResponse.data.uuid}`
+            `http://localhost:8080/upc/v1/user-role/get-user-notices/${protectedEndpointResponse.data.uuid}`,{auth : {
+              username: credentials.email,
+              password: credentials.password
+            },
+            headers:{
+              "Content-Type": "application/json"
+            },
+            data:{}}
           );
           if (
             JSON.stringify(ringNotifications) !=
@@ -84,7 +101,17 @@ export default function ClientLayout() {
 
   async function handleClickNot(not){
     if(!not.isClicked){
-      const response = await axios.put(`http://localhost:8080/upc/unsecured/v1/edit-notice/${not.uuid}`,null, {params:{isClicked:true} });
+      const credentials = userCred().data
+      const response = await axios.put(`http://localhost:8080/upc/v1/user-role/edit-notice/${not.uuid}`,null, {params:{isClicked:true} ,
+        auth : {
+          username: credentials.email,
+          password: credentials.password
+        },
+        headers:{
+          "Content-Type": "application/json"
+        },
+        data:{}
+       });
       console.log(response)
     }
     setNotificationData(not)

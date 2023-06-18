@@ -2,36 +2,49 @@
 import { useEffect, useState } from "react";
 import Table from "../../../components/Table"
 import axios from "axios";
-import { useAuthHeader } from "react-auth-kit";
+import { useAuthHeader,useAuthUser } from "react-auth-kit";
 import { Outlet } from "react-router-dom";
 import { Spinner } from "@material-tailwind/react";
+
 const TABLE_HEAD = [{name: "Imię",key: "FirstName"}, {name:"Nazwisko",key:"LastName"}, {name:"Email",key:"Email"},{name:"Nr telefonu",key:"phone"},{name:"Miejsce pracy",key:"workplace"},{name:"Rodzaj umowy",key:"contractForm"},{name:"Pensja",key:"Salary"} ,{name:"NIP",key:"nip"},{name:"Szczegóły",key:null} ];
  
 export default function Workers(){
     const token = useAuthHeader();
     const [users,setUsers] = useState([])
     const [loading,setLoading] = useState(true)
+    const userCred = useAuthUser()
     useEffect(()=>{    
 
-        axios.defaults.headers.common['Authorization'] = token();
-        
-        axios.get("http://localhost:8080/upc/unsecured/v1/employee/all").then(res=>{
-            console.log(res.data.content)
-            const users = res.data.content.map(u=>({
-                uuid: u.uuid,
-                FirstName: u.firstName,
-                LastName: u.lastName,
-                Email: u.email,
-                phone: u.phoneNumber,
-                workplace: u.workplace,
-                ContractForm: u.contractForm,
-                salary: u.salary,
-                nip: u.nip
-            }))
-            console.log(users)
-            setUsers(users)
-            setLoading(false)
-        })
+        async function fetchData(){
+            const credentials = userCred().data
+            await axios.get("http://localhost:8080/upc/v1/admin-role/employee/all",{
+                auth : {
+                  username: credentials.email,
+                  password: credentials.password
+                },
+                headers:{
+                  "Content-Type": "application/json"
+                },
+                data:{}
+              }).then(res=>{
+                console.log(res.data.content)
+                const users = res.data.content.map(u=>({
+                    uuid: u.uuid,
+                    FirstName: u.firstName,
+                    LastName: u.lastName,
+                    Email: u.email,
+                    phone: u.phoneNumber,
+                    workplace: u.workplace,
+                    ContractForm: u.contractForm,
+                    salary: u.salary,
+                    nip: u.nip
+                }))
+                console.log(users)
+                setUsers(users)
+                setLoading(false)
+            })
+        }        
+        fetchData()
     },[])
     if(loading){
         return(

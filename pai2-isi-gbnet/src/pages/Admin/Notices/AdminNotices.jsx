@@ -2,7 +2,7 @@ import { Textarea, Card, List, ListItem, ListItemPrefix, IconButton, Checkbox, T
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
-
+import { useAuthHeader,useAuthUser } from "react-auth-kit";
 export default function AdminNotices() {
     const [loading, setLoading] = useState(true);
     const [users, setUsers] = useState([]);
@@ -11,11 +11,22 @@ export default function AdminNotices() {
     const [active, setActive] = React.useState(1);
     const itemsPerPage = 9;
     const [description, setDescription] = useState("")
+    const userCred = useAuthUser()
 
 
     useEffect(() => {
         async function fetchUsers() {
-            const res = await axios.get("http://localhost:8080/upc/unsecured/v1/user/all");
+            const credentials = userCred().data
+            const res = await axios.get("http://localhost:8080/upc/v1/worker-role/user/all",{
+                auth : {
+                  username: credentials.email,
+                  password: credentials.password
+                },
+                headers:{
+                  "Content-Type": "application/json"
+                },
+                data:{}
+              });
             const users = res.data.content.map((u) => ({
                 uuid: u.uuid,
                 FirstName: u.firstName,
@@ -61,7 +72,17 @@ export default function AdminNotices() {
                 description: description,
                 clientsUuid: selectedItems
             }
-            const response = await axios.post("http://localhost:8080/upc/unsecured/v1/save-notice", data)
+            const credentials = userCred().data
+            const response = await axios.post("http://localhost:8080/upc/v1/worker-role/save-notice", data,{
+                auth : {
+                  username: credentials.email,
+                  password: credentials.password
+                },
+                headers:{
+                  "Content-Type": "application/json"
+                },
+                data:{}
+              })
             console.log(response);
             if (response.status === 200) {
                 const tab = JSON.parse(localStorage.getItem("notifications"));

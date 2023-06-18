@@ -2,10 +2,9 @@ import { useParams,useNavigate } from "react-router-dom";
 import axios from "axios";
 import jwt from "jwt-decode";
 import { useState, useEffect } from "react";
-import { useAuthHeader } from "react-auth-kit";
 import { Textarea } from "@material-tailwind/react";
 import { BiShowAlt } from "react-icons/bi"
-
+import { useAuthHeader,useAuthUser } from "react-auth-kit";
 export default function AdminOfferDetail() {
     const [offerOriginalData, setOfferOriginalData] = useState();
     const [offerData, setOfferData] = useState();
@@ -14,11 +13,22 @@ export default function AdminOfferDetail() {
     const [isDisabled, setIsDisabled] = useState(true);
     const token = useAuthHeader();
     const navigate = useNavigate();
+    const userCred = useAuthUser()
   useEffect(() => {
     async function fetchProduct() {
+      const credentials = userCred().data
       // axios.defaults.headers.common['Authorization'] = token();
       const protectedEndpointResponse = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-offer-by-uuid/${offerId}`
+        `http://localhost:8080/upc/unsecured/v1/get-offer-by-uuid/${offerId}`,{
+          auth : {
+            username: credentials.email,
+            password: credentials.password
+          },
+          headers:{
+            "Content-Type": "application/json"
+          },
+          data:{}
+        }
       );
       console.log(protectedEndpointResponse.data)
       setOfferData(protectedEndpointResponse.data);
