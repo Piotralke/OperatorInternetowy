@@ -7,7 +7,6 @@ import {
 export default function UserData(props) {
 
   const [phoneNumber, setPhoneNumber] = useState(props.phoneNumber);
-  const [email, setEmail] = useState(props.email);
   const [isDisabled, setIsDisabled] = useState(true);
   const [loading, setLoading] = useState(true);
 
@@ -15,13 +14,40 @@ export default function UserData(props) {
 
   async function handleSave ()
   {
-    const data = {
+    const newData = {
+      uuid: props.userData.uuid,
       phoneNumber: phoneNumber,
-      email: email,
+      email: props.userData.email,
+      address: props.userData.address,
+      balance: props.userData.balance,
+      firstName: props.userData.firstName,
+      lastName: props.userData.lastName,
+      nip: props.userData.nip,
+      isBusinessClient: props.userData.isBusinessClient
     };
 
+    console.log(email);
     const apiUrl = "http://localhost:8080/upc/unsecured/v1/edit-client";
-     const response = await axios.put(apiUrl, data);
+     const response = await axios.put(apiUrl, newData);
+     if(response.status === 200)
+     {
+        const tab = JSON.parse(localStorage.getItem("notifications"));
+        let newTab;
+        const message = {
+          message:`Pomyślnie zmieniono dane`,
+          type: "SUCCESS"
+        }
+        if(tab)
+        {
+          newTab = [...tab,message];
+        }else{
+          newTab = [message];
+        }
+        
+        window.localStorage.setItem("notifications",JSON.stringify(newTab));
+        window.dispatchEvent(new Event("storage"))
+        window.location.reload();
+     }
     console.log(response);
   }
 
@@ -37,7 +63,7 @@ export default function UserData(props) {
           <img className="w-10 h-10 rounded-full" src={userPic} alt="User" />
           <div className="flex flex-col">
             <div className="text-lg text-amber-500 ml-3">
-              {props.firstName} {props.lastName}
+              {props.userData.firstName} {props.userData.lastName}
             </div>
             
           </div>
@@ -48,26 +74,45 @@ export default function UserData(props) {
             <input
               disabled={isDisabled}
               className={`px-2 py-2 border drop-shadow-lg border-blue-gray-500 ${isDisabled ? "bg-blue-gray-700" : "bg-blue-gray-600"}  w-full xl:w-1/2 rounded-sm text-amber-500 text-lg`}
-              value={loading ? props.phoneNumber : phoneNumber}
+              value={loading ? props.userData.phoneNumber : phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
           </div>
           <div className="flex flex-col xl:flex-row mb-4 justify-between">
             <text className="text-lg text-white">Adres e-mail</text>
             <input
+              type="email"
               disabled={isDisabled}
-              className={`px-2 py-2 border drop-shadow-lg border-blue-gray-500 ${isDisabled ? "bg-blue-gray-700" : "bg-blue-gray-600"}  w-full xl:w-1/2 rounded-sm text-amber-500 text-lg`}
-              value={loading ? props.email : email }
-              onChange={(e) => setEmail(e.target.value)}
+              className="px-2 py-2 border drop-shadow-lg border-blue-gray-500 bg-blue-gray-700 w-full xl:w-1/2 rounded-sm text-amber-500 text-lg"
+              value={props.userData.email}
+              readOnly
               
             />
           </div>
 
           <div className="flex flex-col xl:flex-row mb-4 justify-between">
-            <a className="text-lg text-white">Adres Korespondencyjny</a>
+            <a className="text-lg text-white">Adres</a>
             <input
-              className={`px-2 py-2 border drop-shadow-lg border-blue-gray-500 ${isDisabled ? "bg-blue-gray-700" : "bg-blue-gray-600"}  w-full xl:w-1/2 rounded-sm text-amber-500 text-lg`}
-              value={props.address}
+              className={`px-2 py-2 border drop-shadow-lg border-blue-gray-500 bg-blue-gray-700 w-full xl:w-1/2 rounded-sm text-amber-500 text-lg`}
+              value={props.userData.address}
+              readOnly
+            />
+          </div>
+
+          <div className="flex flex-col xl:flex-row mb-4 justify-between">
+            <a className="text-lg text-white">NIP</a>
+            <input
+              className={`px-2 py-2 border drop-shadow-lg border-blue-gray-500 bg-blue-gray-700 w-full xl:w-1/2 rounded-sm text-amber-500 text-lg`}
+              value={props.userData.nip}
+              readOnly
+            />
+          </div>
+
+          <div className="flex flex-col xl:flex-row mb-4 justify-between">
+            <a className="text-lg text-white">PESEL</a>
+            <input
+              className={`px-2 py-2 border drop-shadow-lg border-blue-gray-500 bg-blue-gray-700 w-full xl:w-1/2 rounded-sm text-amber-500 text-lg`}
+              value={props.userData.pesel}
               readOnly
             />
           </div>
@@ -77,8 +122,7 @@ export default function UserData(props) {
               className="w-full xl:w-1/3 xl:ml-auto mb-2"
               onClick={() => {
                 setIsDisabled(false)
-                setEmail(props.email)
-                setPhoneNumber(props.phoneNumber)
+                setPhoneNumber(props.userData.phoneNumber)
                 setLoading(false);
               }}
             >
@@ -90,8 +134,7 @@ export default function UserData(props) {
             color='deep-orange'
             className="w-full xl:w-1/3 xl:ml-auto mb-2"
               onClick={() => {
-                setEmail(props.email)
-                setPhoneNumber(props.phoneNumber)
+                setPhoneNumber(props.userData.phoneNumber)
                 setIsDisabled(true)
                 setLoading(false);
               }}

@@ -5,6 +5,7 @@ import axios from "axios";
 import { useAuthHeader } from "react-auth-kit";
 import { Outlet } from "react-router-dom";
 import { Spinner } from "@material-tailwind/react";
+import DateFormat from "../../../components/DateFormat"
 const TABLE_HEAD = [{name: "Nr zgłoszenia",key: "userProblemId"},{name:"Data wysłania",key:"userProblemStartDate"}, {name:"Status zgłoszenia",key:"userProblemStatus"} ,{name:"Szczegóły",key:null} ];
  
 export default function AdminReports(){
@@ -17,7 +18,7 @@ export default function AdminReports(){
             const tab = res.data.content.map(u=>({
                 uuid: u.uuid,
                 userProblemId: u.uuid,
-                userProblemStartDate: u.userProblemStartDate,
+                userProblemStartDate: DateFormat(u.userProblemStartDate) ,
                 userProblemStatus: u.userProblemStatus              
             }))
             setProducts(tab)

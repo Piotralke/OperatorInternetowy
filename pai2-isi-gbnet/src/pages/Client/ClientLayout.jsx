@@ -4,7 +4,7 @@ import { CgProfile } from "react-icons/cg";
 import { BiMenuAltLeft } from "react-icons/bi";
 import { FaFileInvoiceDollar } from "react-icons/fa";
 import { RiCopyleftLine } from "react-icons/ri";
-import Notifications from "../../components/Notifications"
+import Notifications from "../../components/Notifications";
 import {
   MdLocalOffer,
   MdOutlineLocalOffer,
@@ -17,51 +17,56 @@ import {
   Typography,
   IconButton,
 } from "@material-tailwind/react";
-import { useState,useEffect,useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 export default function ClientLayout() {
-  const [notifications,setNotifications] = useState();
+  const [notifications, setNotifications] = useState();
+  const [ringNotifications, setRingNotifications] = useState();
   const [open, setOpen] = useState(false);
   const openDrawer = () => setOpen(true);
   const closeDrawer = () => setOpen(false);
   const navigate = useNavigate();
   const signOut = useSignOut();
 
-  useEffect(()=>{
+  useEffect(() => {
     const not = JSON.parse(localStorage.getItem("notifications"));
-    if(not){
+    if (not) {
       setNotifications(not);
     }
-  },[])
-  useEffect(()=>{
-    const handleStorageChange = (event) =>{
-      console.log("LISTENER przed if")
-      if(event.key="notifications"){
-        console.log("LISTENER")
-        const newNotifications = JSON.parse(localStorage.getItem("notifications"));
+  }, []);
+  useEffect(() => {
+    const handleStorageChange = (event) => {
+      if ((event.key = "notifications")) {
+        const newNotifications = JSON.parse(
+          localStorage.getItem("notifications")
+        );
         setNotifications(newNotifications);
-        }
-    }
+      }
+      if ((event.key = "ringNotifications")) {
+        const newNotifications = JSON.parse(
+          localStorage.getItem("ringNotifications")
+        );
+        setRingNotifications(newNotifications);
+      }
+    };
 
-    window.addEventListener('storage',handleStorageChange);
+    window.addEventListener("storage", handleStorageChange);
 
-    return()=>{
-      window.removeEventListener('storage',handleStorageChange);
-    }
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
 
-  },[])
-
-  const handleDelete = useCallback(() =>{
-    console.log("DELETE")
+  const handleDelete = useCallback(() => {
+    console.log("DELETE");
     const newNotifications = JSON.parse(localStorage.getItem("notifications"));
     const updatedNotifications = newNotifications.slice(1); // Usuwanie pierwszego powiadomienia
-    console.log(updatedNotifications)
-        setNotifications(updatedNotifications);
-        window.localStorage.setItem('notifications', JSON.stringify(updatedNotifications));
-  }, [])
-
-
-
-
+    console.log(updatedNotifications);
+    setNotifications(updatedNotifications);
+    window.localStorage.setItem(
+      "notifications",
+      JSON.stringify(updatedNotifications)
+    );
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen min-w-full justify-stretch">
@@ -74,8 +79,9 @@ export default function ClientLayout() {
           <button
             className="group w-full  text-white font-bold  flex flex-row items-center justify-center space-x-4 hover:animate-pulse"
             onClick={() => {
-              closeDrawer()
-              navigate("/home")}}
+              closeDrawer();
+              navigate("/home");
+            }}
           >
             <ImHome className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-amber-500" />
             <p className="text-xl group-hover:text-amber-500 truncate">
@@ -86,8 +92,9 @@ export default function ClientLayout() {
           <button
             className="group w-full text-xl text-white font-bold flex flex-row items-center  space-x-4 hover:animate-pulse"
             onClick={() => {
-              closeDrawer()
-              navigate("/offers")}}
+              closeDrawer();
+              navigate("/offers");
+            }}
           >
             <MdLocalOffer className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-amber-500" />
             <p className="group-hover:text-amber-500">OFERTY</p>
@@ -96,8 +103,9 @@ export default function ClientLayout() {
           <button
             className="group w-full text-xl text-white font-bold flex flex-row items-center  space-x-4 hover:animate-pulse"
             onClick={() => {
-              closeDrawer()
-              navigate("/products")}}
+              closeDrawer();
+              navigate("/products");
+            }}
           >
             <MdOutlineLocalOffer className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-amber-500" />
             <p className="group-hover:text-amber-500">PRODUKTY</p>
@@ -106,8 +114,9 @@ export default function ClientLayout() {
           <button
             className="group w-full text-xl text-white font-bold flex flex-row items-center  space-x-4 hover:animate-pulse"
             onClick={() => {
-              closeDrawer()
-              navigate("/invoices")}}
+              closeDrawer();
+              navigate("/invoices");
+            }}
           >
             <FaFileInvoiceDollar className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-amber-500" />
             <p className="group-hover:text-amber-500">FAKTURY</p>
@@ -116,8 +125,9 @@ export default function ClientLayout() {
           <button
             className="group w-full text-xl text-white font-bold flex flex-row items-center space-x-4 hover:animate-pulse"
             onClick={() => {
-              closeDrawer()
-              navigate("/profile")}}
+              closeDrawer();
+              navigate("/profile");
+            }}
           >
             <CgProfile className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-amber-500" />
             <p className="group-hover:text-amber-500">PROFIL</p>
@@ -125,8 +135,9 @@ export default function ClientLayout() {
           <button
             className="group w-full text-xl text-white font-bold flex flex-row items-center space-x-4 hover:animate-pulse"
             onClick={() => {
-              closeDrawer()
-              navigate("/reports")}}
+              closeDrawer();
+              navigate("/reports");
+            }}
           >
             <MdReportGmailerrorred className="w-[40px] h-[40px] m-0 p-0 text-white self-center group-hover:text-amber-500" />
             <p className="group-hover:text-amber-500">ZGŁOSZENIA</p>
@@ -206,11 +217,16 @@ export default function ClientLayout() {
         </div>
       </div>
       <div className="absolute right-10 bottom-10 ">
-      {notifications?.map((not,index)=>{
+        {notifications?.map((not, index) => {
           return (
-            <Notifications index={index} not={not} handleDelete={handleDelete}></Notifications>
-        )})}
-        </div>
+            <Notifications
+              index={index}
+              not={not}
+              handleDelete={handleDelete}
+            ></Notifications>
+          );
+        })}
+      </div>
       <div className="flex flex-col bg-blue-gray-800 h-10 basis-1/12 items-center">
         <p className="flex flex-row text-blue-gray-100 items-center">
           {" "}

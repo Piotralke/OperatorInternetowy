@@ -62,6 +62,23 @@ export default function Table(props) {
     setFilteredRows(tab);
 
   },[searchTerm])
+
+  useEffect(()=>{
+    const count = rows.filter((row) =>
+    Object.values(row).some(
+      (value) =>
+        value &&
+        value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  ).length;
+
+  if (count > 0) {
+    setTotalPages(Math.ceil(count / rowsPerPage))
+  }
+  else {
+    setTotalPages(1)
+  }
+  })
 // Przykładowy kod obsługujący zmianę sortField i sortOrder
 const handleSortChange = (field, order) => {
   const sortedRows = [...filteredRows]?.sort((a, b) => {

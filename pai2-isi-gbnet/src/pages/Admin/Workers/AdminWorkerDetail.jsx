@@ -23,6 +23,33 @@ export default function AdminWorkerDetail() {
     setIsDisabled(true)
   }, [employeeId]);
 
+  async function handleSave ()
+  {
+    console.log(userData);
+    const apiUrl = "http://localhost:8080/upc/unsecured/v1/edit-employee";
+     const response = await axios.put(apiUrl, userData);
+     if(response.status === 200)
+     {
+        const tab = JSON.parse(localStorage.getItem("notifications"));
+        let newTab;
+        const message = {
+          message:`Pomyślnie zmieniono dane pracownika`,
+          type: "SUCCESS"
+        }
+        if(tab)
+        {
+          newTab = [...tab,message];
+        }else{
+          newTab = [message];
+        }
+        
+        window.localStorage.setItem("notifications",JSON.stringify(newTab));
+        window.dispatchEvent(new Event("storage"))
+        window.location.reload();
+     }
+    console.log(response);
+  }
+
   return (
     <div className="flex flex-direction flex-col bg-gray-100 w-full h-full">
       <div className="flex flex-col w-full items-center bg-gray-400">
@@ -204,7 +231,7 @@ export default function AdminWorkerDetail() {
             </button>
             <button
               className=" bg-green-400 drop-shadow-md rounded-md text-white font-bold text-md p-2 hover:bg-green-500"
-              onClick={() => {}}
+              onClick={() => {handleSave()}}
             >
               Zapisz
             </button>

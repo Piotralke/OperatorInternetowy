@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Stepper, Step, Textarea, Typography,Button } from "@material-tailwind/react";
-
+import DateFormat from "../../../components/DateFormat"
 export default function AdminReportDetail() {
   const [reportData, setReportData] = useState();
   const [problemStatus, setProblemStatus] = useState();
@@ -49,11 +49,11 @@ export default function AdminReportDetail() {
       <div className="flex flex-row w-3/4 justify-between mt-4">
         <div className="flex flex-row text-xl flex-grow ">
           <div>Data wysłania: </div>
-          <div className="font-bold">{reportData?.userProblemStartDate}</div>
+          <div className="font-bold">{DateFormat(reportData?.userProblemStartDate) }</div>
         </div>
         <div className="flex flex-row text-xl">
           <div>Data zakończenia: </div>
-          <div className="font-bold">{reportData?.userProblemEndDate}</div>
+          <div className="font-bold">{reportData?.userProblemEndDate? DateFormat(reportData?.userProblemEndDate) :null}</div>
         </div>
       </div>
       <a className="text-lg text-gray-700">Opis problemu</a>

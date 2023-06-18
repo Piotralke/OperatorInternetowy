@@ -22,8 +22,10 @@ export default function Profile(){
     },[])
     return(
         <div className="flex flex-row flex-wrap justify-center w-full min-h-full basis-4/5 bg-blue-gray-300">
-        <UserData phoneNumber={userData.phoneNumber} email={userData.email} firstName={userData.firstName} lastName={userData.lastName} address={userData.address}  ></UserData>
+        <UserData userData={userData}  ></UserData>
+        
         </div>
+         //<UserData phoneNumber={userData.phoneNumber} email={userData.email} firstName={userData.firstName} lastName={userData.lastName} address={userData.address}  ></UserData>
         
 
     )

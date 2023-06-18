@@ -5,6 +5,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { BsInfoCircle } from "react-icons/bs"
 import jwt from "jwt-decode";
 import { useAuthHeader } from "react-auth-kit";
+import DateFormat from "../../../components/DateFormat"
 import {
   Button,
   Dialog,
@@ -50,10 +51,11 @@ export default function Reports() {
       if (response.status === 200) {
         const tab = JSON.parse(localStorage.getItem("notifications"));
         let newTab;
+        const message = {message:"Pomyślnie wysłano zgłoszenie",type:"SUCCESS"}
         if (tab) {
-          newTab = [...tab, "Pomyślnie wysłano zgłoszenie"];
+          newTab = [...tab, message];
         } else {
-          newTab = ["Pomyślnie wysłano zgłoszenie"];
+          newTab = [message];
         }
 
         window.localStorage.setItem("notifications", JSON.stringify(newTab));
@@ -75,11 +77,11 @@ export default function Reports() {
       }
     }).then(res => {
       console.log(res.data.content)
-      const tab = res.data.content.map(u => ({
+      const tab = res.data.content.map( u =>  ({
         uuid: u.uuid,
         userProblemId: u.uuid,
-        userProblemStartDate: u.userProblemStartDate,
-        userProblemStatus: u.userProblemStatus
+        userProblemStartDate:  DateFormat(u.userProblemStartDate) ,
+        userProblemStatus:  u.userProblemStatus
       }))
       setProducts(tab)
       setLoading(false)
