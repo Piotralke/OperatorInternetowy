@@ -18,11 +18,8 @@ public class UpcRestPaths {
     public static final String EDIT_CLIENT = UPC_SECURED_PREFIX + USER_PREFIX + "/edit-client";
     public static final String EMPLOYEE_REGISTER = UPC_UNSECURED_PREFIX + ADMIN_PREFIX + "/employee-register";
     public static final String EDIT_EMPLOYEE = UPC_SECURED_PREFIX + ADMIN_PREFIX + "/edit-employee";
-    public static final String EDIT_CLIENT = UPC_UNSECURED_PREFIX + "/edit-client";
-    public static final String EDIT_CLIENT_PASSWORD = UPC_UNSECURED_PREFIX + "/edit-client-password";
-    public static final String EMPLOYEE_REGISTER = UPC_UNSECURED_PREFIX + "/employee-register";
-    public static final String EDIT_EMPLOYEE = UPC_UNSECURED_PREFIX + "/edit-employee";
-    public static final String EDIT_EMPLOYEE_PASSWORD = UPC_UNSECURED_PREFIX + "/edit-employee-password";
+    public static final String EDIT_CLIENT_PASSWORD = UPC_SECURED_PREFIX + USER_PREFIX + "/edit-client-password";
+    public static final String EDIT_EMPLOYEE_PASSWORD = UPC_SECURED_PREFIX + WORKER_PREFIX + "/edit-employee-password";
     public static final String GET_OFFER_TYPES = UPC_UNSECURED_PREFIX + "/get-offer-types";
     public static final String GET_OFFERS_BY_TYPE = UPC_UNSECURED_PREFIX + "/get-offers-by-type";
     public static final String GET_ALL_OFFERS = UPC_UNSECURED_PREFIX + "/get-all-offers";
@@ -36,7 +33,7 @@ public class UpcRestPaths {
     public static final String EDIT_PRODUCT = UPC_SECURED_PREFIX + WORKER_PREFIX + "/edit-product";
     public static final String SAVE_PRODUCT = UPC_SECURED_PREFIX + WORKER_PREFIX + "/save-product";
     public static final String GET_ALL_FROM_WAREHOUSE = UPC_SECURED_PREFIX + WORKER_PREFIX + "/get-all-from-warehouse";
-    public static final String GET_FROM_WAREHOUSE_BY_UUID = UPC_SECURED_PREFIX + ADMIN_PREFIX + "/get-from-warehouse-by-uuid/{uuid}";
+    public static final String GET_FROM_WAREHOUSE_BY_UUID = UPC_SECURED_PREFIX + WORKER_PREFIX + "/get-from-warehouse-by-uuid/{uuid}";
     public static final String SAVE_USER_USER_PROBLEM = UPC_SECURED_PREFIX + WORKER_PREFIX + "/save-user-problem";
     public static final String GET_USER_PROBLEM = UPC_SECURED_PREFIX + WORKER_PREFIX + "/get-user-problem/{uuid}";
     public static final String GET_USER_PROBLEMS = UPC_SECURED_PREFIX + WORKER_PREFIX + "/get-user-problems";
@@ -57,7 +54,7 @@ public class UpcRestPaths {
     public static final String PAYMENT_STATUSES = UPC_SECURED_PREFIX + USER_PREFIX + "/payment-statuses";
     public static final String EXECUTE_PAYMENT = UPC_SECURED_PREFIX + USER_PREFIX + "/payment/execute/{paymentId}";
     public static final String GET_CONTRACT_BY_UUID = UPC_SECURED_PREFIX + WORKER_PREFIX + "/get-contract/{uuid}";
-    public static final String GET_CONTRACT_LENGTHS = UPC_SECURED_PREFIX + USER_PREFIX + "/get-contract-lengths";
+    public static final String GET_CONTRACT_LENGTHS = UPC_UNSECURED_PREFIX + USER_PREFIX + "/get-contract-lengths";
     public static final String GET_CONTRACTS_BY_USER = UPC_SECURED_PREFIX + USER_PREFIX + "/get-contract-by-user/{uuid}";
     public static final String GET_CONTRACTS_BY_SERVICE = UPC_SECURED_PREFIX + USER_PREFIX + "/get-contract-by-service/{uuid}";
     public static final String GET_INVOICES_BY_CLIENT_UUID = UPC_SECURED_PREFIX + USER_PREFIX + "/get-invoices/{uuid}";
