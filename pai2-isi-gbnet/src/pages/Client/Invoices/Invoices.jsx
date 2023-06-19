@@ -70,6 +70,9 @@ export default function Invoices() {
         amount: u.amount.toFixed(2),
         paymentStatus: u.paymentStatus,
       }));
+
+      console.log(invoices);
+      console.log(invoices.filter((inv) => inv.paymentStatus==="NIEOPLACONE").length)
       setInvoices(invoices);
       setLoading(false);
     }
@@ -95,24 +98,24 @@ export default function Invoices() {
         <p className="text-white text-xl font-medium ml-8 mt-4 mb-2">
           Status płatności
         </p>
-        {invoices.filter((inv) => inv.paymentStatus==="NIEOPŁACONE").length>0 ? (
+        {invoices.filter((inv) => inv.paymentStatus==="NIEOPLACONE").length>0 ? (
           <div className="flex flex-row mx-8 bg-blue-gray-900 p-4 items-center">
-            <div className="border-4 border-green-900 rounded-full justify-center items-center">
-              <TiTick size={32} color="#14532d" />
-            </div>
-            <p className="text-white ml-4">
-              Wszystkie dokumenty zostały opłacone
-            </p>
+          <div className="border-4 border-red-900 rounded-full justify-center items-center">
+            <TiTimes size={32} color="red" />
           </div>
+          <p className="text-white ml-4">
+            Masz nieopłacone dokumenty   
+          </p>
+        </div>
         ) : (
           <div className="flex flex-row mx-8 bg-blue-gray-900 p-4 items-center">
-            <div className="border-4 border-red-900 rounded-full justify-center items-center">
-              <TiTimes size={32} color="red" />
-            </div>
-            <p className="text-white ml-4">
-              Masz nieopłacone dokumenty
-            </p>
+          <div className="border-4 border-green-900 rounded-full justify-center items-center">
+            <TiTick size={32} color="#14532d" />
           </div>
+          <p className="text-white ml-4">
+            Wszystkie dokumenty zostały opłacone
+          </p>
+        </div>
         )}
         <p className="text-white text-xl font-medium ml-8 mt-4 mb-2">
           Operacje finansowe

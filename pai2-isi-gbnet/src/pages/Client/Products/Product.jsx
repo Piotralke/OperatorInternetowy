@@ -5,6 +5,7 @@ import InternetProduct from "../../../assets/InternetProduct.png";
 import TVproduct from "../../../assets/TVproduct.png";
 import DeviceProduct from "../../../assets/DeviceProduct.png";
 import { useNavigate } from "react-router-dom";
+
 export default function Product(props) {
   const navigate = useNavigate();
   const [img, setImg] = useState();
@@ -48,7 +49,9 @@ export default function Product(props) {
               {props.price ? props.price.toFixed(2) : "0.00"} zł
             </text>
           </div>
-          <button className="w-1/3 font-bold bg-amber-500 hover:bg-yellow-300">
+          <button className="w-1/3 font-bold bg-amber-500 hover:bg-yellow-300"
+             onClick={()=>navigate(`/products/${props.id}`)}
+            >
             Szczegóły
           </button>
         </div>

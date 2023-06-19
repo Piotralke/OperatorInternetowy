@@ -93,7 +93,7 @@ export default function OfferDetail() {
                 {offer.productDto.price.toFixed(2)} zł
               </a>
               <a className="text-white ">OPŁATA w zestawie</a>
-              <a className="text-white font-medium">0.00 zł</a>
+              <a className="text-amber-500 animate-bounce animate-pulse font-bold">0.00 zł</a>
             </div>
           </div>
         )}

@@ -1,19 +1,29 @@
 import { useParams,useNavigate } from "react-router-dom";
 import axios from "axios";
 import jwt from "jwt-decode";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef } from "react";
 import { Textarea } from "@material-tailwind/react";
 import { BiShowAlt } from "react-icons/bi"
 import { useAuthHeader,useAuthUser } from "react-auth-kit";
+import { BsWindowSidebar } from "react-icons/bs";
 export default function AdminOfferDetail() {
     const [offerOriginalData, setOfferOriginalData] = useState();
     const [offerData, setOfferData] = useState();
+    const [name, setName] = useState()
+    const [price, setPrice] = useState()
     const [devicesToChoose, setDevicesToChoose] = useState();
     const { offerId } = useParams();
     const [isDisabled, setIsDisabled] = useState(true);
     const token = useAuthHeader();
     const navigate = useNavigate();
+    const nameRef = useRef();
+    const priceRef = useRef();
+    const deviceRef = useRef();
+    const typeRef = useRef();
+    const [description,setDescription] = useState();
+
   useEffect(() => {
+    
     async function fetchProduct() {
       // axios.defaults.headers.common['Authorization'] = token();
       const protectedEndpointResponse = await axios.get(
@@ -24,13 +34,75 @@ export default function AdminOfferDetail() {
           },
         }
       );
-
+      setName(protectedEndpointResponse.data.name)
+      setPrice(protectedEndpointResponse.data.price)
+      setDescription(protectedEndpointResponse.data.description)
       setOfferData(protectedEndpointResponse.data);
       setOfferOriginalData(protectedEndpointResponse.data);
     }
     fetchProduct();
   }, [offerId]);
+  async function handleEdit(){
+    axios.defaults.headers.common['Authorization'] = token();
+    const protectedEndpointResponse = await axios.put(
+      `http://localhost:8080/upc/v1/worker-role/edit-offer-status/${offerId}`,{},
+      {
+        params: {
+          isArchival: true,
+        }
+      }
+    );
+    let data;
+    if(offerData?.withDevice)
+    {
 
+        data = {
+          name: name,
+          description: description,
+          price:parseFloat(price) ,
+          SaveProductWithOfferRequestDto: {
+            uuid: offerData.productDto.uuid,
+          },
+          withDevice: true,
+          offerType: typeRef.current.value,
+      }
+    }
+    else
+    {
+      data = {
+        name: name,
+          description: description,
+          price:parseFloat(price) ,
+        SaveProductWithOfferRequestDto: null,
+        withDevice: false,
+        offerType: typeRef.current.value,
+       
+      }
+    }
+    axios.defaults.headers.common['Authorization'] = token();
+     const apiUrl = "http://localhost:8080/upc/v1/worker-role/save-offer";
+     const response = await axios.post(apiUrl, data);
+     if(response.status === 200)
+     {
+        const tab = JSON.parse(localStorage.getItem("notifications"));
+        let newTab;
+        const message = {
+          message:`Pomyślnie edytowano ofertę nową ofertę ${data.name}`,
+          type: "SUCCESS"
+        }
+        if(tab)
+        {
+          newTab = [...tab,message];
+        }else{
+          newTab = [message];
+        }
+        
+        window.localStorage.setItem("notifications",JSON.stringify(newTab));
+        window.dispatchEvent(new Event("storage"))
+        navigate(`/admin/offers/${response.data.uuid}`)
+        window.location.reload();
+     }
+  }
   return (
     <div className="flex flex-col bg-gray-100 w-full h-full">
       <div className="flex flex-col w-full items-center bg-gray-400 p-2">
@@ -43,16 +115,21 @@ export default function AdminOfferDetail() {
           <div className="flex flex-row justify-between items-center">
             <a className="text-lg text-gray-700">Nazwa</a>
             <input
-              value={offerData?.name}
+              onChange={(e)=>{
+                setName(e.target.value)
+              }}
+              value={name}
               disabled={isDisabled}
-            
               className="px-4 py-1 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
             />
           </div>
           <div className="flex flex-row  justify-between items-center">
             <a className="text-lg text-gray-700">Cena</a>
             <input
-               value={offerData?.price}
+              onChange={(e)=>{
+                setPrice(e.target.value)
+              }}
+              value={price}
               disabled={isDisabled}
              
               className="px-4 py-1 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
@@ -62,8 +139,10 @@ export default function AdminOfferDetail() {
           <div className="flex flex-row justify-between items-center">
             <a className="text-lg text-gray-700">Typ</a>
             <input 
+              ref={typeRef}
               value={offerData?.offerType}
-              disabled={isDisabled} 
+              disabled
+              readOnly
               className="px-4 py-1 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
             />
 
@@ -72,8 +151,10 @@ export default function AdminOfferDetail() {
             offerData?.withDevice && (<div className="flex flex-row justify-between items-center">
             <a className="text-lg text-gray-700">Produkt w zestawie</a>
             <input 
+              ref={deviceRef}
               value={offerData?.productDto.name}
-              disabled={isDisabled} 
+              disabled
+              readOnly
               className="px-4 py-1 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
             />
             <button onClick={()=>{navigate(`/admin/products/${offerData?.productDto.uuid}`)}}>
@@ -87,16 +168,52 @@ export default function AdminOfferDetail() {
             <a className="text-lg text-gray-700">Opis</a>
             <div className="flex-grow ">
               <Textarea
-                value={offerData?.description}
+                value={description}
                 disabled={isDisabled}
                 rows={10}
                 color="orange"
                 label="Opis"
+                onChange={(e)=>{
+                  setDescription(e.target.value)
+                }}
               ></Textarea>
             </div>
           </div>
          
         </div>
+        <div className="flex flex-row ml-auto items-center p-1 ">
+            {isDisabled ? (
+              <button
+                className="bg-gray-700 drop-shadow-md rounded-md text-white font-bold text-md p-2 hover:bg-gray-800"
+                onClick={() => {
+                  setIsDisabled(false);
+                }}
+              >
+                Edytuj
+              </button>
+            ) : (
+              <div>
+                <button
+                  className="bg-gray-700 drop-shadow-md rounded-md mr-1 text-white font-bold text-md p-2 hover:bg-gray-800"
+                  onClick={() => {
+                    setIsDisabled(true);
+                    setName(offerOriginalData.name);
+                    setPrice(offerOriginalData.price);
+                    setDescription(offerOriginalData.description);
+                  }}
+                >
+                  Anuluj
+                </button>
+                <button
+                  className=" bg-green-400 drop-shadow-md rounded-md text-white font-bold text-md p-2 hover:bg-green-500"
+                  type="submit"
+                  onClick={handleEdit}
+                >
+                  Zapisz
+                </button>
+              </div>
+            )}
+          </div>
       </div>
     </div>
   )

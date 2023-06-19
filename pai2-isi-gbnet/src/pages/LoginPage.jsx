@@ -30,7 +30,7 @@ export default function LoginPage() {
     e.preventDefault();
     const data = {
       firstName: nameRef.current.value,
-      last_name: lastNameRef.current.value,
+      lastName: lastNameRef.current.value,
       email: emaiRef.current.value,
       password: passwordRef.current.value,
       address: adddressRef.current.value,

@@ -47,7 +47,7 @@ export default function Balance() {
           <p className="flex-grow text-white">Stan salda</p>
         </div>
         <div className="flex flex-col items-center justify-center p-4 h-full">
-          <div className={`flex flex-row w-full h-1/3 m-4 ${userData?.balance>0?"shadow-green-700 bg-green-500" :"shadow-red-700 bg-red-500" }  shadow-md  justify-center align-middle`}>
+          <div className={`flex flex-row w-full h-1/3 m-4 ${userData?.balance>=0?"shadow-green-700 bg-green-500" :"shadow-red-700 bg-red-500" }  shadow-md  justify-center align-middle`}>
             <div className="flex flex-col justify-center ">
               <p className=" text-5xl  text-white ">{userData?.balance.toFixed(2)} zł</p>
             </div>

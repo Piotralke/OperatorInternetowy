@@ -14,7 +14,8 @@ export default function AdminOffers(){
         async function fetchData(){
             
             await axios.get("http://localhost:8080/upc/unsecured/v1/get-all-offers").then(res=>{
-                const tab = res.data.content.map(u=>({
+                console.log(res.data.content)
+                const tab = res.data.content.map(u=>  ({
                     uuid: u.uuid,
                     name: u.name,
                     productType: u.offerType,

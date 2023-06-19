@@ -77,13 +77,8 @@ export default function AdminProductDetail() {
             <a className="text-lg text-gray-700">Nazwa</a>
             <input
               value={productData?.name}
-              disabled={isDisabled}
-              onChange={(e) => {
-                setProductData((prevState) => ({
-                  ...prevState,
-                  name: e.target.value,
-                }));
-              }}
+              disabled
+              readOnly
               className="px-2 py-2 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
             />
           </div>
@@ -105,13 +100,8 @@ export default function AdminProductDetail() {
           <div className="flex flex-row justify-between items-center">
             <a className="text-lg text-gray-700">Typ</a>
             <select
-              disabled={isDisabled}
-              onChange={(e) => {
-                setProductData((prevState) => ({
-                  ...prevState,
-                  productType: e.target.value,
-                }));
-              }}
+              disabled
+              readOnly
               className="px-2 py-2 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
             >
                 {productType?.map((item) => productData?.productType == item ? <option value={item} selected>{item}</option> : <option value={item}>{item}</option>)}

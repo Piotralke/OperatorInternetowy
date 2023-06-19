@@ -5,9 +5,7 @@ import "./index.css";
 import { AuthProvider } from "react-auth-kit";
 import { ThemeProvider } from "@material-tailwind/react";
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
     <ThemeProvider>
       <App />
     </ThemeProvider>
-  </React.StrictMode>
 );

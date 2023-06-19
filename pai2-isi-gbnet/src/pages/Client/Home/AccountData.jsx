@@ -47,7 +47,7 @@ export default function AccountData() {
               <div className="text-sm text-amber-500">
                 {userData?.firstName} {userData?.lastName}
               </div>
-              <div className="text-sm text-amber-500">Adres</div>
+              <div className="text-sm text-white">Adres</div>
               <div className="text-sm text-amber-500 truncate">
                 {userData?.address}
               </div>

@@ -31,6 +31,9 @@ import OrderSummary from "./pages/Client/Orders/OrderSummary";
 import OrderSuccess from "./pages/Client/Orders/OrderSuccess";
 import OrderCancel from "./pages/Client/Orders/OrderCancel";
 import AdminNotices from "./pages/Admin/Notices/AdminNotices";
+import InvoiceSuccess from "./pages/Client/Invoices/InvoiceSuccess"
+import InvoiceCancel from "./pages/Client/Invoices/InvoiceCancel"
+import ProductDetail from "./pages/Client/Products/ProductDetail";
 export default function App() {
   return (
     <AuthProvider
@@ -53,13 +56,12 @@ export default function App() {
           >
             <Route path="/home" element={<HomePage></HomePage>}></Route>
             <Route path="/offers" element={<Offers></Offers>}></Route>
-            <Route
-              path="/offers/:offerId"
-              element={<OfferDetail></OfferDetail>}
-            ></Route>
+            <Route path="/offers/:offerId" element={<OfferDetail></OfferDetail>}></Route>
             <Route path="/products/" element={<Products></Products>}></Route>
-            {/* <Route path="/products/:productId" element={<ProductDetail></ProductDetail>}></Route> */}
+            <Route path="/products/:productId" element={<ProductDetail></ProductDetail>}></Route>
             <Route path="/invoices" element={<Invoices></Invoices>}></Route>
+            <Route path="/invoices/:paymentId/success" element={<InvoiceSuccess></InvoiceSuccess>}></Route>
+            <Route path="/invoices/:paymentId/cancel" element={<InvoiceCancel></InvoiceCancel>}></Route>
             <Route path="/profile" element={<Profile></Profile>}></Route>
             <Route path="/reports" element={<Reports></Reports>}>
               <Route path=":reportId" element={<ReportDetail></ReportDetail>}></Route>

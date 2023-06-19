@@ -196,31 +196,37 @@ export default function Table(props) {
                     <>
                       <td className="p-1">
                         <button
-                          disabled={row["paymentStatus"]==="OPLACONE" }
+                          disabled={row["paymentStatus"] === "OPLACONE"}
                           className="flex flex-col w-full items-center"
                           onClick={async () => {
                             const paymentData = {
-                              orderUuid: rows["uuid"],
-                              clientUuid: userData.uuid,
+                              paymentUuid: row["uuid"],
+                              orderUuid: "",
+                              clientUuid: props.userUuid,
                               serviceUuid: "",
-                              successUrl: `http://localhost:5173/order/${rows["uuid"]}/success/`,
-                              cancelUrl: `http://localhost:5173/order/${rows["uuid"]}/cancel/`,
+                              successUrl: `http://localhost:5173/invoices/${row["uuid"]}/success/`,
+                              cancelUrl: `http://localhost:5173/invoices/${row["uuid"]}/cancel/`,
                             };
-                            axios.defaults.headers.common['Authorization'] = token();
+                            axios.defaults.headers.common["Authorization"] =
+                              token();
                             const content = await axios.post(
-                              `http://localhost:8080/upc/v1/user-role/payment/create`,
+                              `http://localhost:8080/upc/v1/user-role/payment/create-for-existing-payment`,
                               paymentData
-                              
                             );
-                             localStorage.setItem(
+                            localStorage.setItem(
                               "payment",
                               content.data.paymentUuid
                             );
-                            console.log(content);
                             window.location.href = content.data.link;
                           }}
                         >
-                          <BsPaypal className={`w-8 h-8  ${row["paymentStatus"]==="OPLACONE"?"text-gray-300": "text-blue-500"}`} />
+                          <BsPaypal
+                            className={`w-8 h-8  ${
+                              row["paymentStatus"] === "OPLACONE"
+                                ? "text-gray-300"
+                                : "text-blue-500"
+                            }`}
+                          />
                         </button>
                       </td>
                       <td className="p-1">
