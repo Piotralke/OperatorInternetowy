@@ -150,24 +150,6 @@ class OrderServiceImpl implements OrderService {
                 .build();
 
         OrderEntity savedOrder = orderRepository.save(orderToSave);
-//        ClientAccountEntity clientAccountEntity2 = clientRepository.findByEmail(order.getClientEmail())
-//                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
-//
-//        List<ServiceEntity> services = clientAccountEntity2.getServices();
-//        if (services == null) {
-//            services = new ArrayList<>();
-//        }
-//        services.add(savedService);
-//        clientAccountEntity2.setServices(services);
-//
-//
-//        List<OrderEntity> orders = clientAccountEntity2.getOrderEntities();
-//        if (orders == null) {
-//            orders = new ArrayList<>();
-//        }
-//        orders.add(savedOrder);
-//        clientAccountEntity2.setOrderEntities(orders);
-
 
         clientRepository.save(clientAccountEntity);
 

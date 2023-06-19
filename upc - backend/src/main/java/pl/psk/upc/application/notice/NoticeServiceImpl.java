@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class NoticeServiceImpl implements NoticeService {
+class NoticeServiceImpl implements NoticeService {
 
     private final NoticeRepository noticeRepository;
     private final ClientRepository clientRepository;

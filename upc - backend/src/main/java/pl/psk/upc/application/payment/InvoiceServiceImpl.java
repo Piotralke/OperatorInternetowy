@@ -144,5 +144,4 @@ class InvoiceServiceImpl implements InvoiceService {
                 .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE));
     }
 
-
 }

@@ -3,13 +3,15 @@ package pl.psk.upc.application.userproblem;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pl.psk.upc.infrastructure.entity.ClientAccountEntity;
-import pl.psk.upc.infrastructure.entity.ServiceEntity;
 import pl.psk.upc.infrastructure.entity.UserProblemEntity;
 import pl.psk.upc.infrastructure.enums.UserProblemStatusEnum;
 import pl.psk.upc.infrastructure.repository.ClientRepository;
 import pl.psk.upc.infrastructure.repository.UserProblemRepository;
 import pl.psk.upc.tech.MethodArgumentValidator;
-import pl.psk.upc.web.userproblem.*;
+import pl.psk.upc.web.userproblem.UserProblemDto;
+import pl.psk.upc.web.userproblem.UserProblemDtoWrapper;
+import pl.psk.upc.web.userproblem.UserProblemInputDto;
+import pl.psk.upc.web.userproblem.UserProblemSetStatusInputDto;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;

@@ -12,7 +12,7 @@ import pl.psk.upc.web.login.LoginRequestDto;
 import java.util.Date;
 
 @Service
-public class LoginServiceImpl implements LoginService {
+class LoginServiceImpl implements LoginService {
 
     private final UserInfoUserDetailsService userDetailsService;
     private final JwtPropertiesConfig jwtPropertiesConfig;
