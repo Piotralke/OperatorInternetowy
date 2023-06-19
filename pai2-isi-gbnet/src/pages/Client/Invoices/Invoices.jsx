@@ -32,11 +32,7 @@ export default function Invoices() {
   const [loading, setLoading] = useState(true);
   const token = useAuthHeader();
   const a = useAuthHeader();
-  const userCred = useAuthUser();
-  const data = {
-    balance: "0.00",
-    invoices: [{}],
-  };
+
   useEffect(() => {
     async function getUserData() {
       const data = jwt(token());
@@ -123,8 +119,6 @@ export default function Invoices() {
         </p>
         
         <div className="flex flex-row p-4">
-          {" "}
-          {/*Lista faktur*/}
           {invoices && <Table headers={TABLE_HEAD} rows={invoices} invoices={true} userUuid={userData.uuid}></Table>}
         </div>
       </div>

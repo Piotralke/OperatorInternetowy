@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuthHeader } from "react-auth-kit";
+import {FcApproval} from 'react-icons/fc'
 import jwt from "jwt-decode";
+import {
+  Spinner
+} from "@material-tailwind/react";
 export default function OrderSuccess() {
   const [payerId, setPayerId] = useState();
   const [paymentId, setPaymentId] = useState();
+  const [loading,setLoading]=useState(true)
   const token = useAuthHeader();
   useEffect(() => {
     async function executePayment() {
@@ -57,15 +62,26 @@ export default function OrderSuccess() {
           },
         }
       );
-      console.log(response);
+      if(response.status === 200)
+      {
+        setLoading(false);
+      }
     }
 
     executePayment();
   }, []);
-  return (
-    <div>
-      <div>PayerID: {payerId}</div>
-      <div>Payment Id : {paymentId}</div>
+
+  if (loading)
+    return (
+      <div className="flex flex-col bg-blue-gray-600 w-full h-full items-center justify-center">
+        <Spinner color="amber" className="h-1/2 w-1/2"></Spinner>
+      </div>
+    );
+  
+  return(
+    <div className="flex flex-col bg-blue-gray-600 w-full h-full items-center justify-center">
+        <FcApproval className='text-amber-500 w-1/3 h-1/3'/>
+        <span className='text-white text-2xl'>Płatność zaakceptowana!</span>
     </div>
-  );
+)
 }
