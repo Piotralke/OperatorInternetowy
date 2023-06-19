@@ -13,17 +13,8 @@ export default function AdminOffers(){
     const userCred = useAuthUser()
     useEffect(()=>{    
         async function fetchData(){
-            const credentials = userCred().data
-            await axios.get("http://localhost:8080/upc/unsecured/v1/get-all-offers",{
-                auth : {
-                  username: credentials.email,
-                  password: credentials.password
-                },
-                headers:{
-                  "Content-Type": "application/json"
-                },
-                data:{}
-              }).then(res=>{
+            
+            await axios.get("http://localhost:8080/upc/unsecured/v1/get-all-offers").then(res=>{
                 console.log(res.data.content)
                 const tab = res.data.content.map(u=>({
                     uuid: u.uuid,
