@@ -28,6 +28,7 @@ import java.util.UUID;
 @Service
 class PaymentServiceImpl implements PaymentService {
     private final static String NOT_FOUND_MESSAGE = "Payment not found";
+    private final static String USER_NOT_FOUND_MESSAGE = "User not found";
 
     private final PaymentRepository paymentRepository;
     private final ClientRepository clientRepository;
@@ -42,11 +43,27 @@ class PaymentServiceImpl implements PaymentService {
     @Override
     public PaymentDto updateStatus(UUID uuid, UUID clientUuid) {
         MethodArgumentValidator.requiredNotNull(uuid, "uuid");
+        MethodArgumentValidator.requiredNotNull(clientUuid, "clientUuid");
         PaymentEntity payment = paymentRepository.findByUuid(uuid)
                 .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE));
         payment.setPaymentStatus(PaymentStatus.OPLACONE);
-        ClientAccountEntity client = clientRepository.findByUuid(uuid)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        ClientAccountEntity client = clientRepository.findByUuid(clientUuid)
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
+        client.setBalance(client.getBalance() + payment.getAmount());
+        clientRepository.save(client);
+        return PaymentConverter.convertFrom(paymentRepository.save(payment));
+    }
+
+    @Override
+    public PaymentDto updateStatus(UUID paymentUuid, UUID clientUuid, PaymentStatus paymentStatus) {
+        MethodArgumentValidator.requiredNotNull(paymentUuid, "uuid");
+        MethodArgumentValidator.requiredNotNull(clientUuid, "clientUuid");
+        MethodArgumentValidator.requiredNotNull(paymentStatus, "paymentStatus");
+        PaymentEntity payment = paymentRepository.findByUuid(paymentUuid)
+                .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE));
+        payment.setPaymentStatus(paymentStatus);
+        ClientAccountEntity client = clientRepository.findByUuid(clientUuid)
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
         client.setBalance(client.getBalance() + payment.getAmount());
         clientRepository.save(client);
         return PaymentConverter.convertFrom(paymentRepository.save(payment));
