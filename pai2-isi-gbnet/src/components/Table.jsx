@@ -196,12 +196,31 @@ export default function Table(props) {
                     <>
                       <td className="p-1">
                         <button
+                          disabled={row["paymentStatus"]==="OPLACONE" }
                           className="flex flex-col w-full items-center"
-                          onClick={() => {
-                            navigate(`${row["uuid"]}`);
+                          onClick={async () => {
+                            const paymentData = {
+                              orderUuid: rows["uuid"],
+                              clientUuid: userData.uuid,
+                              serviceUuid: "",
+                              successUrl: `http://localhost:5173/order/${rows["uuid"]}/success/`,
+                              cancelUrl: `http://localhost:5173/order/${rows["uuid"]}/cancel/`,
+                            };
+                            axios.defaults.headers.common['Authorization'] = token();
+                            const content = await axios.post(
+                              `http://localhost:8080/upc/v1/user-role/payment/create`,
+                              paymentData
+                              
+                            );
+                             localStorage.setItem(
+                              "payment",
+                              content.data.paymentUuid
+                            );
+                            console.log(content);
+                            window.location.href = content.data.link;
                           }}
                         >
-                          <BsPaypal className="w-8 h-8 text-blue-500" />
+                          <BsPaypal className={`w-8 h-8  ${row["paymentStatus"]==="OPLACONE"?"text-gray-300": "text-blue-500"}`} />
                         </button>
                       </td>
                       <td className="p-1">
