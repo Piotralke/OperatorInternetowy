@@ -16,7 +16,7 @@ public class UpcRestPaths {
     public static final String LOGIN = UPC_UNSECURED_PREFIX + "/login";
     public static final String CLIENT_REGISTER = UPC_UNSECURED_PREFIX + "/client-register";
     public static final String EDIT_CLIENT = UPC_SECURED_PREFIX + USER_PREFIX + "/edit-client";
-    public static final String EMPLOYEE_REGISTER = UPC_UNSECURED_PREFIX + ADMIN_PREFIX + "/employee-register";
+    public static final String EMPLOYEE_REGISTER = UPC_SECURED_PREFIX + ADMIN_PREFIX + "/employee-register";
     public static final String EDIT_EMPLOYEE = UPC_SECURED_PREFIX + ADMIN_PREFIX + "/edit-employee";
     public static final String EDIT_CLIENT_PASSWORD = UPC_SECURED_PREFIX + USER_PREFIX + "/edit-client-password";
     public static final String EDIT_EMPLOYEE_PASSWORD = UPC_SECURED_PREFIX + WORKER_PREFIX + "/edit-employee-password";
