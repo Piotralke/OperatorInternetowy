@@ -48,7 +48,7 @@ export default function Clients() {
   }
   return (
     <div className="flex flex-col h-full justify-start">
-      <Table headers={TABLE_HEAD} rows={users}></Table>
+      <Table data-testid="table" headers={TABLE_HEAD} rows={users}></Table>
       <Outlet></Outlet>
     </div>
   );

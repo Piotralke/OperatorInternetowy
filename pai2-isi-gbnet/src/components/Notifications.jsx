@@ -1,49 +1,40 @@
-import React,{useState,useEffect} from 'react'
-import { Alert,Typography,Progress } from "@material-tailwind/react";
-import {BsInfoCircle} from "react-icons/bs"
-
-
+import React, { useState, useEffect } from "react";
+import { Alert, Typography, Progress } from "@material-tailwind/react";
+import { BsInfoCircle } from "react-icons/bs";
 
 export default function Notifications(props) {
-    const [showInformaton,setInformation] = useState(true);
-    let counter=0;
-    useEffect(() => {
-        
-        if (showInformaton) {
-          const interval = setInterval(() => {
-            counter++;
-            if(counter===100)
-            {
- 
-                props.handleDelete();
-                clearInterval(interval);
-            }
-          }, 50);  
+  const [showInformaton, setInformation] = useState(true);
+  let counter = 0;
+  useEffect(() => {
+    if (showInformaton) {
+      const interval = setInterval(() => {
+        counter++;
+        if (counter === 100) {
+          props.handleDelete();
+          clearInterval(interval);
         }
-      }, []);
-    return (
+      }, 50);
+    }
+  }, []);
+  return (
     <div>
-    <Alert key={props.index}
-    open={showInformaton}
-    animate={{
-     mount: { y: 0 },
-     unmount: { y: 100 },
-   }}
-    color= {props.not.type==="SUCCESS"?"green":"red"}
-    icon={
-     <BsInfoCircle
-       strokeWidth={1}
-       className="h-6 w-6"
-     />
-   }
-    >
-     <Typography variant="h5" color="white">
-     {props.not.type==="SUCCESS"?"SUKCES":"BŁĄD"}
-     </Typography>
-     <Typography color="white" className="mt-2 font-normal">
-       {props.not.message}
-     </Typography>
-   </Alert>
-   </div>
-  )
+      <Alert
+        key={props.index}
+        open={showInformaton}
+        animate={{
+          mount: { y: 0 },
+          unmount: { y: 100 },
+        }}
+        color={props.not.type === "SUCCESS" ? "green" : "red"}
+        icon={<BsInfoCircle strokeWidth={1} className="h-6 w-6" />}
+      >
+        <Typography variant="h5" color="white">
+          {props.not.type === "SUCCESS" ? "SUKCES" : "BŁĄD"}
+        </Typography>
+        <Typography color="white" className="mt-2 font-normal">
+          {props.not.message}
+        </Typography>
+      </Alert>
+    </div>
+  );
 }

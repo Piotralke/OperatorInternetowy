@@ -34,10 +34,8 @@ export default function ClientAdd() {
       pesel: peselRef.current.value,
       isBusinessClient: isBusiness
     };
-    console.log(data);
     const apiUrl = "http://localhost:8080/upc/unsecured/v1/client-register";
      const response = await axios.post(apiUrl, data);
-     console.log(response);
      if(response.status === 200)
      {
         const tab = JSON.parse(localStorage.getItem("notifications"));

@@ -16,7 +16,7 @@ import {
 import { useSignOut } from "react-auth-kit";
 import axios from "axios";
 import jwt from "jwt-decode";
-import { useAuthHeader,useAuthUser } from "react-auth-kit";
+import { useAuthHeader, useAuthUser } from "react-auth-kit";
 import {
   Menu,
   MenuHandler,
@@ -31,7 +31,7 @@ import {
   DialogBody,
   Badge,
 } from "@material-tailwind/react";
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 export default function ClientLayout() {
   const [notifications, setNotifications] = useState();
   const [ringNotifications, setRingNotifications] = useState();
@@ -53,17 +53,17 @@ export default function ClientLayout() {
 
     async function getUserData() {
       const data = jwt(token());
-      axios.defaults.headers.common['Authorization'] = token();
+      axios.defaults.headers.common["Authorization"] = token();
       const protectedEndpointResponse = await axios.get(
         "http://localhost:8080/upc/v1/user-role/user",
         {
           params: {
             email: data.sub,
           },
-          headers:{
-            "Content-Type": "application/json"
+          headers: {
+            "Content-Type": "application/json",
           },
-          data:{}
+          data: {},
         }
       );
       setUserData(protectedEndpointResponse.data);
@@ -77,27 +77,29 @@ export default function ClientLayout() {
             JSON.stringify(response.data.content)
           ) {
             setRingNotifications(response.data.content);
-          } 
+          }
         }
         return () => clearInterval(interval);
       }, 10000);
     }
-    getUserData();
+    getUserData().catch(console.error);
   }, []);
 
-
-  async function handleClickNot(not){
-    if(!not.isClicked){
-      axios.defaults.headers.common['Authorization'] = token();
-      const response = await axios.put(`http://localhost:8080/upc/v1/user-role/edit-notice/${not.uuid}`,null, {params:{isClicked:true}});
-      console.log(response)
+  async function handleClickNot(not) {
+    if (!not.isClicked) {
+      axios.defaults.headers.common["Authorization"] = token();
+      const response = await axios.put(
+        `http://localhost:8080/upc/v1/user-role/edit-notice/${not.uuid}`,
+        null,
+        { params: { isClicked: true } }
+      );
     }
-    setNotificationData(not)
-    handleNotificationOpen()
+    setNotificationData(not);
+    handleNotificationOpen();
   }
-  const handleNotificationOpen = () =>{
-    setOpenNotification(!openNotification)
-  }
+  const handleNotificationOpen = () => {
+    setOpenNotification(!openNotification);
+  };
 
   function sortNotificationsByDate(nots) {
     nots.sort((a, b) => {
@@ -105,13 +107,13 @@ export default function ClientLayout() {
       const dateB = new Date(b.noticeDate);
       return dateB - dateA;
     });
-  
+
     return nots;
   }
 
   const handleDelete = useCallback(() => {
     const newNotifications = JSON.parse(localStorage.getItem("notifications"));
-    const updatedNotifications = newNotifications.slice(1); 
+    const updatedNotifications = newNotifications.slice(1);
     setNotifications(updatedNotifications);
     window.localStorage.setItem(
       "notifications",
@@ -119,12 +121,12 @@ export default function ClientLayout() {
     );
   }, []);
   function formatNotificationTime(date) {
-    const notificationDate = new Date(date); 
-    const currentDate = new Date(); 
+    const notificationDate = new Date(date);
+    const currentDate = new Date();
 
     const timeDiffInSeconds = Math.floor(
       (currentDate - notificationDate) / 1000
-    ); 
+    );
 
     if (timeDiffInSeconds < 60) {
       return "< 1min";
@@ -145,6 +147,7 @@ export default function ClientLayout() {
       >
         <div className="flex flex-col p-7 space-y-8 items-center h-full fixed ">
           <button
+          data-testid="home-button"
             className="group w-full  text-white font-bold  flex flex-row items-center justify-center space-x-4 hover:animate-pulse"
             onClick={() => {
               closeDrawer();
@@ -158,6 +161,7 @@ export default function ClientLayout() {
           </button>
 
           <button
+          data-testid="oferty-button"
             className="group w-full text-xl text-white font-bold flex flex-row items-center  space-x-4 hover:animate-pulse"
             onClick={() => {
               closeDrawer();
@@ -169,6 +173,7 @@ export default function ClientLayout() {
           </button>
 
           <button
+          data-testid="produkty-button"
             className="group w-full text-xl text-white font-bold flex flex-row items-center  space-x-4 hover:animate-pulse"
             onClick={() => {
               closeDrawer();
@@ -180,6 +185,7 @@ export default function ClientLayout() {
           </button>
 
           <button
+          data-testid="faktury-button"
             className="group w-full text-xl text-white font-bold flex flex-row items-center  space-x-4 hover:animate-pulse"
             onClick={() => {
               closeDrawer();
@@ -191,6 +197,7 @@ export default function ClientLayout() {
           </button>
 
           <button
+            data-testid="profil-button"
             className="group w-full text-xl text-white font-bold flex flex-row items-center space-x-4 hover:animate-pulse"
             onClick={() => {
               closeDrawer();
@@ -201,6 +208,7 @@ export default function ClientLayout() {
             <p className="group-hover:text-amber-500">PROFIL</p>
           </button>
           <button
+            data-testid="zgloszenia-button"
             className="group w-full text-xl text-white font-bold flex flex-row items-center space-x-4 hover:animate-pulse"
             onClick={() => {
               closeDrawer();
@@ -212,7 +220,7 @@ export default function ClientLayout() {
           </button>
         </div>
       </Drawer>
-      <div className="flex flex-row items-center w-full p-3 bg-blue-gray-800 sticky top-0 space-x-4">
+      <div className="flex flex-row items-center w-full p-3 bg-blue-gray-800 sticky top-0 space-x-4 ">
         <BiMenuAltLeft
           onClick={openDrawer}
           size={32}
@@ -220,44 +228,71 @@ export default function ClientLayout() {
         ></BiMenuAltLeft>
 
         <text className="text-xl flex-grow font-bold text-white">Gb Net</text>
-        <div className="flex flex-row space-x-4">
+        <div className=" z-50 flex flex-row space-x-4">
           <div>
             <Menu placement="left-start">
-              <Badge color="deep-orange" content={ (ringNotifications?.filter((not) => !not.isClicked).length)>0?ringNotifications?.filter((not) => !not.isClicked).length:null }>
-                <MenuHandler>
+              <Badge
+                color="deep-orange"
+                content={
+                  ringNotifications?.filter((not) => !not.isClicked).length > 0
+                    ? ringNotifications?.filter((not) => !not.isClicked).length
+                    : null
+                }
+              >
+                <MenuHandler >
                   <IconButton variant="text">
                     <TbBellRinging2Filled className="h-5 w-5 text-amber-500" />
                   </IconButton>
                 </MenuHandler>
               </Badge>
               <MenuList className="flex flex-col gap-2 2xl:w-1/3 w-1/2 bg-transparent backdrop-blur-2xl border-amber-800 drop-shadow-md overflow-y-auto max-h-[40vh]">
-                
-                {ringNotifications? sortNotificationsByDate(ringNotifications).map((not) => {return(
-                <MenuItem onClick={()=>{handleClickNot(not)}} className="hover:bg-blue-gray-800  flex items-center backdrop-blur-xl gap-4 py-2 pr-8 pl-2  ">
-                    <div className="flex flex-col gap-1 truncate w-full">
-                      <Typography
-                        variant="small"
-                        color="gray"
-                        className="font-normal truncate"
+                {ringNotifications ? (
+                  sortNotificationsByDate(ringNotifications).map((not) => {
+                    return (
+                      <MenuItem
+                        data-testid="notification-dialog"
+                        onClick={() => {
+                          handleClickNot(not);
+                        }}
+                        className="hover:bg-blue-gray-800  flex items-center backdrop-blur-xl gap-4 py-2 pr-8 pl-2  "
                       >
-                        <span
-                          className={`text-white text-md ${
-                            !not.isClicked ? "font-bold" : ""
-                          }`}
-                        >
-                          {not.description}
-                        </span>
-                      </Typography>
-                      <Typography
-                        variant="small"
-                        className="flex items-center gap-1 w-full"
-                      >
-                        <BsClock  className="text-sm text-amber-500" />
-                        <span className="text-sm text-amber-500">{formatNotificationTime(not.noticeDate)}</span>
-                        {!not.isClicked ? <span className="text-xs text-amber-500 ml-auto">NIEODCZYTANE</span>:null}
-                      </Typography>
-                    </div>
-                  </MenuItem>) }):<span className="text-xs text-amber-500  mx-auto">BRAK POWIADOMIEŃ</span>}
+                        <div className="flex flex-col gap-1 truncate w-full">
+                          <Typography
+                            variant="small"
+                            color="gray"
+                            className="font-normal truncate"
+                          >
+                            <span
+                              className={`text-white text-md ${
+                                !not.isClicked ? "font-bold" : ""
+                              }`}
+                            >
+                              {not.description}
+                            </span>
+                          </Typography>
+                          <Typography
+                            variant="small"
+                            className="flex items-center gap-1 w-full"
+                          >
+                            <BsClock className="text-sm text-amber-500" />
+                            <span className="text-sm text-amber-500">
+                              {formatNotificationTime(not.noticeDate)}
+                            </span>
+                            {!not.isClicked ? (
+                              <span className="text-xs text-amber-500 ml-auto">
+                                NIEODCZYTANE
+                              </span>
+                            ) : null}
+                          </Typography>
+                        </div>
+                      </MenuItem>
+                    );
+                  })
+                ) : (
+                  <span className="text-xs text-amber-500  mx-auto">
+                    BRAK POWIADOMIEŃ
+                  </span>
+                )}
               </MenuList>
             </Menu>
           </div>
@@ -322,20 +357,27 @@ export default function ClientLayout() {
             </button>
           </div>
         </div>
-        <div className="2xl:basis-4/5 w-full min-h-full ">
+        <div className="2xl:basis-4/5 w-full min-h-full "> {/**transition-all ease-out duration-700 */}
           <Outlet></Outlet>
         </div>
       </div>
-      {openNotification? (<Dialog open={openNotification} handler={handleNotificationOpen} >
+      {openNotification ? (
+        <Dialog open={openNotification} handler={handleNotificationOpen}>
           <DialogHeader className="flex flex-row p-4">
             <div className="flex-grow">Powiadomienie</div>
-            <IconButton color="amber" onClick={()=> {handleNotificationOpen()}}>
-              <GrClose className="w-5 h-5"/>
+            <IconButton
+              color="amber"
+              onClick={() => {
+                handleNotificationOpen();
+              }}
+            >
+              <GrClose className="w-5 h-5" />
             </IconButton>
           </DialogHeader>
           <DialogBody>{notificationData.description}</DialogBody>
-        </Dialog>):null}
-      
+        </Dialog>
+      ) : null}
+
       <div className="absolute right-10 bottom-10 ">
         {notifications?.map((not, index) => {
           return (

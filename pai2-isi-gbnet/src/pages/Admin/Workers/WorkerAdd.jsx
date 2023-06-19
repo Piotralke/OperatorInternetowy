@@ -39,8 +39,8 @@ export default function WorkerAdd() {
       nip: contractFormRef.current.value == "B2B" ? nipRef.current.value : null,
       pesel: peselRef.current.value,
     };
-    axios.defaults.headers.common['Authorization'] = null;
-    const apiUrl ="http://localhost:8080/upc/unsecured/v1/admin-role/employee-register";
+    axios.defaults.headers.common['Authorization'] = token();
+    const apiUrl ="http://localhost:8080/upc/v1/admin-role/employee-register";
     const response = await axios.post(apiUrl, data);
 
     if (response.status === 200) {

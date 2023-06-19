@@ -11,21 +11,11 @@ const TABLE_HEAD = [{name: "Nr zgłoszenia",key: "userProblemId"},{name:"Data wy
 export default function AdminReports(){
     const [products,setProducts] = useState([])
     const [loading,setLoading] = useState(true)
-    const userCred = useAuthUser()
+    const token = useAuthHeader();
     useEffect(()=>{    
         async function fetchData(){
-            const credentials = userCred().data
-            await axios.get("http://localhost:8080/upc/v1/worker-role/get-all-user-problems",{
-            auth : {
-              username: credentials.email,
-              password: credentials.password
-            },
-            headers:{
-              "Content-Type": "application/json"
-            },
-            data:{}
-          }).then(res=>{
-            console.log(res.data.content)
+            axios.defaults.headers.common['Authorization'] = token();
+            await axios.get("http://localhost:8080/upc/v1/worker-role/get-all-user-problems").then(res=>{
             const tab = res.data.content.map(u=>({
                 uuid: u.uuid,
                 userProblemId: u.uuid,

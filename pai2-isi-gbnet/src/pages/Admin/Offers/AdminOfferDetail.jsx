@@ -13,15 +13,18 @@ export default function AdminOfferDetail() {
     const [isDisabled, setIsDisabled] = useState(true);
     const token = useAuthHeader();
     const navigate = useNavigate();
-    const userCred = useAuthUser()
   useEffect(() => {
     async function fetchProduct() {
-      const credentials = userCred().data
       // axios.defaults.headers.common['Authorization'] = token();
       const protectedEndpointResponse = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-offer-by-uuid/${offerId}`
+        `http://localhost:8080/upc/unsecured/v1/get-offer-by-uuid`,
+        {
+          params: {
+            uuid: offerId,
+          },
+        }
       );
-      console.log(protectedEndpointResponse.data)
+
       setOfferData(protectedEndpointResponse.data);
       setOfferOriginalData(protectedEndpointResponse.data);
     }

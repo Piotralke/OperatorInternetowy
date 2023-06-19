@@ -36,7 +36,7 @@ export default function ClientDetail() {
       const tab = JSON.parse(localStorage.getItem("notifications"));
       let newTab;
       const message = {
-        message: `Pomyślnie zmieniono dane klienta`,
+        message: `Pomyślnie zmieniono dane klienta ${userData.email}`,
         type: "SUCCESS",
       };
       if (tab) {

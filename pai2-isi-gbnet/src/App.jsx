@@ -1,3 +1,4 @@
+import { AuthProvider, RequireAuth } from "react-auth-kit";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/Client/Home/HomePage";
@@ -5,7 +6,6 @@ import ClientLayout from "./pages/Client/ClientLayout";
 import Offers from "./pages/Client/Offers/Offers";
 import Invoices from "./pages/Client/Invoices/Invoices";
 import Profile from "./pages/Client/Profile/Profile";
-import { AuthProvider, RequireAuth } from "react-auth-kit";
 import OfferDetail from "./pages/Client/Offers/OfferDetail";
 import Products from "./pages/Client/Products/Products";
 import AdminLayout from "./pages/Admin/AdminLayout";

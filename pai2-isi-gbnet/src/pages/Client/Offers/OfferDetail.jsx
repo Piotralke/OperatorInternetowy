@@ -19,9 +19,13 @@ export default function OfferDetail() {
   useEffect(() => {
     async function fetchData() {
       const data = jwt(token());
-      axios.defaults.headers.common['Authorization'] = token();
       const response = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-offer-by-uuid/${offerId}`
+        `http://localhost:8080/upc/unsecured/v1/get-offer-by-uuid`,
+        {
+          params: {
+            uuid: offerId,
+          },
+        }
       );
       setOffer(response.data);
       switch (response.data.offerType) {

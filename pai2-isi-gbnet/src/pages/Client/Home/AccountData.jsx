@@ -25,7 +25,6 @@ export default function AccountData() {
           data:{}
         }
       );
-      console.log(protectedEndpointResponse.data)
       setUserData(protectedEndpointResponse.data);
     }
     getUserData();

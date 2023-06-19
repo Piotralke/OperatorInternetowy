@@ -1,34 +1,45 @@
-import { useState,useEffect,useCallback } from "react";
-import {FiUsers,FiUserPlus, FiBox} from "react-icons/fi"
-import { FaPeopleCarry,FaNetworkWired, } from "react-icons/fa"
-import { LuWarehouse } from "react-icons/lu"
+import React, { useState, useEffect, useCallback } from "react";
+import { FiUsers, FiUserPlus, FiBox } from "react-icons/fi";
+import { FaPeopleCarry, FaNetworkWired } from "react-icons/fa";
+import { LuWarehouse } from "react-icons/lu";
 import { Drawer } from "@material-tailwind/react";
-import {RiUser2Fill, RiUserSearchLine,RiCopyleftLine, RiUser3Fill,} from "react-icons/ri"
-import { MdOutlineMiscellaneousServices} from "react-icons/md"
-import { BiMenuAltLeft} from "react-icons/bi"
-import { AiOutlineNotification, AiFillDatabase, AiOutlineDropbox } from "react-icons/ai"
-import {TiWarningOutline} from "react-icons/ti"
-import {HiCloudUpload} from "react-icons/hi"
+import {
+  RiUser2Fill,
+  RiUserSearchLine,
+  RiCopyleftLine,
+  RiUser3Fill,
+} from "react-icons/ri";
+import { MdOutlineMiscellaneousServices } from "react-icons/md";
+import { BiMenuAltLeft } from "react-icons/bi";
+import {
+  AiOutlineNotification,
+  AiFillDatabase,
+  AiOutlineDropbox,
+} from "react-icons/ai";
+import { TiWarningOutline } from "react-icons/ti";
+import { HiCloudUpload } from "react-icons/hi";
 import { useNavigate, Outlet } from "react-router-dom";
 import { useSignOut } from "react-auth-kit";
-import Notifications from "../../components/Notifications"
+import Notifications from "../../components/Notifications";
 function TreeNode({ node, level, handleNodeClick }) {
   const [isExpanded, setIsExpanded] = useState(false);
-  
+
   const handleItemClick = (event) => {
     event.stopPropagation();
     handleNodeClick(node.name);
     setIsExpanded(!isExpanded);
   };
 
-  
   return (
     <div style={{ paddingLeft: 15 * (level - 1) }}>
       <div className="flex flex-row items-center space-x-1 2xl:space-x-2 ">
-        <div className=" text-orange-500 ">
-          {node?.icon}
-        </div>
-        <span className=" cursor-pointer hover:text-orange-400 hover:animate-pulse" onClick={handleItemClick}>{node.name}</span>
+        <div className=" text-orange-500 ">{node?.icon}</div>
+        <span
+          className=" cursor-pointer hover:text-orange-400 hover:animate-pulse"
+          onClick={handleItemClick}
+        >
+          {node.name}
+        </span>
       </div>
       {isExpanded &&
         node.children &&
@@ -45,95 +56,84 @@ function TreeNode({ node, level, handleNodeClick }) {
 }
 
 export default function AdminLayout() {
-  const [notifications,setNotifications] = useState();
-  const navigate = useNavigate()
-  const signOut = useSignOut()
-  
-  
+  const [notifications, setNotifications] = useState();
+  const navigate = useNavigate();
+  const signOut = useSignOut();
 
   const handleNodeClick = (nodeName) => {
     if (nodeName === "Wyświetl klientów") {
-      closeDrawer()
-     navigate('clients');
-    } 
-    else if (nodeName === "Dodaj klienta") {
-      closeDrawer()
-      navigate('clientAdd');
-    }
-    else if (nodeName === "Wyświetl pracowników") {
-      closeDrawer()
-      navigate('employees');
-    } 
-    else if (nodeName === "Dodaj pracownika") {
-      closeDrawer()
-      navigate('employeeAdd');
-    }
-    else if (nodeName === "Wyświetl produkty") {
-      closeDrawer()
-      navigate('products');
-    }
-    else if (nodeName === "Dodaj produkt") {
-      closeDrawer()
-      navigate('productAdd');
-    }
-    else if (nodeName === "Wyświetl oferty") {
-      closeDrawer()
-      navigate('offers');
-    }
-    else if (nodeName === "Dodaj ofertę") {
-      closeDrawer()
-      navigate('offerAdd');
-    }
-    else if (nodeName === "Zgłoszenia") {
-      closeDrawer()
-      navigate('reports');
-    }
-    else if (nodeName === "Powiadamianie") {
-      closeDrawer()
-      navigate('notifications');
+      closeDrawer();
+      navigate("clients");
+    } else if (nodeName === "Dodaj klienta") {
+      closeDrawer();
+      navigate("clientAdd");
+    } else if (nodeName === "Wyświetl pracowników") {
+      closeDrawer();
+      navigate("employees");
+    } else if (nodeName === "Dodaj pracownika") {
+      closeDrawer();
+      navigate("employeeAdd");
+    } else if (nodeName === "Wyświetl produkty") {
+      closeDrawer();
+      navigate("products");
+    } else if (nodeName === "Dodaj produkt") {
+      closeDrawer();
+      navigate("productAdd");
+    } else if (nodeName === "Wyświetl oferty") {
+      closeDrawer();
+      navigate("offers");
+    } else if (nodeName === "Dodaj ofertę") {
+      closeDrawer();
+      navigate("offerAdd");
+    } else if (nodeName === "Zgłoszenia") {
+      closeDrawer();
+      navigate("reports");
+    } else if (nodeName === "Powiadamianie") {
+      closeDrawer();
+      navigate("notifications");
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     const not = JSON.parse(localStorage.getItem("notifications"));
-    if(not){
+    if (not) {
       setNotifications(not);
     }
-  },[])
-  useEffect(()=>{
-    const handleStorageChange = (event) =>{
-      console.log("LISTENER przed if")
-      if(event.key="notifications"){
-        console.log("LISTENER")
-        const newNotifications = JSON.parse(localStorage.getItem("notifications"));
+  }, []);
+  useEffect(() => {
+    const handleStorageChange = (event) => {
+      if ((event.key = "notifications")) {
+        const newNotifications = JSON.parse(
+          localStorage.getItem("notifications")
+        );
         setNotifications(newNotifications);
-        }
-    }
+      }
+    };
 
-    window.addEventListener('storage',handleStorageChange);
+    window.addEventListener("storage", handleStorageChange);
 
-    return()=>{
-      window.removeEventListener('storage',handleStorageChange);
-    }
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
 
-  },[])
-
-  const handleDelete = useCallback(() =>{
-    console.log("DELETE")
+  const handleDelete = useCallback(() => {
     const newNotifications = JSON.parse(localStorage.getItem("notifications"));
     const updatedNotifications = newNotifications.slice(1); // Usuwanie pierwszego powiadomienia
-    console.log(updatedNotifications)
-        setNotifications(updatedNotifications);
-        window.localStorage.setItem('notifications', JSON.stringify(updatedNotifications));
-  }, [])
+    setNotifications(updatedNotifications);
+    window.localStorage.setItem(
+      "notifications",
+      JSON.stringify(updatedNotifications)
+    );
+  }, []);
 
   const folder = {
     name: "Zarządzaj",
-    icon: <AiFillDatabase/>,
+    icon: <AiFillDatabase />,
     children: [
       {
         name: "Użytkownicy",
-        icon: <FiUsers/>,
+        icon: <FiUsers />,
         children: [
           {
             name: "Pracownicy",
@@ -141,25 +141,25 @@ export default function AdminLayout() {
             children: [
               {
                 name: "Wyświetl pracowników",
-                icon: <RiUserSearchLine/>
+                icon: <RiUserSearchLine />,
               },
               {
                 name: "Dodaj pracownika",
-                icon: <FiUserPlus/>
+                icon: <FiUserPlus />,
               },
             ],
           },
           {
             name: "Klienci",
-            icon: <RiUser3Fill/>,
+            icon: <RiUser3Fill />,
             children: [
               {
                 name: "Wyświetl klientów",
-                icon: <RiUserSearchLine/>
+                icon: <RiUserSearchLine />,
               },
               {
                 name: "Dodaj klienta",
-                icon: <FiUserPlus/>
+                icon: <FiUserPlus />,
               },
             ],
           },
@@ -167,33 +167,33 @@ export default function AdminLayout() {
       },
       {
         name: "Produkty i oferty",
-        icon: <LuWarehouse/>,
+        icon: <LuWarehouse />,
         children: [
           {
             name: "Produkty",
-            icon: <FiBox/>,
+            icon: <FiBox />,
             children: [
               {
                 name: "Wyświetl produkty",
-                icon: <AiOutlineDropbox/>,
+                icon: <AiOutlineDropbox />,
               },
               {
                 name: "Dodaj produkt",
-                icon: <FaPeopleCarry/>,
+                icon: <FaPeopleCarry />,
               },
             ],
           },
           {
             name: "Oferty",
-            icon: <MdOutlineMiscellaneousServices/>,
+            icon: <MdOutlineMiscellaneousServices />,
             children: [
               {
                 name: "Wyświetl oferty",
-                icon: <FaNetworkWired/>
+                icon: <FaNetworkWired />,
               },
               {
                 name: "Dodaj ofertę",
-                icon: <HiCloudUpload/>
+                icon: <HiCloudUpload />,
               },
             ],
           },
@@ -201,11 +201,11 @@ export default function AdminLayout() {
       },
       {
         name: "Zgłoszenia",
-        icon: <TiWarningOutline/>,
+        icon: <TiWarningOutline />,
       },
       {
         name: "Powiadamianie",
-        icon: <AiOutlineNotification/>,
+        icon: <AiOutlineNotification />,
       },
     ],
   };
@@ -216,22 +216,17 @@ export default function AdminLayout() {
 
   return (
     <div className="flex flex-col min-h-screen min-w-full justify-stretch">
-      <Drawer
-        open={open}
-        onClose={closeDrawer}
-        className=" bg-gray-700"
-      >
+      <Drawer open={open} onClose={closeDrawer} className=" bg-gray-700">
         <div className="flex flex-col  space-y-8 items-center h-full fixed ">
-        <div className="flex flex-col basis-1/5 min-h-full bg-gray-700 justify-between ">
-          <div className="flex text-white p-4 h-full fixed">
+          <div className="flex flex-col basis-1/5 min-h-full bg-gray-700 justify-between ">
+            <div className="flex text-white p-4 h-full fixed">
               <TreeNode
-                
                 node={folder}
                 level={1}
                 handleNodeClick={handleNodeClick}
               />
+            </div>
           </div>
-        </div>
         </div>
       </Drawer>
       <div className="flex flex-row items-center w-full p-3 bg-gray-800 sticky top-0">
@@ -245,6 +240,7 @@ export default function AdminLayout() {
         <button
           className="text-xl bg-red-600 p-1 rounded-lg font-bold  text-white hover:bg-red-500"
           onClick={() => signOut()}
+          data-testid="logout"
         >
           Wyloguj
         </button>
@@ -252,12 +248,12 @@ export default function AdminLayout() {
       <div className="flex-grow flex flex-row w-full m-0 p-0">
         <div className="hidden 2xl:flex flex-col basis-1/5 min-h-full bg-gray-700 justify-between px-2">
           <div className="flex text-white pt-5  h-full fixed">
-              <TreeNode
-                
-                node={folder}
-                level={1}
-                handleNodeClick={handleNodeClick}
-              />
+            <TreeNode
+              data-testid = "tree-node"
+              node={folder}
+              level={1}
+              handleNodeClick={handleNodeClick}
+            />
           </div>
         </div>
         <div className="w-full 2xl:basis-4/5 min-h-full ">
@@ -265,15 +261,25 @@ export default function AdminLayout() {
         </div>
       </div>
       <div className="absolute right-10 bottom-10 ">
-      {notifications?.map((not,index)=>{
+        {notifications?.map((not, index) => {
           return (
-            <Notifications index={index} not={not} handleDelete={handleDelete}></Notifications>
-        )})}
-        </div>
+            <Notifications
+              index={index}
+              not={not}
+              handleDelete={handleDelete}
+            ></Notifications>
+          );
+        })}
+      </div>
       <div className="flex flex-col bg-gray-800 h-10 basis-1/12 items-center">
-        <a className="flex flex-row text-blue-gray-100 items-center"> <span><RiCopyleftLine/></span> Copyleft by Barański, Dziewięcki, Rudnicki and Spychalski. 2023</a>
+        <a className="flex flex-row text-blue-gray-100 items-center">
+          {" "}
+          <span>
+            <RiCopyleftLine />
+          </span>{" "}
+          Copyleft by Barański, Dziewięcki, Rudnicki and Spychalski. 2023
+        </a>
       </div>
     </div>
   );
 }
-

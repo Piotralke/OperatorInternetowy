@@ -17,7 +17,6 @@ export default function Workers(){
         async function fetchData(){
             axios.defaults.headers.common['Authorization'] = token();
             await axios.get("http://localhost:8080/upc/v1/admin-role/employee/all").then(res=>{
-                console.log(res.data.content)
                 const users = res.data.content.map(u=>({
                     uuid: u.uuid,
                     FirstName: u.firstName,
@@ -29,7 +28,6 @@ export default function Workers(){
                     salary: u.salary,
                     nip: u.nip
                 }))
-                console.log(users)
                 setUsers(users)
                 setLoading(false)
             })

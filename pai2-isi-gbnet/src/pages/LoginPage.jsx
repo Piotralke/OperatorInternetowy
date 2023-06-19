@@ -1,12 +1,8 @@
-import { Link } from "react-router-dom";
 import axios from "axios";
 import { useSignIn } from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
 import jwt from "jwt-decode";
 import React, { useRef, useState } from "react";
-import { Alert, Typography } from "@material-tailwind/react";
-import { BsInfoCircle } from "react-icons/bs";
-import { useEffect } from "react";
 import { RiCopyleftLine } from "react-icons/ri";
 import { FcGoogle } from "react-icons/fc";
 import { Button } from "@material-tailwind/react";
@@ -20,6 +16,7 @@ export default function LoginPage() {
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [isBusiness, setIsBusiness] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  
   const nameRef = useRef();
   const lastNameRef = useRef();
   const emaiRef = useRef();
@@ -63,15 +60,19 @@ export default function LoginPage() {
       window.location.reload();
     }
   }
+  const [info, setInfo] = useState('');
   async function handleLogin(event) {
     event.preventDefault();
+    
     try {
       const data = {
         email: loginRef.current.value,
         password: passwordRef.current.value,
       };
       const apiUrl = "http://localhost:8080/upc/unsecured/v1/login";
-      const response = await axios.post(apiUrl, data);
+      const response = await axios.post(apiUrl, data).then(
+        setInfo('Zalogowano')
+      );
       signIn({
         token: response.data,
         expiresIn: 3600,
@@ -86,6 +87,7 @@ export default function LoginPage() {
       const userData = jwt(response.data);
 
       if (userData?.role.includes("USER")) {
+       
         navigate("/home");
       } else navigate("/admin");
     } catch (error) {
@@ -109,8 +111,9 @@ export default function LoginPage() {
           >
             <div className="grid gap-10 px-48 md:grid-cols-2">
               <div className="flex flex-col">
-                <label className="text-md font-bold text-gray-700 ">Imię</label>
+                <label className="text-md font-bold text-gray-700 " for="imie">Imię</label>
                 <input
+                  id="imie"
                   type="text"
                   ref={nameRef}
                   pattern="[A-Z]{1}[a-z]{1,}"
@@ -120,10 +123,11 @@ export default function LoginPage() {
                 />
               </div>
               <div className="flex flex-col">
-                <label className="text-md font-bold text-gray-700 ">
+                <label className="text-md font-bold text-gray-700 " for="nazwisko">
                   Nazwisko
                 </label>
                 <input
+                id="nazwisko"
                   type="text"
                   ref={lastNameRef}
                   pattern="[A-Z]{1}[a-z]{1,}"
@@ -133,10 +137,11 @@ export default function LoginPage() {
                 />
               </div>
               <div className="flex flex-col">
-                <label className="text-md font-bold text-gray-700 ">
+                <label className="text-md font-bold text-gray-700 "for="email">
                   Adres e-mail
                 </label>
                 <input
+                id="email"
                   type="email"
                   ref={emaiRef}
                   className="border-2 border-gray-500 invalid:border-red-500 invalid:outline-red-500 rounded-md mt-1 text-gray-900  px-4 py-1"
@@ -144,10 +149,11 @@ export default function LoginPage() {
                 />
               </div>
               <div className="flex flex-col">
-                <label className="text-md font-bold text-gray-700 ">
+                <label className="text-md font-bold text-gray-700 " for="tele">
                   Numer Telefonu
                 </label>
                 <input
+                  id="tele"
                   type="text"
                   ref={phoneRef}
                   pattern="[0-9]{9}"
@@ -157,11 +163,12 @@ export default function LoginPage() {
                 />
               </div>
               <div className="flex flex-col">
-                <label className="text-md font-bold text-gray-700 ">
+                <label className="text-md font-bold text-gray-700" for="pass">
                   Hasło
                 </label>
                 <input
                   type="password"
+                  id="pass"
                   pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
                   title="Hasło powino zawierać: conajmniej 8 znaków, conajmniej 1 wielką litere, conajmniej 1 cyfrę!"
                   onChange={(e) => setPassword(e.target.value)}
@@ -340,6 +347,9 @@ export default function LoginPage() {
                 <RiCopyleftLine />
               </span>{" "}
               Copyleft by Barański, Dziewięcki, Rudnicki and Spychalski. 2023
+              {info? <span>
+                {info}
+              </span> :null}
             </p>
           </div>
           </div>

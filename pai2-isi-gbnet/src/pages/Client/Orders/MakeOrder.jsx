@@ -35,7 +35,6 @@ export default function MakeOrder() {
   const [chosen, setChosen] = useState(null);
   const { offerId } = useParams();
   const token = useAuthHeader();
-  const userCred = useAuthUser()
   const navigate = useNavigate();
   const contractRef = useRef();
   const handleOpen = (value) => {
@@ -59,40 +58,21 @@ export default function MakeOrder() {
 
   useEffect(() => {
     async function fetchData() {
-      const data = jwt(token());
-      const credentials = userCred().data
       const response = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-offer-by-uuid/${offerId}`,
+        `http://localhost:8080/upc/unsecured/v1/get-offer-by-uuid`,
         {
-          auth : {
-            username: credentials.email,
-            password: credentials.password
+          params: {
+            uuid: offerId,
           },
-          headers:{
-            "Content-Type": "application/json"
-          },
-          data:{}
         }
       );
-      console.log(response.data);
       setOffer(response.data);
     }
     async function fetchEnums() {
-      const data = jwt(token());
-      const credentials = userCred().data
+      // axios.defaults.headers.common["Authorization"] = token();
       const response = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/user-role/get-contract-lengths`,{
-          auth : {
-            username: credentials.email,
-            password: credentials.password
-          },
-          headers:{
-            "Content-Type": "application/json"
-          },
-          data:{}
-        }
+        `http://localhost:8080/upc/unsecured/v1/get-contract-lengths`
       );
-      console.log(response.data);
       setEnums(response.data);
     }
     const items = JSON.parse(localStorage.getItem("selectedProducts"));
@@ -111,7 +91,6 @@ export default function MakeOrder() {
       await axios
         .get("http://localhost:8080/upc/unsecured/v1/get-all-products")
         .then((data) => {
-          console.log(data.data.content);
           const tab = data.data.content.filter(
             (product) => product.uuid !== offer?.productDto.uuid
           );
@@ -238,15 +217,15 @@ export default function MakeOrder() {
           {enums?.map((value)=> chosen == value? <option value={value} selected>{value === "TWENTY_FOUR" ? "24 miesiące" : "12 miesiący"}</option> : <option value={value}>{value === "TWENTY_FOUR" ? "24 miesiące" : "12 miesiący"}</option>)}
           
         </select>
-        <Accordion open={withBonus}>
+        <Accordion open={withBonus} className="z-30">
           <AccordionHeader
             onClick={toggleOpen}
             className="w-3/4 self-center text-amber-500 hover:text-amber-600 "
           >
             Wybierz produkt(y) dodatkowy/e
           </AccordionHeader>
-          <AccordionBody>
-            <Card color="blue-gray" className="w-11/12 mx-auto">
+          <AccordionBody >
+            <Card color="blue-gray" className=" z-30 w-11/12 mx-auto">
               <CardBody>
                 <List>
                   {getPaginatedProducts().map((product, index) => {

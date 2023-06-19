@@ -23,7 +23,6 @@ export default function Profile(){
                   data:{}
                 }
               );
-        console.log(protectedEndpointResponse.data)
         setUserData(protectedEndpointResponse.data);
         }
         getUserData();

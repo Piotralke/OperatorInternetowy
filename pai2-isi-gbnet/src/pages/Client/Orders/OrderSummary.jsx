@@ -1,6 +1,6 @@
 import { useParams, useNavigate, Navigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import {useAuthHeader,useAuthUser} from 'react-auth-kit'
+import { useAuthHeader, useAuthUser } from "react-auth-kit";
 import axios from "axios";
 import jwt from "jwt-decode";
 import {
@@ -32,31 +32,21 @@ export default function OrderSummary() {
   const [selectedPages, setSelectedPages] = useState();
   const [activeSelected, setActiveSelected] = React.useState(1);
   const [checked, setChecked] = useState(false);
+  const token = useAuthHeader();
   const itemsPerPage = 5;
   const navigate = useNavigate();
-  const token = useAuthHeader();
-  const userCred = useAuthUser()
   useEffect(() => {
     async function getUserData() {
-      const data = jwt(token());
-      const credentials = userCred().data
+      const data = jwt(token())
+      axios.defaults.headers.common['Authorization'] = token();
       const protectedEndpointResponse = await axios.get(
         "http://localhost:8080/upc/v1/user-role/user",
         {
           params: {
             email: data.sub,
           },
-          auth : {
-            username: credentials.email,
-            password: credentials.password
-          },
-          headers:{
-            "Content-Type": "application/json"
-          },
-          data:{}
         }
       );
-      console.log(protectedEndpointResponse.data);
       setUserData(protectedEndpointResponse.data);
     }
     getUserData();
@@ -100,7 +90,6 @@ export default function OrderSummary() {
   };
 
   async function handleSubmit() {
-    console.log(products);
     let prodUuids;
     if (products?.length > 0) prodUuids = products.map((p) => p.uuid);
     else prodUuids = null;
@@ -111,20 +100,10 @@ export default function OrderSummary() {
       offerUuid: offer.uuid,
       contractLength: contractLength,
     };
-    const credentials = userCred().data
-    console.log(data);
+    axios.defaults.headers.common['Authorization'] = token();
     const response = await axios.post(
       `http://localhost:8080/upc/v1/user-role/save-order`,
-      data,{
-        auth : {
-          username: credentials.email,
-          password: credentials.password
-        },
-        headers:{
-          "Content-Type": "application/json"
-        },
-        data:{}
-      }
+      data
     );
 
     const paymentData = {
@@ -134,20 +113,11 @@ export default function OrderSummary() {
       successUrl: `http://localhost:5173/order/${response.data}/success/`,
       cancelUrl: `http://localhost:5173/order/${response.data}/cancel/`,
     };
-    console.log(paymentData);
+    axios.defaults.headers.common['Authorization'] = token();
     const link = await axios.post(
       `http://localhost:8080/upc/v1/user-role/payment/create`,
-      paymentData,
-      {
-        auth : {
-          username: credentials.email,
-          password: credentials.password
-        },
-        headers:{
-          "Content-Type": "application/json"
-        },
-        data:{}
-      }
+      paymentData
+      
     );
     window.location.href = link.data;
   }
@@ -317,20 +287,27 @@ export default function OrderSummary() {
             color="amber"
             className="text-white"
             checked={checked}
-            onChange={()=>{setChecked(!checked)}}
+            onChange={() => {
+              setChecked(!checked);
+            }}
             label={
               <>
                 <Typography color="white" className="font-medium flex">
                   Wyrażam zgodę na przetwarzanie moich danych osobowych.
                 </Typography>
                 <Typography color="amber" className="font-medium flex">
-                  Jestem świadom/a, że po kliknięciu przycisku "ZAPŁAĆ"
-                  zostaje zawarta umowa.
+                  Jestem świadom/a, że po kliknięciu przycisku "ZAPŁAĆ" zostaje
+                  zawarta umowa.
                 </Typography>
               </>
             }
           ></Checkbox>
-          <Button onClick={handleSubmit} disabled={!checked} color="amber" className="mt-4 ml-auto">
+          <Button
+            onClick={handleSubmit}
+            disabled={!checked}
+            color="amber"
+            className="mt-4 ml-auto"
+          >
             Zapłać
           </Button>
         </div>

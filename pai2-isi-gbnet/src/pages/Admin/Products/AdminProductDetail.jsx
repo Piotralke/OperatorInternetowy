@@ -12,12 +12,16 @@ export default function AdminProductDetail() {
   const { productId } = useParams();
   const [isDisabled, setIsDisabled] = useState(true);
   const token = useAuthHeader();
-  const userCred = useAuthUser()
   useEffect(() => {
     async function fetchProduct() {
       
       const protectedEndpointResponse = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-product/${productId}`
+        `http://localhost:8080/upc/unsecured/v1/get-product`,
+        {
+          params: {
+            uuid: productId,
+          },
+        }
       );
       setProductData(protectedEndpointResponse.data);
       setProductOriginalData(protectedEndpointResponse.data);
@@ -35,8 +39,33 @@ export default function AdminProductDetail() {
     }
     fetchProduct()
   }, []);
+
+  async function handleSave(e) {
+    e.preventDefault();
+    axios.defaults.headers.common['Authorization'] = token();
+    const apiUrl = "http://localhost:8080/upc/v1/worker-role/edit-product";
+    const response = await axios.put(apiUrl, productData);
+    if (response.status === 200) {
+      const tab = JSON.parse(localStorage.getItem("notifications"));
+      let newTab;
+      const message = {
+        message: `Pomyślnie zmieniono dane produktu ${productOriginalData.name}`,
+        type: "SUCCESS",
+      };
+      if (tab) {
+        newTab = [...tab, message];
+      } else {
+        newTab = [message];
+      }
+
+      window.localStorage.setItem("notifications", JSON.stringify(newTab));
+      window.dispatchEvent(new Event("storage"));
+      window.location.reload();
+    }
+  }
+  
   return (
-    <div className="flex flex-direction flex-col bg-gray-100 w-full h-full">
+    <form onSubmit={handleSave} className="flex flex-direction flex-col bg-gray-100 w-full h-full">
       <div className="flex flex-col w-full items-center bg-gray-400 p-2">
         <span className="text-xl text-gray-800 font-semibold">
           {productOriginalData?.name}
@@ -130,7 +159,7 @@ export default function AdminProductDetail() {
                 </button>
                 <button
                   className=" bg-green-400 drop-shadow-md rounded-md text-white font-bold text-md p-2 hover:bg-green-500"
-                  onClick={() => {}}
+                  type="submit"
                 >
                   Zapisz
                 </button>
@@ -139,6 +168,6 @@ export default function AdminProductDetail() {
           </div>
         </div>
       </div>
-    </div>
+    </form>
   );
 }

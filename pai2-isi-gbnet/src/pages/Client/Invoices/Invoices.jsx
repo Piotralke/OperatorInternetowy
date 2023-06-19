@@ -53,7 +53,6 @@ export default function Invoices() {
           data:{}
         }
       );
-      console.log(protectedEndpointResponse.data);
       setUserData(protectedEndpointResponse.data);
       
       const response = await axios.get(
@@ -68,7 +67,6 @@ export default function Invoices() {
           data:{}
         }
       );
-      console.log(response);
       const invoices = response.data.content.map((u) => ({
         uuid: u.uuid,
         name: u.name,
@@ -76,7 +74,6 @@ export default function Invoices() {
         amount: u.amount.toFixed(2),
         paymentStatus: u.paymentStatus,
       }));
-      console.log(invoices);
       setInvoices(invoices);
       setLoading(false);
     }

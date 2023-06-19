@@ -10,23 +10,11 @@ export default function AdminReportDetail() {
   const [problemStatus, setProblemStatus] = useState();
   const { reportId } = useParams();
   const token = useAuthHeader();
-  const userCred = useAuthUser()
   useEffect(() => {
     async function fetchReport() {
-      const credentials = userCred().data
       const protectedEndpointResponse = await axios.get(
-        `http://localhost:8080/upc/v1/user-role/get-user-problem/${reportId}`,{
-          auth : {
-            username: credentials.email,
-            password: credentials.password
-          },
-          headers:{
-            "Content-Type": "application/json"
-          },
-          data:{}
-        }
+        `http://localhost:8080/upc/v1/user-role/get-user-problem/${reportId}`
       );
-      console.log(protectedEndpointResponse.data)
       setReportData(protectedEndpointResponse.data);
       switch (protectedEndpointResponse.data.userProblemStatus) {
         case "NOT_STARTED":
@@ -49,17 +37,7 @@ export default function AdminReportDetail() {
         uuid :  reportId,
         status : problemStatus + 1
       }
-      const credentials = userCred().data
-    const response = await axios.put(`http://localhost:8080/upc/v1/worker-role/set-user-problem-status`,data,{
-      auth : {
-        username: credentials.email,
-        password: credentials.password
-      },
-      headers:{
-        "Content-Type": "application/json"
-      },
-      data:{}
-    });
+    const response = await axios.put(`http://localhost:8080/upc/v1/worker-role/set-user-problem-status`,data);
     if(response.status === 200)
      {
         const tab = JSON.parse(localStorage.getItem("notifications"));

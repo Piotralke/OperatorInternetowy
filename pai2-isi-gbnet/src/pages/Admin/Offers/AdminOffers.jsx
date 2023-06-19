@@ -10,12 +10,10 @@ const TABLE_HEAD = [{name: "Nazwa",key: "name"},{name:"Typ oferty",key:"productT
 export default function AdminOffers(){
     const [offers,setOffers] = useState([])
     const [loading,setLoading] = useState(true)
-    const userCred = useAuthUser()
     useEffect(()=>{    
         async function fetchData(){
             
             await axios.get("http://localhost:8080/upc/unsecured/v1/get-all-offers").then(res=>{
-                console.log(res.data.content)
                 const tab = res.data.content.map(u=>({
                     uuid: u.uuid,
                     name: u.name,
@@ -34,7 +32,6 @@ export default function AdminOffers(){
             <div className="flex flex-col w-full h-full items-center justify-center">
                 <Spinner color="amber"  className="h-1/2 w-1/2"></Spinner>
             </div>
-            
         )
     }
     return (
@@ -42,6 +39,5 @@ export default function AdminOffers(){
             <Table headers={TABLE_HEAD} rows={offers}></Table>
             <Outlet></Outlet>
         </div>
-        
       );
 }

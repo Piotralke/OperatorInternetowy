@@ -23,7 +23,6 @@ export default function AdminOfferAdd() {
   const userCred = useAuthUser()
   useEffect(() => {
     async function fetchProduct() {
-      const credentials = userCred().data
       const ResponseProductTypes = await axios.get(
         `http://localhost:8080/upc/unsecured/v1/get-product-types`
       );
@@ -33,11 +32,9 @@ export default function AdminOfferAdd() {
   }, []);
   useEffect(() => {
     async function fetchProduct() {
-      const credentials = userCred().data
       const ResponseProduct = await axios.get(
         `http://localhost:8080/upc/unsecured/v1/get-all-products`
       );
-      console.log(ResponseProduct.data.content);
       setProductData(ResponseProduct.data.content);
     }
     fetchProduct();
@@ -45,7 +42,6 @@ export default function AdminOfferAdd() {
 
   useEffect(() => {
     async function fetchProduct() {
-      const credentials = userCred().data
       const ResponseProductTypes = await axios.get(
         `http://localhost:8080/upc/unsecured/v1/get-offer-types`
       );
@@ -106,20 +102,9 @@ export default function AdminOfferAdd() {
        
       }
     }
-    console.log(data)
-    const credentials = userCred().data
+    axios.defaults.headers.common['Authorization'] = token();
      const apiUrl = "http://localhost:8080/upc/v1/worker-role/save-offer";
-     const response = await axios.post(apiUrl, data , {
-      auth : {
-        username: credentials.email,
-        password: credentials.password
-      },
-      headers:{
-        "Content-Type": "application/json"
-      },
-      data:{}
-    });
-     console.log(response);
+     const response = await axios.post(apiUrl, data);
      if(response.status === 200)
      {
         const tab = JSON.parse(localStorage.getItem("notifications"));

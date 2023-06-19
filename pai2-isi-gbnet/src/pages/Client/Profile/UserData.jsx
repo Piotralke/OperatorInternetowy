@@ -14,7 +14,7 @@ export default function UserData(props) {
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const token = useAuthHeader();
 
-  async function handlePasswordChange() {
+  async function handlePasswordChange(e) {
     e.preventDefault();
     const newData = {
       uuid: props.userData.uuid,
@@ -51,12 +51,10 @@ export default function UserData(props) {
       window.localStorage.setItem("notifications", JSON.stringify(newTab));
       window.dispatchEvent(new Event("storage"));
       window.location.reload();
-
-      console.log(response);
     }
   }
 
-  async function handleSave() {
+  async function handleSave(e) {
     e.preventDefault();
     const newData = {
       uuid: props.userData.uuid,
@@ -69,19 +67,9 @@ export default function UserData(props) {
       nip: props.userData.nip,
       isBusinessClient: props.userData.isBusinessClient,
     };
-    const data = jwt(token());
-    const config = {
-      params: {
-        email: data.sub,
-      },
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: {},
-    };
-    axios.defaults.headers.common["Authorization"] = token();
+    
     const apiUrl = "http://localhost:8080/upc/v1/user-role/edit-client";
-    const response = await axios.put(apiUrl, newData, config);
+    const response = await axios.put(apiUrl, newData);
     if (response.status === 200) {
       const tab = JSON.parse(localStorage.getItem("notifications"));
       let newTab;
@@ -99,7 +87,6 @@ export default function UserData(props) {
       window.dispatchEvent(new Event("storage"));
       window.location.reload();
     }
-    console.log(response);
   }
 
   return (
@@ -122,7 +109,7 @@ export default function UserData(props) {
           <div className="flex flex-col p-3 bg-yellow-800 rounded-md text-xl text-center w-full mb-5">
             Dane klienta
           </div>
-          <form onSubmit={handleSave}>
+          <form onSubmit={handleSave}> 
             <div className="flex flex-col xl:flex-row mb-4 justify-between">
               <a className="text-lg text-white">Telefon komórkowy</a>
               <input

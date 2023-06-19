@@ -7,7 +7,7 @@ import { LuEdit } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import jwt from "jwt-decode";
-import { useAuthHeader} from "react-auth-kit";
+import { useAuthHeader } from "react-auth-kit";
 export default function Table(props) {
   const headers = props.headers;
   const rows = props.rows;
@@ -17,7 +17,7 @@ export default function Table(props) {
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const navigate = useNavigate();
-  const token = useAuthHeader()
+  const token = useAuthHeader();
   // Funkcja do zmiany aktualnej strony
   const changePage = (page) => {
     setCurrentPage(page);
@@ -49,7 +49,6 @@ export default function Table(props) {
               value.toString().toLowerCase().includes(searchTerm.toLowerCase())
           )
         ).length;
-
         if (count > 0) {
           setTotalPages(Math.ceil(count / rowsPerPage));
         } else {
@@ -121,7 +120,6 @@ export default function Table(props) {
           value={sortField}
           onChange={(e) => {
             setSortField(e.target.value);
-            console.log(e.target.value);
           }}
           className="p-2 border border-gray-300 rounded"
         >
@@ -138,7 +136,6 @@ export default function Table(props) {
           value={sortOrder}
           onChange={(e) => {
             setSortOrder(e.target.value);
-            console.log(e.target.value);
           }}
           className="p-2 border border-gray-300 rounded ml-4"
         >
@@ -211,14 +208,15 @@ export default function Table(props) {
                         <button
                           className="flex flex-col w-full items-center"
                           onClick={async () => {
-                            axios.defaults.headers.common['Authorization'] = token();
+                            axios.defaults.headers.common["Authorization"] =
+                              token();
                             const response = await axios.get(
                               "http://localhost:8080/upc/v1/user-role/get-invoice",
                               {
-                                headers:{
-                                  "Content-Type": "application/json"
+                                headers: {
+                                  "Content-Type": "application/json",
                                 },
-                                data:{},
+                                data: {},
                                 params: {
                                   clientUuid: props.userUuid,
                                   paymentUuid: row["uuid"],
@@ -226,7 +224,6 @@ export default function Table(props) {
                                 responseType: "blob",
                               }
                             );
-                            console.log(response);
                             // Tworzenie URL obiektu blob
                             const url = window.URL.createObjectURL(
                               new Blob([response.data])
@@ -243,7 +240,6 @@ export default function Table(props) {
 
                             // Usunięcie elementu <a> z dokumentu
                             document.body.removeChild(link);
-    
                           }}
                         >
                           <BsFiletypePdf className="w-8 h-8 text-red-500" />
