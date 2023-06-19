@@ -46,6 +46,11 @@ public class PaymentController {
         return payPalService.createPayment(inputDto);
     }
 
+    @PostMapping(UpcRestPaths.CREATE_PAYMENT_FOR_EXISTING_PAYMENT)
+    public CreatedPaymentDto createPayPalPaymentForExistingPayment(@RequestBody PaymentInputDto inputDto) throws PayPalRESTException {
+        return payPalService.createPayPalPaymentForExistingPayment(inputDto);
+    }
+
     @GetMapping(UpcRestPaths.GET_INVOICES_BY_CLIENT_UUID)
     public InvoiceDtoWrapper getInvoicesByUser(@PathVariable UUID uuid) {
         return paymentService.findAllByUser(uuid);

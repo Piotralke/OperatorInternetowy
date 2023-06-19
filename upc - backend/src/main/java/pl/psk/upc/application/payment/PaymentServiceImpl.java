@@ -82,6 +82,14 @@ class PaymentServiceImpl implements PaymentService {
         return getInvoices(ClientConverter.convertFrom(client));
     }
 
+    @Override
+    public PaymentDto findByUuid(UUID uuid) {
+        MethodArgumentValidator.requiredNotNull(uuid, "uuid");
+        PaymentEntity payment = paymentRepository.findByUuid(uuid)
+                .orElseThrow(() -> new GenericNotFoundException(NOT_FOUND_MESSAGE));
+        return PaymentConverter.convertFrom(payment);
+    }
+
     private InvoiceDtoWrapper getInvoices(ClientDto client) {
         List<InvoiceDto> result = new ArrayList<>();
         for (ServiceDto s : client.getServices()) {

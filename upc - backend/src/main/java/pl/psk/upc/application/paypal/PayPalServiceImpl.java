@@ -9,15 +9,20 @@ import pl.psk.upc.application.contract.ContractService;
 import pl.psk.upc.application.order.OrderService;
 import pl.psk.upc.application.payment.PaymentService;
 import pl.psk.upc.application.service.ServiceService;
+import pl.psk.upc.infrastructure.entity.OfferEntity;
+import pl.psk.upc.infrastructure.entity.ProductEntity;
 import pl.psk.upc.tech.MethodArgumentValidator;
 import pl.psk.upc.web.contract.ContractDto;
 import pl.psk.upc.web.order.OrderDto;
 import pl.psk.upc.web.payment.CreatedPaymentDto;
+import pl.psk.upc.web.payment.PaymentDto;
 import pl.psk.upc.web.payment.PaymentInputDto;
 import pl.psk.upc.web.product.ProductDto;
 import pl.psk.upc.web.service.ServiceDto;
 import pl.psk.upc.web.user.ClientDto;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -79,6 +84,26 @@ class PayPalServiceImpl implements PayPalService {
                 .paymentUuid(paymentUuid)
                 .link(getApprovalLink(approvedPayment))
                 .build();
+    }
+
+    public CreatedPaymentDto createPayPalPaymentForExistingPayment(PaymentInputDto inputDto) throws PayPalRESTException {
+        MethodArgumentValidator.requiredNotNull(inputDto, "inputDto");
+
+        PaymentDto paymentDto = paymentService.findByUuid(inputDto.getPaymentUuid());
+        Payment payment = preparePayment(roundAmount(paymentDto.getAmount()), inputDto);
+        Payment approvedPayment = payment.create(apiContext);
+
+        return CreatedPaymentDto.builder()
+                .paymentUuid(paymentDto.getUuid())
+                .link(getApprovalLink(approvedPayment))
+                .build();
+    }
+
+    private Double roundAmount(double amount) {
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.HALF_UP);
+        String resultAsString = df.format(amount).replace(",", ".");
+        return Double.parseDouble(resultAsString);
     }
 
     private RedirectUrls prepareRedirectUrls(PaymentInputDto inputDto) {

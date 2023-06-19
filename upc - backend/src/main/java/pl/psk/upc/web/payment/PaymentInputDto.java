@@ -10,11 +10,15 @@ import java.util.UUID;
 @Value
 public class PaymentInputDto {
 
+    private final static String PAYMENT_UUID = "paymentUuid";
     private final static String ORDER_UUID = "orderUuid";
     private final static String CLIENT_UUID = "clientUuid";
     private final static String SERVICE_UUID = "serviceUuid";
     private final static String SUCCESS_URL = "successUrl";
     private final static String CANCEL_URL = "cancelUrl";
+
+    @JsonProperty(PAYMENT_UUID)
+    UUID paymentUuid;
 
     @NotBlank
     @JsonProperty(CLIENT_UUID)
@@ -34,7 +38,8 @@ public class PaymentInputDto {
     @JsonProperty(CANCEL_URL)
     String cancelUrl;
 
-    public PaymentInputDto(@JsonProperty(SERVICE_UUID) UUID serviceUuid, @JsonProperty(CLIENT_UUID) UUID clientUuid, @JsonProperty(ORDER_UUID) UUID orderUuid, @JsonProperty(SUCCESS_URL) String successUrl, @JsonProperty(CANCEL_URL) String cancelUrl) {
+    public PaymentInputDto(@JsonProperty(PAYMENT_UUID) UUID paymentUuid, @JsonProperty(SERVICE_UUID) UUID serviceUuid, @JsonProperty(CLIENT_UUID) UUID clientUuid, @JsonProperty(ORDER_UUID) UUID orderUuid, @JsonProperty(SUCCESS_URL) String successUrl, @JsonProperty(CANCEL_URL) String cancelUrl) {
+        this.paymentUuid = paymentUuid;
         this.serviceUuid = serviceUuid;
         this.clientUuid = clientUuid;
         this.orderUuid = orderUuid;

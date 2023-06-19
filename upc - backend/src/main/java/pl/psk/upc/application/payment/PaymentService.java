@@ -14,5 +14,6 @@ public interface PaymentService {
     PaymentDto updateStatus(UUID paymentUuid, UUID clientUuid, PaymentStatus paymentStatus);
     PaymentDtoWrapper findAll();
     InvoiceDtoWrapper findAllByUser(UUID uuid);
+    PaymentDto findByUuid(UUID uuid);
     List<PaymentEntity> getAllNotPayedPayments();
 }

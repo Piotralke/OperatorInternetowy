@@ -8,5 +8,6 @@ import java.util.UUID;
 
 public interface PayPalService {
     CreatedPaymentDto createPayment(PaymentInputDto inputDto) throws PayPalRESTException;
+    CreatedPaymentDto createPayPalPaymentForExistingPayment( PaymentInputDto inputDto) throws PayPalRESTException;
     void executePayment(String paymentId, String payerId, UUID orderUuid, UUID paymentUuid, UUID clientUuid) throws PayPalRESTException;
 }
