@@ -34,7 +34,15 @@ export default function OrderSuccess() {
           data: {},
         }
       );
-    
+      const paymentUuid = localStorage.getItem("payment");
+      console.log(paymentUuid);
+      const uuu  = {
+        payerId: payerId,
+            clientUuid: protectedEndpointResponse.data.uuid,
+            orderUuid: orderId,
+            paymentUuid: paymentUuid
+      }
+      console.log(uuu)
       const apiUrl = `http://localhost:8080/upc/v1/user-role/payment/execute/${paymentId}`;
       axios.defaults.headers.common["Authorization"] = token();
       const response = await axios.post(
@@ -44,6 +52,8 @@ export default function OrderSuccess() {
           params: {
             payerId: payerId,
             clientUuid: protectedEndpointResponse.data.uuid,
+            orderUuid: orderId,
+            paymentUuid: paymentUuid
           },
         }
       );

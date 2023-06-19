@@ -114,12 +114,17 @@ export default function OrderSummary() {
       cancelUrl: `http://localhost:5173/order/${response.data}/cancel/`,
     };
     axios.defaults.headers.common['Authorization'] = token();
-    const link = await axios.post(
+    const content = await axios.post(
       `http://localhost:8080/upc/v1/user-role/payment/create`,
       paymentData
       
     );
-    window.location.href = link.data;
+     localStorage.setItem(
+      "payment",
+      content.data.paymentUuid
+    );
+    console.log(content);
+    window.location.href = content.data.link;
   }
 
   return (
