@@ -52,6 +52,7 @@ public class UpcRestPaths {
     public static final String EDIT_ORDER = UPC_SECURED_PREFIX + WORKER_PREFIX + "/edit-order";
     public static final String CREATE_PAYMENT = UPC_SECURED_PREFIX + USER_PREFIX + "/payment/create";
     public static final String PAYMENT_STATUSES = UPC_SECURED_PREFIX + USER_PREFIX + "/payment-statuses";
+    public static final String EDIT_PAYMENT_STATUS = UPC_SECURED_PREFIX + WORKER_PREFIX + "/edit-payment-status/{uuid}";
     public static final String EXECUTE_PAYMENT = UPC_SECURED_PREFIX + USER_PREFIX + "/payment/execute/{paymentId}";
     public static final String GET_CONTRACT_BY_UUID = UPC_SECURED_PREFIX + WORKER_PREFIX + "/get-contract/{uuid}";
     public static final String GET_CONTRACT_LENGTHS = UPC_UNSECURED_PREFIX + "/get-contract-lengths";

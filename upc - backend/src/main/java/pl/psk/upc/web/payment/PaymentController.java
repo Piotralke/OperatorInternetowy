@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.psk.upc.application.payment.InvoiceService;
 import pl.psk.upc.application.payment.PaymentService;
 import pl.psk.upc.application.paypal.PayPalService;
+import pl.psk.upc.infrastructure.enums.OrderStatus;
 import pl.psk.upc.infrastructure.enums.PaymentStatus;
 import pl.psk.upc.web.UpcRestPaths;
 
@@ -74,6 +75,13 @@ public class PaymentController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid payment: " + e.getMessage());
         }
+    }
+
+    @PutMapping(UpcRestPaths.EDIT_PAYMENT_STATUS)
+    public UUID editPaymentStatus(@PathVariable(value = "uuid") UUID uuid, @RequestParam PaymentStatus paymentStatus,
+                                  @RequestParam UUID clientUuid) {
+        return paymentService.updateStatus(uuid, clientUuid, paymentStatus)
+                .getUuid();
     }
 
 }
