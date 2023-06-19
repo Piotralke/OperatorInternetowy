@@ -8,21 +8,16 @@ import jwt from "jwt-decode";
 export default function AccountData() {
   const [userData, setUserData] = useState([]);
   const token = useAuthHeader();
-  const userCred = useAuthUser();
   useEffect(() => {
     async function getUserData() {
       const data = jwt(token());
-      const credentials = userCred().data
+      
       axios.defaults.headers.common["Authorization"] = token();
       const protectedEndpointResponse = await axios.get(
         "http://localhost:8080/upc/v1/user-role/user",
         {
           params: {
             email: data.sub,
-          },
-          auth : {
-            username: credentials.email,
-            password: credentials.password
           },
           headers:{
             "Content-Type": "application/json"

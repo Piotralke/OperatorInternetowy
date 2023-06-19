@@ -1,28 +1,18 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Textarea } from "@material-tailwind/react";
 import axios from "axios";
-import { useAuthHeader,useAuthUser } from "react-auth-kit";
+import { useAuthHeader, useAuthUser } from "react-auth-kit";
 export default function AdminProductAdd() {
   const [productTypesData, setProductTypesData] = useState();
   const [deviceDescription, setDeviceDescription] = useState("");
   const deviceNameRef = useRef();
   const devicePriceRef = useRef();
   const deviceTypeRef = useRef();
-  const userCred = useAuthUser()
+  const token = useAuthHeader();
   useEffect(() => {
     async function fetchProduct() {
-      const credentials = userCred().data
       const ResponseProductTypes = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-product-types`,{
-          auth : {
-            username: credentials.email,
-            password: credentials.password
-          },
-          headers:{
-            "Content-Type": "application/json"
-          },
-          data:{}
-        }
+        `http://localhost:8080/upc/unsecured/v1/get-product-types`
       );
       setProductTypesData(ResponseProductTypes.data);
     }
@@ -30,49 +20,31 @@ export default function AdminProductAdd() {
   }, []);
 
   async function handleSubmit(e) {
-    // const user = jwt(token());
-
-
-    const  data ={
+    const data = {
       name: deviceNameRef.current.value,
       price: parseFloat(devicePriceRef.current.value),
       description: deviceDescription,
-      productType: deviceTypeRef.current.value
+      productType: deviceTypeRef.current.value,
     };
-    
-    console.log(data)
-    const credentials = userCred().data
-     const apiUrl = "http://localhost:8080/upc/v1/worker-role/save-product";
-     const response = await axios.post(apiUrl, data,{
-      auth : {
-        username: credentials.email,
-        password: credentials.password
-      },
-      headers:{
-        "Content-Type": "application/json"
-      },
-      data:{}
-    });
-     console.log(response);
-     if(response.status === 200)
-     {
-        const tab = JSON.parse(localStorage.getItem("notifications"));
-        let newTab;
-        const message = {
-          message:`Pomyślnie dodano nowy produkt ${data.name}`,
-          type: "SUCCESS"
-        }
-        if(tab)
-        {
-          newTab = [...tab,message];
-        }else{
-          newTab = [message];
-        }
-        
-        window.localStorage.setItem("notifications",JSON.stringify(newTab));
-        window.dispatchEvent(new Event("storage"))
-        window.location.reload();
-     }
+    const apiUrl = "http://localhost:8080/upc/v1/worker-role/save-product";
+    const response = await axios.post(apiUrl, data);
+    if (response.status === 200) {
+      const tab = JSON.parse(localStorage.getItem("notifications"));
+      let newTab;
+      const message = {
+        message: `Pomyślnie dodano nowy produkt ${data.name}`,
+        type: "SUCCESS",
+      };
+      if (tab) {
+        newTab = [...tab, message];
+      } else {
+        newTab = [message];
+      }
+
+      window.localStorage.setItem("notifications", JSON.stringify(newTab));
+      window.dispatchEvent(new Event("storage"));
+      window.location.reload();
+    }
   }
 
   return (
@@ -82,7 +54,10 @@ export default function AdminProductAdd() {
           Dodaj produkt
         </span>
       </div>
-      <form onSubmit={handleSubmit} className="flex flex-col p-8 bg-gray-200 h-full justify-between">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col p-8 bg-gray-200 h-full justify-between"
+      >
         <div className="grid gap-10 px-48 ">
           <div className="flex flex-col">
             <label className="text-md font-bold text-gray-700 ">Nazwa</label>
@@ -122,7 +97,9 @@ export default function AdminProductAdd() {
             <label className="text-md font-bold text-gray-700 ">Opis</label>
             <Textarea
               value={deviceDescription}
-              onChange={(e)=>{setDeviceDescription(e.target.value)}}
+              onChange={(e) => {
+                setDeviceDescription(e.target.value);
+              }}
               rows={10}
               color="orange"
               className="mt-"

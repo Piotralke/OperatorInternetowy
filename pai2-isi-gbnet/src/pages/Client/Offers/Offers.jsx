@@ -13,7 +13,6 @@ export default function Offers() {
       await axios
         .get("http://localhost:8080/upc/unsecured/v1/get-all-offers")
         .then((data) => {
-          console.log(data.data.content);
           setOffers(data.data.content);
         })
         .catch((err) => console.log(err));

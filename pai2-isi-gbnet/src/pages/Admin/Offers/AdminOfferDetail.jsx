@@ -19,16 +19,7 @@ export default function AdminOfferDetail() {
       const credentials = userCred().data
       // axios.defaults.headers.common['Authorization'] = token();
       const protectedEndpointResponse = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-offer-by-uuid/${offerId}`,{
-          auth : {
-            username: credentials.email,
-            password: credentials.password
-          },
-          headers:{
-            "Content-Type": "application/json"
-          },
-          data:{}
-        }
+        `http://localhost:8080/upc/unsecured/v1/get-offer-by-uuid/${offerId}`
       );
       console.log(protectedEndpointResponse.data)
       setOfferData(protectedEndpointResponse.data);

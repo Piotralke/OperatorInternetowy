@@ -19,23 +19,10 @@ export default function OfferDetail() {
   useEffect(() => {
     async function fetchData() {
       const data = jwt(token());
+      axios.defaults.headers.common['Authorization'] = token();
       const response = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-offer-by-uuid/${offerId}`,
-        {
-          params: {
-            email: data.sub,
-          },
-          auth : {
-            username: credentials.email,
-            password: credentials.password
-          },
-          headers:{
-            "Content-Type": "application/json"
-          },
-          data:{}
-        }
+        `http://localhost:8080/upc/unsecured/v1/get-offer-by-uuid/${offerId}`
       );
-      console.log(response.data);
       setOffer(response.data);
       switch (response.data.offerType) {
         case "INTERNET":

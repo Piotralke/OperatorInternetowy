@@ -9,23 +9,12 @@ export default function AdminWorkerDetail() {
   const { employeeId } = useParams();
   const [isDisabled, setIsDisabled] = useState(true);
   const token = useAuthHeader();
-  const userCred = useAuthUser()
   useEffect(() => {
     async function fetchUser() {
-      const credentials = userCred().data
+      axios.defaults.headers.common['Authorization'] = token();
       const protectedEndpointResponse = await axios.get(
-        `http://localhost:8080/upc/v1/worker-role/employee/${employeeId}`,{
-          auth : {
-            username: credentials.email,
-            password: credentials.password
-          },
-          headers:{
-            "Content-Type": "application/json"
-          },
-          data:{}
-        }
+        `http://localhost:8080/upc/v1/worker-role/employee/${employeeId}`
       );
-      console.log(protectedEndpointResponse.data)
       setUserOriginalData(protectedEndpointResponse.data);
       setUserData(protectedEndpointResponse.data);
     }
@@ -45,19 +34,9 @@ export default function AdminWorkerDetail() {
   async function handleSave (e)
   {
     e.preventDefault();
-    console.log(userData);
-    const credentials = userCred().data
+    axios.defaults.headers.common["Authorization"] = token();
     const apiUrl = "http://localhost:8080/upc/v1/admin-role/edit-employee";
-     const response = await axios.put(apiUrl, userData,{
-      auth : {
-        username: credentials.email,
-        password: credentials.password
-      },
-      headers:{
-        "Content-Type": "application/json"
-      },
-      data:{}
-    });
+     const response = await axios.put(apiUrl, userData);
      if(response.status === 200)
      {
         const tab = JSON.parse(localStorage.getItem("notifications"));
@@ -77,7 +56,6 @@ export default function AdminWorkerDetail() {
         window.dispatchEvent(new Event("storage"))
         window.location.reload();
      }
-    console.log(response);
   }
 
   return (

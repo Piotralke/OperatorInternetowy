@@ -43,6 +43,7 @@ export default function Reports() {
     }
     else {
       const user = jwt(token());
+      axios.defaults.headers.common['Authorization'] = token();
       const data = {
         email: user.sub,
         description: description
@@ -50,10 +51,6 @@ export default function Reports() {
       const config = {
         params: {
           email: data.sub,
-        },
-        auth : {
-          username: credentials.email,
-          password: credentials.password
         },
         headers:{
           "Content-Type": "application/json"
@@ -91,10 +88,6 @@ export default function Reports() {
     axios.get("http://localhost:8080/upc/v1/user-role/get-user-problems", {
       params: {
         email: data.sub,
-      },
-      auth : {
-        username: credentials.email,
-        password: credentials.password
       },
       headers:{
         "Content-Type": "application/json"

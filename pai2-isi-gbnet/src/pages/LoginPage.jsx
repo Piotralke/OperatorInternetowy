@@ -42,10 +42,8 @@ export default function LoginPage() {
       pesel: peselRef.current.value,
       isBusinessClient: isBusiness,
     };
-    console.log(data);
     const apiUrl = "http://localhost:8080/upc/unsecured/v1/client-register";
     const response = await axios.post(apiUrl, data);
-    console.log(response);
     if (response.status === 200) {
       
       const tab = JSON.parse(localStorage.getItem("notifications"));
@@ -72,29 +70,22 @@ export default function LoginPage() {
         email: loginRef.current.value,
         password: passwordRef.current.value,
       };
-
       const apiUrl = "http://localhost:8080/upc/unsecured/v1/login";
-      console.log(data);
       const response = await axios.post(apiUrl, data);
-      console.log(response);
-
       signIn({
         token: response.data,
         expiresIn: 3600,
         tokenType: "Bearer",
         authState: {data},
       });
-      // Otrzymujemy odpowiedź z serwera
-      console.log(response.data); // Token JWT
-      //localStorage.setItem('token',response.data);
 
       axios.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${response.data}`;
 
-      // Wykonaj żądanie do chronionego endpointu
       const userData = jwt(response.data);
-      if (userData.roles.includes("USER")) {
+
+      if (userData?.role.includes("USER")) {
         navigate("/home");
       } else navigate("/admin");
     } catch (error) {
