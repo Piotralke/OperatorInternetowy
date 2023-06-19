@@ -5,8 +5,9 @@ import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai";
 import { BsPaypal, BsFiletypePdf } from "react-icons/bs";
 import { LuEdit } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
-import { useAuthUser } from "react-auth-kit";
 import axios from "axios";
+import jwt from "jwt-decode";
+import { useAuthHeader} from "react-auth-kit";
 export default function Table(props) {
   const headers = props.headers;
   const rows = props.rows;
@@ -16,11 +17,11 @@ export default function Table(props) {
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const navigate = useNavigate();
+  const token = useAuthHeader()
   // Funkcja do zmiany aktualnej strony
   const changePage = (page) => {
     setCurrentPage(page);
   };
-  const userCred = useAuthUser();
   // Oblicz liczbę stron na podstawie liczby wierszy i wierszy na stronę
   const [totalPages, setTotalPages] = useState(
     Math.ceil(rows?.length / rowsPerPage)
@@ -210,14 +211,10 @@ export default function Table(props) {
                         <button
                           className="flex flex-col w-full items-center"
                           onClick={async () => {
-                            const credentials = userCred().data
+                            axios.defaults.headers.common['Authorization'] = token();
                             const response = await axios.get(
                               "http://localhost:8080/upc/v1/user-role/get-invoice",
                               {
-                                auth : {
-                                  username: credentials.email,
-                                  password: credentials.password
-                                },
                                 headers:{
                                   "Content-Type": "application/json"
                                 },

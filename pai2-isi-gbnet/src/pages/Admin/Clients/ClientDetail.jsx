@@ -2,17 +2,15 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import jwt from "jwt-decode";
 import { useState, useEffect } from "react";
-import { useAuthHeader,useAuthUser } from "react-auth-kit";
+import { useAuthHeader } from "react-auth-kit";
 export default function ClientDetail() {
   const [userOriginalData, setUserOriginalData] = useState({});
   const [userData, setUserData] = useState({});
   const { clientId } = useParams();
   const [isDisabled, setIsDisabled] = useState(true);
   const token = useAuthHeader();
-  const userCred = useAuthUser()
   useEffect(() => {
     async function fetchUser() {
-      const credentials = userCred().data
       const data = jwt(token());
       const protectedEndpointResponse = await axios.get(
         `http://localhost:8080/upc/v1/user-role/user/${clientId}`,
@@ -20,64 +18,40 @@ export default function ClientDetail() {
           params: {
             email: data.sub,
           },
-          auth : {
-            username: credentials.email,
-            password: credentials.password
-          },
-          headers:{
-            "Content-Type": "application/json"
-          },
-          data:{}
         }
       );
-      console.log(protectedEndpointResponse.data)
       setUserOriginalData(protectedEndpointResponse.data);
       setUserData(protectedEndpointResponse.data);
     }
     fetchUser();
-    setIsDisabled(true)
+    setIsDisabled(true);
   }, [clientId]);
 
-  async function handleSave (e)
-  {
-    e.preventDefault()
-    const credentials = userCred().data
+  async function handleSave(e) {
+    e.preventDefault();
+
     const apiUrl = "http://localhost:8080/upc/v1/user-role/edit-client";
-     const response = await axios.put(apiUrl, userData,{
-      auth : {
-        username: credentials.email,
-        password: credentials.password
-      },
-      headers:{
-        "Content-Type": "application/json"
-      },
-      data:{}
-    });
-    console.log(response)
-     if(response.status === 200)
-     {
-        const tab = JSON.parse(localStorage.getItem("notifications"));
-        let newTab;
-        const message = {
-          message:`Pomyślnie zmieniono dane klienta`,
-          type: "SUCCESS"
-        }
-        if(tab)
-        {
-          newTab = [...tab,message];
-        }else{
-          newTab = [message];
-        }
-        
-        window.localStorage.setItem("notifications",JSON.stringify(newTab));
-        window.dispatchEvent(new Event("storage"))
-        window.location.reload();
-     }
-    console.log(response);
+    const response = await axios.put(apiUrl, userData);
+    if (response.status === 200) {
+      const tab = JSON.parse(localStorage.getItem("notifications"));
+      let newTab;
+      const message = {
+        message: `Pomyślnie zmieniono dane klienta`,
+        type: "SUCCESS",
+      };
+      if (tab) {
+        newTab = [...tab, message];
+      } else {
+        newTab = [message];
+      }
+
+      window.localStorage.setItem("notifications", JSON.stringify(newTab));
+      window.dispatchEvent(new Event("storage"));
+      window.location.reload();
+    }
   }
 
   const handleSelectChange = (event) => {
-
     const value = event.target.value;
     setUserData((prevState) => ({
       ...prevState,
@@ -86,7 +60,10 @@ export default function ClientDetail() {
   };
 
   return (
-    <form onSubmit={handleSave} className="flex flex-direction flex-col bg-gray-100 w-full h-full">
+    <form
+      onSubmit={handleSave}
+      className="flex flex-direction flex-col bg-gray-100 w-full h-full"
+    >
       <div className="flex flex-col w-full items-center bg-gray-400">
         <span className="text-xl text-gray-800 font-semibold">
           {userData.firstName} {userData.lastName}
@@ -109,9 +86,8 @@ export default function ClientDetail() {
                   }));
                 }}
                 className="px-4 py-1 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
-               required
+                required
               />
-
             </div>
             <div className="flex flex-row  justify-between items-center">
               <a className="text-lg text-gray-700">Nazwisko</a>
@@ -210,8 +186,18 @@ export default function ClientDetail() {
                 onChange={handleSelectChange}
                 className="px-4 py-1 border drop-shadow-lg border-gray-500 bg-gray-700 w-1/2 rounded-lg text-white text-lg disabled:bg-gray-500"
               >
-                <option value={true} selected={ userData?.isBusinessClient? true:false }>TAK</option>
-                <option value ={false} selected={ userData?.isBusinessClient? false:true }>NIE</option>
+                <option
+                  value={true}
+                  selected={userData?.isBusinessClient ? true : false}
+                >
+                  TAK
+                </option>
+                <option
+                  value={false}
+                  selected={userData?.isBusinessClient ? false : true}
+                >
+                  NIE
+                </option>
               </select>
             </div>
           </div>

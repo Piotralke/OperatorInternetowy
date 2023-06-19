@@ -25,16 +25,7 @@ export default function AdminOfferAdd() {
     async function fetchProduct() {
       const credentials = userCred().data
       const ResponseProductTypes = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-product-types`,{
-          auth : {
-            username: credentials.email,
-            password: credentials.password
-          },
-          headers:{
-            "Content-Type": "application/json"
-          },
-          data:{}
-        }
+        `http://localhost:8080/upc/unsecured/v1/get-product-types`
       );
       setProductTypesData(ResponseProductTypes.data);
     }
@@ -44,16 +35,7 @@ export default function AdminOfferAdd() {
     async function fetchProduct() {
       const credentials = userCred().data
       const ResponseProduct = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-all-products`,{
-          auth : {
-            username: credentials.email,
-            password: credentials.password
-          },
-          headers:{
-            "Content-Type": "application/json"
-          },
-          data:{}
-        }
+        `http://localhost:8080/upc/unsecured/v1/get-all-products`
       );
       console.log(ResponseProduct.data.content);
       setProductData(ResponseProduct.data.content);
@@ -65,16 +47,7 @@ export default function AdminOfferAdd() {
     async function fetchProduct() {
       const credentials = userCred().data
       const ResponseProductTypes = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-offer-types`,{
-          auth : {
-            username: credentials.email,
-            password: credentials.password
-          },
-          headers:{
-            "Content-Type": "application/json"
-          },
-          data:{}
-        }
+        `http://localhost:8080/upc/unsecured/v1/get-offer-types`
       );
       setOfferTypesData(ResponseProductTypes.data);
     }
@@ -135,7 +108,7 @@ export default function AdminOfferAdd() {
     }
     console.log(data)
     const credentials = userCred().data
-     const apiUrl = "http://localhost:8080/upc/v1/workek-role/save-offer";
+     const apiUrl = "http://localhost:8080/upc/v1/worker-role/save-offer";
      const response = await axios.post(apiUrl, data , {
       auth : {
         username: credentials.email,

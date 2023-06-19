@@ -12,7 +12,7 @@ const RequireRole = ({ allowedRoles, children }) => {
     const userData = jwt(token())
     
 
-  if (!allowedRoles.includes(userData.roles[0])) {
+  if (!allowedRoles.includes(userData.role)) {
     // Jeśli użytkownik nie jest zalogowany lub nie ma wymaganego uprawnienia, przekieruj go na inną stronę
     singOut();
     return <Navigate to="/login" />;

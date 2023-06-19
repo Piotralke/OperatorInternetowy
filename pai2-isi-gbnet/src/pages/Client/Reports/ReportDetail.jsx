@@ -13,14 +13,9 @@ export default function ReportDetail() {
   const userCred = useAuthUser()
   useEffect(() => {
     async function fetchReport() {
-      const data = jwt(token());
-      const credentials = userCred().data;
+      axios.defaults.headers.common['Authorization'] = token();
       const protectedEndpointResponse = await axios.get(
         `http://localhost:8080/upc/v1/user-role/get-user-problem/${reportId}`,{
-          auth : {
-            username: credentials.email,
-            password: credentials.password
-          },
           headers:{
             "Content-Type": "application/json"
           },

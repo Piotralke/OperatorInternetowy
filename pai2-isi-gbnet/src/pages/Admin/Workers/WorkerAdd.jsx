@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
-import { useAuthHeader,useAuthUser } from "react-auth-kit";
+import { useAuthHeader, useAuthUser } from "react-auth-kit";
 export default function WorkerAdd() {
   const [selectedOption, setSelectedOption] = useState("B2B");
   const [NIP, setNIP] = useState(true);
@@ -19,13 +19,12 @@ export default function WorkerAdd() {
   const salaryRef = useRef();
   const contractFormRef = useRef();
   const nipRef = useRef();
-  const userCred = useAuthUser()
+  const token = useAuthHeader();
   const handleSelectChange = (event) => {
     setSelectedOption(event.target.value);
   };
 
-
-  async function handleSubmit(e){
+  async function handleSubmit(e) {
     e.preventDefault();
     const data = {
       firstName: nameRef.current.value,
@@ -37,43 +36,31 @@ export default function WorkerAdd() {
       salary: salaryRef.current.value,
       contractForm: contractFormRef.current.value,
       phoneNumber: phoneRef.current.value,
-      nip: contractFormRef.current.value=="B2B"? nipRef.current.value:null,
+      nip: contractFormRef.current.value == "B2B" ? nipRef.current.value : null,
       pesel: peselRef.current.value,
     };
-    console.log(data);
-    const credentials = userCred().data
-    const apiUrl = "http://localhost:8080/upc/unsecured/v1/admin-role/employee-register";
-     const response = await axios.post(apiUrl, data,{
-      auth : {
-        username: credentials.email,
-        password: credentials.password
-      },
-      headers:{
-        "Content-Type": "application/json"
-      },
-      data:{}
-    });
-     console.log(response);
-     if(response.status === 200)
-     {
-        const tab = JSON.parse(localStorage.getItem("notifications"));
-        let newTab;
-        const message = {
-          message:`Pomyślnie dodano nowego pracownika ${data.email}`,
-          type: "SUCCESS"
-        }
-        if(tab)
-        {
-          newTab = [...tab,message];
-        }else{
-          newTab = [message];
-        }
-        
-        window.localStorage.setItem("notifications",JSON.stringify(newTab));
-        window.dispatchEvent(new Event("storage"))
-       window.location.reload();
-     }
-  };
+    axios.defaults.headers.common['Authorization'] = null;
+    const apiUrl ="http://localhost:8080/upc/unsecured/v1/admin-role/employee-register";
+    const response = await axios.post(apiUrl, data);
+
+    if (response.status === 200) {
+      const tab = JSON.parse(localStorage.getItem("notifications"));
+      let newTab;
+      const message = {
+        message: `Pomyślnie dodano nowego pracownika ${data.email}`,
+        type: "SUCCESS",
+      };
+      if (tab) {
+        newTab = [...tab, message];
+      } else {
+        newTab = [message];
+      }
+
+      window.localStorage.setItem("notifications", JSON.stringify(newTab));
+      window.dispatchEvent(new Event("storage"));
+      window.location.reload();
+    }
+  }
   return (
     <div className="flex flex-col h-full">
       <div className="flex flex-col w-full items-center bg-gray-400 p-2 ">
@@ -234,7 +221,7 @@ export default function WorkerAdd() {
           <div className="flex flex-col">
             <label className="text-md font-bold text-gray-700 ">NIP</label>
             <input
-              required = {selectedOption == "B2B" ? true : false}
+              required={selectedOption == "B2B" ? true : false}
               disabled={selectedOption == "B2B" ? false : true}
               type="text"
               ref={nipRef}

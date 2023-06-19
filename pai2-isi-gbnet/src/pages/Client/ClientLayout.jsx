@@ -53,17 +53,12 @@ export default function ClientLayout() {
 
     async function getUserData() {
       const data = jwt(token());
-      const credentials = userCred().data
-      console.log(credentials)
+      axios.defaults.headers.common['Authorization'] = token();
       const protectedEndpointResponse = await axios.get(
         "http://localhost:8080/upc/v1/user-role/user",
         {
           params: {
             email: data.sub,
-          },
-          auth : {
-            username: credentials.email,
-            password: credentials.password
           },
           headers:{
             "Content-Type": "application/json"
@@ -71,19 +66,11 @@ export default function ClientLayout() {
           data:{}
         }
       );
-      console.log(protectedEndpointResponse.data)
       setUserData(protectedEndpointResponse.data);
       const interval = setInterval(async () => {
         if (protectedEndpointResponse.data) {
           const response = await axios.get(
-            `http://localhost:8080/upc/v1/user-role/get-user-notices/${protectedEndpointResponse.data.uuid}`,{auth : {
-              username: credentials.email,
-              password: credentials.password
-            },
-            headers:{
-              "Content-Type": "application/json"
-            },
-            data:{}}
+            `http://localhost:8080/upc/v1/user-role/get-user-notices/${protectedEndpointResponse.data.uuid}`
           );
           if (
             JSON.stringify(ringNotifications) !=
@@ -101,17 +88,8 @@ export default function ClientLayout() {
 
   async function handleClickNot(not){
     if(!not.isClicked){
-      const credentials = userCred().data
-      const response = await axios.put(`http://localhost:8080/upc/v1/user-role/edit-notice/${not.uuid}`,null, {params:{isClicked:true} ,
-        auth : {
-          username: credentials.email,
-          password: credentials.password
-        },
-        headers:{
-          "Content-Type": "application/json"
-        },
-        data:{}
-       });
+      axios.defaults.headers.common['Authorization'] = token();
+      const response = await axios.put(`http://localhost:8080/upc/v1/user-role/edit-notice/${not.uuid}`,null, {params:{isClicked:true}});
       console.log(response)
     }
     setNotificationData(not)
@@ -132,10 +110,8 @@ export default function ClientLayout() {
   }
 
   const handleDelete = useCallback(() => {
-    console.log("DELETE");
     const newNotifications = JSON.parse(localStorage.getItem("notifications"));
-    const updatedNotifications = newNotifications.slice(1); // Usuwanie pierwszego powiadomienia
-    console.log(updatedNotifications);
+    const updatedNotifications = newNotifications.slice(1); 
     setNotifications(updatedNotifications);
     window.localStorage.setItem(
       "notifications",
@@ -143,12 +119,12 @@ export default function ClientLayout() {
     );
   }, []);
   function formatNotificationTime(date) {
-    const notificationDate = new Date(date); // Tworzy obiekt Date na podstawie pola "date" w powiadomieniu
-    const currentDate = new Date(); // Tworzy obiekt Date dla bieżącej daty i czasu
+    const notificationDate = new Date(date); 
+    const currentDate = new Date(); 
 
     const timeDiffInSeconds = Math.floor(
       (currentDate - notificationDate) / 1000
-    ); // Różnica czasu w sekundach
+    ); 
 
     if (timeDiffInSeconds < 60) {
       return "< 1min";

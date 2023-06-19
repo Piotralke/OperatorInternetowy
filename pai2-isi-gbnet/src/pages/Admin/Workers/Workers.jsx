@@ -12,21 +12,11 @@ export default function Workers(){
     const token = useAuthHeader();
     const [users,setUsers] = useState([])
     const [loading,setLoading] = useState(true)
-    const userCred = useAuthUser()
     useEffect(()=>{    
 
         async function fetchData(){
-            const credentials = userCred().data
-            await axios.get("http://localhost:8080/upc/v1/admin-role/employee/all",{
-                auth : {
-                  username: credentials.email,
-                  password: credentials.password
-                },
-                headers:{
-                  "Content-Type": "application/json"
-                },
-                data:{}
-              }).then(res=>{
+            axios.defaults.headers.common['Authorization'] = token();
+            await axios.get("http://localhost:8080/upc/v1/admin-role/employee/all").then(res=>{
                 console.log(res.data.content)
                 const users = res.data.content.map(u=>({
                     uuid: u.uuid,

@@ -40,17 +40,12 @@ export default function Invoices() {
   useEffect(() => {
     async function getUserData() {
       const data = jwt(token());
-      const credentials = userCred().data
       axios.defaults.headers.common["Authorization"] = token();
       const protectedEndpointResponse = await axios.get(
         "http://localhost:8080/upc/v1/user-role/user",
         {
           params: {
             email: data.sub,
-          },
-          auth : {
-            username: credentials.email,
-            password: credentials.password
           },
           headers:{
             "Content-Type": "application/json"
@@ -60,15 +55,12 @@ export default function Invoices() {
       );
       console.log(protectedEndpointResponse.data);
       setUserData(protectedEndpointResponse.data);
+      
       const response = await axios.get(
         `http://localhost:8080/upc/v1/user-role/get-invoices/${protectedEndpointResponse.data.uuid}`,
         {
           params: {
             email: data.sub,
-          },
-          auth : {
-            username: credentials.email,
-            password: credentials.password
           },
           headers:{
             "Content-Type": "application/json"

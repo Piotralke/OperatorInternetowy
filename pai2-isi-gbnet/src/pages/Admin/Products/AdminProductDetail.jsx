@@ -15,18 +15,9 @@ export default function AdminProductDetail() {
   const userCred = useAuthUser()
   useEffect(() => {
     async function fetchProduct() {
-      const credentials = userCred().data
+      
       const protectedEndpointResponse = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-product/${productId}`,{
-          auth : {
-            username: credentials.email,
-            password: credentials.password
-          },
-          headers:{
-            "Content-Type": "application/json"
-          },
-          data:{}
-        }
+        `http://localhost:8080/upc/unsecured/v1/get-product/${productId}`
       );
       setProductData(protectedEndpointResponse.data);
       setProductOriginalData(protectedEndpointResponse.data);
@@ -37,20 +28,9 @@ export default function AdminProductDetail() {
 
   useEffect(() => {
     async function fetchProduct() {
-      const credentials = userCred().data
       const productTypes = await axios.get(
-        `http://localhost:8080/upc/unsecured/v1/get-product-types`,{
-          auth : {
-            username: credentials.email,
-            password: credentials.password
-          },
-          headers:{
-            "Content-Type": "application/json"
-          },
-          data:{}
-        }
+        `http://localhost:8080/upc/unsecured/v1/get-product-types`
       );
-      console.log(productTypes.data)
       setProductType(productTypes.data)
     }
     fetchProduct()

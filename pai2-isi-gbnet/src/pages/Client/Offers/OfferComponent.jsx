@@ -36,8 +36,6 @@ export default function Offer(props) {
 
       <div className="px-3 space-y-2">
         <div className="text-xl font-bold">{props.title}</div>
-        {/* {props.installation? (<div className="text-lg text-blue-500">Instalacja za: {props.installation} zł</div>):null}
-                {props.activation? (<div className="text-lg text-blue-500">Aktywacja za: {props.activation} zł</div>):null} */}
         <div className="text-lg text-amber-900">
           {props.withDevice ? "W zestawie z: " + props.product.name : <div className="h-[28px]"></div>}
         </div>
