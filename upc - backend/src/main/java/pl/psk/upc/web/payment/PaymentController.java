@@ -41,7 +41,7 @@ public class PaymentController {
     }
 
     @PostMapping(UpcRestPaths.CREATE_PAYMENT)
-    public String createPayment(@RequestBody PaymentInputDto inputDto) throws PayPalRESTException {
+    public CreatedPaymentDto createPayment(@RequestBody PaymentInputDto inputDto) throws PayPalRESTException {
         return payPalService.createPayment(inputDto);
     }
 
@@ -65,7 +65,7 @@ public class PaymentController {
     }
 
     @PostMapping(UpcRestPaths.EXECUTE_PAYMENT)
-    public ResponseEntity<String> executePayment(@PathVariable String paymentId, @RequestParam("payerId") String payerId, @RequestParam(value = "orderUuid", required = false) UUID orderUuid, @RequestParam(value = "paymentUuid", required = false) UUID paymentUuid, @RequestParam UUID clientUuid) throws PayPalRESTException {
+    public ResponseEntity<String> executePayment(@PathVariable String paymentId, @RequestParam("payerId") String payerId, @RequestParam(value = "orderUuid", required = false) UUID orderUuid, @RequestParam(value = "paymentUuid") UUID paymentUuid, @RequestParam UUID clientUuid) throws PayPalRESTException {
         try {
             payPalService.executePayment(paymentId, payerId, orderUuid, paymentUuid, clientUuid);
             return ResponseEntity.ok("Payment executed successfully!");
