@@ -37,7 +37,7 @@ public class OffersController {
     }
 
     @GetMapping(UpcRestPaths.GET_OFFER_BY_UUID)
-    public OfferDto getOfferByUuid(@PathVariable(value = "uuid") UUID uuid) {
+    public OfferDto getOfferByUuid(@RequestParam UUID uuid) {
         return offerService.getOfferByUuid(uuid);
     }
 

@@ -24,12 +24,12 @@ public class UpcRestPaths {
     public static final String GET_OFFERS_BY_TYPE = UPC_UNSECURED_PREFIX + "/get-offers-by-type";
     public static final String GET_ALL_OFFERS = UPC_UNSECURED_PREFIX + "/get-all-offers";
     public static final String EDIT_OFFER_STATUS = UPC_SECURED_PREFIX + WORKER_PREFIX + "/edit-offer-status/{uuid}";
-    public static final String GET_OFFER_BY_UUID = UPC_UNSECURED_PREFIX + "/get-offer-by-uuid/{uuid}";
+    public static final String GET_OFFER_BY_UUID = UPC_UNSECURED_PREFIX + "/get-offer-by-uuid";
     public static final String SAVE_OFFER = UPC_SECURED_PREFIX + WORKER_PREFIX + "/save-offer";
     public static final String GET_ALL_PRODUCTS = UPC_UNSECURED_PREFIX + "/get-all-products";
     public static final String GET_PRODUCT_TYPES = UPC_UNSECURED_PREFIX + "/get-product-types";
     public static final String GET_PRODUCTS_BY_TYPE = UPC_UNSECURED_PREFIX + "/get-products-by-type";
-    public static final String GET_PRODUCT = UPC_UNSECURED_PREFIX + "/get-product/{uuid}";
+    public static final String GET_PRODUCT = UPC_UNSECURED_PREFIX + "/get-product";
     public static final String EDIT_PRODUCT = UPC_SECURED_PREFIX + WORKER_PREFIX + "/edit-product";
     public static final String SAVE_PRODUCT = UPC_SECURED_PREFIX + WORKER_PREFIX + "/save-product";
     public static final String GET_ALL_FROM_WAREHOUSE = UPC_SECURED_PREFIX + WORKER_PREFIX + "/get-all-from-warehouse";

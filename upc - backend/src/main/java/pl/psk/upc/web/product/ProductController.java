@@ -37,7 +37,7 @@ public class ProductController {
     }
 
     @GetMapping(UpcRestPaths.GET_PRODUCT)
-    public ProductDto getProduct(@PathVariable(value = "uuid") UUID uuid) {
+    public ProductDto getProduct(@RequestParam UUID uuid) {
         return productService.getProduct(uuid);
     }
 
