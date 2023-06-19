@@ -13,6 +13,7 @@ import java.util.List;
 public class ClientConverter {
 
     public static ClientDto convertFrom(ClientAccountEntity user) {
+        MethodArgumentValidator.requiredNotNull(user, "user");
         return ClientDto.builder()
                 .uuid(user.getUuid())
                 .firstName(user.getFirstName())

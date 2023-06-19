@@ -1,4 +1,4 @@
-package pl.psk.upc.web.product;
+package pl.psk.upc.web.integration.product;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,6 +6,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import pl.psk.upc.infrastructure.enums.ProductType;
 import pl.psk.upc.web.UpcTest;
+import pl.psk.upc.web.product.ProductController;
+import pl.psk.upc.web.product.ProductDto;
+import pl.psk.upc.web.product.ProductDtoWrapper;
 
 import java.util.List;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package pl.psk.upc.web.order;
+package pl.psk.upc.web.integration.order;
 
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.StringUtils;
@@ -14,6 +14,9 @@ import pl.psk.upc.infrastructure.enums.ProductType;
 import pl.psk.upc.web.UpcTest;
 import pl.psk.upc.web.contract.ContractDto;
 import pl.psk.upc.web.offer.OfferDto;
+import pl.psk.upc.web.order.OrderController;
+import pl.psk.upc.web.order.OrderDto;
+import pl.psk.upc.web.order.OrderDtoWrapper;
 import pl.psk.upc.web.product.ProductDto;
 import pl.psk.upc.web.service.ServiceDto;
 import pl.psk.upc.web.user.ClientDto;

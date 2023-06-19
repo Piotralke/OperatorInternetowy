@@ -1,4 +1,4 @@
-package pl.psk.upc.web.offer;
+package pl.psk.upc.web.integration.offer;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -8,6 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import pl.psk.upc.infrastructure.enums.OfferType;
 import pl.psk.upc.web.UpcTest;
+import pl.psk.upc.web.offer.OfferDto;
+import pl.psk.upc.web.offer.OfferDtoWrapper;
+import pl.psk.upc.web.offer.OffersController;
 import pl.psk.upc.web.product.ProductDto;
 
 import java.util.Arrays;
@@ -19,7 +22,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class OffersControllerTest extends UpcTest {
 
-    @Autowired OffersController offersController;
+    @Autowired
+    OffersController offersController;
 
     @Test @Transactional
     void getOfferTypes() {

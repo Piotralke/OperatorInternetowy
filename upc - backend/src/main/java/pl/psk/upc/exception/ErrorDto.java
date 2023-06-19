@@ -21,10 +21,10 @@ public class ErrorDto {
     ZonedDateTime date;
 
     @JsonProperty(RESPONSE_CODE)
-    HttpStatus responseCode;
+    int responseCode;
 
     @Builder
-    public ErrorDto(String message, ZonedDateTime date, HttpStatus responseCode) {
+    public ErrorDto(String message, ZonedDateTime date, int responseCode) {
         this.message = message;
         this.date = date;
         this.responseCode = responseCode;

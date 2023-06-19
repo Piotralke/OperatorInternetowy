@@ -1,4 +1,4 @@
-package pl.psk.upc.web.warehouse;
+package pl.psk.upc.web.integration.warehouse;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.psk.upc.infrastructure.enums.ProductType;
 import pl.psk.upc.web.UpcTest;
 import pl.psk.upc.web.product.ProductDto;
+import pl.psk.upc.web.warehouse.WarehouseController;
+import pl.psk.upc.web.warehouse.WarehouseDto;
+import pl.psk.upc.web.warehouse.WarehouseDtoWrapper;
 
 import java.util.UUID;
 

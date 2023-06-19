@@ -1,4 +1,4 @@
-package pl.psk.upc.web.contract;
+package pl.psk.upc.web.integration.contract;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,6 +12,9 @@ import pl.psk.upc.infrastructure.enums.ContractLengthEnum;
 import pl.psk.upc.infrastructure.enums.OfferType;
 import pl.psk.upc.infrastructure.repository.ContractRepository;
 import pl.psk.upc.web.UpcTest;
+import pl.psk.upc.web.contract.ContractController;
+import pl.psk.upc.web.contract.ContractDto;
+import pl.psk.upc.web.contract.ContractDtoWrapper;
 import pl.psk.upc.web.offer.OfferDto;
 import pl.psk.upc.web.order.OrderController;
 import pl.psk.upc.web.order.OrderDto;

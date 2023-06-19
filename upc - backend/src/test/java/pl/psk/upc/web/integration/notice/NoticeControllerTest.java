@@ -1,4 +1,4 @@
-package pl.psk.upc.web.notice;
+package pl.psk.upc.web.integration.notice;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -7,6 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import pl.psk.upc.application.notice.NoticeService;
 import pl.psk.upc.web.UpcTest;
+import pl.psk.upc.web.notice.NoticeDto;
+import pl.psk.upc.web.notice.NoticeDtoWrapper;
 
 import java.util.List;
 import java.util.UUID;

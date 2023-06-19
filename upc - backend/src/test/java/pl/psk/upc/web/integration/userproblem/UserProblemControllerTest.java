@@ -1,4 +1,4 @@
-package pl.psk.upc.web.userproblem;
+package pl.psk.upc.web.integration.userproblem;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +8,10 @@ import pl.psk.upc.infrastructure.enums.UserProblemStatusEnum;
 import pl.psk.upc.web.UpcTest;
 import pl.psk.upc.web.user.ClientDto;
 import pl.psk.upc.web.user.UserController;
+import pl.psk.upc.web.userproblem.UserProblemController;
+import pl.psk.upc.web.userproblem.UserProblemDto;
+import pl.psk.upc.web.userproblem.UserProblemDtoWrapper;
+import pl.psk.upc.web.userproblem.UserProblemSetStatusInputDto;
 
 import java.util.UUID;
 

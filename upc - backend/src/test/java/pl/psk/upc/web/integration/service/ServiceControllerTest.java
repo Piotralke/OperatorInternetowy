@@ -1,4 +1,4 @@
-package pl.psk.upc.web.service;
+package pl.psk.upc.web.integration.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,6 +12,9 @@ import pl.psk.upc.web.contract.ContractDto;
 import pl.psk.upc.web.offer.OfferDto;
 import pl.psk.upc.web.order.OrderController;
 import pl.psk.upc.web.order.OrderDto;
+import pl.psk.upc.web.service.ServiceController;
+import pl.psk.upc.web.service.ServiceDto;
+import pl.psk.upc.web.service.ServiceDtoWrapper;
 
 import java.util.UUID;
 

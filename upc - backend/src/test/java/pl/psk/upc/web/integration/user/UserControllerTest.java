@@ -1,4 +1,4 @@
-package pl.psk.upc.web.user;
+package pl.psk.upc.web.integration.user;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +9,7 @@ import pl.psk.upc.infrastructure.enums.ContractForm;
 import pl.psk.upc.web.UpcTest;
 import pl.psk.upc.web.order.OrderController;
 import pl.psk.upc.web.service.ServiceDto;
+import pl.psk.upc.web.user.*;
 
 import java.util.List;
 import java.util.UUID;
