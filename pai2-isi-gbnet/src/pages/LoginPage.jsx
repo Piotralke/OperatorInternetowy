@@ -5,7 +5,7 @@ import jwt from "jwt-decode";
 import React, { useRef, useState } from "react";
 import { RiCopyleftLine } from "react-icons/ri";
 import { FcGoogle } from "react-icons/fc";
-import { Button } from "@material-tailwind/react";
+import { Button,Alert } from "@material-tailwind/react";
 export default function LoginPage() {
   const [registering, setRegistering] = useState(false);
   const loginRef = useRef();
@@ -16,7 +16,7 @@ export default function LoginPage() {
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [isBusiness, setIsBusiness] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  
+  const [isError,setIsError] = useState(false);
   const nameRef = useRef();
   const lastNameRef = useRef();
   const emaiRef = useRef();
@@ -92,6 +92,7 @@ export default function LoginPage() {
       } else navigate("/admin");
     } catch (error) {
       console.error(error);
+      setIsError(true)
     }
   }
   return (
@@ -335,11 +336,17 @@ export default function LoginPage() {
                 variant="outlined"
                 color="blue-gray"
                 className="flex items-center gap-3 bg-white"
+                onClick={ async ()=>{
+                  const response = await axios.get("http://localhost:8080/upc/unsecured/v1/login/google")
+                  console.log(response);
+                }}
               >
                 <FcGoogle className="w-6 h-6"/>
                 Continue with Google
               </Button>
+              
             </div>
+            <Alert open={isError} color="red" className="mt-4 mx-auto w-1/3 items-center justify-center">Podano błędne dane logowania</Alert>
             <div className="flex flex-col bg-blue-gray-800 h-10 w-full mt-auto pt-2 items-center">
             <p className="flex flex-row text-blue-gray-100 items-center">
               {" "}
@@ -347,7 +354,7 @@ export default function LoginPage() {
                 <RiCopyleftLine />
               </span>{" "}
               Copyleft by Barański, Dziewięcki, Rudnicki and Spychalski. 2023
-              {info? <span>
+              {info? <span className="text-blue-gray-800">
                 {info}
               </span> :null}
             </p>

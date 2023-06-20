@@ -13,7 +13,7 @@ import pl.psk.upc.web.UpcRestPaths;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
+public class SecurityConfig  {
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JwtPropertiesConfig jwtPropertiesConfig;
 

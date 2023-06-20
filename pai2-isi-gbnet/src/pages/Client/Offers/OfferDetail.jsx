@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React,{ useEffect, useState } from "react";
 import { useParams,useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button } from "@material-tailwind/react";
@@ -10,8 +10,6 @@ import jwt from "jwt-decode";
 
 export default function OfferDetail() {
   const token = useAuthHeader();
-  const userCred = useAuthUser()
-  const credentials = userCred().data
   const { offerId } = useParams();
   const [offer, setOffer] = useState();
   const [img, setImg] = useState();
@@ -57,15 +55,15 @@ export default function OfferDetail() {
           <div className="flex lg:flex-row mx-8 mt-8 bg-blue-gray-900 p-4 items-center justify-between flex-col">
             <div className="flex flex-col w-4/5">
               <p className="text-white ml-4 font-medium text-xl">
-                {offer.name}
+                {offer?.name}
               </p>
-              <p className=" hidden sm:block bg-transparent text-white ml-4 text-sm ">{offer.description}</p>
+              <p className=" hidden sm:block bg-transparent text-white ml-4 text-sm ">{offer?.description}</p>
             </div>
             <div className="flex flex-row item-center justify-center space-x-8">
               <div className="flex flex-col  items-center justify-between">
                 <p className="text-white ">OPŁATA</p>
                 <p className="text-white font-medium">
-                  {offer.price?.toFixed(2)} zł
+                  {offer?.price?.toFixed(2)} zł
                 </p>
                 <p className="text-white ">MIESIĘCZNIE</p>
               </div>
@@ -78,20 +76,20 @@ export default function OfferDetail() {
             </div>
           </div>
         )}
-        {offer && offer.withDevice && (
+        {offer && offer?.withDevice && (
           <div className="flex flex-row mx-8 mt-8 bg-blue-gray-900 p-4 items-center justify-between">
             <div className="flex flex-col w-4/5">
               <a className="text-white ml-4 font-medium text-xl">
-                {offer.productDto.name}
+                {offer?.productDto?.name}
               </a>
               <a className="text-white ml-4 text-sm">
-                {offer.productDto.description}
+                {offer?.productDto?.description}
               </a>
             </div>
             <div className="flex flex-col space-y-1 items-center justify-between">
               <a className="text-white ">CENA REGULARNA</a>
               <a className="text-red-600 line-through font-medium">
-                {offer.productDto.price.toFixed(2)} zł
+                {offer?.productDto?.price?.toFixed(2)} zł
               </a>
               <a className="text-white ">OPŁATA w zestawie</a>
               <a className="text-amber-500 animate-bounce animate-pulse font-bold">0.00 zł</a>
