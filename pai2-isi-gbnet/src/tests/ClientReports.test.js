@@ -13,7 +13,7 @@ describe('ClientReports', () => {
   test('renders loading spinner before data is fetched', () => {
     render(<AuthProvider>
       <MemoryRouter>
-        <Reports />
+        <Reports /> 
       </MemoryRouter>
     </AuthProvider>);
     expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
