@@ -337,7 +337,7 @@ export default function LoginPage() {
                 color="blue-gray"
                 className="flex items-center gap-3 bg-white"
                 onClick={ async ()=>{
-                  const response = await axios.get("http://localhost:8080/upc/unsecured/v1/login/google")
+                   window.location.href = "http://localhost:8080/login"; 
                   console.log(response);
                 }}
               >

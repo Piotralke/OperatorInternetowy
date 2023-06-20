@@ -152,6 +152,7 @@ export default function AdminNotices() {
               setDescription(e.target.value);
             }}
             color="amber"
+            maxLength={254}
             className="h-full"
             label="Treść powiadomienia"
           />

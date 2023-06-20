@@ -127,7 +127,7 @@ export default function Reports() {
         <DialogBody divider>
           <div className="grid gap-6">
             {showError && <p className="text-md text-red-500">Tresć zgłoszenia musi wynosić conajmniej 20 znaków!</p>}
-            <Textarea label="Treść zgłoszenia" onChange={(e) => {
+            <Textarea label="Treść zgłoszenia" maxLength={254} onChange={(e) => {
               setDescription(e.target.value);
               setShowError(false);
             }} rows={10} />
