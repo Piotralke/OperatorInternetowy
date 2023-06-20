@@ -336,10 +336,6 @@ export default function LoginPage() {
                 variant="outlined"
                 color="blue-gray"
                 className="flex items-center gap-3 bg-white"
-                onClick={ async ()=>{
-                   window.location.href = "http://localhost:8080/login"; 
-                  console.log(response);
-                }}
               >
                 <FcGoogle className="w-6 h-6"/>
                 Continue with Google
