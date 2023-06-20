@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1687268991831" clover="3.2.0">
-  <project timestamp="1687268991831" name="All files">
-    <metrics statements="497" coveredstatements="217" conditionals="207" coveredconditionals="63" methods="125" coveredmethods="47" elements="829" coveredelements="327" complexity="0" loc="497" ncloc="497" packages="9" files="11" classes="11"/>
+<coverage generated="1687276020418" clover="3.2.0">
+  <project timestamp="1687276020418" name="All files">
+    <metrics statements="519" coveredstatements="239" conditionals="211" coveredconditionals="66" methods="131" coveredmethods="53" elements="861" coveredelements="358" complexity="0" loc="519" ncloc="519" packages="10" files="13" classes="13"/>
     <package name="components">
       <metrics statements="102" coveredstatements="46" conditionals="54" coveredconditionals="9" methods="30" coveredmethods="14"/>
       <file name="DateFormat.jsx" path="F:\STUDIA 6\ISI\Operator\OperatorInternetowy\pai2-isi-gbnet\src\components\DateFormat.jsx">
@@ -450,6 +450,37 @@
         <line num="353" count="0" type="stmt"/>
         <line num="371" count="0" type="stmt"/>
         <line num="383" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="pages.Client.Home">
+      <metrics statements="22" coveredstatements="22" conditionals="4" coveredconditionals="3" methods="6" coveredmethods="6"/>
+      <file name="AccountData.jsx" path="F:\STUDIA 6\ISI\Operator\OperatorInternetowy\pai2-isi-gbnet\src\pages\Client\Home\AccountData.jsx">
+        <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="11" count="4" type="stmt"/>
+        <line num="12" count="4" type="stmt"/>
+        <line num="14" count="2" type="stmt"/>
+        <line num="16" count="2" type="stmt"/>
+        <line num="17" count="2" type="stmt"/>
+        <line num="29" count="2" type="stmt"/>
+        <line num="31" count="2" type="stmt"/>
+        <line num="34" count="4" type="stmt"/>
+      </file>
+      <file name="Balance.jsx" path="F:\STUDIA 6\ISI\Operator\OperatorInternetowy\pai2-isi-gbnet\src\pages\Client\Home\Balance.jsx">
+        <metrics statements="13" coveredstatements="13" conditionals="4" coveredconditionals="3" methods="3" coveredmethods="3"/>
+        <line num="9" count="6" type="stmt"/>
+        <line num="10" count="5" type="stmt"/>
+        <line num="11" count="5" type="stmt"/>
+        <line num="12" count="5" type="stmt"/>
+        <line num="14" count="3" type="stmt"/>
+        <line num="15" count="3" type="stmt"/>
+        <line num="16" count="3" type="stmt"/>
+        <line num="28" count="3" type="stmt"/>
+        <line num="29" count="3" type="stmt"/>
+        <line num="31" count="3" type="stmt"/>
+        <line num="33" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="34" count="3" type="stmt"/>
+        <line num="40" count="2" type="stmt"/>
       </file>
     </package>
     <package name="pages.Client.Profile">

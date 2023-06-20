@@ -24,7 +24,7 @@ export default function UserData(props) {
      const data = jwt(token());
     const config = {
       params: {
-        email: data.sub,
+        email: data?.sub,
       },
       headers: {
         "Content-Type": "application/json",

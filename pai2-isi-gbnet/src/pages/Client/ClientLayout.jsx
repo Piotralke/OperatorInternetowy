@@ -58,7 +58,7 @@ export default function ClientLayout() {
         "http://localhost:8080/upc/v1/user-role/user",
         {
           params: {
-            email: data.sub,
+            email: data?.sub,
           },
           headers: {
             "Content-Type": "application/json",
@@ -66,17 +66,17 @@ export default function ClientLayout() {
           data: {},
         }
       );
-      setUserData(protectedEndpointResponse.data);
+      setUserData(protectedEndpointResponse?.data);
       const interval = setInterval(async () => {
         if (protectedEndpointResponse.data) {
           const response = await axios.get(
-            `http://localhost:8080/upc/v1/user-role/get-user-notices/${protectedEndpointResponse.data.uuid}`
+            `http://localhost:8080/upc/v1/user-role/get-user-notices/${protectedEndpointResponse?.data?.uuid}`
           );
           if (
             JSON.stringify(ringNotifications) !=
-            JSON.stringify(response.data.content)
+            JSON.stringify(response?.data.content)
           ) {
-            setRingNotifications(response.data.content);
+            setRingNotifications(response?.data?.content);
           }
         }
         return () => clearInterval(interval);
