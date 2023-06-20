@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "../../../components/Table"
 import axios from "axios";
 import { useAuthHeader,useAuthUser } from "react-auth-kit";
@@ -15,8 +15,8 @@ export default function AdminReports(){
     useEffect(()=>{    
         async function fetchData(){
             axios.defaults.headers.common['Authorization'] = token();
-            await axios.get("http://localhost:8080/upc/v1/worker-role/get-all-user-problems").then(res=>{
-            const tab = res.data.content.map(u=>({
+            const res =  await axios.get("http://localhost:8080/upc/v1/worker-role/get-all-user-problems")
+            const tab = res?.data.content.map(u=>({
                 uuid: u.uuid,
                 userProblemId: u.uuid,
                 userProblemStartDate: DateFormat(u.userProblemStartDate) ,
@@ -24,13 +24,14 @@ export default function AdminReports(){
             }))
             setProducts(tab)
             setLoading(false)
-        })
+        
         }
         fetchData()
+
     },[])
     if(loading){
         return(
-            <div className="flex flex-col w-full h-full items-center justify-center">
+            <div  data-testid="loading-spinner" className="flex flex-col w-full h-full items-center justify-center">
                 <Spinner color="amber"  className="h-1/2 w-1/2"></Spinner>
             </div>
         )

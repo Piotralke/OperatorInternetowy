@@ -69,8 +69,9 @@ export default function ClientAdd() {
       >
         <div className="grid gap-10 px-48 md:grid-cols-2">
           <div className="flex flex-col">
-            <label className="text-md font-bold text-gray-700 ">Imię</label>
+            <label className="text-md font-bold text-gray-700 " for="Imię">Imię</label>
             <input
+            id="Imię"
               type="text"
               ref={nameRef}
               pattern="[A-Z]{1}[a-z]{1,}"
@@ -80,8 +81,9 @@ export default function ClientAdd() {
             />
           </div>
           <div className="flex flex-col">
-            <label className="text-md font-bold text-gray-700 ">Nazwisko</label>
+            <label className="text-md font-bold text-gray-700 "for="Nazwisko">Nazwisko</label>
             <input
+              id="Nazwisko"
               type="text"
               ref={lastNameRef}
               pattern="[A-Z]{1}[a-z]{1,}"
@@ -91,10 +93,11 @@ export default function ClientAdd() {
             />
           </div>
           <div className="flex flex-col">
-            <label className="text-md font-bold text-gray-700 ">
+            <label className="text-md font-bold text-gray-700 "for="Adres e-mail">
               Adres e-mail
             </label>
             <input
+              id="Adres e-mail"
               type="email"
               ref={emaiRef}
               className="border-2 border-gray-500 invalid:border-red-500 invalid:outline-red-500 rounded-md mt-1 text-gray-900  px-4 py-1"
@@ -102,10 +105,11 @@ export default function ClientAdd() {
             />
           </div>
           <div className="flex flex-col">
-            <label className="text-md font-bold text-gray-700 ">
+            <label className="text-md font-bold text-gray-700 "for="Numer Telefonu">
               Numer Telefonu
             </label>
             <input
+            id="Numer Telefonu"
               type="text"
               ref={phoneRef}
               pattern="[0-9]{9}"
@@ -115,8 +119,9 @@ export default function ClientAdd() {
             />
           </div>
           <div className="flex flex-col">
-            <label className="text-md font-bold text-gray-700 ">Hasło</label>
+            <label className="text-md font-bold text-gray-700 "for="Hasło">Hasło</label>
             <input
+            id="Hasło"
               type="password"
               pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
               title="Hasło powino zawierać: conajmniej 8 znaków, conajmniej 1 wielką litere, conajmniej 1 cyfrę!"
@@ -128,7 +133,7 @@ export default function ClientAdd() {
           </div>
           <div className="flex flex-col">
             <div className="flex flex-row space-x-2">
-              <label className="text-md font-bold text-gray-700 ">
+              <label className="text-md font-bold text-gray-700 " for="Powtórz hasło">
                 Powtórz hasło
               </label>
               {passwordConfirm.length > 0 && password != passwordConfirm ? (
@@ -138,6 +143,7 @@ export default function ClientAdd() {
               ) : null}
             </div>
             <input
+              id="Powtórz hasło"
               type="password"
               minLength={8}
               onChange={(e) => setPasswordConfirm(e.target.value)}
@@ -151,8 +157,9 @@ export default function ClientAdd() {
             />
           </div>
           <div className="flex flex-col">
-            <label className="text-md font-bold text-gray-700 ">PESEL</label>
+            <label className="text-md font-bold text-gray-700 "for="PESEL">PESEL</label>
             <input
+              id="PESEL"
               type="text"
               minLength={11}
               maxLength={11}
@@ -165,8 +172,9 @@ export default function ClientAdd() {
           </div>
                   
           <div className="flex flex-col">
-            <label className="text-md font-bold text-gray-700 ">NIP</label>
+            <label className="text-md font-bold text-gray-700 "for="NIP">NIP</label>
             <input
+              id="NIP"
               required = {isBusiness ? true : false}
               disabled={!isBusiness}
               type="text"
@@ -179,8 +187,9 @@ export default function ClientAdd() {
             />
           </div>
           <div className="flex flex-col">
-            <label className="text-md font-bold text-gray-700 ">Adres</label>
+            <label className="text-md font-bold text-gray-700 "for="Adres">Adres</label>
             <input
+              id="Adres"
               type="text"
               ref={adddressRef}
               className="border-2 border-gray-500 rounded-md mt-1 text-gray-900  px-4 py-1"

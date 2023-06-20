@@ -1,13 +1,15 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import jwt from "jwt-decode";
 import { useState, useEffect } from "react";
 import { useAuthHeader } from "react-auth-kit";
+import { Button } from "@material-tailwind/react";
 export default function ClientDetail() {
   const [userOriginalData, setUserOriginalData] = useState({});
   const [userData, setUserData] = useState({});
   const { clientId } = useParams();
   const [isDisabled, setIsDisabled] = useState(true);
+  const navigate = useNavigate();
   const token = useAuthHeader();
   useEffect(() => {
     async function fetchUser() {
@@ -204,6 +206,7 @@ export default function ClientDetail() {
         </div>
       </div>
       <div className="flex flex-row ml-auto items-center p-1">
+      <Button color="amber" className="mx-3" onClick={()=>{navigate("invoices")}}>Faktury</Button>
         {isDisabled ? (
           <button
             className="bg-gray-700 drop-shadow-md rounded-md text-white font-bold text-md p-2 hover:bg-gray-800"

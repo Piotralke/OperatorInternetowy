@@ -227,7 +227,7 @@ export default function ClientLayout() {
           className="2xl:hidden text-white hover:cursor-pointer"
         ></BiMenuAltLeft>
 
-        <text className="text-xl flex-grow font-bold text-white">Gb Net</text>
+        <p className="text-xl flex-grow font-bold text-white">Gb Net</p>
         <div className=" z-50 flex flex-row space-x-4">
           <div>
             <Menu placement="left-start">
@@ -246,7 +246,7 @@ export default function ClientLayout() {
                 </MenuHandler>
               </Badge>
               <MenuList className="flex flex-col gap-2 2xl:w-1/3 w-1/2 bg-transparent backdrop-blur-2xl border-amber-800 drop-shadow-md overflow-y-auto max-h-[40vh]">
-                {ringNotifications ? (
+                {ringNotifications?.length>0 ? (
                   sortNotificationsByDate(ringNotifications).map((not) => {
                     return (
                       <MenuItem

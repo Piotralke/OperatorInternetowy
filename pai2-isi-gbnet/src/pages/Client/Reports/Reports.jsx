@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React,{ useEffect, useState } from "react";
 import Table from "../../../components/Table";
 import axios from "axios";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -74,30 +74,33 @@ export default function Reports() {
 
   //POBIERANIE
   useEffect(() => {
-    const data = jwt(token());
-    axios.defaults.headers.common['Authorization'] = token();
-    axios.get("http://localhost:8080/upc/v1/user-role/get-user-problems", {
-      params: {
-        email: data.sub,
-      },
-      headers:{
-        "Content-Type": "application/json"
-      },
-      data:{}
-    }).then(res => {
-      const tab = res.data.content.map( u =>  ({
-        uuid: u.uuid,
-        userProblemId: u.uuid,
-        userProblemStartDate:  DateFormat(u.userProblemStartDate) ,
-        userProblemStatus:  u.userProblemStatus
-      }))
-      setProducts(tab)
-      setLoading(false)
-    })
+    async function FetchData(){
+      const data = jwt(token());
+      axios.defaults.headers.common['Authorization'] = token();
+      const res = await axios.get("http://localhost:8080/upc/v1/user-role/get-user-problems", {
+        params: {
+          email: data?.sub,
+        },
+        headers:{
+          "Content-Type": "application/json"
+        },
+        data:{}
+      })
+        const tab = res?.data.content.map( u =>  ({
+          uuid: u.uuid,
+          userProblemId: u.uuid,
+          userProblemStartDate:  DateFormat(u.userProblemStartDate) ,
+          userProblemStatus:  u.userProblemStatus
+        }))
+        setProducts(tab)
+        setLoading(false)
+    
+    }
+    FetchData()
   }, [])
   if (loading) {
     return (
-      <div className="flex flex-col w-full h-full items-center justify-center">
+      <div data-testid="loading-spinner" className="flex flex-col w-full h-full items-center justify-center">
         <Spinner color="amber"  className="h-1/2 w-1/2"></Spinner>
       </div>
 
@@ -108,6 +111,7 @@ export default function Reports() {
     <div className="flex flex-col h-full">
       <div className="">
         <Button
+          data-testid="addButton"
           className=" bg-green-400 drop-shadow-md rounded-md text-white font-bold text-md p-2 hover:bg-green-500 m-2"
           onClick={() => { handleOpen() }}
         >

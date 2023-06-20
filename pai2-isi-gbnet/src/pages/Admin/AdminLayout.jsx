@@ -19,11 +19,12 @@ import {
 import { TiWarningOutline } from "react-icons/ti";
 import { HiCloudUpload } from "react-icons/hi";
 import { useNavigate, Outlet } from "react-router-dom";
-import { useSignOut } from "react-auth-kit";
+import { useSignOut ,useAuthHeader} from "react-auth-kit";
+import jwt from "jwt-decode";
 import Notifications from "../../components/Notifications";
 function TreeNode({ node, level, handleNodeClick }) {
   const [isExpanded, setIsExpanded] = useState(false);
-
+  
   const handleItemClick = (event) => {
     event.stopPropagation();
     handleNodeClick(node.name);
@@ -59,7 +60,7 @@ export default function AdminLayout() {
   const [notifications, setNotifications] = useState();
   const navigate = useNavigate();
   const signOut = useSignOut();
-
+  
   const handleNodeClick = (nodeName) => {
     if (nodeName === "Wyświetl klientów") {
       closeDrawer();
@@ -93,7 +94,14 @@ export default function AdminLayout() {
       navigate("notifications");
     }
   };
-
+  const token = useAuthHeader();
+  const userData = jwt(token())
+  const [isAdmin,setIsAdmin] = useState(false)
+  useEffect(()=>{
+    if(userData?.role.includes("ADMIN")){
+      setIsAdmin(true)
+    }
+  },[])
   useEffect(() => {
     const not = JSON.parse(localStorage.getItem("notifications"));
     if (not) {
@@ -210,6 +218,61 @@ export default function AdminLayout() {
     ],
   };
 
+  
+  const folderWorker = {
+    name: "Zarządzaj",
+    icon: <AiFillDatabase />,
+    children: [
+      {
+        name: "Klienci",
+        icon: <RiUser3Fill />,
+        children: [
+          {
+            name: "Wyświetl klientów",
+            icon: <RiUserSearchLine />,
+          },
+          {
+            name: "Dodaj klienta",
+            icon: <FiUserPlus />,
+          },
+        ],
+      },
+      {
+        name: "Produkty i oferty",
+        icon: <LuWarehouse />,
+        children: [
+          {
+            name: "Produkty",
+            icon: <FiBox />,
+            children: [
+              {
+                name: "Wyświetl produkty",
+                icon: <AiOutlineDropbox />,
+              },
+            ],
+          },
+          {
+            name: "Oferty",
+            icon: <MdOutlineMiscellaneousServices />,
+            children: [
+              {
+                name: "Wyświetl oferty",
+                icon: <FaNetworkWired />,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        name: "Zgłoszenia",
+        icon: <TiWarningOutline />,
+      },
+      {
+        name: "Powiadamianie",
+        icon: <AiOutlineNotification />,
+      },
+    ],
+  };
   const openDrawer = () => setOpen(true);
   const closeDrawer = () => setOpen(false);
   const [open, setOpen] = useState(false);
@@ -221,7 +284,7 @@ export default function AdminLayout() {
           <div className="flex flex-col basis-1/5 min-h-full bg-gray-700 justify-between ">
             <div className="flex text-white p-4 h-full fixed">
               <TreeNode
-                node={folder}
+                node={isAdmin ? folder: folderWorker}
                 level={1}
                 handleNodeClick={handleNodeClick}
               />
@@ -250,7 +313,7 @@ export default function AdminLayout() {
           <div className="flex text-white pt-5  h-full fixed">
             <TreeNode
               data-testid = "tree-node"
-              node={folder}
+              node={isAdmin? folder:folderWorker}
               level={1}
               handleNodeClick={handleNodeClick}
             />

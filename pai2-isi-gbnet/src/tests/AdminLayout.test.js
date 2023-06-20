@@ -1,10 +1,11 @@
-
+import React from 'react';
 import { render, screen, fireEvent } from "@testing-library/react";
-import React from "react";
-import { MemoryRouter } from "react-router-dom";
 import AdminLayout from "../pages/Admin/AdminLayout";
 import { AuthProvider } from 'react-auth-kit';
+import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom/extend-expect';
+import jwt from "jwt-decode";
+jest.mock("jwt-decode", () => jest.fn());
 describe("AdminLayout", () => {
   it("renders without error", () => {
     render(
@@ -14,6 +15,7 @@ describe("AdminLayout", () => {
         </MemoryRouter>
       </AuthProvider>
     );
+    
     expect(screen.getByText("Gb net")).toBeInTheDocument();
   });
 

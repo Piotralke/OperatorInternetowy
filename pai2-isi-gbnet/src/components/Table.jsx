@@ -3,6 +3,7 @@ import { Card, Typography } from "@material-tailwind/react";
 import { BiShowAlt } from "react-icons/bi";
 import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai";
 import { BsPaypal, BsFiletypePdf } from "react-icons/bs";
+import { GiReceiveMoney } from "react-icons/gi";
 import { LuEdit } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -199,34 +200,56 @@ export default function Table(props) {
                           disabled={row["paymentStatus"] === "OPLACONE"}
                           className="flex flex-col w-full items-center"
                           onClick={async () => {
-                            const paymentData = {
-                              paymentUuid: row["uuid"],
-                              orderUuid: "",
-                              clientUuid: props.userUuid,
-                              serviceUuid: "",
-                              successUrl: `http://localhost:5173/invoices/${row["uuid"]}/success/`,
-                              cancelUrl: `http://localhost:5173/invoices/${row["uuid"]}/cancel/`,
-                            };
-                            axios.defaults.headers.common["Authorization"] =
-                              token();
-                            const content = await axios.post(
-                              `http://localhost:8080/upc/v1/user-role/payment/create-for-existing-payment`,
-                              paymentData
-                            );
-                            localStorage.setItem(
-                              "payment",
-                              content.data.paymentUuid
-                            );
-                            window.location.href = content.data.link;
+                            if(!props.isAdmin)
+                            {
+                              const paymentData = {
+                                paymentUuid: row["uuid"],
+                                orderUuid: "",
+                                clientUuid: props.userUuid,
+                                serviceUuid: "",
+                                successUrl: `http://localhost:5173/invoices/${row["uuid"]}/success/`,
+                                cancelUrl: `http://localhost:5173/invoices/${row["uuid"]}/cancel/`,
+                              };
+                              axios.defaults.headers.common["Authorization"] =
+                                token();
+                              const content = await axios.post(
+                                `http://localhost:8080/upc/v1/user-role/payment/create-for-existing-payment`,
+                                paymentData
+                              );
+                              localStorage.setItem(
+                                "payment",
+                                content.data.paymentUuid
+                              );
+                              window.location.href = content.data.link;
+                            }
+                            else{
+                              axios.defaults.headers.common["Authorization"] =
+                                token();
+                                const content = await axios.put(`http://localhost:8080/upc/v1/worker-role/edit-payment-status/${row["uuid"]}`,{},{
+                                  params:{
+                                    paymentStatus:"OPLACONE",
+                                    clientUuid:props.userUuid
+                                  }
+                                })
+                                window.location.reload()
+                            }
+                            
                           }}
                         >
-                          <BsPaypal
+                          {!props.isAdmin ? (<BsPaypal
                             className={`w-8 h-8  ${
                               row["paymentStatus"] === "OPLACONE"
                                 ? "text-gray-300"
                                 : "text-blue-500"
                             }`}
-                          />
+                          />):(<GiReceiveMoney
+                            className={`w-8 h-8  ${
+                              row["paymentStatus"] === "OPLACONE"
+                                ? "text-gray-300"
+                                : "text-blue-500"
+                            }`}
+                          />)}
+                          
                         </button>
                       </td>
                       <td className="p-1">

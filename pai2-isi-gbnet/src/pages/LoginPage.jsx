@@ -293,9 +293,9 @@ export default function LoginPage() {
             <span className="text-xl text-white font-semibold">3ID12A</span>
           </div>
             <div className="flex flex-col items-center justify-center mt-40 border border-black w-1/2 rounded-xl min-h-[50vh] bg-blue-gray-600 drop-shadow-2xl p-2">
-              <text className="font-bold mb-3 text-xl text-amber-500">
+              <p className="font-bold mb-3 text-xl text-amber-500">
                 Wprowadź dane do logowania
-              </text>
+              </p>
               <input
                 className="p-3 m-3 xl:w-1/2 border border-black rounded-xl"
                 type="text"

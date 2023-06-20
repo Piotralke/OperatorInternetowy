@@ -12,6 +12,13 @@ export default function AdminProductDetail() {
   const { productId } = useParams();
   const [isDisabled, setIsDisabled] = useState(true);
   const token = useAuthHeader();
+  const userData = jwt(token())
+    const [isAdmin,setIsAdmin] = useState(false)
+    useEffect(()=>{
+      if(userData.role.includes("ADMIN")){
+        setIsAdmin(true)
+      }
+    },[])
   useEffect(() => {
     async function fetchProduct() {
       
@@ -126,7 +133,7 @@ export default function AdminProductDetail() {
               ></Textarea>
             </div>
           </div>
-          <div className="flex flex-row ml-auto items-center p-1 ">
+          { isAdmin ?<div className="flex flex-row ml-auto items-center p-1 ">
             {isDisabled ? (
               <button
                 className="bg-gray-700 drop-shadow-md rounded-md text-white font-bold text-md p-2 hover:bg-gray-800"
@@ -155,7 +162,7 @@ export default function AdminProductDetail() {
                 </button>
               </div>
             )}
-          </div>
+          </div>: null}
         </div>
       </div>
     </form>

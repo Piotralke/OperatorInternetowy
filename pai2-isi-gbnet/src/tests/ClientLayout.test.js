@@ -3,7 +3,9 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import ClientLayout from "../pages/Client/ClientLayout";
 import { AuthProvider } from 'react-auth-kit';
 import { MemoryRouter } from 'react-router-dom';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom/extend-expect'
+import jwt from "jwt-decode";
+jest.mock("jwt-decode", () => jest.fn());;
 describe('ClientLayout', () => {
 test("renders client layout with correct navigation", () => {
   render(<AuthProvider>
@@ -11,7 +13,6 @@ test("renders client layout with correct navigation", () => {
       <ClientLayout />
     </MemoryRouter>
   </AuthProvider>);
-  
   const homeButton = screen.getAllByText("STRONA GŁÓWNA");
   const offersButton = screen.getAllByText("OFERTY");
   const productsButton = screen.getAllByText("PRODUKTY");

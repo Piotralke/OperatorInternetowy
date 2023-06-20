@@ -11,11 +11,11 @@ import Products from "./pages/Client/Products/Products";
 import AdminLayout from "./pages/Admin/AdminLayout";
 import RequireRole from "./RequireRole";
 import Clients from "./pages/Admin/Clients/Clients";
-import ClientDetail from "./pages/Admin/Clients/ClientDetail"
+import ClientDetail from "./pages/Admin/Clients/ClientDetail";
 import Workers from "./pages/Admin/Workers/Workers";
 import AdminProducts from "./pages/Admin/Products/AdminProducts";
-import AdminProductDetail from "./pages/Admin/Products/AdminProductDetail"
-import AdminOffers from "./pages/Admin/Offers/AdminOffers"
+import AdminProductDetail from "./pages/Admin/Products/AdminProductDetail";
+import AdminOffers from "./pages/Admin/Offers/AdminOffers";
 import AdminOfferDetail from "./pages/Admin/Offers/AdminOfferDetail";
 import Reports from "./pages/Client/Reports/Reports";
 import ReportDetail from "./pages/Client/Reports/ReportDetail";
@@ -31,9 +31,10 @@ import OrderSummary from "./pages/Client/Orders/OrderSummary";
 import OrderSuccess from "./pages/Client/Orders/OrderSuccess";
 import OrderCancel from "./pages/Client/Orders/OrderCancel";
 import AdminNotices from "./pages/Admin/Notices/AdminNotices";
-import InvoiceSuccess from "./pages/Client/Invoices/InvoiceSuccess"
-import InvoiceCancel from "./pages/Client/Invoices/InvoiceCancel"
+import InvoiceSuccess from "./pages/Client/Invoices/InvoiceSuccess";
+import InvoiceCancel from "./pages/Client/Invoices/InvoiceCancel";
 import ProductDetail from "./pages/Client/Products/ProductDetail";
+import ClientInvoices from "./pages/Admin/Clients/ClientInvoices";
 export default function App() {
   return (
     <AuthProvider
@@ -42,7 +43,6 @@ export default function App() {
       cookieDomain={window.location.hostname}
       cookieSecure={false}
     >
-
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginPage></LoginPage>}></Route>
@@ -56,21 +56,41 @@ export default function App() {
           >
             <Route path="/home" element={<HomePage></HomePage>}></Route>
             <Route path="/offers" element={<Offers></Offers>}></Route>
-            <Route path="/offers/:offerId" element={<OfferDetail></OfferDetail>}></Route>
+            <Route
+              path="/offers/:offerId"
+              element={<OfferDetail></OfferDetail>}
+            ></Route>
             <Route path="/products/" element={<Products></Products>}></Route>
-            <Route path="/products/:productId" element={<ProductDetail></ProductDetail>}></Route>
+            <Route
+              path="/products/:productId"
+              element={<ProductDetail></ProductDetail>}
+            ></Route>
             <Route path="/invoices" element={<Invoices></Invoices>}></Route>
-            <Route path="/invoices/:paymentId/success" element={<InvoiceSuccess></InvoiceSuccess>}></Route>
-            <Route path="/invoices/:paymentId/cancel" element={<InvoiceCancel></InvoiceCancel>}></Route>
+            <Route
+              path="/invoices/:paymentId/success"
+              element={<InvoiceSuccess></InvoiceSuccess>}
+            ></Route>
+            <Route
+              path="/invoices/:paymentId/cancel"
+              element={<InvoiceCancel></InvoiceCancel>}
+            ></Route>
             <Route path="/profile" element={<Profile></Profile>}></Route>
             <Route path="/reports" element={<Reports></Reports>}>
-              <Route path=":reportId" element={<ReportDetail></ReportDetail>}></Route>
+              <Route
+                path=":reportId"
+                element={<ReportDetail></ReportDetail>}
+              ></Route>
             </Route>
-             <Route path="order/:offerId" element={<MakeOrder/>}></Route> 
-             <Route path="order/:offerId/success" element={<OrderSuccess/>} ></Route> 
-             <Route path="order/:offerId/cancel"element={<OrderCancel/>} ></Route> 
-             <Route path="orderSummary" element={<OrderSummary/>}></Route>
-             
+            <Route path="order/:offerId" element={<MakeOrder />}></Route>
+            <Route
+              path="order/:offerId/success"
+              element={<OrderSuccess />}
+            ></Route>
+            <Route
+              path="order/:offerId/cancel"
+              element={<OrderCancel />}
+            ></Route>
+            <Route path="orderSummary" element={<OrderSummary />}></Route>
           </Route>
           <Route
             path="/admin"
@@ -81,31 +101,49 @@ export default function App() {
             }
           >
             <Route path="clients" element={<Clients></Clients>}>
-              <Route path=":clientId" element={<ClientDetail/>}></Route>
+              <Route path=":clientId" element={<ClientDetail />}></Route>
+              <Route
+                path=":clientId/invoices"
+                element={<ClientInvoices />}
+              ></Route>
             </Route>
-            <Route path="clientAdd" element={<ClientAdd/>}></Route>
+            <Route path="clientAdd" element={<ClientAdd />}></Route>
 
-            <Route path="employees" element={<Workers/>}>
-              <Route path=":employeeId" element={<AdminWorkerDetail/>} ></Route> 
+            <Route
+              path="employees"
+              element={
+                <RequireRole allowedRoles={["ADMIN"]}>
+                  <Workers />
+                </RequireRole>
+              }
+            >
+              <Route path=":employeeId" element={<AdminWorkerDetail />}></Route>
             </Route>
-            <Route path="employeeAdd" element={<WorkerAdd/>}></Route>
-            
-            
-            <Route path="products" element={<AdminProducts/>}>
-              <Route path=":productId" element={<AdminProductDetail/>}></Route>
+            <Route path="employeeAdd" element={<RequireRole allowedRoles={["ADMIN"]}>
+                  <WorkerAdd />
+                </RequireRole>}></Route>
+
+            <Route path="products" element={<AdminProducts />}>
+              <Route path=":productId" element={<AdminProductDetail />}></Route>
             </Route>
-            <Route path="productAdd" element={<AdminProductAdd/>}></Route>
-            
-            
-            <Route path="offers" element={<AdminOffers/>}>
-              <Route path=":offerId" element={<AdminOfferDetail/>}></Route>
+            <Route path="productAdd" element={<RequireRole allowedRoles={["ADMIN"]}>
+                  <AdminProductAdd /> 
+                </RequireRole>}></Route>
+
+            <Route path="offers" element={<AdminOffers />}>
+              <Route path=":offerId" element={<AdminOfferDetail />}></Route>
             </Route>
-            <Route path="offerAdd" element={<AdminOfferAdd/>}></Route>
-            
-            <Route path="reports" element={<AdminReports/>}>
-              <Route path=":reportId" element={<AdminReportDetail/>}></Route>
+            <Route path="offerAdd" element={<RequireRole allowedRoles={["ADMIN"]}>
+                  <AdminOfferAdd />
+                </RequireRole>}></Route>
+
+            <Route path="reports" element={<AdminReports />}>
+              <Route path=":reportId" element={<AdminReportDetail />}></Route>
             </Route>
-            <Route path="notifications" element={<AdminNotices></AdminNotices>}></Route>
+            <Route
+              path="notifications"
+              element={<AdminNotices></AdminNotices>}
+            ></Route>
           </Route>
         </Routes>
       </BrowserRouter>

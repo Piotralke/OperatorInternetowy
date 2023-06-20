@@ -18,20 +18,10 @@ const TABLE_HEAD = [
 ];
 
 export default function Invoices() {
-  const [invoicesPaid, setInvoicesPaid] = useState(true);
   const [invoices, setInvoices] = useState();
   const [userData, setUserData] = useState([]);
-  const [fromDate, setFromDate] = useState(
-    new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
-      .toISOString()
-      .substring(0, 10)
-  );
-  const [toDate, setToDate] = useState(
-    new Date().toISOString().substring(0, 10)
-  );
   const [loading, setLoading] = useState(true);
   const token = useAuthHeader();
-  const a = useAuthHeader();
 
   useEffect(() => {
     async function getUserData() {

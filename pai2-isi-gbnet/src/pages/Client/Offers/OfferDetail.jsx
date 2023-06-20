@@ -45,7 +45,8 @@ export default function OfferDetail() {
 
   return (
     <div className="flex flex-col basis-4/5 h-full">
-      <div className="flex flex-col bg-blue-gray-900 p-4">
+      <div className="flex flex-row bg-blue-gray-900 p-4">
+        <Button color="amber" onClick={()=>{navigate("/offers")}} >Powrót</Button>
         <p className="text-white text-2xl font-medium ml-4">Szczegóły oferty</p>
       </div>
       <div className="flex flex-col bg-blue-gray-800 space-y-4 h-full">

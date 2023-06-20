@@ -1,10 +1,11 @@
-import userPic from "../../../assets/userPic.jpg";
+
 import { Link } from "react-router-dom";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import axios from "axios";
 import { useAuthHeader,useAuthUser } from "react-auth-kit";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import jwt from "jwt-decode";
+import { FaUserCircle } from "react-icons/fa"
 export default function AccountData() {
   const [userData, setUserData] = useState([]);
   const token = useAuthHeader();
@@ -41,7 +42,7 @@ export default function AccountData() {
         <div className="flex flex-col items-center justify-center p-4 h-full w-full">
           <div className="flex flex-row w-full p-5 m-4 bg-blue-gray-800 items-center">
             <div className=" justify-center align-middle items-center mr-8 w-1/5 xl:w-[10%]">
-              <img className="self-center rounded-full " src={userPic}></img>
+              <FaUserCircle className="self-center flex w-full h-full text-gray-300"> </FaUserCircle>
             </div>
             <div className="flex flex-col w-4/5 xl:w-2/3">
               <div className="text-sm text-amber-500">
