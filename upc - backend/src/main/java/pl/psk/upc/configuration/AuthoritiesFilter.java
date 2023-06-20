@@ -35,6 +35,7 @@ public class AuthoritiesFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String url = request.getRequestURL().toString();
         if (!url.contains(UpcRestPaths.UPC_UNSECURED_PREFIX)) {
+            String header = request.getHeader(HttpHeaders.AUTHORIZATION);
             String token = request.getHeader(HttpHeaders.AUTHORIZATION).replace("Bearer ", "");
             JwtParser jwtParser = Jwts.parserBuilder()
                     .setSigningKey(jwtPropertiesConfig.getSecretKey().getBytes())

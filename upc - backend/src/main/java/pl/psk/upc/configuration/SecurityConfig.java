@@ -43,7 +43,9 @@ public class SecurityConfig {
                                         .requestMatchers(UpcRestPaths.UPC_UNSECURED_PREFIX + "/*").permitAll()
                                         .anyRequest().authenticated().and()
                                         .addFilter(new AuthoritiesFilter(authenticationConfiguration.getAuthenticationManager(),jwtPropertiesConfig))
-                                        .httpBasic().disable().sessionManagement().disable();
+                                        .httpBasic().disable().sessionManagement().disable()
+                                        .oauth2Login();
+//                                        .defaultSuccessUrl("http://localhost:8080/oauth2/callback");
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }

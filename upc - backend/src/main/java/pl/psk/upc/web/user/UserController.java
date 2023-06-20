@@ -92,4 +92,10 @@ public class UserController {
         return Arrays.stream(ContractForm.values())
                 .toList();
     }
+
+//    @GetMapping("/oauth2/callback")
+//    public List<ContractForm> getContractForms2() {
+//        return Arrays.stream(ContractForm.values())
+//                .toList();
+//    }
 }

@@ -14,6 +14,7 @@ public class UpcRestPaths {
     public static final String GET_EMPLOYEE_DATA_BY_UUID = UPC_SECURED_PREFIX + WORKER_PREFIX + "/employee/{uuid}";
     public static final String GET_ALL_EMPLOYEES = UPC_SECURED_PREFIX + ADMIN_PREFIX + "/employee/all";
     public static final String LOGIN = UPC_UNSECURED_PREFIX + "/login";
+    public static final String LOGIN_OAUTH = UPC_UNSECURED_PREFIX + "/login-oauth";
     public static final String CLIENT_REGISTER = UPC_UNSECURED_PREFIX + "/client-register";
     public static final String EDIT_CLIENT = UPC_SECURED_PREFIX + USER_PREFIX + "/edit-client";
     public static final String EMPLOYEE_REGISTER = UPC_SECURED_PREFIX + ADMIN_PREFIX + "/employee-register";
